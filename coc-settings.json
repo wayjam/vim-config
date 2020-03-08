@@ -1,0 +1,13 @@
+{
+  "diagnostic.displayByAle": true,
+  "rust-client.channel": "stable",
+  "python.jediEnabled": false,
+  "python.analysis.diagnosticEnabled": true,
+	"languageserver": {
+    "golang": {
+      "command": "gopls",
+      "rootPatterns": ["go.mod"],
+      "filetypes": ["go"]
+    }
+  }
+}
