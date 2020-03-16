@@ -8,3 +8,5 @@ setlocal iskeyword+=#
 setlocal iskeyword+=-
 
 nnoremap <buffer> q :helpclose<CR>
+
+let &cpoptions = s:save_cpo
