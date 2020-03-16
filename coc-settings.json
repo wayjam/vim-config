@@ -3,11 +3,16 @@
   "rust-client.channel": "stable",
   "python.jediEnabled": false,
   "python.analysis.diagnosticEnabled": true,
-	"languageserver": {
+  "languageserver": {
     "golang": {
       "command": "gopls",
       "rootPatterns": ["go.mod"],
       "filetypes": ["go"]
     }
+  },
+  "snippets.extends": {
+    "cpp": ["c"],
+    "javascriptreact": ["javascript"],
+    "typescript": ["javascript"]
   }
 }

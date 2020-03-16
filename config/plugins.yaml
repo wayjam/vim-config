@@ -48,25 +48,14 @@
 # ==========================================
 # Completion
 # --------
-- repo: Shougo/neosnippet-snippets
-  on_source: neosnippet.vim
-- repo: Shougo/neosnippet.vim
-  depends: [neosnippet-snippets, context_filetype.vim]
+- repo: honza/vim-snippets
   on_event: InsertCharPre
-  on_ft: snippet
-  hook_add: let g:neosnippet#data_directory = $DATA_PATH . '/snippets'
-  hook_source: |
-    let g:neosnippet#enable_snipmate_compatibility = 1
-    let g:neosnippet#enable_completed_snippet = 1
-    let g:neosnippet#enable_complete_done = 1
-    let g:neosnippet#expand_word_boundary = 1
-    let g:neosnippet#enable_auto_clear_markers = 1
 - repo: neoclide/coc.nvim
   merge: 0
   rev: release
   hook_add: |
     let g:coc_global_extensions = [
-      \ 'coc-emmet', 'coc-snippets', 'coc-pairs', 'coc-neosnippet',
+      \ 'coc-emmet', 'coc-snippets', 'coc-pairs',
       \ 'coc-yaml', 'coc-json',
       \ 'coc-html', 'coc-css',
       \ 'coc-rls',
