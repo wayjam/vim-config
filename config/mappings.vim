@@ -37,6 +37,9 @@ endif
 " Double leader key for toggling visual-line mode
 nmap <silent> <Leader><Leader> V
 vmap <Leader><Leader> <Esc>
+if has('nvim') || has('terminal')
+	tnoremap <Esc> <C-\><C-n>
+endif
 
 " Insert mode shortcut
 inoremap <C-h> <BS>
@@ -126,11 +129,6 @@ nnoremap <expr> zz (winline() == (winheight(0)+1) / 2) ?
 noremap <expr> <C-e> (line("w$") >= line('$') ? "j" : "3\<C-e>")
 noremap <expr> <C-y> (line("w0") <= 1         ? "k" : "3\<C-y>")
 
-" Window control
-nnoremap <C-q> <C-w>
-nnoremap <C-x> <C-w>x<C-w>w
-nnoremap <silent><C-w>z :vert resize<CR>:resize<CR>:normal! ze<CR>
-
 " Select blocks after indenting in visual/select mode
 xnoremap < <gv
 xnoremap > >gv|
@@ -189,9 +187,8 @@ nmap <silent> <Leader>th :nohlsearch<CR>
 nmap <silent> <Leader>tw :setlocal wrap! breakindent!<CR>
 
 " Tabs
-" nnoremap <silent> g1 :<C-u>tabfirst<CR>
-" nnoremap <silent> g5 :<C-u>tabprevious<CR>
-" nnoremap <silent> g9 :<C-u>tablast<CR>
+nnoremap <silent> g$ :<C-u>tabfirst<CR>
+nnoremap <silent> g^ :<C-u>tablast<CR>
 nnoremap <silent> <A-j> :<C-U>tabnext<CR>
 nnoremap <silent> <A-k> :<C-U>tabprevious<CR>
 nnoremap ]t :tabn<cr>
@@ -207,6 +204,73 @@ for s:i in range(1, 9)
 	execute 'nnoremap <Leader>b'.s:i ':b'.s:i.'<CR>'
 endfor
 unlet s:i
+
+" Windows and buffers
+" ---
+nnoremap <silent> [Window]v  :<C-u>split<CR>
+nnoremap <silent> [Window]g  :<C-u>vsplit<CR>
+nnoremap <silent> [Window]t  :tabnew<CR>
+nnoremap <silent> [Window]o  :<C-u>only<CR>
+nnoremap <silent> [Window]b  :b#<CR>
+nnoremap <silent> [Window]c  :close<CR>
+nnoremap <silent> [Window]x  :<C-u>call <SID>window_empty_buffer()<CR>
+
+" Split current buffer, go to previous window and previous buffer
+nnoremap <silent> <Leader>sp :split<CR>:wincmd p<CR>:e#<CR>
+nnoremap <silent> <Leader>vsp :vsplit<CR>:wincmd p<CR>:e#<CR>
+
+" Buffer
+nnoremap <silent> <Leader>bp :bprevious<CR>
+nnoremap <silent> <Leader>bn :bnext<CR>
+nnoremap <silent> <Leader>bf :bfirst<CR>
+nnoremap <silent> <Leader>bl :blast<CR>
+nnoremap <silent> <Leader>bd :bd<CR>
+nnoremap <silent> <Leader>bk :bw<CR>
+nnoremap ]b :bnext<cr>
+nnoremap [b :bprev<cr>
+
+" Window control
+nnoremap <C-q> <C-w>
+nnoremap <C-x> <C-w>x<C-w>w
+nnoremap <silent><C-w>z :vert resize<CR>:resize<CR>:normal! ze<CR>
+
+" Window
+nnoremap <C-J> <C-W>j
+nnoremap <C-K> <C-W>k
+nnoremap <C-L> <C-W>l
+nnoremap <C-H> <C-W>h
+nnoremap <Leader>ww <C-W>w
+nnoremap <Leader>wr <C-W>r
+nnoremap <Leader>wd <C-W>c
+nnoremap <Leader>wq <C-W>q
+nnoremap <Leader>wj <C-W>j
+nnoremap <Leader>wk <C-W>k
+nnoremap <Leader>wh <C-W>h
+nnoremap <Leader>wl <C-W>l
+if has('nvim') || has('terminal')
+	tnoremap <Leader>wj <C-W>j
+	tnoremap <Leader>wk <C-W>k
+	tnoremap <Leader>wh <C-W>h
+	tnoremap <Leader>wl <C-W>l
+endif
+nnoremap <Leader>wH <C-W>5<
+nnoremap <Leader>wL <C-W>5>
+nnoremap <Leader>wJ :resize +5<CR>
+nnoremap <Leader>wK :resize -5<CR>
+nnoremap <Leader>w= <C-W>=
+nnoremap <Leader>ws <C-W>s
+nnoremap <Leader>w- <C-W>s
+nnoremap <Leader>wv <C-W>v
+nnoremap <Leader>w\| <C-W>v
+nnoremap <Leader>w2 <C-W>v
+
+function! s:window_empty_buffer()
+	let l:current = bufnr('%')
+	if ! getbufvar(l:current, '&modified')
+		enew
+		silent! execute 'bdelete '.l:current
+	endif
+endfunction
 
 " Totally Custom
 " --------------
@@ -284,60 +348,6 @@ function! s:append_modeline()
 	call append(line('$'), l:modeline)
 endfunction
 
-" Windows and buffers
-" ---
-nnoremap <silent> [Window]v  :<C-u>split<CR>
-nnoremap <silent> [Window]g  :<C-u>vsplit<CR>
-nnoremap <silent> [Window]t  :tabnew<CR>
-nnoremap <silent> [Window]o  :<C-u>only<CR>
-nnoremap <silent> [Window]b  :b#<CR>
-nnoremap <silent> [Window]c  :close<CR>
-nnoremap <silent> [Window]x  :<C-u>call <SID>window_empty_buffer()<CR>
-
-" Split current buffer, go to previous window and previous buffer
-nnoremap <silent> <Leader>sp :split<CR>:wincmd p<CR>:e#<CR>
-nnoremap <silent> <Leader>vsp :vsplit<CR>:wincmd p<CR>:e#<CR>
-
-" Buffer
-nnoremap <silent> <Leader>bp :bprevious<CR>
-nnoremap <silent> <Leader>bn :bnext<CR>
-nnoremap <silent> <Leader>bf :bfirst<CR>
-nnoremap <silent> <Leader>bl :blast<CR>
-nnoremap <silent> <Leader>bd :bd<CR>
-nnoremap <silent> <Leader>bk :bw<CR>
-nnoremap ]b :bnext<cr>
-nnoremap [b :bprev<cr>
-
-" Window
-nnoremap <C-J> <C-W>j
-nnoremap <C-K> <C-W>k
-nnoremap <C-L> <C-W>l
-nnoremap <C-H> <C-W>h
-nnoremap <Leader>ww <C-W>w
-nnoremap <Leader>wr <C-W>r
-nnoremap <Leader>wd <C-W>c
-nnoremap <Leader>wq <C-W>q
-nnoremap <Leader>wj <C-W>j
-nnoremap <Leader>wk <C-W>k
-nnoremap <Leader>wh <C-W>h
-nnoremap <Leader>wl <C-W>l
-if has('nvim') || has('terminal')
-	tnoremap <Leader>wj <C-W>j
-	tnoremap <Leader>wk <C-W>k
-	tnoremap <Leader>wh <C-W>h
-	tnoremap <Leader>wl <C-W>l
-endif
-nnoremap <Leader>wH <C-W>5<
-nnoremap <Leader>wL <C-W>5>
-nnoremap <Leader>wJ :resize +5<CR>
-nnoremap <Leader>wK :resize -5<CR>
-nnoremap <Leader>w= <C-W>=
-nnoremap <Leader>ws <C-W>s
-nnoremap <Leader>w- <C-W>s
-nnoremap <Leader>wv <C-W>v
-nnoremap <Leader>w\| <C-W>v
-nnoremap <Leader>w2 <C-W>v
-
 " Background dark/light toggle and contrasts
 nmap <silent> [Window]h :<C-u>call <SID>toggle_background()<CR>
 nmap <silent> [Window]- :<c-u>call <SID>toggle_contrast(-v:count1)<cr>
@@ -377,13 +387,5 @@ function! s:toggle_contrast(delta)
 	endif
 	if l:scheme !=# ''
 		execute 'colorscheme' l:scheme
-	endif
-endfunction
-
-function! s:window_empty_buffer()
-	let l:current = bufnr('%')
-	if ! getbufvar(l:current, '&modified')
-		enew
-		silent! execute 'bdelete '.l:current
 	endif
 endfunction
