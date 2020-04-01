@@ -71,32 +71,11 @@
 # --------
 - repo: tpope/vim-surround
 - repo: jiangmiao/auto-pairs
-
-# ==========================================
-# Tools
-# --------
-- repo: Shougo/defx.nvim
-  on_cmd: Defx
-  hook_source: source $VIM_PATH/config/plugins/defx.vim
-- repo: kristijanhusak/defx-git
-  on_source: defx.nvim
-- repo: kristijanhusak/defx-icons
-  on_source: defx.nvim
-- repo: liuchengxu/vim-which-key
-  on_cmd: WhichKey
-# - { repo: /usr/local/opt/fzf, merge: 0, on_cmd: FZF }
-# - repo: junegunn/fzf.vim
-#   depends: fzf,
-#   merge: 0
-- repo: liuchengxu/vim-clap
-  hook_post_update: exec ":Clap install-binary!"
 - repo: junegunn/limelight.vim
   on_cmd: Limelight
 - repo: junegunn/goyo.vim
   depends: limelight.vim
   on_cmd: Goyo
-- repo: godlygeek/tabular
-  on_cmd: Tabularize
 - repo: junegunn/vim-easy-align
   on_cmd: EasyAlign
   on_map: { onvx: <Plug>EasyAlign }
@@ -116,6 +95,27 @@
       autocmd InsertEnter * let b:cursorword = 0
       autocmd InsertLeave * let b:cursorword = 1
     augroup END
+
+# ==========================================
+# Tools
+# --------
+- repo: Shougo/defx.nvim
+  on_cmd: Defx
+  hook_source: source $VIM_PATH/config/plugins/defx.vim
+- repo: kristijanhusak/defx-git
+  on_source: defx.nvim
+- repo: kristijanhusak/defx-icons
+  on_source: defx.nvim
+- repo: liuchengxu/vim-which-key
+  on_cmd: WhichKey
+# - { repo: /usr/local/opt/fzf, merge: 0, on_cmd: FZF }
+# - repo: junegunn/fzf.vim
+#   depends: fzf,
+#   merge: 0
+- repo: liuchengxu/vim-clap
+  hook_post_update: exec ":Clap install-binary!"
+- repo: godlygeek/tabular
+  on_cmd: Tabularize
 
 # ==========================================
 # Langs
