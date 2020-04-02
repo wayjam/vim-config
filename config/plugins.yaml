@@ -1,7 +1,6 @@
 ---
 # ==========================================
 # Startup
-- repo: wsdjeg/dein-ui.vim
 - repo: shougo/context_filetype.vim
   lazy: 1
 
