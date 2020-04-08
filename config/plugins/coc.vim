@@ -64,11 +64,11 @@ nmap gC <Plug>(coc-git-commit)
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 function! s:show_documentation()
-	if (index(['vim', 'help'], &filetype) >= 0)
-		execute 'h '.expand('<cword>')
-	else
-		let l:found = CocAction('doHover')
-	endif
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
 endfunction
 
 " Show signature help while editing
