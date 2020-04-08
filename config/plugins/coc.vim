@@ -35,8 +35,8 @@ augroup END
 inoremap <silent><expr> <C-space> coc#refresh()
 
 " Movement within 'ins-completion-menu'
-imap <expr><C-j>   pumvisible() ? "\<Down>" : "\<C-j>"
-imap <expr><C-k>   pumvisible() ? "\<Up>" : "\<C-k>"
+imap <expr><C-j> pumvisible() ? "\<Down>" : "\<C-j>"
+imap <expr><C-k> pumvisible() ? "\<Up>" : "\<C-k>"
 
 " Scroll pages in menu
 inoremap <expr><C-f> pumvisible() ? "\<PageDown>" : "\<Right>"
@@ -44,9 +44,9 @@ inoremap <expr><C-b> pumvisible() ? "\<PageUp>" : "\<Left>"
 imap     <expr><C-d> pumvisible() ? "\<PageDown>" : "\<C-d>"
 imap     <expr><C-u> pumvisible() ? "\<PageUp>" : "\<C-u>"
 
-" Use `[c` and `]c` to navigate diagnostics
-nmap <silent> [c <Plug>(coc-diagnostic-prev)
-nmap <silent> ]c <Plug>(coc-diagnostic-next)
+" Use `[g` and `]g` to navigate diagnostics
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
 " Remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition)
@@ -54,21 +54,18 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
-nmap gs <Plug>(coc-git-chunkinfo)
-nmap [g <Plug>(coc-git-prevchunk)
-nmap ]g <Plug>(coc-git-nextchunk)
-" show commit contains current position
-nmap gC <Plug>(coc-git-commit)
+" Symbol renaming.
+nmap <leader>rn <Plug>(coc-rename)
 
 " Use K to show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
+	if (index(['vim','help'], &filetype) >= 0)
+		execute 'h '.expand('<cword>')
+	else
+		call CocAction('doHover')
+	endif
 endfunction
 
 " Show signature help while editing
@@ -79,3 +76,9 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Command
 command! -nargs=? Fold :call CocAction('fold', <f-args>)
+
+" Add `:CocFormat` command to format current buffer.
+command! -nargs=0 CocFormat :call CocAction('format')
+
+" Add `:OR` command for organize imports of the current buffer.
+command! -nargs=0 CocOR :call CocAction('runCommand', 'editor.action.organizeImport')
