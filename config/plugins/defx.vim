@@ -47,39 +47,17 @@ augroup user_plugin_defx
 
 	" Disable lightline
 
-	" Clean Defx window once a tab-page is closed
-	" autocmd TabClosed * call <SID>defx_close_tab(expand('<afile>'))
-
 	" Automatically refresh opened Defx windows when changing working-directory
 	" autocmd DirChanged * call <SID>defx_handle_dirchanged(v:event)
 
-	" Define defx window mappings
-	autocmd FileType defx call <SID>defx_mappings()
+	" setup defx
+	autocmd FileType defx call <SID>defx_setup()
 
 augroup END
 
 " Internal functions
 " ---
-
-" Deprecated after disabling defx's (buf)listed
-" function! s:defx_close_tab(tabnr)
-"		" When a tab is closed, find and delete any associated defx buffers
-"		for l:nr in tabpagebuflist()
-"			if getbufvar(l:nr, '&filetype') ==# 'defx'
-"				silent! execute 'bdelete '.l:nr
-"				break
-"			endif
-"		endfor
-" endfunction
-
-function! s:defx_toggle_tree() abort
-	" Open current file, or toggle directory expand/collapse
-	if defx#is_directory()
-		return defx#do_action('open_or_close_tree')
-	endif
-	return defx#do_action('drop')
-endfunction
-
+"
 function! s:defx_handle_dirchanged(event)
 	" Refresh opened Defx windows when changing working-directory
 	let l:cwd = get(a:event, 'cwd', '')
@@ -119,17 +97,23 @@ function! s:jump_dirty(dir) abort
 	endif
 endfunction
 
-function! s:defx_mappings() abort
-	" Defx window keyboard mappings
+function! s:defx_setup() abort
 	setlocal signcolumn=no expandtab
+	setlocal nonumber norelativenumber
+  setlocal listchars=
+  setlocal nofoldenable foldmethod=manual
 
-	nnoremap <silent><buffer><expr> <CR>  <SID>defx_toggle_tree()
-	nnoremap <silent><buffer><expr> h     defx#do_action('close_tree')
+	" Defx window keyboard mappings
+	nnoremap <silent><buffer><expr> <CR>
+			\ defx#is_directory() ?
+			\ defx#do_action('open_or_close_tree') : defx#do_action('drop')
+	nnoremap <silent><buffer><expr> o defx#do_action('open')
+	nnoremap <silent><buffer><expr> f     defx#do_action('open_or_close_tree')
 	nnoremap <silent><buffer><expr> rt     defx#do_action('open_tree_recursive')
 	nnoremap <silent><buffer><expr> t    defx#do_action('multi', [['drop', 'tabnew'], 'quit'])
 	nnoremap <silent><buffer><expr> vsp    defx#do_action('open', 'vsplit')
 	nnoremap <silent><buffer><expr> sp    defx#do_action('open', 'split')
-	nnoremap <silent><buffer><expr> P     defx#do_action('open', 'pedit')
+	nnoremap <silent><buffer><expr> p     defx#do_action('open', 'pedit')
 	nnoremap <silent><buffer><expr> yy     defx#do_action('yank_path')
 	nnoremap <silent><buffer><expr> !    defx#do_action('execute_system')
 	nnoremap <silent><buffer><expr> .     defx#do_action('toggle_ignored_files')
@@ -141,10 +125,10 @@ function! s:defx_mappings() abort
 	nnoremap <silent><buffer><expr> <C-g>  defx#do_action('print')
 
 	" File/dir management
-	nnoremap <silent><buffer><expr><nowait> c  defx#do_action('copy')
-	nnoremap <silent><buffer><expr><nowait> m  defx#do_action('move')
-	nnoremap <silent><buffer><expr><nowait> p  defx#do_action('paste')
-	nnoremap <silent><buffer><expr><nowait> r  defx#do_action('rename')
+	nnoremap <silent><buffer><expr><nowait> C  defx#do_action('copy')
+	nnoremap <silent><buffer><expr><nowait> M  defx#do_action('move')
+	nnoremap <silent><buffer><expr><nowait> P  defx#do_action('paste')
+	nnoremap <silent><buffer><expr><nowait> R  defx#do_action('rename')
 	nnoremap <silent><buffer><expr> dd defx#do_action('remove_trash')
 	nnoremap <silent><buffer><expr> rm defx#do_action('remove')
 	nnoremap <silent><buffer><expr> K  defx#do_action('new_directory')
@@ -172,23 +156,10 @@ function! s:defx_mappings() abort
 	nnoremap <silent><buffer><expr> S  defx#do_action('toggle_sort', 'Time')
 	nnoremap <silent><buffer><expr> C
 				\ defx#do_action('toggle_columns', 'indent:mark:filename:type:size:time')
-
-	" Tools
-	nnoremap <silent><buffer><expr> w   defx#do_action('call', '<SID>toggle_width')
-	nnoremap <silent><buffer><expr> gd  defx#async_action('multi', ['drop', ['call', '<SID>git_diff']])
-	nnoremap <silent><buffer><expr> gr  defx#do_action('call', '<SID>grep')
-	nnoremap <silent><buffer><expr> gf  defx#do_action('call', '<SID>find_files')
-	if exists('$TMUX')
-		nnoremap <silent><buffer><expr> gl  defx#async_action('call', '<SID>explorer')
-	endif
 endfunction
 
 " TOOLS
 " ---
-
-function! s:git_diff(context) abort
-	execute 'GdiffThis'
-endfunction
 
 function! s:find_files(context) abort
 	" Find files in parent directory with Denite
