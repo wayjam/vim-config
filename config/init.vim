@@ -201,4 +201,7 @@ IncludeScript config/mappings.vim
 " Initialize plugins config
 IncludeScript config/plugins/all.vim
 
+" Load customize config
+IncludeScript customize.vim
+
 set secure
