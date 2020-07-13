@@ -240,3 +240,6 @@
   on_ft: toml
 - repo: elzr/vim-json
   on_ft: json
+
+- repo: protocolbuffers/protobuf
+  on_ft: proto
