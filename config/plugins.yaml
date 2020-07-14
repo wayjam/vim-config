@@ -228,6 +228,9 @@
 - repo: rust-lang/rust.vim
   on_ft: rust
 
+- repo: octol/vim-cpp-enhanced-highlight
+  on_ft: cpp
+
 - repo: ekalinin/Dockerfile.vim
   on_ft: [Dockerfile, docker-compose]
 

@@ -8,6 +8,19 @@
       "command": "gopls",
       "rootPatterns": ["go.mod"],
       "filetypes": ["go"]
+    },
+    "ccls": {
+    "command": "ccls",
+      "filetypes": ["c", "cpp", "cc" ,"cuda", "objc", "objcpp"],
+      "rootPatterns": [".ccls-root", "compile_commands.json"],
+      "initializationOptions": {
+        "cache": {
+          "directory": ".ccls-cache"
+        },
+        "client": {
+          "snippetSupport": true
+        }
+      }
     }
   },
   "snippets.extends": {
