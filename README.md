@@ -37,7 +37,6 @@ npm install -g neovim
 npm install -g yarn
 ```
 
-- Go: `:GoInstallBinaries`
 - Python: `pip3 install jedi`
 - Rust: `rustup component add rls rust-analysis rust-src`
 - C/C++: Follow <https://github.com/MaskRay/ccls/wiki/Install> and install ccls.

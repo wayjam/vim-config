@@ -120,9 +120,8 @@
 # Langs
 # --------
 - repo: fatih/vim-go
-  on_ft: [go, gomod]
+  on_ft: [go, go.mod]
   hook_add: |
-    let g:go_doc_popup_window = 1
     let g:go_highlight_array_whitespace_error = 0
     let g:go_highlight_chan_whitespace_error = 0
     let g:go_highlight_space_tab_error = 0
@@ -142,9 +141,14 @@
     let g:go_highlight_variable_declarations = 0
     let g:go_highlight_variable_assignments = 0
 
+    let g:go_term_enabled = 0
     let g:go_def_mapping_enabled = 0
     let g:go_diagnostics_enabled = 0
+    let g:go_doc_popup_window = 1
     let g:go_gopls_enabled = 0
+    let g:go_code_completion_enabled = 0
+    let g:go_doc_keywordprg_enabled = 0
+  hook_post_update: exec ":GoInstallBinaries"
 
 - repo: plasticboy/vim-markdown
   on_ft: markdown
