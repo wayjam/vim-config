@@ -1,6 +1,7 @@
 ---
 # ==========================================
 # Startup
+# --------
 - repo: shougo/context_filetype.vim
   lazy: 1
 
@@ -11,6 +12,7 @@
 #   hook_add: colorscheme dracula
 - repo: liuchengxu/space-vim-theme
   hook_add: color space_vim_theme
+
 - repo: itchyny/lightline.vim
   hook_add: |
     let g:lightline = {
@@ -32,6 +34,7 @@
 - repo: tpope/vim-fugitive
 - repo: mhinz/vim-signify
   on_path: .*
+
 # - repo: airblade/vim-gitgutter
 #   on_path: .*
 
@@ -40,6 +43,7 @@
 # --------
 - repo: w0rp/ale
   hook_add: source $VIM_PATH/config/plugins/ale.vim
+
 - repo: sbdchd/neoformat
   on_cmd: Neoformat
   hook_add: source $VIM_PATH/config/plugins/neoformat.vim
@@ -49,6 +53,7 @@
 # --------
 - repo: honza/vim-snippets
   on_event: InsertCharPre
+
 - repo: neoclide/coc.nvim
   merge: 0
   rev: release
@@ -69,21 +74,28 @@
 # Editing
 # --------
 - repo: tpope/vim-surround
+
 - repo: jiangmiao/auto-pairs
+
 - repo: junegunn/limelight.vim
   on_cmd: Limelight
+
 - repo: junegunn/goyo.vim
   depends: limelight.vim
   on_cmd: Goyo
+
 - repo: junegunn/vim-easy-align
   on_cmd: EasyAlign
   on_map: { onvx: <Plug>EasyAlign }
+
 - repo: editorconfig/editorconfig-vim
   on_path: .*
+
 - repo: tpope/vim-commentary
   on_cmd: Commentary
   on_map: { onx: <Plug>Commentary }
   on_path: .*
+
 - repo: itchyny/vim-cursorword
   on_path: .*
   hook_source: |
@@ -105,14 +117,18 @@
   on_source: defx.nvim
 - repo: kristijanhusak/defx-icons
   on_source: defx.nvim
+
 - repo: liuchengxu/vim-which-key
   on_cmd: WhichKey
+
 # - { repo: /usr/local/opt/fzf, merge: 0, on_cmd: FZF }
 # - repo: junegunn/fzf.vim
 #   depends: fzf,
 #   merge: 0
+
 - repo: liuchengxu/vim-clap
   hook_post_update: exec ":Clap install-binary!"
+
 - repo: godlygeek/tabular
   on_cmd: Tabularize
 
@@ -140,7 +156,6 @@
     let g:go_highlight_string_spellcheck = 0
     let g:go_highlight_variable_declarations = 0
     let g:go_highlight_variable_assignments = 0
-
     let g:go_term_enabled = 0
     let g:go_def_mapping_enabled = 0
     let g:go_diagnostics_enabled = 0
@@ -153,7 +168,7 @@
 - repo: plasticboy/vim-markdown
   on_ft: markdown
   hook_add: |
-    let g:vim_markdown_folding_level = 2
+    let g:vim_markdown_folding_level = 4
     let g:vim_markdown_folding_style_pythonic = 1
     let g:vim_markdown_frontmatter = 1
     let g:vim_markdown_auto_insert_bullets = 1
@@ -183,7 +198,7 @@
     let g:gfm_syntax_highlight_emoji = 0
     let g:gfm_syntax_enable_filetypes = ['markdown']
 - repo: iamcco/markdown-preview.nvim
-  on_ft: [markdown, 'pandoc.markdown', 'rmc']
+  on_ft: [markdown, "pandoc.markdown", "rmc"]
   build: sh -c "cd app && yarn install"
 
 - repo: hail2u/vim-css3-syntax
