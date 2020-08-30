@@ -9,11 +9,14 @@
       "args": [],
       "disableWorkspaceFolders": true,
       "rootPatterns": ["go.mod", ".vim/", ".git/", ".hg/"],
-      "filetypes": ["go"]
+      "filetypes": ["go"],
+      "initializationOptions": {
+        "usePlaceholders": true
+      }
     },
     "ccls": {
-    "command": "ccls",
-      "filetypes": ["c", "cpp", "cc" ,"cuda", "objc", "objcpp"],
+      "command": "ccls",
+      "filetypes": ["c", "cpp", "cc", "cuda", "objc", "objcpp"],
       "rootPatterns": [".ccls-root", "compile_commands.json"],
       "initializationOptions": {
         "cache": {
