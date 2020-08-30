@@ -1,7 +1,7 @@
 {
   "diagnostic.displayByAle": true,
   "rust-client.channel": "stable",
-  "python.jediEnabled": false,
+  "python.jediEnabled": true,
   "python.analysis.diagnosticEnabled": true,
   "languageserver": {
     "golang": {
