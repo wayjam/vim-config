@@ -100,7 +100,6 @@ endfunction
 function! s:defx_setup() abort
 	setlocal signcolumn=no expandtab
 	setlocal nonumber norelativenumber
-  setlocal listchars=
   setlocal nofoldenable foldmethod=manual
 
 	" Defx window keyboard mappings

@@ -8,6 +8,9 @@ if &compatible
 	" vint: +ProhibitSetNoCompatible
 endif
 
+" Initialize Global util
+call my#init()
+
 " Initialize startup settings
 if has('vim_starting')
 	" Use spacebar as leader and ; as secondary-leader
@@ -25,7 +28,7 @@ if has('vim_starting')
 
 	" Vim only, Linux terminal settings
 	if ! has('nvim') && ! has('gui_running') && ! has('win32') && ! has('win64')
-		call s:source_file('config/terminal.vim')
+		IncludeScript config/terminal.vim
 	endif
 endif
 
@@ -112,13 +115,9 @@ function! s:main()
 			endif
 		endif
 	endif
-	call my#init()
-	" define custom command
-	" call s:define_command()
 	" Initializes package manager
 	call s:load_dein()
 endfunction
-
 
 function! s:load_dein()
 	let l:cache_path = $DATA_PATH . '/dein'

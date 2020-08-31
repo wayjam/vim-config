@@ -173,7 +173,7 @@ if has('patch-7.4.775')
 	set completeopt+=noinsert
 endif
 
-if has('patch-8.1.0360') || has('nvim-0.4')
+if has('patch-8.1.0360') || has('nvim-0.5')
 	set diffopt+=internal,algorithm:patience
 	" set diffopt=indent-heuristic,algorithm:patience
 endif
@@ -218,10 +218,9 @@ if has('folding')
 endif
 
 " UI Symbols
-" icons:  ▏│ ¦ ╎ ┆ ⋮ ⦙ ┊ 
-set showbreak=↪
-set listchars=tab:\▏\ ,extends:⟫,precedes:⟪,nbsp:␣,trail:·
-"set fillchars=vert:▉,fold:─
+let &showbreak='↳  '
+set listchars=tab:\▏\ ,precedes:«,extends:»,nbsp:␣,trail:·
+" set fillchars=vert:▉,fold:─
 
 if has('patch-7.4.314')
 	" Do not display completion messages

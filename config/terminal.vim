@@ -57,8 +57,8 @@ let s:konsole = exists('$KONSOLE_DBUS_SESSION') ||
 " 5 -> blinking vertical bar
 " 6 -> solid vertical bar
 let s:normal_shape = 0
-let s:insert_shape = 5
-let s:replace_shape = 3
+let s:insert_shape = 1
+let s:replace_shape = 2
 if s:iterm2
 	let s:start_insert = "\<Esc>]1337;CursorShape=" . s:insert_shape . "\x7"
 	let s:start_replace = "\<Esc>]1337;CursorShape=" . s:replace_shape . "\x7"

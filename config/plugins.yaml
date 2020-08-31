@@ -2,8 +2,23 @@
 # ==========================================
 # Startup
 # --------
+- repo: Shougo/dein.vim
 - repo: shougo/context_filetype.vim
   lazy: 1
+
+- repo: christoomey/vim-tmux-navigator
+  if: "! (has('win32') || has('win64'))"
+
+# GUI only
+- repo: equalsraf/neovim-gui-shim
+  if: has('gui_running')
+
+# Vim8 only
+- repo: roxma/nvim-yarp
+  if: "! has('nvim')"
+  depends: vim-hug-neovim-rpc
+- repo: roxma/vim-hug-neovim-rpc
+  if: "! has('nvim')"
 
 # ==========================================
 # UI
@@ -11,7 +26,7 @@
 # - repo: dracula/vim
 #   hook_add: colorscheme dracula
 - repo: liuchengxu/space-vim-theme
-  hook_add: color space_vim_theme
+  hook_add: colorscheme space_vim_theme
 
 - repo: itchyny/lightline.vim
   hook_add: |
