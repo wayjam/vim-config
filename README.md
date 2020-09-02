@@ -1,12 +1,17 @@
 # Vim Config
 
-> It only supports NeoVim now.
+### Prerequisites
 
-### Preparation
+- NeoVim or Vim(require 8.0)
+- Python3
+- Go(for vim-go)
+- NodeJS and yarn(for coc.vim)
 
-#### Get Config
+### Install
 
-Clone this repo and put it to `~/.config/nvim`
+**_1._** Get config
+
+Clone this repo and put it to `~/.config/nvim` :
 
 ```sh
 mkdir -p ~/.config
@@ -14,29 +19,15 @@ cd ~/.config
 git clone https://github.com/wayjam/vim-config.git nvim
 ```
 
-Before you starting vim, please follow the guide below.
+**_Note_**: Symlink for "regular" vim: `ln -s ~/.config/nvim ~/.vim`
 
-#### For Providers
+**_2._** Providers
 
-Execute `:checkhealth proviers` at vim for proviers status.
+Execute `:checkhealth proviers` at vim for proviers status, and follow the output to install missing provider.
 
-```sh
-# python2 provider
-pip2 install pynvim
-# python3 provider
-pip3 install pynvim
-# nodejs provider
-npm install -g neovim
-```
+**_3._** coc.nvim & code completion
 
-#### For coc.nvim
-
-```sh
-# 1. install NodeJS
-# 2. install yarn
-npm install -g yarn
-```
-
+- NodeJS: `npm install -g yarn`
 - Python: `pip3 install jedi`
 - Rust: `rustup component add rls rust-analysis rust-src`
 - C/C++: Follow <https://github.com/MaskRay/ccls/wiki/Install> and install ccls.
@@ -45,10 +36,21 @@ npm install -g yarn
 
 Using [Shougo/dein.vim](https://github.com/Shougo/dein.vim) as plugin manager.
 
-Update Plugin(The plugins are not updated automatically.):
+Update Plugin(the plugins are not updated automatically):
 
-```
+```sh
 :call dein#update()
+```
+
+### Customize your config
+
+Add your config to `customize.vim` and save.
+
+### Upgrade
+
+```sh
+cd ~/.config/nvim
+git pull --ff --ff-only
 ```
 
 ### Acknowledgements
