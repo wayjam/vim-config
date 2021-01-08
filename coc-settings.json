@@ -1,8 +1,17 @@
 {
   "diagnostic.displayByAle": true,
   "rust-client.channel": "stable",
-  "python.jediEnabled": true,
-  "python.analysis.diagnosticEnabled": true,
+  "python": {
+    "analysis.diagnosticEnabled": true,
+    "linting": {
+      "enabled": true,
+			"flake8Enabled": true,
+			"pylintEnabled": true
+    },
+		"formatting": {
+			"provider": "black"
+		}
+  },
   "languageserver": {
     "golang": {
       "command": "gopls",
