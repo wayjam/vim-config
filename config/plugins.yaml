@@ -23,10 +23,11 @@
 # ==========================================
 # UI
 # --------
-# - repo: dracula/vim
-#   hook_add: colorscheme dracula
 - repo: liuchengxu/space-vim-theme
   hook_add: colorscheme space_vim_theme
+# - repo: sonph/onehalf
+#   rtp: vim
+#   hook_add: colorscheme onehalfdark
 
 - repo: itchyny/lightline.vim
   hook_add: |
@@ -81,6 +82,7 @@
       \ 'coc-vetur',
       \ 'coc-pyright',
       \ 'coc-tsserver',
+      \ 'coc-svelte',
       \ ]
   hook_post_update: |
     exec ":CocUpdate"
@@ -142,7 +144,7 @@
 #   merge: 0
 
 - repo: liuchengxu/vim-clap
-  hook_post_update: exec ":Clap install-binary!"
+  hook_post_update: exec "-> clap#installer#force_download()"
 
 - repo: godlygeek/tabular
   on_cmd: Tabularize
@@ -246,6 +248,8 @@
   on_ft: vue
 - repo: HerringtonDarkholme/yats.vim
   on_ft: [typescript, typescriptreact]
+- repo: evanleck/vim-svelte
+  on_ft: svelte
 
 - repo: jeetsukumaran/vim-pythonsense
   on_ft: python
