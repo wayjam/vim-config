@@ -10,10 +10,6 @@
 " Non-standard
 " ---
 
-" Move half page faster
-nnoremap <Leader>d  <C-d>
-nnoremap <Leader>u  <C-u>
-
 " Quick quit action
 nnoremap <silent> <Leader>q  :q<CR>
 nnoremap <silent> <Leader>w  :w<CR>
@@ -40,6 +36,12 @@ vmap <Leader><Leader> <Esc>
 if has('nvim') || has('terminal')
 	tnoremap <Esc> <C-\><C-n>
 endif
+
+" jump
+nnoremap g- <C-O>
+nnoremap g= <C-I>
+inoremap g- <C-O>
+inoremap g= <C-O>
 
 " Insert mode shortcut
 inoremap <C-h> <BS>
