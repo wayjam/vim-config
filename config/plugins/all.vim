@@ -55,6 +55,7 @@ if dein#tap('vim-clap')
 	nnoremap <silent><Leader>fl :Clap blines<CR>
 	nnoremap <silent><Leader>fL :Clap lines<CR>
 	nnoremap <silent><Leader>rg :Clap grep<CR>
+	nnoremap <silent><Leader>wi :Clap windows<CR>
 	cnoremap <C-R> :Clap hist:<CR>
 	nnoremap <silent><Leader>? :Clap command<CR>
 
