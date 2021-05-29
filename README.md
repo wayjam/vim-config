@@ -44,7 +44,7 @@ Update Plugin(the plugins are not updated automatically):
 
 ### Customize your config
 
-Add your config to `customize.vim` and save.
+Create your config named `customize.vim` at the root of this repo, edit it and save.
 
 ### Upgrade
 
