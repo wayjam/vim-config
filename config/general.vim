@@ -29,6 +29,10 @@ if has('termguicolors')
 	set termguicolors
 endif
 
+" Enable italics, Make sure this is immediately after colorscheme
+" https://stackoverflow.com/questions/3494435/vimrc-make-comments-italic
+" highlight Comment cterm=italic gui=italic
+
 " What to save for views and sessions:
 set viewoptions=folds,cursor,curdir,slash,unix
 set sessionoptions=curdir,help,tabpages,winsize

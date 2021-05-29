@@ -105,3 +105,8 @@ endif
 if dein#tap('coc.nvim')
 	source $VIM_PATH/config/plugins/coc.vim
 endif
+
+if dein#tap('vim-oscyank')
+	vnoremap <leader>c :OSCYank<CR>
+	autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '' | OSCYankReg " | endif
+endif

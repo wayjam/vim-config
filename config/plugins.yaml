@@ -124,6 +124,8 @@
       autocmd InsertLeave * let b:cursorword = 1
     augroup END
 
+- repo: ojroques/vim-oscyank
+
 # ==========================================
 # Tools
 # --------
