@@ -40,8 +40,6 @@ endif
 " jump
 nnoremap g- <C-O>
 nnoremap g= <C-I>
-inoremap g- <C-O>
-inoremap g= <C-O>
 
 " Insert mode shortcut
 inoremap <C-h> <BS>
