@@ -23,11 +23,12 @@
 # ==========================================
 # UI
 # --------
-- repo: liuchengxu/space-vim-theme
-  hook_add: colorscheme space_vim_theme
-# - repo: sonph/onehalf
-#   rtp: vim
-#   hook_add: colorscheme onehalfdark
+# - repo: liuchengxu/space-vim-theme
+#   hook_add: colorscheme space_vim_theme
+- repo: joshdick/onedark.vim
+  hook_add: |
+    let g:onedark_terminal_italics=1
+    colorscheme onedark
 
 - repo: itchyny/lightline.vim
   hook_add: |
@@ -50,9 +51,6 @@
 - repo: tpope/vim-fugitive
 - repo: mhinz/vim-signify
   on_path: .*
-
-# - repo: airblade/vim-gitgutter
-#   on_path: .*
 
 # ==========================================
 # Checker & Format

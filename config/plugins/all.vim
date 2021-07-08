@@ -17,23 +17,6 @@ if dein#tap('vim-fugitive')
 	nnoremap <silent> <Leader>ge :Gedit<CR>
 	" Mnemonic _i_nteractive
 	nnoremap <silent> <Leader>gi :Git add -p %<CR>
-	nnoremap <silent> <Leader>gg :call spacevim#plug#toggle#Git()<CR>
-endif
-
-if dein#tap('vim-gitgutter')
-	" consistent with airline
-	let g:gitgutter_sign_added = '+'
-	let g:gitgutter_sign_modified = '~'
-	let g:gitgutter_sign_removed = '-'
-	let g:gitgutter_sign_removed_first_line = '^^'
-	let g:gitgutter_sign_modified_removed = 'ww'
-	let g:gitgutter_override_sign_column_highlight = 0
-	nmap ]g <Plug>(GitGutterNextHunk)
-	nmap [g <Plug>(GitGutterPrevHunk)
-	nmap gS <Plug>(GitGutterStageHunk)
-	xmap gS <Plug>(GitGutterStageHunk)
-	nmap <Leader>gr <Plug>(GitGutterUndoHunk)
-	nmap gs <Plug>(GitGutterPreviewHunk)
 endif
 
 if dein#tap('vim-signify')
@@ -51,9 +34,9 @@ endif
 
 if dein#tap('vim-clap')
 	nnoremap <silent><Leader>ff :Clap files<CR>
-	nnoremap <silent><Leader>bb :Clap buffers<CR>
-	nnoremap <silent><Leader>fl :Clap blines<CR>
-	nnoremap <silent><Leader>fL :Clap lines<CR>
+	nnoremap <silent><Leader>bf :Clap buffers<CR>
+	nnoremap <silent><Leader>bl :Clap blines<CR>
+	nnoremap <silent><Leader>fl :Clap lines<CR>
 	nnoremap <silent><Leader>rg :Clap grep<CR>
 	nnoremap <silent><Leader>wi :Clap windows<CR>
 	cnoremap <C-R> :Clap hist:<CR>

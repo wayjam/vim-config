@@ -72,4 +72,7 @@ tags
 
 .netrwhist
 spell
+indent
+syntax
+ftdetect
 customize.vim

@@ -33,6 +33,10 @@ let g:defx_icons_mark_icon = ''
 " Internal use
 let s:original_width = get(get(defx#custom#_get().option, '_'), 'winwidth')
 
+" color:
+hi link Defx_filename_directory Directory
+hi link Defx_filename_root String
+
 " Events
 " ---
 
@@ -100,12 +104,12 @@ endfunction
 function! s:defx_setup() abort
 	setlocal signcolumn=no expandtab
 	setlocal nonumber norelativenumber
-  setlocal nofoldenable foldmethod=manual
+	setlocal nofoldenable foldmethod=manual
 
 	" Defx window keyboard mappings
 	nnoremap <silent><buffer><expr> <CR>
-			\ defx#is_directory() ?
-			\ defx#do_action('open_or_close_tree') : defx#do_action('drop')
+				\ defx#is_directory() ?
+				\ defx#do_action('open_or_close_tree') : defx#do_action('drop')
 	nnoremap <silent><buffer><expr> o defx#do_action('open')
 	nnoremap <silent><buffer><expr> f     defx#do_action('open_or_close_tree')
 	nnoremap <silent><buffer><expr> rt     defx#do_action('open_tree_recursive')
