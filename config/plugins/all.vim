@@ -15,8 +15,10 @@ if dein#tap('vim-fugitive')
 	nnoremap <silent> <Leader>gr :Gread<CR>
 	nnoremap <silent> <Leader>gw :Gwrite<CR>
 	nnoremap <silent> <Leader>ge :Gedit<CR>
+	nnoremap <silent> <Leader>gF :diffget //2<CR>
+	nnoremap <silent> <Leader>gJ :diffget //3<CR>
 	" Mnemonic _i_nteractive
-	nnoremap <silent> <Leader>gi :Git add -p %<CR>
+	nnoremap <silent> <leader>gi :git add -p %<cr>
 endif
 
 if dein#tap('vim-signify')
