@@ -23,6 +23,7 @@ if dein#tap('vim-signify')
 	let g:signify_sign_delete            = '-'
 	let g:signify_sign_delete_first_line = '^^'
 	let g:signify_sign_change            = '~'
+	let g:signify_skip_filetype          = { 'defx': 1 }
 endif
 
 if dein#tap('vim-which-key')
@@ -92,4 +93,25 @@ endif
 if dein#tap('vim-oscyank')
 	vnoremap <leader>c :OSCYank<CR>
 	autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '' | OSCYankReg " | endif
+endif
+
+if dein#tap('vim-sneak')
+	let g:sneak#label = 1
+
+	" case insensitive sneak
+	let g:sneak#use_ic_scs = 1
+
+	" remap so I can use , and ; with f and t
+	map gS <Plug>Sneak_,
+	map gs <Plug>Sneak_;
+
+	" Change the colors
+	hi link Sneak Search
+	hi link SneakScope Search
+
+	" I like quickscope better for this since it keeps me in the scope of a single line
+	 map f <Plug>Sneak_f
+	 map F <Plug>Sneak_F
+	 map t <Plug>Sneak_t
+	 map T <Plug>Sneak_T
 endif

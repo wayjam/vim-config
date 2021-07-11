@@ -73,7 +73,7 @@
   rev: release
   hook_add: |
     let g:coc_global_extensions = [
-      \ 'coc-emmet', 'coc-snippets', 'coc-pairs',
+      \ 'coc-emmet', 'coc-snippets',
       \ 'coc-yaml', 'coc-json',
       \ 'coc-html', 'coc-css',
       \ 'coc-rls',
@@ -94,6 +94,8 @@
 
 - repo: junegunn/limelight.vim
   on_cmd: Limelight
+
+- repo: justinmk/vim-sneak
 
 - repo: junegunn/goyo.vim
   depends: limelight.vim
