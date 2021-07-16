@@ -37,13 +37,15 @@ endif
 
 if dein#tap('vim-clap')
 	nnoremap <silent><Leader>ff :Clap files<CR>
+	nnoremap <silent><Leader>gf :Clap gfiles<CR>
 	nnoremap <silent><Leader>bf :Clap buffers<CR>
 	nnoremap <silent><Leader>bl :Clap blines<CR>
 	nnoremap <silent><Leader>fl :Clap lines<CR>
 	nnoremap <silent><Leader>rg :Clap grep<CR>
 	nnoremap <silent><Leader>wi :Clap windows<CR>
 	cnoremap <C-R> :Clap hist:<CR>
-	nnoremap <silent><Leader>? :Clap command<CR>
+	nnoremap <silent><Leader>: :Clap command<CR>
+	nnoremap <silent><Leader>? :Clap<CR>
 
 	autocmd user_events FileType clap_input call s:clap_mappings()
 
@@ -55,6 +57,9 @@ if dein#tap('vim-clap')
 		nnoremap <silent> <buffer> <Esc> :call clap#handler#exit()<CR>
 		inoremap <silent> <buffer> <Esc> <C-R>=clap#navigation#linewise('down')<CR><C-R>=clap#navigation#linewise('up')<CR><Esc>
 	endfunction
+
+	" quick function for clap command
+	command! -nargs=1 ColorColumn :set colorcolumn=<args>
 endif
 
 if dein#tap('vim-go')
@@ -116,4 +121,11 @@ if dein#tap('vim-sneak')
 	 map F <Plug>Sneak_F
 	 map t <Plug>Sneak_t
 	 map T <Plug>Sneak_T
+endif
+
+if dein#tap('vim-easy-align')
+	" Start interactive EasyAlign in visual mode (e.g. vipga)
+	xmap ga <Plug>(EasyAlign)
+	" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+	nmap ga <Plug>(EasyAlign)
 endif

@@ -6,8 +6,8 @@
 - repo: shougo/context_filetype.vim
   lazy: 1
 
-- repo: christoomey/vim-tmux-navigator
-  if: "! (has('win32') || has('win64'))"
+# - repo: christoomey/vim-tmux-navigator
+#   if: "! (has('win32') || has('win64'))"
 
 # GUI only
 - repo: equalsraf/neovim-gui-shim
@@ -107,6 +107,8 @@
 
 - repo: editorconfig/editorconfig-vim
   on_path: .*
+  hook_add: |
+    let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
 - repo: tpope/vim-commentary
   on_cmd: Commentary
@@ -137,8 +139,8 @@
 - repo: kristijanhusak/defx-icons
   on_source: defx.nvim
 
-- repo: liuchengxu/vim-which-key
-  on_cmd: WhichKey
+# - repo: liuchengxu/vim-which-key
+#   on_cmd: WhichKey
 
 # - { repo: /usr/local/opt/fzf, merge: 0, on_cmd: FZF }
 # - repo: junegunn/fzf.vim
@@ -147,13 +149,22 @@
 
 - repo: liuchengxu/vim-clap
   hook_post_update: exec "-> clap#installer#force_download()"
-
-- repo: godlygeek/tabular
-  on_cmd: Tabularize
+- repo: vn-ki/coc-clap
 
 # ==========================================
 # Langs
 # --------
+- repo: sheerun/vim-polyglot
+  hook_add: |
+    let g:polyglot_disabled = [
+      \ 'autoindent',
+      \ 'go',
+      \ 'rust',
+      \ 'javascript',
+      \ 'typescript',
+      \ 'python.plugin',
+      \]
+
 - repo: fatih/vim-go
   on_ft: [go, go.mod]
   hook_add: |
@@ -184,51 +195,10 @@
     let g:go_doc_keywordprg_enabled = 0
   hook_post_update: exec ":GoInstallBinaries"
 
-- repo: plasticboy/vim-markdown
-  on_ft: markdown
-  hook_add: |
-    let g:vim_markdown_folding_level = 4
-    let g:vim_markdown_folding_style_pythonic = 1
-    let g:vim_markdown_frontmatter = 1
-    let g:vim_markdown_auto_insert_bullets = 1
-    let g:vim_markdown_new_list_item_indent = 0
-    let g:vim_markdown_conceal_code_blocks = 0
-    let g:vim_markdown_conceal = 0
-    let g:vim_markdown_strikethrough = 1
-    let g:vim_markdown_edit_url_in = 'vsplit'
-    let g:vim_markdown_fenced_languages = [
-      \ 'c++=cpp',
-      \ 'viml=vim',
-      \ 'bash=sh',
-      \ 'ini=dosini',
-      \ 'js=javascript',
-      \ 'json=javascript',
-      \ 'jsx=javascriptreact',
-      \ 'tsx=typescriptreact',
-      \ 'docker=Dockerfile',
-      \ 'makefile=make',
-      \ 'py=python'
-      \ ]
-- repo: rhysd/vim-gfm-syntax
-  depends: vim-markdown
-  on_ft: markdown
-  hook_add: |
-    let g:gfm_syntax_enable_always = 0
-    let g:gfm_syntax_highlight_emoji = 0
-    let g:gfm_syntax_enable_filetypes = ['markdown']
 - repo: iamcco/markdown-preview.nvim
-  on_ft: [markdown, "pandoc.markdown", "rmc"]
+  on_ft: ["markdown", "pandoc.markdown", "rmc"]
   build: sh -c "cd app && yarn install"
 
-- repo: hail2u/vim-css3-syntax
-  on_ft: css
-- repo: othree/html5.vim
-  on_ft: html
-  hook_add: |
-    let g:html5_event_handler_attributes_complete = 0
-    let g:html5_rdfa_attributes_complete = 0
-    let g:html5_microdata_attributes_complete = 0
-    let g:html5_aria_attributes_complete = 0
 - repo: mattn/emmet-vim
   on_event: InsertEnter
   on_ft: [html, css, javascript, javascriptreact, typescript, typescriptreact]
@@ -242,16 +212,8 @@
   hook_add: |
     let g:javascript_plugin_jsdoc = 1
     let g:javascript_plugin_flow = 1
-- repo: MaxMEllon/vim-jsx-pretty
-  on_ft: [javascript, javascriptreact, typescriptreact]
-  depends: vim-javascript
-  hook_add: let g:vim_jsx_pretty_colorful_config = 1
-- repo: posva/vim-vue
-  on_ft: vue
 - repo: HerringtonDarkholme/yats.vim
   on_ft: [typescript, typescriptreact]
-- repo: evanleck/vim-svelte
-  on_ft: svelte
 
 - repo: jeetsukumaran/vim-pythonsense
   on_ft: python
@@ -272,22 +234,3 @@
 
 - repo: rust-lang/rust.vim
   on_ft: rust
-
-- repo: octol/vim-cpp-enhanced-highlight
-  on_ft: cpp
-
-- repo: ekalinin/Dockerfile.vim
-  on_ft: [Dockerfile, docker-compose]
-
-- repo: hashivim/vim-terraform
-  on_ft: terraform
-  on_cmd: [Terraform, TerraformFmt]
-  hook_add: let g:terraform_fmt_on_save = 1
-
-- repo: cespare/vim-toml
-  on_ft: toml
-- repo: elzr/vim-json
-  on_ft: json
-
-- repo: protocolbuffers/protobuf
-  on_ft: proto
