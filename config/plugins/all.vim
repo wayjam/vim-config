@@ -43,19 +43,26 @@ if dein#tap('vim-clap')
 	nnoremap <silent><Leader>fl :Clap lines<CR>
 	nnoremap <silent><Leader>rg :Clap grep<CR>
 	nnoremap <silent><Leader>wi :Clap windows<CR>
-	cnoremap <C-R> :Clap hist:<CR>
-	nnoremap <silent><Leader>: :Clap command<CR>
 	nnoremap <silent><Leader>? :Clap<CR>
+	nnoremap <silent><localleader>; :Clap command<CR>
 
 	autocmd user_events FileType clap_input call s:clap_mappings()
 
 	function! s:clap_mappings()
-		inoremap <silent> <buffer> <Tab>   <C-R>=clap#navigation#linewise('down')<CR>
-		inoremap <silent> <buffer> <S-Tab> <C-R>=clap#navigation#linewise('up')<CR>
+		nnoremap <silent> <buffer> <C-j> :<C-u>call clap#navigation#linewise('down')<CR>
+		nnoremap <silent> <buffer> <C-k> :<C-u>call clap#navigation#linewise('up')<CR>
 		nnoremap <silent> <buffer> <C-f> :<c-u>call clap#navigation#scroll('down')<CR>
 		nnoremap <silent> <buffer> <C-b> :<c-u>call clap#navigation#scroll('up')<CR>
+
+		nnoremap <silent> <buffer> vsp  :<c-u>call clap#handler#try_open('ctrl-v')<CR>
+		nnoremap <silent> <buffer> sp  :<c-u>call clap#handler#try_open('ctrl-x')<CR>
+		nnoremap <silent> <buffer> t  :<c-u>call clap#handler#try_open('ctrl-t')<CR>
+
+		nnoremap <silent> <buffer> q     :<c-u>call clap#handler#exit()<CR>
 		nnoremap <silent> <buffer> <Esc> :call clap#handler#exit()<CR>
 		inoremap <silent> <buffer> <Esc> <C-R>=clap#navigation#linewise('down')<CR><C-R>=clap#navigation#linewise('up')<CR><Esc>
+		inoremap <silent> <buffer> jj    <C-R>=clap#navigation#linewise('down')<CR><C-R>=clap#navigation#linewise('up')<CR><Esc>
+
 	endfunction
 
 	" quick function for clap command
@@ -117,10 +124,10 @@ if dein#tap('vim-sneak')
 	hi link SneakScope Search
 
 	" I like quickscope better for this since it keeps me in the scope of a single line
-	 map f <Plug>Sneak_f
-	 map F <Plug>Sneak_F
-	 map t <Plug>Sneak_t
-	 map T <Plug>Sneak_T
+	" map f <Plug>Sneak_f
+	" map F <Plug>Sneak_F
+	map t <Plug>Sneak_t
+	map T <Plug>Sneak_T
 endif
 
 if dein#tap('vim-easy-align')
