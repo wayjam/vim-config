@@ -64,9 +64,6 @@ if dein#tap('vim-clap')
 		inoremap <silent> <buffer> jj    <C-R>=clap#navigation#linewise('down')<CR><C-R>=clap#navigation#linewise('up')<CR><Esc>
 
 	endfunction
-
-	" quick function for clap command
-	command! -nargs=1 ColorColumn :set colorcolumn=<args>
 endif
 
 if dein#tap('vim-go')

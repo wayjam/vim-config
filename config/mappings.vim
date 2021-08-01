@@ -2,11 +2,6 @@
 " Key bindings
 " ===
 
-" Edit vimr configuration file
-" nnoremap <Leader>ve :e $MYVIMRC<CR>
-" Reload vimr configuration file
-" nnoremap <Leader>vr :source $MYVIMRC<CR>
-
 " Non-standard
 " ---
 
@@ -38,29 +33,33 @@ nnoremap g- <C-O>
 nnoremap g= <C-I>
 
 " Insert mode shortcut
-inoremap <C-h> <BS>
 inoremap <C-j> <Down>
 inoremap <C-k> <Up>
-inoremap <C-b> <Left>
-inoremap <C-f> <Right>
-
-" Bash like
-inoremap <C-a> <Home>
-inoremap <C-e> <End>
-inoremap <C-d> <Delete>
+inoremap <C-h> <Left>
+inoremap <C-l> <Right>
+" <C-t>: insert tab.
+inoremap <C-t>  <C-v><TAB>
+" Enable undo <C-w> and <C-u>.
+inoremap <C-w>  <C-g>u<C-w>
+inoremap <C-u>  <C-g>u<C-u>
+inoremap <C-k>  <C-o>D
 
 " Command mode shortcut
-cnoremap <C-h> <BS>
-cnoremap <C-j> <Down>
-cnoremap <C-k> <Up>
-cnoremap <C-b> <Left>
-cnoremap <C-f> <Right>
-cnoremap <C-a> <Home>
-cnoremap <C-e> <End>
-cnoremap <C-d> <Delete>
+cnoremap <C-a>          <Home>
+cnoremap <C-e>          <End>
+cnoremap <C-h>          <Left>
+cnoremap <C-l>          <Right>
+cnoremap <C-j>          <Up>
+cnoremap <C-k>          <Down>
+cnoremap <C-d>          <Del>
+cnoremap <C-y>          <C-r>*
 
 " Quit visual mode
 vnoremap v <Esc>
+
+" Macros
+nnoremap Q q
+nnoremap q <Nop>
 
 " Toggle pastemode
 nnoremap <silent> <Leader>tp :setlocal paste!<CR>
@@ -76,9 +75,13 @@ vnoremap <expr> <leader>cN "y/\\V\<C-r>=escape(@\", '/')\<CR>\<CR>" . "``cgN"
 " Duplicate paragraph
 nnoremap <leader>cp yap<S-}>p
 
-" Cut & paste without pushing to register
-" xnoremap p  "0p
-" nnoremap x "_x
+" Cut & paste & change without pushing to register
+xnoremap p  "0p
+nnoremap x "_x
+nnoremap c "_c
+nnoremap C "_C
+nnoremap cc "_cc
+xnoremap c "_c
 
 " Toggle fold
 nnoremap <CR> za
@@ -94,9 +97,8 @@ inoremap <S-Return> <C-o>o
 vnoremap j gj
 vnoremap k gk
 
-" Use backspace key for matchit.vim
-nmap <BS> %
-xmap <BS> %
+" nnoremap <expr> k (v:count > 5 ? "m'" . v:count : "") . 'k'
+" nnoremap <expr> j (v:count > 5 ? "m'" . v:count : "") . 'k'
 
 " Global niceties
 " ---
@@ -135,19 +137,6 @@ xnoremap > >gv|
 " nmap >>  >>_
 " nmap <<  <<_
 
-" Navigation in command line
-cnoremap <C-h> <Home>
-cnoremap <C-l> <End>
-cnoremap <C-f> <Right>
-cnoremap <C-b> <Left>
-cnoremap <C-d> <C-w>
-
-" Switch history search pairs, matching my bash shell
-cnoremap <C-p>  <Up>
-cnoremap <C-n>  <Down>
-cnoremap <Up>   <C-p>
-cnoremap <Down> <C-n>
-
 " File operations
 " ---------------
 
@@ -163,11 +152,6 @@ cnoremap <silent><C-s> <C-u>write<CR>
 
 " Editor UI
 " ---------
-
-" Macros
-nnoremap Q q
-nnoremap gQ @q
-
 nnoremap <silent> <leader>nh :nohl<CR>
 
 " Show vim syntax highlight groups for character under cursor
@@ -268,9 +252,6 @@ function! s:window_empty_buffer()
 	endif
 endfunction
 
-" Totally Custom
-" --------------
-
 " Remove spaces at the end of lines
 nnoremap <silent> <Leader>cw :<C-u>silent! keeppatterns %substitute/\s\+$//e<CR>
 
@@ -310,36 +291,15 @@ nnoremap <Leader>y :let @+=expand("%:~:.")<CR>:echo 'Yanked relative path'<CR>
 nnoremap <Leader>Y :let @+=expand("%:p")<CR>:echo 'Yanked absolute path'<CR>
 
 " Drag current line/s vertically and auto-indent
-nnoremap <Leader>k :m-2<CR>
-nnoremap <Leader>j :m+<CR>
-vnoremap <Leader>k :m'<-2<CR>gv=gv
-vnoremap <Leader>j :m'>+<CR>gv=gv
+nnoremap <Leader>k :m .-2<CR>==
+nnoremap <Leader>j :m +1<CR>==
+vnoremap <Leader>k :m '<-2<CR>gv=gv
+vnoremap <Leader>j :m '>+<CR>gv=gv
 
-" Context-aware action-menu, neovim only (see plugin/actionmenu.vim)
-if has('nvim')
-	nmap <silent> <LocalLeader>c :<C-u>ActionMenu<CR>
-endif
+" Useful command
+" --------------
 
-" Whitespace jump (see plugin/whitespace.vim)
-nnoremap ]w :<C-u>WhitespaceNext<CR>
-nnoremap [w :<C-u>WhitespacePrev<CR>
-
-" Session management shortcuts (see plugin/sessions.vim)
-nmap <silent> <Leader>se :<C-u>SessionSave<CR>
-nmap <silent> <Leader>sl :<C-u>SessionLoad<CR>
-
-nmap <silent> <Leader>o :<C-u>OpenSCM<CR>
-vmap <silent> <Leader>o :OpenSCM<CR>
-
-" Append modeline to EOF
-" ---
-nnoremap <silent> <Leader>ml :call <SID>append_modeline()<CR>
-
-" Append modeline after last line in buffer
-" See: http://vim.wikia.com/wiki/Modeline_magic
-function! s:append_modeline()
-	let l:modeline = printf(' vim: set ts=%d sw=%d tw=%d %set :',
-				\ &tabstop, &shiftwidth, &textwidth, &expandtab ? '' : 'no')
-	let l:modeline = substitute(&commentstring, '%s', l:modeline, '')
-	call append(line('$'), l:modeline)
-endfunction
+" quick function for clap/denite command
+command! -nargs=1 ColorColumn :set colorcolumn=<args>
+command! -nargs=0 EditVIMConfig :tabe $MYVIMRC
+command! -nargs=0 ReloadVIMConfig :source $MYVIMRC
