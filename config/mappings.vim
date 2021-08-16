@@ -35,14 +35,16 @@ nnoremap g= <C-I>
 " Insert mode shortcut
 inoremap <C-j> <Down>
 inoremap <C-k> <Up>
-inoremap <C-h> <Left>
 inoremap <C-l> <Right>
+inoremap <C-H> <Left>
 " <C-t>: insert tab.
 inoremap <C-t>  <C-v><TAB>
-" Enable undo <C-w> and <C-u>.
-inoremap <C-w>  <C-g>u<C-w>
+" Enable undo <C-u>.
 inoremap <C-u>  <C-g>u<C-u>
-inoremap <C-k>  <C-o>D
+inoremap <A-j> <Down>
+inoremap <A-k> <Up>
+inoremap <A-h> <Left>
+inoremap <A-l> <Right>
 
 " Command mode shortcut
 cnoremap <C-a>          <Home>
@@ -282,13 +284,16 @@ nnoremap <expr> gp '`['.strpart(getregtype(), 0, 1).'`]'
 nnoremap <Leader>d m`YP``
 vnoremap <Leader>d YPgv
 
-" Source line and selection in vim
-vnoremap <Leader>S y:execute @@<CR>:echo 'Sourced selection.'<CR>
-nnoremap <Leader>S ^vg_y:execute @@<CR>:echo 'Sourced line.'<CR>
+function! s:add_to_register(str)
+	if get(g:, 'loaded_oscyank')
+		call YankOSC52(a:str)
+	endif
+	let @+=a:str
+endfunction
 
 " Yank buffer's absolute path to clipboard
-nnoremap <Leader>y :let @+=expand("%:~:.")<CR>:echo 'Yanked relative path'<CR>
-nnoremap <Leader>Y :let @+=expand("%:p")<CR>:echo 'Yanked absolute path'<CR>
+nnoremap <Leader>y :call <SID>add_to_register(expand("%:~:."))<CR>:echo 'Yanked relative path'<CR>
+nnoremap <Leader>Y :call <SID>add_to_register(expand("%:p"))<CR>:echo 'Yanked absolute path'<CR>
 
 " Drag current line/s vertically and auto-indent
 nnoremap <Leader>k :m .-2<CR>==

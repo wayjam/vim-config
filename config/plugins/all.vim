@@ -1,8 +1,6 @@
 if dein#tap('defx.nvim')
 	nnoremap <silent> <LocalLeader>e
 				\ :<C-u>Defx -resume -toggle -buffer-name=tab`tabpagenr()`<CR>
-	nnoremap <silent> <LocalLeader>a
-				\ :<C-u>Defx -resume -buffer-name=tab`tabpagenr()` -search=`expand('%:p')`<CR>
 endif
 
 if dein#tap('vim-fugitive')
@@ -31,8 +29,8 @@ endif
 if dein#tap('vim-which-key')
 	nnoremap <silent> <leader> :<c-u>WhichKey '<Space>'<CR>
 	vnoremap <silent> <leader> :<c-u>WhichKeyVisual '<Space>'<CR>
-	nnoremap <silent> <localleader> :<c-u>WhichKey ';'<CR>
-	vnoremap <silent> <localleader> :<c-u>WhichKeyVisual ';'<CR>
+	nnoremap <silent> <localleader> :<c-u>WhichKey '`'<CR>
+	vnoremap <silent> <localleader> :<c-u>WhichKeyVisual '`'<CR>
 endif
 
 if dein#tap('vim-clap')
@@ -44,7 +42,8 @@ if dein#tap('vim-clap')
 	nnoremap <silent><Leader>rg :Clap grep<CR>
 	nnoremap <silent><Leader>wi :Clap windows<CR>
 	nnoremap <silent><Leader>? :Clap<CR>
-	nnoremap <silent><localleader>; :Clap command<CR>
+	nnoremap <silent><localleader><localleader> :Clap command<CR>
+	nnoremap <silent><leader>/ :Clap command<CR>
 
 	autocmd user_events FileType clap_input call s:clap_mappings()
 
@@ -104,6 +103,7 @@ endif
 if dein#tap('vim-oscyank')
 	vnoremap <leader>c :OSCYank<CR>
 	autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '' | OSCYankReg " | endif
+	autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '+' | OSCYankReg + | endif
 endif
 
 if dein#tap('vim-sneak')

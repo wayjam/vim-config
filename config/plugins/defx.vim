@@ -111,12 +111,10 @@ function! s:defx_setup() abort
 				\ defx#is_directory() ?
 				\ defx#do_action('open_or_close_tree') : defx#do_action('drop')
 	nnoremap <silent><buffer><expr> o defx#do_action('open')
-	nnoremap <silent><buffer><expr> f     defx#do_action('open_or_close_tree')
 	nnoremap <silent><buffer><expr> rt     defx#do_action('open_tree_recursive')
 	nnoremap <silent><buffer><expr> t    defx#do_action('multi', [['drop', 'tabnew'], 'quit'])
 	nnoremap <silent><buffer><expr> vsp    defx#do_action('open', 'vsplit')
 	nnoremap <silent><buffer><expr> sp    defx#do_action('open', 'split')
-	nnoremap <silent><buffer><expr> p     defx#do_action('open', 'pedit')
 	nnoremap <silent><buffer><expr> yy     defx#do_action('yank_path')
 	nnoremap <silent><buffer><expr> !    defx#do_action('execute_system')
 	nnoremap <silent><buffer><expr> .     defx#do_action('toggle_ignored_files')
@@ -156,9 +154,7 @@ function! s:defx_setup() abort
 	nnoremap <silent><buffer><expr><nowait> '
 				\ defx#do_action('toggle_select') . 'j'
 
-	nnoremap <silent><buffer><expr> S  defx#do_action('toggle_sort', 'Time')
-	nnoremap <silent><buffer><expr> C
-				\ defx#do_action('toggle_columns', 'indent:mark:filename:type:size:time')
+	nnoremap <silent><buffer><expr> so  defx#do_action('toggle_sort', 'Time')
 endfunction
 
 " TOOLS
