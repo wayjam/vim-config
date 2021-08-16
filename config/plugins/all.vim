@@ -1,6 +1,11 @@
 if dein#tap('defx.nvim')
-	nnoremap <silent> <LocalLeader>e
+	nnoremap <silent> <LocalLeader>p
 				\ :<C-u>Defx -resume -toggle -buffer-name=tab`tabpagenr()`<CR>
+endif
+
+if dein#tap('fern.vim')
+	nnoremap <silent> <LocalLeader>e :<C-u>Fern -toggle -drawer .<CR>
+	nnoremap <silent> <LocalLeader>a :<C-u>Fern -reveal=% -drawer .<CR>
 endif
 
 if dein#tap('vim-fugitive')
@@ -23,7 +28,7 @@ if dein#tap('vim-signify')
 	let g:signify_sign_delete            = '-'
 	let g:signify_sign_delete_first_line = '^^'
 	let g:signify_sign_change            = '~'
-	let g:signify_skip_filetype          = { 'defx': 1 }
+	let g:signify_skip_filetype          = { 'defx': 1, 'fern': 1 }
 endif
 
 if dein#tap('vim-which-key')
@@ -34,6 +39,13 @@ if dein#tap('vim-which-key')
 endif
 
 if dein#tap('vim-clap')
+	let g:clap_disable_run_rooter = v:true
+	let g:clap_layout = { 'relative': 'editor' }
+	let g:clap_enable_icon = 1
+  let g:clap_search_box_border_style = 'curve'
+  let g:clap_provider_grep_enable_icon = 1
+  let g:clap_prompt_format = '%spinner%%forerunner_status% %provider_id%: '
+
 	nnoremap <silent><Leader>ff :Clap files<CR>
 	nnoremap <silent><Leader>gf :Clap gfiles<CR>
 	nnoremap <silent><Leader>bf :Clap buffers<CR>
