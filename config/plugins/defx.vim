@@ -102,6 +102,23 @@ function! s:jump_dirty(dir) abort
 endfunction
 
 function! s:defx_setup() abort
+	silent! nnoremap <buffer> f <Nop>
+	silent! nnoremap <buffer> F <Nop>
+	silent! xnoremap <buffer> f <Nop>
+	silent! xnoremap <buffer> F <Nop>
+	silent! onoremap <buffer> f <Nop>
+	silent! onoremap <buffer> F <Nop>
+
+	silent! nnoremap <buffer> t <Nop>
+	silent! nnoremap <buffer> T <Nop>
+	silent! xnoremap <buffer> t <Nop>
+	silent! xnoremap <buffer> T <Nop>
+	silent! onoremap <buffer> t <Nop>
+	silent! onoremap <buffer> T <Nop>
+
+	silent! nnoremap <buffer> l <Nop>
+	silent! nnoremap <buffer> h <Nop>
+
 	setlocal signcolumn=no expandtab
 	setlocal nonumber norelativenumber
 	setlocal nofoldenable foldmethod=manual

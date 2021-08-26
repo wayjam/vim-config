@@ -8,6 +8,7 @@
 " Quick quit action
 nnoremap <silent> <Leader>q  :q<CR>
 nnoremap <silent> <Leader>w  :w<CR>
+nnoremap <silent> <localleader>q :q<CR>
 
 " Fix keybind name for Ctrl+Spacebar
 map <Nul> <C-Space>
@@ -186,6 +187,12 @@ for s:i in range(1, 9)
 	execute 'nnoremap <Leader>b'.s:i ':b'.s:i.'<CR>'
 endfor
 unlet s:i
+
+if !exists('g:lasttab')
+  let g:lasttab = 1
+endif
+nmap <Leader>lt :exe "tabn ".g:lasttab<CR>
+au TabLeave * let g:lasttab = tabpagenr()
 
 " Windows and buffers
 " ---

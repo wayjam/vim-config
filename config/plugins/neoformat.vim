@@ -1,4 +1,5 @@
-nnoremap <LocalLeader>= :Neoformat<CR>
+nnoremap <leader>fm :Neoformat<CR>
+nnoremap <localleader>= :Neoformat<CR>
 
 " Enable alignment
 let g:neoformat_basic_format_align = 1

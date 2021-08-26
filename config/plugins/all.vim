@@ -29,8 +29,8 @@ endif
 if dein#tap('vim-which-key')
 	nnoremap <silent> <leader> :<c-u>WhichKey '<Space>'<CR>
 	vnoremap <silent> <leader> :<c-u>WhichKeyVisual '<Space>'<CR>
-	nnoremap <silent> <localleader> :<c-u>WhichKey '`'<CR>
-	vnoremap <silent> <localleader> :<c-u>WhichKeyVisual '`'<CR>
+	nnoremap <silent> <localleader> :<c-u>WhichKey '\'<CR>
+	vnoremap <silent> <localleader> :<c-u>WhichKeyVisual '\'<CR>
 endif
 
 if dein#tap('vim-clap')
@@ -132,4 +132,19 @@ if dein#tap('vim-easy-align')
 	xmap ga <Plug>(EasyAlign)
 	" Start interactive EasyAlign for a motion/text object (e.g. gaip)
 	nmap ga <Plug>(EasyAlign)
+endif
+
+if dein#tap('vim-floaterm')
+	" let g:floaterm_autoclose = 1
+	nnoremap   <silent>   <C-/>    :FloatermNew<CR>
+	tnoremap   <silent>   <C-/>    <C-\><C-n>:FloatermNew<CR>
+	nnoremap   <silent>   <C-[>    :FloatermPrev<CR>
+	tnoremap   <silent>   <C-[>    <C-\><C-n>:FloatermPrev<CR>
+	nnoremap   <silent>   <C-]>    :FloatermNext<CR>
+	tnoremap   <silent>   <C-]>    <C-\><C-n>:FloatermNext<CR>
+	nnoremap   <silent>   <localleader><tab>   :FloatermToggle<CR>
+	tnoremap   <silent>   <localleader><tab>   <C-\><C-n>:FloatermToggle<CR>
+
+	nnoremap   <silent>   <esc>   :FloatermHide<CR>
+	tnoremap   <silent>   <esc>   <C-\><C-n>:FloatermHide<CR>
 endif

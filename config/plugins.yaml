@@ -151,6 +151,9 @@
   hook_post_update: exec "-> clap#installer#force_download()"
 - repo: vn-ki/coc-clap
 
+- repo: voldikss/vim-floaterm
+- repo: voldikss/clap-floaterm
+
 # ==========================================
 # Langs
 # --------
