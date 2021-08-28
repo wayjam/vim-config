@@ -68,19 +68,19 @@ endif
 if dein#tap('vim-go')
 	autocmd user_events FileType go
 				\   nmap <C-]> <Plug>(go-def)
-				\ | nmap <Leader>god  <Plug>(go-describe)
-				\ | nmap <Leader>goc  <Plug>(go-callees)
-				\ | nmap <Leader>goC  <Plug>(go-callers)
-				\ | nmap <Leader>goi  <Plug>(go-info)
-				\ | nmap <Leader>gom  <Plug>(go-implements)
-				\ | nmap <Leader>gos  <Plug>(go-callstack)
-				\ | nmap <Leader>goe  <Plug>(go-referrers)
-				\ | nmap <Leader>gor  <Plug>(go-run)
-				\ | nmap <Leader>gov  <Plug>(go-vet)
+				\ | nmap <localleader>god  <Plug>(go-describe)
+				\ | nmap <localleader>goc  <Plug>(go-callees)
+				\ | nmap <localleader>goC  <Plug>(go-callers)
+				\ | nmap <localleader>goi  <Plug>(go-info)
+				\ | nmap <localleader>gom  <Plug>(go-implements)
+				\ | nmap <localleader>gos  <Plug>(go-callstack)
+				\ | nmap <localleader>goe  <Plug>(go-referrers)
+				\ | nmap <localleader>gor  <Plug>(go-run)
+				\ | nmap <localleader>gov  <Plug>(go-vet)
 endif
 
 if dein#tap('goyo.vim')
-	nnoremap <Leader>G :Goyo<CR>
+	nnoremap <localleader>G :Goyo<CR>
 endif
 
 if dein#tap('python-mode')
@@ -136,15 +136,15 @@ endif
 
 if dein#tap('vim-floaterm')
 	" let g:floaterm_autoclose = 1
-	nnoremap   <silent>   <C-/>    :FloatermNew<CR>
-	tnoremap   <silent>   <C-/>    <C-\><C-n>:FloatermNew<CR>
-	nnoremap   <silent>   <C-[>    :FloatermPrev<CR>
-	tnoremap   <silent>   <C-[>    <C-\><C-n>:FloatermPrev<CR>
-	nnoremap   <silent>   <C-]>    :FloatermNext<CR>
-	tnoremap   <silent>   <C-]>    <C-\><C-n>:FloatermNext<CR>
-	nnoremap   <silent>   <localleader><tab>   :FloatermToggle<CR>
-	tnoremap   <silent>   <localleader><tab>   <C-\><C-n>:FloatermToggle<CR>
+	nnoremap <silent> <C-/> :FloatermNew<CR>
+	tnoremap <silent> <C-/> <C-\><C-n>:FloatermNew<CR>
+	nnoremap <silent> <C-[> :FloatermPrev<CR>
+	tnoremap <silent> <C-[> <C-\><C-n>:FloatermPrev<CR>
+	nnoremap <silent> <C-]> :FloatermNext<CR>
+	tnoremap <silent> <C-]> <C-\><C-n>:FloatermNext<CR>
+	nnoremap <silent> <localleader><tab> :FloatermToggle<CR>
+	tnoremap <silent> <localleader><tab> <C-\><C-n>:FloatermToggle<CR>
 
-	nnoremap   <silent>   <esc>   :FloatermHide<CR>
-	tnoremap   <silent>   <esc>   <C-\><C-n>:FloatermHide<CR>
+	nnoremap <silent> <esc> :FloatermHide<CR>
+	tnoremap <silent> <esc> <C-\><C-n>:FloatermHide<CR>
 endif

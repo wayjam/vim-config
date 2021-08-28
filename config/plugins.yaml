@@ -20,6 +20,19 @@
 - repo: roxma/vim-hug-neovim-rpc
   if: "! has('nvim')"
 
+# Common package
+- repo: sheerun/vim-polyglot
+  hook_add: |
+    let g:polyglot_disabled = [
+      \ 'go',
+      \ 'rust',
+      \ 'javascript',
+      \ 'typescript',
+      \ 'python.plugin',
+      \ 'markdown',
+      \ 'rmd',
+      \]
+
 # ==========================================
 # UI
 # --------
@@ -157,17 +170,6 @@
 # ==========================================
 # Langs
 # --------
-- repo: sheerun/vim-polyglot
-  hook_add: |
-    let g:polyglot_disabled = [
-      \ 'autoindent',
-      \ 'go',
-      \ 'rust',
-      \ 'javascript',
-      \ 'typescript',
-      \ 'python.plugin',
-      \]
-
 - repo: fatih/vim-go
   on_ft: [go, go.mod]
   hook_add: |
@@ -197,6 +199,32 @@
     let g:go_code_completion_enabled = 0
     let g:go_doc_keywordprg_enabled = 0
   hook_post_update: exec ":GoInstallBinaries"
+
+- repo: plasticboy/vim-markdown
+  on_ft: ["markdown", "pandoc.markdown", "rmc"]
+  hook_add: |-
+    let g:vim_markdown_frontmatter = 1
+    let g:vim_markdown_strikethrough = 1
+    let g:vim_markdown_conceal = 0
+    let g:vim_markdown_conceal_code_blocks = 0
+    let g:vim_markdown_new_list_item_indent = 0
+    let g:vim_markdown_toc_autofit = 0
+    let g:vim_markdown_follow_anchor = 0
+    let g:vim_markdown_no_extensions_in_markdown = 1
+    let g:vim_markdown_edit_url_in = 'vsplit'
+    let g:vim_markdown_fenced_languages = [
+      \ 'c++=cpp',
+      \ 'viml=vim',
+      \ 'bash=sh',
+      \ 'ini=dosini',
+      \ 'js=javascript',
+      \ 'json=javascript',
+      \ 'jsx=javascriptreact',
+      \ 'tsx=typescriptreact',
+      \ 'docker=Dockerfile',
+      \ 'makefile=make',
+      \ 'py=python'
+      \ ]
 
 - repo: iamcco/markdown-preview.nvim
   on_ft: ["markdown", "pandoc.markdown", "rmc"]
@@ -229,7 +257,7 @@
     let g:pymode_indent = 1
     let g:pymode_folding = 0
     let g:pymode_options_colorcolumn = 1
-    let g:pymode_breakpoint_bind = '<leader>br'
+    let g:pymode_breakpoint_bind = '<localleader>br'
 - repo: petobens/poet-v
   on_ft: python
   hook_source: |
