@@ -1,14 +1,9 @@
-if dein#tap('defx.nvim')
-	nnoremap <silent> <LocalLeader>e
-				\ :<C-u>Defx -resume -toggle -buffer-name=tab`tabpagenr()`<CR>
-endif
-
 if dein#tap('vim-fugitive')
-	nnoremap <silent> <Leader>gs :Gstatus<CR>
-	nnoremap <silent> <Leader>gd :Gdiff<CR>
-	nnoremap <silent> <Leader>gc :Gcommit<CR>
-	nnoremap <silent> <Leader>gb :Gblame<CR>
-	nnoremap <silent> <Leader>gl :Glog<CR>
+	nnoremap <silent> <Leader>gs :Git status<CR>
+	nnoremap <silent> <Leader>gd :Git diff<CR>
+	nnoremap <silent> <Leader>gc :Git commit<CR>
+	nnoremap <silent> <Leader>gb :Git blame<CR>
+	nnoremap <silent> <Leader>gl :Git log<CR>
 	nnoremap <silent> <Leader>gp :Git push<CR>
 	nnoremap <silent> <Leader>gr :Gread<CR>
 	nnoremap <silent> <Leader>gw :Gwrite<CR>
@@ -20,8 +15,9 @@ if dein#tap('vim-fugitive')
 endif
 
 if dein#tap('vim-signify')
+	let g:signify_sign_add               = '+'
 	let g:signify_sign_delete            = '-'
-	let g:signify_sign_delete_first_line = '^^'
+	let g:signify_sign_delete_first_line = '^'
 	let g:signify_sign_change            = '~'
 	let g:signify_skip_filetype          = { 'defx': 1 }
 endif

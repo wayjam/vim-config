@@ -1,3 +1,6 @@
+nnoremap <silent> <LocalLeader>e
+			\ :<C-u>Defx -resume -toggle -buffer-name=tab`tabpagenr()`<CR>
+
 call defx#custom#option('_', {
 			\ 'winwidth': 25,
 			\ 'split': 'vertical',
@@ -13,14 +16,14 @@ call defx#custom#option('_', {
 
 call defx#custom#column('git', {
 			\   'indicators': {
-			\     'Modified'  : '✹',
-			\     'Staged'    : '✚',
-			\     'Untracked' : '✭',
-			\     'Renamed'   : '➜',
-			\     'Unmerged'  : '≠',
-			\     'Ignored'   : '☒',
-			\     'Deleted'   : '✖',
-			\     'Unknown'   : '?'
+			\     'Modified'  : '~ ',
+			\     'Staged'    : '+ ',
+			\     'Untracked' : '* ',
+			\     'Renamed'   : '➜ ',
+			\     'Unmerged'  : '≠ ',
+			\     'Ignored'   : '! ',
+			\     'Deleted'   : '- ',
+			\     'Unknown'   : '? '
 			\   }
 			\ })
 
@@ -157,7 +160,7 @@ function! s:defx_setup() abort
 	nnoremap <silent><buffer>  ]g :<C-u>call <SID>jump_dirty(1)<CR>
 
 	" Change directory
-	nnoremap <silent><buffer><expr><nowait> \  defx#do_action('cd', getcwd())
+	nnoremap <silent><buffer><expr><nowait> /  defx#do_action('cd', getcwd())
 	nnoremap <silent><buffer><expr> <BS>  defx#async_action('cd', ['..'])
 	nnoremap <silent><buffer><expr> ~     defx#async_action('cd')
 	nnoremap <silent><buffer><expr> u   defx#do_action('cd', ['..'])
