@@ -1,6 +1,6 @@
 if dein#tap('vim-fugitive')
 	nnoremap <silent> <Leader>gs :Git status<CR>
-	nnoremap <silent> <Leader>gd :Git diff<CR>
+	nnoremap <silent> <Leader>gd :Gdiff<CR>
 	nnoremap <silent> <Leader>gc :Git commit<CR>
 	nnoremap <silent> <Leader>gb :Git blame<CR>
 	nnoremap <silent> <Leader>gl :Git log<CR>

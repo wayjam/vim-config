@@ -4,11 +4,12 @@
   "python": {
     "linting": {
       "enabled": true,
-			"flake8Enabled": true
+      "flake8Enabled": true,
+      "pylintEnable": false
     },
-		"formatting": {
-			"provider": "black"
-		}
+    "formatting": {
+      "provider": "black"
+    }
   },
   "pyright.organizeimports.provider": "isort",
   "languageserver": {

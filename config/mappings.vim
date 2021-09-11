@@ -303,8 +303,8 @@ nnoremap <Leader>y :call <SID>add_to_register(expand("%:~:."))<CR>:echo 'Yanked 
 nnoremap <Leader>Y :call <SID>add_to_register(expand("%:p"))<CR>:echo 'Yanked absolute path'<CR>
 
 " Drag current line/s vertically and auto-indent
-nnoremap <Leader>k :m .-2<CR>==
-nnoremap <Leader>j :m +1<CR>==
+"nnoremap <Leader>k :m .-2<CR>==
+"nnoremap <Leader>j :m +1<CR>==
 vnoremap <Leader>k :m '<-2<CR>gv=gv
 vnoremap <Leader>j :m '>+<CR>gv=gv
 
