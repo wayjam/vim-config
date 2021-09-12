@@ -1,3 +1,14 @@
+if dein#tap('defx.nvim')
+	nnoremap <silent> <LocalLeader>e
+				\ :<C-u>Defx -resume -toggle -buffer-name=tab`tabpagenr()`<CR>
+endif
+
+if dein#tap('ale')
+	nmap <Leader>en <Plug>(ale_next)
+	nmap <Leader>ep <Plug>(ale_previous)
+	nnoremap <Leader>ts :ALEToggle<CR>
+endif
+
 if dein#tap('vim-fugitive')
 	nnoremap <silent> <Leader>gs :Git status<CR>
 	nnoremap <silent> <Leader>gd :Gdiff<CR>
