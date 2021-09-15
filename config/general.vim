@@ -15,9 +15,7 @@ set virtualedit=block        " Position cursor anywhere in visual block
 set synmaxcol=1000           " Don't syntax highlight long lines
 set formatoptions+=1         " Don't break lines after a one-letter word
 set formatoptions-=t         " Don't auto-wrap text
-if has('patch-7.3.541')
-	set formatoptions+=j       " Remove comment leader when joining lines
-endif
+set formatoptions+=mM        " Correctly break multi-byte characters such as CJK, see https://stackoverflow.com/q/32669814/6064933
 
 if has('vim_starting')
 	set encoding=utf-8
@@ -71,19 +69,22 @@ if has('wildmenu')
 endif
 
 " Vim Directories
-set undofile swapfile nobackup
-set directory=$DATA_PATH/swap//,$DATA_PATH,~/tmp,/var/tmp,/tmp
-set undodir=$DATA_PATH/undo//,$DATA_PATH,~/tmp,/var/tmp,/tmp
-set backupdir=$DATA_PATH/backup/,$DATA_PATH,~/tmp,/var/tmp,/tmp
-set viewdir=$DATA_PATH/view/
-set nospell spellfile=$VIM_PATH/spell/en.utf-8.add
+set undofile
+if ! has('nvim')
+	set swapfile nobackup
+	set directory=g:DATA_PATH/swap//
+	set undodir=g:DATA_PATH/undo//
+	set backupdir=g:DATA_PATH/backup/
+	set viewdir=g:DATA_PATH/view/
+	set spellfile=g:DATA_PATH/spell/en.utf-8.add
+endif
 
 " History saving
 set history=1000
-if has('nvim')
-	set shada='300,<50,@100,s10,h
+if has('nvim') && ! has('win32') && ! has('win64')
+	set shada='400,<20,@100,s10,f1,h,r/tmp,r/private/var
 else
-	set viminfo='300,<10,@50,h,n$DATA_PATH/viminfo
+	set viminfo='400,<20,@50,f1,h,n$HOME/.cache/viminfo
 endif
 
 " If sudo, disable vim swap/backup/undo/shada/viminfo writing
@@ -171,16 +172,8 @@ set backspace=indent,eol,start  " Intuitive backspacing in insert mode
 set diffopt=filler,iwhite       " Diff mode: show fillers, ignore whitespace
 set completeopt=menuone         " Always show menu, even for one item
 set completeopt+=noselect       " Do not select a match in the menu
-
-if has('patch-7.4.775')
-	" Do not insert any text for a match until the user selects from menu
-	set completeopt+=noinsert
-endif
-
-if has('patch-8.1.0360') || has('nvim-0.5')
-	set diffopt+=internal,algorithm:patience
-	" set diffopt=indent-heuristic,algorithm:patience
-endif
+set completeopt+=noinsert       " Do not insert any text for a match until the user selects from menu
+set diffopt+=internal,algorithm:patience
 
 " Editor UI
 set noshowmode          " Don't show mode in cmd window
@@ -206,35 +199,25 @@ set equalalways         " Resize windows on split or close
 set laststatus=2        " Always show a status line
 " set colorcolumn=80      " Highlight the 80th character limit
 set display=lastline
-
 set background=dark         " Assume dark background
 set cursorline              " Highlight current line
 set fileformats=unix,dos,mac        " Use Unix as the standard file type
 set number                  " Line numbers on
 set relativenumber          " Relative numbers on
-
-if has('folding')
-	set foldenable
-	set foldmarker={,}
-	set foldlevel=0
-	set foldmethod=marker
-	set foldlevelstart=99
-endif
+set nofoldenable    " disable folding
 
 " UI Symbols
 let &showbreak='↳  '
 set listchars=tab:\▏\ ,precedes:«,extends:»,nbsp:␣,trail:·
 " set fillchars=vert:▉,fold:─
 
-if has('patch-7.4.314')
-	" Do not display completion messages
-	set shortmess+=c
-endif
+" Do not show "match xx of xx" and other messages during auto-completion
+set shortmess+=c
 
-if has('patch-7.4.1570')
-	" Do not display message when editing files
-	set shortmess+=F
-endif
+" Do not show search match count on bottom right (seriously, I would strain my
+" neck looking at it). Using plugins like vim-anzu or nvim-hlslens is a better
+" choice, IMHO.
+set shortmess+=S
 
 if has('conceal') && v:version >= 703
 	" For snippet_complete marker

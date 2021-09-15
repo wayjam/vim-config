@@ -1,0 +1,4 @@
+column_limit: 120
+break_after_functioncall_lp: true
+chop_down_parameter: true
+chop_down_table: true

@@ -16,17 +16,17 @@ map! <Nul> <C-Space>
 
 " Disable arrow movement, resize splits instead.
 if get(g:, 'elite_mode')
-	nnoremap <Up>    :resize +2<CR>
-	nnoremap <Down>  :resize -2<CR>
-	nnoremap <Left>  :vertical resize +2<CR>
-	nnoremap <Right> :vertical resize -2<CR>
+  nnoremap <Up>    :resize +2<CR>
+  nnoremap <Down>  :resize -2<CR>
+  nnoremap <Left>  :vertical resize +2<CR>
+  nnoremap <Right> :vertical resize -2<CR>
 endif
 
 " Double leader key for toggling visual-line mode
 nmap <silent> <Leader><Leader> V
 vmap <Leader><Leader> <Esc>
 if has('nvim') || has('terminal')
-	tnoremap <Esc> <C-\><C-n>
+  tnoremap <Esc> <C-\><C-n>
 endif
 
 " jump
@@ -122,11 +122,11 @@ nnoremap zh z5h
 
 " Improve scroll, credits: https://github.com/Shougo
 noremap <expr> <C-f> max([winheight(0) - 2, 1])
-			\ ."\<C-d>".(line('w$') >= line('$') ? "L" : "M")
+      \ ."\<C-d>".(line('w$') >= line('$') ? "L" : "M")
 noremap <expr> <C-b> max([winheight(0) - 2, 1])
-			\ ."\<C-u>".(line('w0') <= 1 ? "H" : "M")
+      \ ."\<C-u>".(line('w0') <= 1 ? "H" : "M")
 nnoremap <expr> zz (winline() == (winheight(0)+1) / 2) ?
-			\ 'zt' : (winline() == 1) ? 'zb' : 'zz'
+      \ 'zt' : (winline() == 1) ? 'zb' : 'zz'
 noremap <expr> <C-e> (line("w$") >= line('$') ? "j" : "3\<C-e>")
 noremap <expr> <C-y> (line("w0") <= 1         ? "k" : "3\<C-y>")
 
@@ -159,8 +159,8 @@ nnoremap <silent> <leader>nh :nohl<CR>
 
 " Show vim syntax highlight groups for character under cursor
 nmap <silent> gh :echo 'hi<'.synIDattr(synID(line('.'), col('.'), 1), 'name')
-			\.'> trans<'.synIDattr(synID(line('.'), col('.'), 0), 'name').'> lo<'
-			\.synIDattr(synIDtrans(synID(line('.'), col('.'), 1)), 'name').'>'<CR>
+      \.'> trans<'.synIDattr(synID(line('.'), col('.'), 0), 'name').'> lo<'
+      \.synIDattr(synIDtrans(synID(line('.'), col('.'), 1)), 'name').'>'<CR>
 
 " Toggle editor's visual effects
 nmap <silent> <Leader>ts :setlocal spell!<cr>
@@ -177,14 +177,14 @@ nnoremap <silent> <A-k> :<C-U>tabprevious<CR>
 nnoremap ]t :tabn<cr>
 nnoremap [t :tabp<cr>
 for s:i in range(1, 9)
-	" <Leader>[1-9] move to window [1-9]
-	execute 'nnoremap <Leader>'.s:i ' :'.s:i.'wincmd w<CR>'
+  " <Leader>[1-9] move to window [1-9]
+  execute 'nnoremap <Leader>'.s:i ' :'.s:i.'wincmd w<CR>'
 
-	" <Leader><leader>[1-9] move to tab [1-9]
-	execute 'nnoremap <Leader><Leader>'.s:i s:i.'gt'
+  " <Leader><leader>[1-9] move to tab [1-9]
+  execute 'nnoremap <Leader><Leader>'.s:i s:i.'gt'
 
-	" <Leader>b[1-9] move to buffer [1-9]
-	execute 'nnoremap <Leader>b'.s:i ':b'.s:i.'<CR>'
+  " <Leader>b[1-9] move to buffer [1-9]
+  execute 'nnoremap <Leader>b'.s:i ':b'.s:i.'<CR>'
 endfor
 unlet s:i
 
@@ -237,10 +237,10 @@ nnoremap <Leader>wk <C-W>k
 nnoremap <Leader>wh <C-W>h
 nnoremap <Leader>wl <C-W>l
 if has('nvim') || has('terminal')
-	tnoremap <Leader>wj <C-W>j
-	tnoremap <Leader>wk <C-W>k
-	tnoremap <Leader>wh <C-W>h
-	tnoremap <Leader>wl <C-W>l
+  tnoremap <Leader>wj <C-W>j
+  tnoremap <Leader>wk <C-W>k
+  tnoremap <Leader>wh <C-W>h
+  tnoremap <Leader>wl <C-W>l
 endif
 nnoremap <Leader>wH <C-W>5<
 nnoremap <Leader>wL <C-W>5>
@@ -254,11 +254,11 @@ nnoremap <Leader>w\| <C-W>v
 nnoremap <Leader>w2 <C-W>v
 
 function! s:window_empty_buffer()
-	let l:current = bufnr('%')
-	if ! getbufvar(l:current, '&modified')
-		enew
-		silent! execute 'bdelete '.l:current
-	endif
+  let l:current = bufnr('%')
+  if ! getbufvar(l:current, '&modified')
+    enew
+    silent! execute 'bdelete '.l:current
+  endif
 endfunction
 
 " Remove spaces at the end of lines
@@ -272,10 +272,10 @@ xnoremap sg :s//gc<Left><Left><Left>
 
 " Returns visually selected text
 function! s:get_selection(cmdtype)
-	let temp = @s
-	normal! gv"sy
-	let @/ = substitute(escape(@s, '\'.a:cmdtype), '\n', '\\n', 'g')
-	let @s = temp
+  let temp = @s
+  normal! gv"sy
+  let @/ = substitute(escape(@s, '\'.a:cmdtype), '\n', '\\n', 'g')
+  let @s = temp
 endfunction
 
 " Location/quickfix list movement
@@ -292,10 +292,10 @@ nnoremap <Leader>d m`YP``
 vnoremap <Leader>d YPgv
 
 function! s:add_to_register(str)
-	if get(g:, 'loaded_oscyank')
-		call YankOSC52(a:str)
-	endif
-	let @+=a:str
+  if get(g:, 'loaded_oscyank')
+    call YankOSC52(a:str)
+  endif
+  let @+=a:str
 endfunction
 
 " Yank buffer's absolute path to clipboard

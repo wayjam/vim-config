@@ -1,15 +1,15 @@
-# Vim Config
+# NeoVim Config
 
-### Prerequisites
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+![GitHub repo size](https://img.shields.io/github/repo-size/wayjam/vim-config)
 
-- NeoVim or Vim(require 8.0)
-- Python3
-- Go(for vim-go)
-- NodeJS and yarn(for coc.vim)
+Modern NeoVim config.
 
-### Install
+## Prerequisites
 
-**_1._** Get config
+*   NeoVim(0.5+)
+
+## Installation
 
 Clone this repo and put it to `~/.config/nvim` :
 
@@ -19,41 +19,47 @@ cd ~/.config
 git clone https://github.com/wayjam/vim-config.git nvim
 ```
 
-**_Note_**: Symlink for "regular" vim: `ln -s ~/.config/nvim ~/.vim`
+***Note***: Symlink for "regular" vim: `ln -s ~/.config/nvim ~/.vim`
 
-**_2._** Providers
+## Feature
 
-Execute `:checkhealth proviers` at vim for proviers status, and follow the output to install missing provider.
+### Plugin Manager
 
-**_3._** coc.nvim & code completion
-
-- NodeJS: `npm install -g yarn`
-- Python: `pip3 install jedi`
-- Rust: `rustup component add rls rust-analysis rust-src`
-- C/C++: Follow <https://github.com/MaskRay/ccls/wiki/Install> and install ccls.
-
-### Plugins
-
-Using [Shougo/dein.vim](https://github.com/Shougo/dein.vim) as plugin manager.
+Using [packer.nvim](https://github.com/wbthomason/packer.nvim) as plugin manager.
 
 Update Plugin(the plugins are not updated automatically):
 
 ```sh
-:call dein#update()
+:PackerSync
 ```
 
-### Customize your config
+#### LSP
+
+Using the Neovim's built-in language server client with \[nvim-lspconfig]\(https:
+//github.com/neovim/nvim-lspconfig), and you can install lsp server with [lsp-install](https://github.com/kabouzeid/nvim-lspinstall):
+
+    :LspInstall rust
+    :LspInstall go
+
+### Complete
+
+Configured nvim-cmp with [LusSnip](https://github.com/L3MON4D3/LuaSnip) and [friendly-snippets](https://github.com/rafamadriz/friendly-snippets).
+
+## Customize
 
 Create your config named `customize.vim` at the root of this repo, edit it and save.
 
-### Upgrade
+## Upgrade
 
 ```sh
 cd ~/.config/nvim
 git pull --ff --ff-only
 ```
 
-### Acknowledgements
+## Contributing
 
-- [rafi/vim-config](https://github.com/rafi/vim-config)
-- [liuchengxu/space-vim](https://github.com/liuchengxu/space-vim)
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
