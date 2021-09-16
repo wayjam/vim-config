@@ -310,8 +310,4 @@ vnoremap <Leader>j :m '>+<CR>gv=gv
 
 " Useful command
 " --------------
-
-" quick function for clap/denite command
 command! -nargs=1 ColorColumn :set colorcolumn=<args>
-command! -nargs=0 EditVIMConfig :tabe $MYVIMRC
-command! -nargs=0 ReloadVIMConfig :source $MYVIMRC

@@ -3,7 +3,18 @@
 " ===
 
 " Set main configuration directory as parent directory
-let $VIM_PATH = fnamemodify(resolve(expand('<sfile>:p')), ':h:h')
+let g:CONFIG_PATH =
+			\ get(g:, 'etc_vim_path',
+			\   exists('*stdpath') ? stdpath('config') :
+			\   ! empty($MYVIMRC) ? fnamemodify(expand($MYVIMRC), ':h') :
+			\   ! empty($VIMCONFIG) ? expand($VIMCONFIG) :
+			\   ! empty(g:CONFIG_PATH) ? expand(g:CONFIG_PATH) :
+			\   fnamemodify(resolve(expand('<sfile>:p')), ':h:h')
+			\ )
+
+" Set data/cache directory
+let g:DATA_PATH = exists('*stdpath') ? stdpath('data') :
+			\ expand(($XDG_DATA_HOME ? $XDG_DATA_HOME : '~/.local/share') . '/nvim', 1)
 
 function! utils#init()
 	call s:define_command()
@@ -16,7 +27,7 @@ endfunction
 function! utils#source_file(path, ...)
 	" Source user configuration files with set/global sensitivity
 	let use_global = get(a:000, 0, ! has('vim_starting'))
-	let abspath = resolve($VIM_PATH . '/' . a:path)
+	let abspath = resolve(g:CONFIG_PATH . '/' . a:path)
 
 	if !filereadable(abspath)
 		return

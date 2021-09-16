@@ -1,5 +1,7 @@
 local on_attach = function(client, bufnr)
-    local function map_buf(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+    local function map_buf(...)
+        vim.api.nvim_buf_set_keymap(bufnr, ...)
+    end
     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
     if client.config.flags then
@@ -9,54 +11,29 @@ local on_attach = function(client, bufnr)
 
     -- Keyboard mappings
     local opts = {noremap = true, silent = true}
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD',
-                                '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd',
-                                '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K',
-                                '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gi',
-                                '<cmd>lua vim.lsp.buf.implementation()<CR>',
-                                opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-k>',
-                                '<cmd>lua vim.lsp.buf.signature_help()<CR>',
-                                opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>wa',
-                                '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>',
-                                opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>wr',
-                                '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>',
-                                opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>wl',
-                                '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>',
-                                opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>D',
-                                '<cmd>lua vim.lsp.buf.type_definition()<CR>',
-                                opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>rn',
-                                '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr',
-                                '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>ca',
-                                '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(
+        bufnr, 'n', '<leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
     -- vim.api.nvim_buf_set_keymap(bufnr, 'v', '<leader>ca', '<cmd>lua vim.lsp.buf.range_code_action()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>e',
-                                '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>',
-                                opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '[d',
-                                '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>',
-                                opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', ']d',
-                                '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>',
-                                opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>q',
-                                '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>',
-                                opts)
+    vim.api.nvim_buf_set_keymap(
+        bufnr, 'n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
 
     if packer_plugins["telescope"] and packer_plugins["telescope"].loaded then
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>so',
-                                    [[<cmd>lua require('telescope.builtin').lsp_document_symbols()<CR>]],
-                                    opts)
+        vim.api.nvim_buf_set_keymap(
+            bufnr, 'n', '<leader>so', [[<cmd>lua require('telescope.builtin').lsp_document_symbols()<CR>]], opts)
     end
 
     -- Set some keybinds conditional on server capabilities
@@ -69,7 +46,8 @@ local on_attach = function(client, bufnr)
 
     -- Set autocommands conditional on server_capabilities
     if client.resolved_capabilities.document_highlight then
-        vim.api.nvim_exec([[
+        vim.api.nvim_exec(
+            [[
 			augroup lsp_document_highlight
 				autocmd! * <buffer>
 			augroup END
@@ -85,12 +63,7 @@ end
 --   Warning:  ⚠ 
 --   Hint:  
 --   Information:   ⁱ
-local signs = {
-    Error = '✘',
-    Warning = '',
-    Hint = '',
-    Information = 'ⁱ'
-}
+local signs = {Error = '✘', Warning = '', Hint = '', Information = 'ⁱ'}
 for type, icon in pairs(signs) do
     local hl = 'LspDiagnosticsSign' .. type
     vim.fn.sign_define(hl, {text = icon, texthl = hl, numhl = hl})
@@ -100,15 +73,17 @@ end
 -- require('lsp_kind').init()
 
 -- Configure diagnostics publish settings
-vim.lsp.handlers['textDocument/publishDiagnostics'] =
-    vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
+                                                          vim.lsp.diagnostic.on_publish_diagnostics, {
         update_in_insert = false,
         underline = false,
         virtual_text = {
             spacing = 4
             -- prefix = '',
         },
-        signs = function(bufnr, _) return vim.bo[bufnr].buftype == '' end
+        signs = function(bufnr, _)
+            return vim.bo[bufnr].buftype == ''
+        end
     })
 
 -- Open references in quickfix window and jump to first item.
@@ -119,21 +94,19 @@ vim.lsp.handlers['textDocument/publishDiagnostics'] =
 -- 		loclist = true,
 -- 	}
 -- )
-vim.lsp.handlers['textDocument/references'] =
-    function(_, _, result, _, bufnr, _)
-        if not result or vim.tbl_isempty(result) then
-            vim.notify('No references found')
-        else
-            vim.lsp.util
-                .set_qflist(vim.lsp.util.locations_to_items(result, bufnr))
-            require('user').qflist.open()
-            vim.api.nvim_command('.cc')
-        end
+vim.lsp.handlers['textDocument/references'] = function(_, _, result, _, bufnr, _)
+    if not result or vim.tbl_isempty(result) then
+        vim.notify('No references found')
+    else
+        vim.lsp.util.set_qflist(vim.lsp.util.locations_to_items(result, bufnr))
+        require('user').qflist.open()
+        vim.api.nvim_command('.cc')
     end
+end
 
 -- Configure hover (normal K) handle
-vim.lsp.handlers['textDocument/hover'] =
-    vim.lsp.with(vim.lsp.handlers.hover, {
+vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
+                                             vim.lsp.handlers.hover, {
         -- Use a sharp border with `FloatBorder` highlights
         border = 'rounded'
     })
@@ -206,17 +179,16 @@ local function config()
 
         -- global custom location-list diagnostics window toggle.
         local args = {noremap = true, silent = true}
-        vim.api.nvim_set_keymap('n', '<Leader>a',
-                                '<cmd>lua require("user").diagnostic.publish_loclist(true)<CR>',
-                                args)
+        vim.api.nvim_set_keymap('n', '<Leader>a', '<cmd>lua require("user").diagnostic.publish_loclist(true)<CR>', args)
 
-        vim.api.nvim_exec([[
-					augroup user_lspconfig
-						autocmd!
-						" See https://github.com/kosayoda/nvim-lightbulb
-						autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()
-					augroup END
-				]], false)
+        vim.api.nvim_exec(
+            [[
+                augroup user_lspconfig
+                        autocmd!
+                        " See https://github.com/kosayoda/nvim-lightbulb
+                        autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()
+                augroup END
+        ]], false)
     end
 end
 

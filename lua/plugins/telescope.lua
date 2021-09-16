@@ -11,11 +11,9 @@ local setup = function()
     keymap('n', '<leader>bf', '<cmd>Telescope buffers<CR>', opts)
     keymap('n', '<leader>jl', '<cmd>Telescope jumplist<CR>', opts)
     keymap('n', '<leader>mk', '<cmd>Telescope marks<CR>', opts)
-    keymap('n', '<leader>sy',
-           '<cmd>Telescope lsp_dynamic_workspace_symbols<CR>', opts)
+    keymap('n', '<leader>sy', '<cmd>Telescope lsp_dynamic_workspace_symbols<CR>', opts)
     keymap('n', '<leader>re', '<cmd>Telescope registers<CR>', opts)
-    keymap('n', '<localleader><localleader>', '<cmd>Telescope commands<CR>',
-           opts)
+    keymap('n', '<localleader><localleader>', '<cmd>Telescope commands<CR>', opts)
 
     -- git_commits    git_bcommits   git_branches
     -- git_status     git_stash      git_files
@@ -24,27 +22,16 @@ local setup = function()
     -- lsp_workspace_diagnostics     lsp_document_diagnostics
 
     -- Location-specific find files/directories
-    keymap('n', '<localleader>n',
-           '<cmd>lua require"plugins.telescope".pickers.plugin_directories()<CR>',
-           opts)
-    keymap('n', '<localleader>w',
-           '<cmd>lua require"plugins.telescope".pickers.notebook()<CR>', opts)
+    keymap('n', '<localleader>n', '<cmd>lua require"plugins.telescope".pickers.plugin_directories()<CR>', opts)
+    keymap('n', '<localleader>w', '<cmd>lua require"plugins.telescope".pickers.notebook()<CR>', opts)
 
     -- Navigation
-    keymap('n', '<localleader>/',
-           '<cmd>Telescope current_buffer_fuzzy_find<CR>', opts)
-    keymap('n', '<localleader>gt',
-           '<cmd>lua require"plugins.telescope".pickers.lsp_workspace_symbols_cursor()<CR>',
-           opts)
-    keymap('n', '<localleader>gf',
-           '<cmd>lua require"plugins.telescope".pickers.find_files_cursor()<CR>',
-           opts)
-    keymap('n', '<localleader>gg',
-           '<cmd>lua require"plugins.telescope".pickers.grep_string_cursor()<CR>',
-           opts)
-    keymap('x', '<localleader>gg',
-           '<cmd>lua require"plugins.telescope".pickers.grep_string_visual()<CR>',
-           opts)
+    keymap('n', '<localleader>/', '<cmd>Telescope current_buffer_fuzzy_find<CR>', opts)
+    keymap(
+        'n', '<localleader>gt', '<cmd>lua require"plugins.telescope".pickers.lsp_workspace_symbols_cursor()<CR>', opts)
+    keymap('n', '<localleader>gf', '<cmd>lua require"plugins.telescope".pickers.find_files_cursor()<CR>', opts)
+    keymap('n', '<localleader>gg', '<cmd>lua require"plugins.telescope".pickers.grep_string_cursor()<CR>', opts)
+    keymap('x', '<localleader>gg', '<cmd>lua require"plugins.telescope".pickers.grep_string_visual()<CR>', opts)
 
     -- LSP related
     keymap('n', '<leader>gd', '<cmd>Telescope lsp_definitions<CR>', opts)
@@ -102,34 +89,23 @@ pickers.grep_string_visual = function()
 end
 
 pickers.grep_string_cursor = function()
-    require'telescope.builtin'.live_grep({
-        default_text = vim.fn.expand('<cword>')
-    })
+    require'telescope.builtin'.live_grep({default_text = vim.fn.expand('<cword>')})
 end
 
 pickers.find_files_cursor = function()
-    require'telescope.builtin'.find_files({
-        default_text = vim.fn.expand('<cword>')
-    })
+    require'telescope.builtin'.find_files({default_text = vim.fn.expand('<cword>')})
 end
 
 pickers.lsp_workspace_symbols_cursor = function()
-    require'telescope.builtin'.lsp_workspace_symbols({
-        default_text = vim.fn.expand('<cword>')
-    })
+    require'telescope.builtin'.lsp_workspace_symbols({default_text = vim.fn.expand('<cword>')})
 end
 
 pickers.zoxide = function()
-    require'telescope'.extensions.zoxide.list({
-        layout_config = {width = 0.4, height = 0.6}
-    })
+    require'telescope'.extensions.zoxide.list({layout_config = {width = 0.4, height = 0.6}})
 end
 
 pickers.notebook = function()
-    require'telescope.builtin'.find_files({
-        prompt_title = '[ Notebook ]',
-        cwd = '$HOME/docs/blog'
-    })
+    require'telescope.builtin'.find_files({prompt_title = '[ Notebook ]', cwd = '$HOME/docs/blog'})
 end
 
 pickers.plugin_directories = function(opts)
@@ -137,36 +113,31 @@ pickers.plugin_directories = function(opts)
     local dir = vim.fn.expand('$VIM_DATA_PATH/dein/repos/github.com')
 
     opts = opts or {}
-    opts.cmd = utils.get_default(opts.cmd, {
-        vim.o.shell, '-c',
-        'find ' .. vim.fn.shellescape(dir) .. ' -mindepth 2 -maxdepth 2 -type d'
-    })
+    opts.cmd = utils.get_default(
+                   opts.cmd,
+                   {vim.o.shell, '-c', 'find ' .. vim.fn.shellescape(dir) .. ' -mindepth 2 -maxdepth 2 -type d'})
 
     local dir_len = dir:len()
     opts.entry_maker = function(line)
-        return {
-            value = line,
-            ordinal = line,
-            display = line:sub(dir_len + 2),
-            path = line
-        }
+        return {value = line, ordinal = line, display = line:sub(dir_len + 2), path = line}
     end
 
-    require('telescope.pickers').new(opts, {
-        layout_config = {width = 0.65, height = 0.7},
-        prompt_title = '[ Plugin directories ]',
-        finder = require('telescope.finders').new_table {
-            results = utils.get_os_command_output(opts.cmd),
-            entry_maker = opts.entry_maker
-        },
-        sorter = require('telescope.sorters').get_fuzzy_file(),
-        previewer = require('telescope.previewers.term_previewer').cat.new(opts),
-        attach_mappings = function(_, map)
-            map('i', '<cr>', myactions.change_directory)
-            map('n', '<cr>', myactions.change_directory)
-            return true
-        end
-    }):find()
+    require('telescope.pickers').new(
+        opts, {
+            layout_config = {width = 0.65, height = 0.7},
+            prompt_title = '[ Plugin directories ]',
+            finder = require('telescope.finders').new_table {
+                results = utils.get_os_command_output(opts.cmd),
+                entry_maker = opts.entry_maker
+            },
+            sorter = require('telescope.sorters').get_fuzzy_file(),
+            previewer = require('telescope.previewers.term_previewer').cat.new(opts),
+            attach_mappings = function(_, map)
+                map('i', '<cr>', myactions.change_directory)
+                map('n', '<cr>', myactions.change_directory)
+                return true
+            end
+        }):find()
 end
 
 -- Custom window-sizes
@@ -284,10 +255,8 @@ local config = function()
 
                     ['*'] = actions.toggle_all,
                     ['u'] = actions.drop_all,
-                    ['J'] = actions.toggle_selection +
-                        actions.move_selection_next,
-                    ['K'] = actions.toggle_selection +
-                        actions.move_selection_previous,
+                    ['J'] = actions.toggle_selection + actions.move_selection_next,
+                    ['K'] = actions.toggle_selection + actions.move_selection_previous,
                     ['<Tab>'] = {
                         actions.toggle_selection,
                         type = 'action',
@@ -319,76 +288,36 @@ local config = function()
                 show_all_buffers = true,
                 ignore_current_buffer = true,
                 path_display = {shorten = 5},
-                layout_config = {
-                    width = width_for_nopreview,
-                    height = height_dropdown_nopreview
-                },
+                layout_config = {width = width_for_nopreview, height = height_dropdown_nopreview},
                 mappings = {n = {['dd'] = actions.delete_buffer}}
             },
             find_files = {
                 theme = 'dropdown',
                 previewer = false,
-                layout_config = {
-                    width = width_for_nopreview,
-                    height = height_dropdown_nopreview
-                },
-                find_command = {
-                    'rg', '--smart-case', '--hidden', '--no-ignore-vcs',
-                    '--glob', '!.git', '--files'
-                }
+                layout_config = {width = width_for_nopreview, height = height_dropdown_nopreview},
+                find_command = {'rg', '--smart-case', '--hidden', '--no-ignore-vcs', '--glob', '!.git', '--files'}
             },
             -- jumplist = {
             -- 	layout_strategy = 'horizontal',
             -- 	layout_config = { preview_width = 0.60 },
             -- },
-            command_history = {
-                theme = 'dropdown',
-                previewer = false,
-                layout_config = {width = 0.5, height = 0.7}
-            },
-            search_history = {
-                theme = 'dropdown',
-                layout_config = {width = 0.4, height = 0.6}
-            },
-            registers = {
-                theme = 'cursor',
-                previewer = false,
-                layout_config = {width = 0.45, height = 0.6}
-            },
+            command_history = {theme = 'dropdown', previewer = false, layout_config = {width = 0.5, height = 0.7}},
+            search_history = {theme = 'dropdown', layout_config = {width = 0.4, height = 0.6}},
+            registers = {theme = 'cursor', previewer = false, layout_config = {width = 0.45, height = 0.6}},
             lsp_definitions = {
                 layout_strategy = 'horizontal',
-                layout_config = {
-                    width = 0.95,
-                    height = 0.85,
-                    preview_width = 0.45
-                }
+                layout_config = {width = 0.95, height = 0.85, preview_width = 0.45}
             },
             lsp_implementations = {
                 layout_strategy = 'horizontal',
-                layout_config = {
-                    width = 0.95,
-                    height = 0.85,
-                    preview_width = 0.45
-                }
+                layout_config = {width = 0.95, height = 0.85, preview_width = 0.45}
             },
             lsp_references = {
                 layout_strategy = 'horizontal',
-                layout_config = {
-                    width = 0.95,
-                    height = 0.85,
-                    preview_width = 0.45
-                }
+                layout_config = {width = 0.95, height = 0.85, preview_width = 0.45}
             },
-            lsp_code_actions = {
-                theme = 'cursor',
-                previewer = false,
-                layout_config = {width = 0.3, height = 0.4}
-            },
-            lsp_range_code_actions = {
-                theme = 'cursor',
-                previewer = false,
-                layout_config = {width = 0.3, height = 0.4}
-            }
+            lsp_code_actions = {theme = 'cursor', previewer = false, layout_config = {width = 0.3, height = 0.4}},
+            lsp_range_code_actions = {theme = 'cursor', previewer = false, layout_config = {width = 0.3, height = 0.4}}
         }
     }
 

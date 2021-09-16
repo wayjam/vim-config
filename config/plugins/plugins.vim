@@ -1,7 +1,6 @@
 function! plugins#source(name)
-
-	let l:path = g:VIM_PATH . "/config/plugins/" . a:name . ".vim"
-	execute 'source' fnameescape(l:path)
+	
+	call utils#source_file("/config/plugins/" . a:name . ".vim")
 
 endfunction
 
@@ -175,16 +174,6 @@ function! plugins#config(name)
 	if a:name ==# "vim-javascript"
 		let g:javascript_plugin_jsdoc = 1
 		let g:javascript_plugin_flow = 1
-	endif
-
-	if a:name ==# 'vim-vsnip'
-		let g:vsnip_snippet_dir = expand(g:DATA_PATH . '/vsnip')
-		let g:vsnip_snippet_dirs = [ expand(g:VIM_PATH  . '/snippets') ]
-		let g:vsnip_filetypes = {}
-		let g:vsnip_filetypes.javascriptreact = ['javascript']
-		let g:vsnip_filetypes.typescriptreact = ['typescript']
-		imap <expr><C-l> vsnip#available(1) ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
-		smap <expr><C-l> vsnip#available(1) ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
 	endif
 
 	if a:name ==# 'sleuth'

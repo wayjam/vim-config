@@ -6,9 +6,19 @@ local settings = {
     width = 30,
     show_icons = {git = 1, folders = 1, files = 1},
     ignore = {
-        "node_modules", ".cache", '.mypy_cache', '.pytest_cache', '.git', '.hg',
-        '.svn', '.stversions', '__pycache__', '.sass-cache', '*.egg-info',
-        '.DS_Store', '*.pyc'
+        "node_modules",
+        ".cache",
+        '.mypy_cache',
+        '.pytest_cache',
+        '.git',
+        '.hg',
+        '.svn',
+        '.stversions',
+        '__pycache__',
+        '.sass-cache',
+        '*.egg-info',
+        '.DS_Store',
+        '*.pyc'
     },
     auto_open = 0,
     auto_close = 1,
@@ -32,13 +42,7 @@ local settings = {
             untracked = "✭",
             ignored = "◌"
         },
-        folder = {
-            default = "",
-            open = "",
-            empty = "",
-            empty_open = "",
-            symlink = ""
-        }
+        folder = {default = "", open = "", empty = "", empty_open = "", symlink = ""}
     }
 }
 
@@ -51,9 +55,7 @@ end
 local function on_close()
     local buf = tonumber(vim.fn.expand "<abuf>")
     local ft = vim.api.nvim_buf_get_option(buf, "filetype")
-    if ft == "NvimTree" and package.loaded["bufferline.state"] then
-        require("bufferline.state").set_offset(0)
-    end
+    if ft == "NvimTree" and package.loaded["bufferline.state"] then require("bufferline.state").set_offset(0) end
 end
 
 local function config()
@@ -88,7 +90,8 @@ local function config()
         {key = "rm", cb = tree_cb("remove")},
         {key = "rn", cb = tree_cb("rename")},
         {key = "RN", cb = tree_cb("full_rename")},
-        {key = "x", cb = tree_cb("cut")}, {key = "c", cb = tree_cb("copy")},
+        {key = "x", cb = tree_cb("cut")},
+        {key = "c", cb = tree_cb("copy")},
         {key = "p", cb = tree_cb("paste")},
         {key = "y", cb = tree_cb("copy_name")},
         {key = "Y", cb = tree_cb("copy_path")},
@@ -111,8 +114,7 @@ local function config()
     end
 
     vim.cmd "au WinClosed * lua require('plugins.nvimtree').on_close()"
-    vim.api.nvim_set_keymap('n', '<localleader>e', ':NvimTreeToggle<CR>',
-                            {noremap = true, silent = true})
+    vim.api.nvim_set_keymap('n', '<localleader>e', ':NvimTreeToggle<CR>', {noremap = true, silent = true})
 
     if settings.on_config_done then settings.on_config_done(nvim_tree_config) end
 end

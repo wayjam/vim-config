@@ -54,26 +54,12 @@ let g:loaded_vimballPlugin = 1
 let g:loaded_zip = 1
 let g:loaded_zipPlugin = 1
 
-" Set main configuration directory as parent directory
-let g:VIM_PATH =
-			\ get(g:, 'etc_vim_path',
-			\   exists('*stdpath') ? stdpath('config') :
-			\   ! empty($MYVIMRC) ? fnamemodify(expand($MYVIMRC), ':h') :
-			\   ! empty($VIMCONFIG) ? expand($VIMCONFIG) :
-			\   ! empty(g:VIM_PATH) ? expand(g:VIM_PATH) :
-			\   fnamemodify(resolve(expand('<sfile>:p')), ':h:h')
-			\ )
-
-" Set data/cache directory
-let g:DATA_PATH = exists('*stdpath') ? stdpath('data') :
-			\ expand(($XDG_DATA_HOME ? $XDG_DATA_HOME : '~/.local/share') . '/nvim', 1)
-
 function! s:main()
 	if has('vim_starting')
 		" When using VIMINIT trick for exotic MYVIMRC locations, add path now.
-		if &runtimepath !~# g:VIM_PATH
-			set runtimepath^=g:VIM_PATH
-			set runtimepath+=g:VIM_PATH/after
+		if &runtimepath !~# g:CONFIG_PATH
+			set runtimepath^=g:CONFIG_PATH
+			set runtimepath+=g:CONFIG_PATH/after
 		endif
 
 		" Ensure data directories
@@ -83,7 +69,7 @@ function! s:main()
 					\ g:DATA_PATH . '/undo',
 					\ g:DATA_PATH . '/backup',
 					\ g:DATA_PATH . '/session',
-					\ g:VIM_PATH . '/spell' ]
+					\ g:CONFIG_PATH . '/spell' ]
 			if ! isdirectory(s:path)
 				call mkdir(s:path, 'p', 0700)
 			endif
@@ -114,7 +100,6 @@ function! s:main()
 
 	" Initialize all my configurations
 	IncludeScript config/general.vim
-	IncludeScript config/filetype.vim
 	IncludeScript config/mappings.vim
 
 	lua require('setup')
@@ -124,5 +109,8 @@ function! s:main()
 
 	set secure
 endfunction
+
+command! -nargs=0 EditVIMConfig :execute 'e' g:CONFIG_PATH . "/config/init.vim"
+command! -nargs=0 ReloadVIMConfig :lua require('utils').reload_config()
 
 call s:main()
