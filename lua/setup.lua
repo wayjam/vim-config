@@ -1,5 +1,5 @@
 ---
 -- Lua Setup and Plugins
--- 
-require('utils')
-require('plugins').startup()
+---
+require('plugin_loader').startup()
+
