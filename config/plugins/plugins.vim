@@ -81,7 +81,7 @@ function! plugins#config(name)
 		autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '+' | OSCYankReg + | endif
 	endif
 
-	if a:name ==# 'vim-sneak'
+	if a:name ==# 'vim-sneak-setup'
 		let g:sneak#label = 1
 
 		" case insensitive sneak
@@ -91,15 +91,18 @@ function! plugins#config(name)
 		map gS <Plug>Sneak_,
 		map gs <Plug>Sneak_;
 
-		" Change the colors
-		hi link Sneak Search
-		hi link SneakScope Search
-
 		" I like quickscope better for this since it keeps me in the scope of a single line
 		" map f <Plug>Sneak_f
 		" map F <Plug>Sneak_F
 		map t <Plug>Sneak_t
 		map T <Plug>Sneak_T
+	endif
+
+
+	if a:name ==# 'vim-sneak'
+		" Change the colors
+		hi link Sneak Search
+		hi link SneakScope Search
 	endif
 
 	if a:name ==# 'vim-easy-align'

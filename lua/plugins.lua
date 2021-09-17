@@ -108,13 +108,12 @@ return {
     --- complete
     {
         "hrsh7th/nvim-cmp",
-        event = 'VimEnter',
-        after = 'LuaSnip',
         config = function()
             require('plugins.complete').config()
         end
     },
     {"saadparwaiz1/cmp_luasnip", after = {"nvim-cmp", "LuaSnip"}},
+    {"hrsh7th/cmp-nvim-lsp", after = 'nvim-cmp'},
     {"hrsh7th/cmp-nvim-lua", after = 'nvim-cmp'},
     {"hrsh7th/cmp-buffer", after = 'nvim-cmp'},
     {"hrsh7th/cmp-path", after = 'nvim-cmp'},
@@ -126,7 +125,6 @@ return {
     {
         "neovim/nvim-lspconfig",
         event = 'VimEnter',
-        requires = {{"hrsh7th/cmp-nvim-lsp", after = 'nvim-cmp'}},
         after = {"cmp-nvim-lsp", 'nvim-lspinstall', 'lsp_signature.nvim', 'nvim-lightbulb'},
         config = function()
             require('plugins.lspconfig').config()
@@ -169,21 +167,22 @@ return {
     {
         "justinmk/vim-sneak",
         event = "VimEnter",
+        setup = function()
+            vim.fn['plugins#config']('vim-sneak-setup')
+        end,
         config = function()
             vim.fn['plugins#config']('vim-sneak')
         end
     },
     {
         "ojroques/vim-oscyank",
-        event = 'VimEnter',
+        cmd = {"OSCYank", "OSCYankReg"},
         config = function()
             vim.fn['plugins#config']('vim-oscyank')
         end
     },
     {
         "Pocco81/TrueZen.nvim",
-        event = "VimEnter",
-        opt = true,
         cmd = {"TZAtaraxis", "TZFocus", "TZMinimailist"},
         setup = function()
             require('plugins.truezen').setup()
