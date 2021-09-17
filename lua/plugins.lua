@@ -1,5 +1,5 @@
 return {
-	--- basic
+    --- basic
     {"wbthomason/packer.nvim", opt = true},
     {'christoomey/vim-tmux-navigator'},
     {
@@ -28,6 +28,7 @@ return {
     {"kyazdani42/nvim-web-devicons"},
     {
         'hoob3rt/lualine.nvim',
+        event = 'VimEnter',
         requires = {'kyazdani42/nvim-web-devicons', "nvim-lua/lsp-status.nvim"},
         config = function()
             require("plugins.lualine").config()
@@ -42,6 +43,7 @@ return {
     },
     {
         'lewis6991/gitsigns.nvim',
+        event = 'VimEnter',
         requires = {'nvim-lua/plenary.nvim'},
         config = function()
             require('plugins.gitsigns').config()
@@ -55,7 +57,9 @@ return {
         setup = function()
             vim.fn['plugins#source']('neoformat')
         end
-    }, --- tools
+    },
+
+    --- tools
     {
         "kyazdani42/nvim-tree.lua",
         requires = {'kyazdani42/nvim-web-devicons'},
@@ -65,7 +69,7 @@ return {
     },
     {
         "tpope/vim-fugitive",
-        event = "User InGitRepo",
+        event = "VimEnter",
         config = function()
             vim.fn['plugins#config']('vim-fugitive')
         end
@@ -82,16 +86,12 @@ return {
         end
     },
 
-    --- lsp
-    {"kabouzeid/nvim-lspinstall"},
-    {"kosayoda/nvim-lightbulb"},
-    {"ray-x/lsp_signature.nvim"},
-    {"hrsh7th/cmp-nvim-lsp"},
+    --- terminal
     {
-        "neovim/nvim-lspconfig",
-        requires = {"ray-x/lsp_signature.nvim", "hrsh7th/cmp-nvim-lsp"},
+        "akinsho/toggleterm.nvim",
+        event = 'VimEnter',
         config = function()
-            require('plugins.lspconfig').config()
+            require('plugins.toggleterm').config()
         end
     },
 
@@ -99,6 +99,7 @@ return {
     {"rafamadriz/friendly-snippets"},
     {
         "L3MON4D3/LuaSnip",
+        requires = {"rafamadriz/friendly-snippets"},
         config = function()
             require('plugins.luasnip').config()
         end
@@ -107,16 +108,28 @@ return {
     --- complete
     {
         "hrsh7th/nvim-cmp",
-        requires = {
-            "L3MON4D3/LuaSnip",
-            "saadparwaiz1/cmp_luasnip",
-            "hrsh7th/cmp-buffer",
-            "hrsh7th/cmp-nvim-lsp",
-            "hrsh7th/cmp-path",
-            "hrsh7th/cmp-nvim-lua"
-        },
+        event = 'VimEnter',
+        after = 'LuaSnip',
         config = function()
             require('plugins.complete').config()
+        end
+    },
+    {"saadparwaiz1/cmp_luasnip", after = {"nvim-cmp", "LuaSnip"}},
+    {"hrsh7th/cmp-nvim-lua", after = 'nvim-cmp'},
+    {"hrsh7th/cmp-buffer", after = 'nvim-cmp'},
+    {"hrsh7th/cmp-path", after = 'nvim-cmp'},
+
+    --- lsp
+    {"ray-x/lsp_signature.nvim"},
+    {"kabouzeid/nvim-lspinstall"},
+    {"kosayoda/nvim-lightbulb"},
+    {
+        "neovim/nvim-lspconfig",
+        event = 'VimEnter',
+        requires = {{"hrsh7th/cmp-nvim-lsp", after = 'nvim-cmp'}},
+        after = {"cmp-nvim-lsp", 'nvim-lspinstall', 'lsp_signature.nvim', 'nvim-lightbulb'},
+        config = function()
+            require('plugins.lspconfig').config()
         end
     },
 
@@ -129,11 +142,10 @@ return {
         config = function()
             require('nvim-autopairs').setup {}
         end
-
     },
     {
         "itchyny/vim-cursorword",
-        envnt = "FileType",
+        envnt = "InsertCharPre",
         config = function()
             vim.fn['plugins#config']('vim-cursorword')
         end
@@ -165,14 +177,26 @@ return {
         "ojroques/vim-oscyank",
         event = 'VimEnter',
         config = function()
-            vim.fn['plugins#config']('oscyank')
+            vim.fn['plugins#config']('vim-oscyank')
         end
     },
     {
         "Pocco81/TrueZen.nvim",
         event = "VimEnter",
+        opt = true,
+        cmd = {"TZAtaraxis", "TZFocus", "TZMinimailist"},
         setup = function()
             require('plugins.truezen').setup()
+        end
+    },
+
+    --- colorizer
+    {
+        "norcalli/nvim-colorizer.lua",
+        event = "VimEnter",
+        after = "nvim-treesitter",
+        config = function()
+            require('plugins.colorizer').config()
         end
     },
 

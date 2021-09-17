@@ -48,10 +48,10 @@ local on_attach = function(client, bufnr)
     if client.resolved_capabilities.document_highlight then
         vim.api.nvim_exec(
             [[
-			augroup lsp_document_highlight
-				autocmd! * <buffer>
-			augroup END
-		]], false)
+            augroup lsp_document_highlight
+                autocmd! * <buffer>
+            augroup END
+        ]], false)
     end
 
     vim.cmd [[ command! Format execute 'lua vim.lsp.buf.formatting()' ]]
@@ -156,40 +156,36 @@ local function setup_servers()
 end
 
 local function config()
-    if vim.fn.has('vim_starting') then
-        -- See https://github.com/ray-x/lsp_signature.nvim
-        -- require('lsp_signature').setup({
-        -- 	bind = true,
-        -- 	hint_enable = false,
-        -- 	hint_prefix = ' ',  --  
-        -- 	handler_opts = { border = 'rounded' },
-        -- 	zindex = 50,
-        -- })
+    -- See https://github.com/ray-x/lsp_signature.nvim
+    require('lsp_signature').setup(
+        {
+            bind = true,
+            hint_prefix = ' ' --  
+        })
 
-        -- Setup LSP with lspinstall
-        setup_servers()
+    -- Setup LSP with lspinstall
+    setup_servers()
 
-        -- Automatically reload after `:LspInstall <server>`
-        require'lspinstall'.post_install_hook = function()
-            setup_servers() -- reload installed servers
-            if not vim.bo.modified and vim.bo.buftype == '' then
-                vim.cmd('bufdo e') -- starts server by triggering the FileType autocmd
-            end
+    -- Automatically reload after `:LspInstall <server>`
+    require'lspinstall'.post_install_hook = function()
+        setup_servers() -- reload installed servers
+        if not vim.bo.modified and vim.bo.buftype == '' then
+            vim.cmd('bufdo e') -- starts server by triggering the FileType autocmd
         end
-
-        -- global custom location-list diagnostics window toggle.
-        local args = {noremap = true, silent = true}
-        vim.api.nvim_set_keymap('n', '<Leader>a', '<cmd>lua require("user").diagnostic.publish_loclist(true)<CR>', args)
-
-        vim.api.nvim_exec(
-            [[
-                augroup user_lspconfig
-                        autocmd!
-                        " See https://github.com/kosayoda/nvim-lightbulb
-                        autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()
-                augroup END
-        ]], false)
     end
+
+    -- global custom location-list diagnostics window toggle.
+    local args = {noremap = true, silent = true}
+    vim.api.nvim_set_keymap('n', '<Leader>a', '<cmd>lua require("user").diagnostic.publish_loclist(true)<CR>', args)
+
+    vim.api.nvim_exec(
+        [[
+            augroup user_lspconfig
+                autocmd!
+                " See https://github.com/kosayoda/nvim-lightbulb
+                autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()
+            augroup END
+        ]], false)
 end
 
 return {config = config}

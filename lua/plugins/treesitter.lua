@@ -15,7 +15,7 @@ local function config()
             -- 		node_decremental = 'grm',
             -- 	},
             -- },
-            indent = {enable = true},
+            -- indent = {enable = true},
             autotag = {enable = true},
             textobjects = {
                 swap = {
