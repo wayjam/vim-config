@@ -24,7 +24,7 @@ vim.cmd("packadd packer.nvim")
 local packer = require('packer')
 
 local settings = {
-    profile = {enable = true, threshold = 1},
+    profile = {enable = false, threshold = 1},
     package_root = packer_package_root,
     compile_path = packer_compiled_path,
     git = {default_url_format = plug_url_format},
