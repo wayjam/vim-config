@@ -1,15 +1,9 @@
+local function status()
+    if #vim.lsp.buf_get_clients() > 0 then return require('lsp-status').status() end
+    return ''
+end
+
 local function config()
-    require('lsp-status').config(
-        {
-            indicator_separator = ':',
-            component_separator = '|',
-            indicator_errors = 'E',
-            indicator_warnings = 'W',
-            indicator_info = 'I',
-            indicator_hint = '!',
-            indicator_ok = 'OK',
-            status_symbol = 'LSP'
-        })
     require('lualine').setup {
         options = {
             theme = 'onedark',
@@ -19,7 +13,7 @@ local function config()
         },
         sections = {
             lualine_a = {{'mode', lower = false, color = {cterm = 'none', gui = 'none'}}},
-            lualine_c = {"filename", "os.data('%a')", 'data', require'lsp-status'.status}
+            lualine_c = {"filename", "os.data('%a')", 'data', status}
         }
 
     }

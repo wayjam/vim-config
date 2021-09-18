@@ -1,7 +1,12 @@
+local signs = require('utils').signs
+
 local on_attach = function(client, bufnr)
     local function map_buf(...)
         vim.api.nvim_buf_set_keymap(bufnr, ...)
     end
+
+    require('lsp-status').on_attach(client)
+
     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
     if client.config.flags then
@@ -59,28 +64,20 @@ local on_attach = function(client, bufnr)
 end
 
 -- Diagnostics signs and highlights
---   Error:   ✘
---   Warning:  ⚠ 
---   Hint:  
---   Information:   ⁱ
-local signs = {Error = '✘', Warning = '', Hint = '', Information = 'ⁱ'}
 for type, icon in pairs(signs) do
     local hl = 'LspDiagnosticsSign' .. type
     vim.fn.sign_define(hl, {text = icon, texthl = hl, numhl = hl})
 end
 
--- Setup CompletionItemKind symbols, see lua/lsp_kind.lua
--- require('lsp_kind').init()
+-- Setup CompletionItemKind symbols, see lua/lsp/kind.lua
+require('lsp.kind').setup()
 
 -- Configure diagnostics publish settings
 vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
                                                           vim.lsp.diagnostic.on_publish_diagnostics, {
         update_in_insert = false,
         underline = false,
-        virtual_text = {
-            spacing = 4
-            -- prefix = '',
-        },
+        virtual_text = {spacing = 4},
         signs = function(bufnr, _)
             return vim.bo[bufnr].buftype == ''
         end
@@ -111,6 +108,7 @@ vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
         border = 'rounded'
     })
 
+
 -- Combine base config for each server and merge user-defined settings.
 local function make_config(server_name)
     -- Setup base config for each server.
@@ -118,6 +116,8 @@ local function make_config(server_name)
     c.on_attach = on_attach
     c.capabilities = vim.lsp.protocol.make_client_capabilities()
     c.capabilities = require('cmp_nvim_lsp').update_capabilities(c.capabilities)
+    c.capabilities = vim.tbl_extend('keep', c.capabilities or {}, require('lsp-status').capabilities)
+
     -- c.capabilities.textDocument.completion.completionItem.snippetSupport = true
     -- c.capabilities.textDocument.completion.completionItem.resolveSupport = {
     -- 	properties = {
@@ -156,8 +156,24 @@ local function setup_servers()
 end
 
 local function config()
-    -- See https://github.com/ray-x/lsp_signature.nvim
-    require('lsp_signature').setup(
+    local lsp_install = require('lspinstall')
+    local lsp_signature = require('lsp_signature')
+    local lsp_status = require('lsp-status')
+
+    lsp_status.register_progress()
+    lsp_status.config(
+        {
+            indicator_separator = ' ',
+            component_separator = ' | ',
+            indicator_errors = signs.Error,
+            indicator_warnings = signs.Warning,
+            indicator_info = signs.Information,
+            indicator_hint = signs.Hint,
+            indicator_ok = '✔',
+            status_symbol = 'LSP'
+        })
+
+    lsp_signature.setup(
         {
             bind = true,
             hint_prefix = ' ' --  
@@ -167,7 +183,7 @@ local function config()
     setup_servers()
 
     -- Automatically reload after `:LspInstall <server>`
-    require'lspinstall'.post_install_hook = function()
+    lsp_install.post_install_hook = function()
         setup_servers() -- reload installed servers
         if not vim.bo.modified and vim.bo.buftype == '' then
             vim.cmd('bufdo e') -- starts server by triggering the FileType autocmd

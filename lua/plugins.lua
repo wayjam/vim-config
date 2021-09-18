@@ -30,6 +30,7 @@ return {
         'hoob3rt/lualine.nvim',
         event = 'VimEnter',
         requires = {'kyazdani42/nvim-web-devicons', "nvim-lua/lsp-status.nvim"},
+        after = {'lsp-status.nvim'},
         config = function()
             require("plugins.lualine").config()
         end
@@ -47,6 +48,16 @@ return {
         requires = {'nvim-lua/plenary.nvim'},
         config = function()
             require('plugins.gitsigns').config()
+        end
+    },
+    {
+        "folke/trouble.nvim",
+        cmd = {"Trouble", "TroubleToggle"},
+        setup = function()
+            require('plugins.trouble').setup()
+        end,
+        config = function()
+            require('plugins.trouble').config()
         end
     },
 
@@ -122,10 +133,11 @@ return {
     {"ray-x/lsp_signature.nvim"},
     {"kabouzeid/nvim-lspinstall"},
     {"kosayoda/nvim-lightbulb"},
+    {"nvim-lua/lsp-status.nvim"},
     {
         "neovim/nvim-lspconfig",
         event = 'VimEnter',
-        after = {"cmp-nvim-lsp", 'nvim-lspinstall', 'lsp_signature.nvim', 'nvim-lightbulb'},
+        after = {"cmp-nvim-lsp", 'nvim-lspinstall', 'lsp_signature.nvim', 'nvim-lightbulb', 'lsp-status.nvim'},
         config = function()
             require('plugins.lspconfig').config()
         end
