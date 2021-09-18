@@ -4,12 +4,7 @@ local packer_install_dir = vim.g['DATA_PATH'] .. "/site/pack/packer/opt/packer.n
 local packer_compiled_path = vim.g['DATA_PATH'] .. "/packer_compiled.lua"
 local packer_package_root = vim.g['DATA_PATH'] .. "/site/pack"
 
-local plug_url_format = ""
-if vim.g.is_linux then
-    plug_url_format = "https://hub.fastgit.org/%s"
-else
-    plug_url_format = "https://github.com/%s"
-end
+local plug_url_format = "https://github.com/%s"
 
 local packer_repo = string.format(plug_url_format, "wbthomason/packer.nvim")
 local install_cmd = string.format("10split |term git clone --depth=1 %s %s", packer_repo, packer_install_dir)
@@ -18,6 +13,7 @@ local install_cmd = string.format("10split |term git clone --depth=1 %s %s", pac
 if vim.fn.glob(packer_install_dir) == "" then
     vim.api.nvim_echo({{"Installing packer.nvim", "Type"}}, true, {})
     vim.cmd(install_cmd)
+    print("You shoud run `:PackerSync` at first time.")
 end
 
 vim.cmd("packadd packer.nvim")
@@ -48,7 +44,11 @@ local function startup()
             end,
             config = settings
         })
-    if utils.file_exists(packer_compiled_path) then vim.cmd('source ' .. packer_compiled_path) end
+    if utils.file_exists(packer_compiled_path) then
+        vim.cmd('source ' .. packer_compiled_path)
+    else
+        packer.compile()
+    end
 end
 
 return {startup = startup}

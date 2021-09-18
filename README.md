@@ -38,8 +38,10 @@ Update Plugin(the plugins are not updated automatically):
 Using the Neovim's built-in language server client with \[nvim-lspconfig]\(https:
 //github.com/neovim/nvim-lspconfig), and you can install lsp server with [lsp-install](https://github.com/kabouzeid/nvim-lspinstall):
 
-    :LspInstall rust
-    :LspInstall go
+```
+:LspInstall rust
+:LspInstall go
+```
 
 ### Complete
 
@@ -55,6 +57,12 @@ Create your config named `customize.vim` at the root of this repo, edit it and s
 cd ~/.config/nvim
 git pull --ff --ff-only
 ```
+
+## Troubleshooting
+
+#### treesitter compile: `error trying to exec 'cc1plus': execvp: No such file or directory`
+
+Just get g++ installed and then treesitter works.
 
 ## Contributing
 
