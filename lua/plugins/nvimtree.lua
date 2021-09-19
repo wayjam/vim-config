@@ -24,11 +24,12 @@ local settings = {
     auto_close = 1,
     quit_on_open = 0,
     follow = 1,
+    git_hl = 0,
     hide_dotfiles = 0,
     root_folder_modifier = ":t",
     tab_open = 0,
     allow_resize = 1,
-    lsp_diagnostics = 00,
+    lsp_diagnostics = 0,
     auto_ignore_ft = {"startify", "dashboard"},
     icons = {
         default = "",
@@ -47,15 +48,11 @@ local settings = {
 }
 
 local function on_open()
-    if package.loaded["bufferline.state"] and settings.side == "left" then
-        require("bufferline.state").set_offset(settings.width + 1, "")
-    end
 end
 
 local function on_close()
     local buf = tonumber(vim.fn.expand "<abuf>")
     local ft = vim.api.nvim_buf_get_option(buf, "filetype")
-    if ft == "NvimTree" and package.loaded["bufferline.state"] then require("bufferline.state").set_offset(0) end
 end
 
 local function config()
