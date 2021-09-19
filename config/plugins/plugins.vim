@@ -30,24 +30,6 @@ function! plugins#config(name)
 	endif
 
 	if a:name ==# 'vim-go'
-		let g:go_highlight_array_whitespace_error = 0
-		let g:go_highlight_chan_whitespace_error = 0
-		let g:go_highlight_space_tab_error = 0
-		let g:go_highlight_trailing_whitespace_error = 0
-		let g:go_highlight_extra_types = 1
-		let g:go_highlight_build_constraints = 1
-		let g:go_highlight_extra_types = 1
-		let g:go_highlight_fields = 1
-		let g:go_highlight_format_strings = 1
-		let g:go_highlight_functions = 1
-		let g:go_highlight_function_calls = 1
-		let g:go_highlight_function_parameters = 1
-		let g:go_highlight_types = 1
-		let g:go_highlight_generate_tags = 1
-		let g:go_highlight_operators = 1
-		let g:go_highlight_string_spellcheck = 0
-		let g:go_highlight_variable_declarations = 0
-		let g:go_highlight_variable_assignments = 0
 		let g:go_term_enabled = 0
 		let g:go_def_mapping_enabled = 0
 		let g:go_diagnostics_enabled = 0
@@ -55,17 +37,7 @@ function! plugins#config(name)
 		let g:go_gopls_enabled = 0
 		let g:go_code_completion_enabled = 0
 		let g:go_doc_keywordprg_enabled = 0
-		autocmd user_events FileType go
-					\   nmap <C-]> <Plug>(go-def)
-					\ | nmap <localleader>god  <Plug>(go-describe)
-					\ | nmap <localleader>goc  <Plug>(go-callees)
-					\ | nmap <localleader>goC  <Plug>(go-callers)
-					\ | nmap <localleader>goi  <Plug>(go-info)
-					\ | nmap <localleader>gom  <Plug>(go-implements)
-					\ | nmap <localleader>gos  <Plug>(go-callstack)
-					\ | nmap <localleader>goe  <Plug>(go-referrers)
-					\ | nmap <localleader>gor  <Plug>(go-run)
-					\ | nmap <localleader>gov  <Plug>(go-vet)
+		let g:go_textobj_enabled = 1
 	endif
 
 	if a:name ==# 'vim-commentary'
@@ -115,13 +87,13 @@ function! plugins#config(name)
 	if a:name ==# 'vim-editorconfig'
 		let g:editorconfig_verbose = 1
 		let g:editorconfig_blacklist = {
-					\ 'filetype': [
-						\   'git.*', 'fugitive', 'help', 'defx', 'denite.*', 'startify',
-						\   'vista.*', 'tagbar', 'lsp-.*', 'clap_.*', 'any-jump', 'gina-.*',
-						\   'lsp-*'
-						\  ],
-						\ 'pattern': ['\.un~$']
-						\ }
+		\ 'filetype': [
+			\   'git.*', 'fugitive', 'help', 'defx', 'denite.*', 'startify',
+			\   'vista.*', 'tagbar', 'lsp-.*', 'clap_.*', 'any-jump', 'gina-.*',
+			\   'lsp-*'
+			\  ],
+			\ 'pattern': ['\.un~$']
+			\ }
 
 	endif
 
@@ -130,14 +102,14 @@ function! plugins#config(name)
 		augroup user_plugin_cursorword
 			autocmd!
 			autocmd FileType json,yaml,markdown,nginx,dosini,conf,text
-						\ let b:cursorword = 1
+				\ let b:cursorword = 1
 			autocmd WinEnter * if &diff || &pvw | let b:cursorword = 0 | endif
 			autocmd InsertEnter * if get(b:, 'cursorword', 0) == 1
-						\| let b:cursorword = 0
-						\| endif
+				\| let b:cursorword = 0
+				\| endif
 			autocmd InsertLeave * if get(b:, 'cursorword', 1) == 0
-						\| let b:cursorword = 1
-						\| endif
+				\| let b:cursorword = 1
+				\| endif
 		augroup END
 	endif
 
@@ -152,18 +124,18 @@ function! plugins#config(name)
 		let g:vim_markdown_no_extensions_in_markdown = 1
 		let g:vim_markdown_edit_url_in = 'vsplit'
 		let g:vim_markdown_fenced_languages = [
-					\ 'c++=cpp',
-					\ 'viml=vim',
-					\ 'bash=sh',
-					\ 'ini=dosini',
-					\ 'js=javascript',
-					\ 'json=javascript',
-					\ 'jsx=javascriptreact',
-					\ 'tsx=typescriptreact',
-					\ 'docker=Dockerfile',
-					\ 'makefile=make',
-					\ 'py=python'
-					\ ]
+			\ 'c++=cpp',
+			\ 'viml=vim',
+			\ 'bash=sh',
+			\ 'ini=dosini',
+			\ 'js=javascript',
+			\ 'json=javascript',
+			\ 'jsx=javascriptreact',
+			\ 'tsx=typescriptreact',
+			\ 'docker=Dockerfile',
+			\ 'makefile=make',
+			\ 'py=python'
+			\ ]
 	endif
 
 	if a:name ==# 'emmet-vim'
@@ -182,7 +154,7 @@ function! plugins#config(name)
 	if a:name ==# 'sleuth'
 		let g:sleuth_neighbor_limit = 5
 		autocmd user_events FileType markdown,yaml,help
-					\ let b:sleuth_automatic = 0
+			\ let b:sleuth_automatic = 0
 	end
 
 endfunction
