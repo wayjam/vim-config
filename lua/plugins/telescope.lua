@@ -223,6 +223,8 @@ local config = function()
 
                     ['<Tab>'] = actions.move_selection_next,
                     ['<S-Tab>'] = actions.move_selection_previous,
+                    ['<C-j>'] = actions.move_selection_next,
+                    ['<C-k>'] = actions.move_selection_previous,
                     ['<C-u>'] = myactions.page_up,
                     ['<C-d>'] = myactions.page_down,
 

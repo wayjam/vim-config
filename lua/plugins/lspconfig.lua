@@ -84,22 +84,12 @@ vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
     })
 
 -- Open references in quickfix window and jump to first item.
--- local on_references = vim.lsp.handlers['textDocument/references']
--- vim.lsp.handlers['textDocument/references'] = vim.lsp.with(
--- 	on_references, {
--- 		-- Use location list instead of quickfix list
--- 		loclist = true,
--- 	}
--- )
-vim.lsp.handlers['textDocument/references'] = function(_, _, result, _, bufnr, _)
-    if not result or vim.tbl_isempty(result) then
-        vim.notify('No references found')
-    else
-        vim.lsp.util.set_qflist(vim.lsp.util.locations_to_items(result, bufnr))
-        require('user').qflist.open()
-        vim.api.nvim_command('.cc')
-    end
-end
+local on_references = vim.lsp.handlers['textDocument/references']
+vim.lsp.handlers['textDocument/references'] = vim.lsp.with(
+                                                  on_references, {
+        -- Use location list instead of quickfix list
+        loclist = true
+    })
 
 -- Configure hover (normal K) handle
 vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
@@ -107,7 +97,6 @@ vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
         -- Use a sharp border with `FloatBorder` highlights
         border = 'rounded'
     })
-
 
 -- Combine base config for each server and merge user-defined settings.
 local function make_config(server_name)
@@ -117,15 +106,10 @@ local function make_config(server_name)
     c.capabilities = vim.lsp.protocol.make_client_capabilities()
     c.capabilities = require('cmp_nvim_lsp').update_capabilities(c.capabilities)
     c.capabilities = vim.tbl_extend('keep', c.capabilities or {}, require('lsp-status').capabilities)
-
-    -- c.capabilities.textDocument.completion.completionItem.snippetSupport = true
-    -- c.capabilities.textDocument.completion.completionItem.resolveSupport = {
-    -- 	properties = {
-    -- 		'documentation',
-    -- 		'detail',
-    -- 		'additionalTextEdits',
-    -- 	}
-    -- }
+    c.capabilities.textDocument.completion.completionItem.snippetSupport = true
+    c.capabilities.textDocument.completion.completionItem.resolveSupport = {
+        properties = {'documentation', 'detail', 'additionalTextEdits'}
+    }
 
     -- Merge user-defined lsp settings.
     -- These can be overridden locally by lua/lsp-local/<server_name>.lua

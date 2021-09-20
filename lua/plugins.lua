@@ -57,6 +57,7 @@ return {
     {
         "folke/trouble.nvim",
         cmd = {"Trouble", "TroubleToggle"},
+        after = {"nvim-lspconfig"},
         setup = function()
             require('plugins.trouble').setup()
         end,
