@@ -96,7 +96,6 @@ local function config()
         {key = "[c", cb = tree_cb("prev_git_item")},
         {key = "]c", cb = tree_cb("next_git_item")},
         {key = "-", cb = tree_cb("dir_up")},
-        {key = "s", cb = tree_cb("system_open")},
         {key = "q", cb = tree_cb("close")},
         {key = "g?", cb = tree_cb("toggle_help")}
     }

@@ -206,7 +206,7 @@ nnoremap <silent> [Window]x  :<C-u>call <SID>window_empty_buffer()<CR>
 
 " Split current buffer, go to previous window and previous buffer
 nnoremap <silent> <Leader>sp :split<CR>:wincmd p<CR>:e#<CR>
-nnoremap <silent> <Leader>vsp :vsplit<CR>:wincmd p<CR>:e#<CR>
+nnoremap <silent> <Leader>sv :vsplit<CR>:wincmd p<CR>:e#<CR>
 
 " Buffer
 nnoremap <silent> <Leader>bp :bprevious<CR>
@@ -228,14 +228,6 @@ nnoremap <C-J> <C-W>j
 nnoremap <C-K> <C-W>k
 nnoremap <C-L> <C-W>l
 nnoremap <C-H> <C-W>h
-nnoremap <Leader>ww <C-W>w
-nnoremap <Leader>wr <C-W>r
-nnoremap <Leader>wd <C-W>c
-nnoremap <Leader>wq <C-W>q
-nnoremap <Leader>wj <C-W>j
-nnoremap <Leader>wk <C-W>k
-nnoremap <Leader>wh <C-W>h
-nnoremap <Leader>wl <C-W>l
 if has('nvim') || has('terminal')
   tnoremap <Leader>wj <C-W>j
   tnoremap <Leader>wk <C-W>k
@@ -250,8 +242,6 @@ nnoremap <Leader>w= <C-W>=
 nnoremap <Leader>ws <C-W>s
 nnoremap <Leader>w- <C-W>s
 nnoremap <Leader>wv <C-W>v
-nnoremap <Leader>w\| <C-W>v
-nnoremap <Leader>w2 <C-W>v
 
 function! s:window_empty_buffer()
   let l:current = bufnr('%')
@@ -303,8 +293,6 @@ nnoremap <Leader>y :call <SID>add_to_register(expand("%:~:."))<CR>:echo 'Yanked 
 nnoremap <Leader>Y :call <SID>add_to_register(expand("%:p"))<CR>:echo 'Yanked absolute path'<CR>
 
 " Drag current line/s vertically and auto-indent
-"nnoremap <Leader>k :m .-2<CR>==
-"nnoremap <Leader>j :m +1<CR>==
 vnoremap <Leader>k :m '<-2<CR>gv=gv
 vnoremap <Leader>j :m '>+<CR>gv=gv
 
