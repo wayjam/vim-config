@@ -324,6 +324,12 @@ local config = function()
     }
 
     -- Telescope extensions are loaded in each plugin.
+    if packer_plugins["cmp"] and packer_plugins["cmp"].loaded then
+        vim.api.nvim_exec(
+            [[   
+            autocmd FileType TelescopePrompt lua require('cmp').setup.buffer { enabled = false }
+        ]], false)
+    end
 end
 
 -- Public functions

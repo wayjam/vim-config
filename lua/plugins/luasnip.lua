@@ -15,13 +15,13 @@ local function config()
         delete_check_events = "TextChanged,TextChangedI"
     }
 
-    require("luasnip.loaders.from_vscode").load {}
+    require("luasnip.loaders.from_vscode").lazy_load {}
 
-    local opt = {noremap = true, silent = true}
-    vim.api.nvim_set_keymap("i", "<C-j>", [[<Cmd>lua require('plugins.luasnip').expand_or_jump() <CR>]], opt)
-    vim.api.nvim_set_keymap("i", "<C-k>", [[<Cmd>lua require('plugins.luasnip').jump(-1) <CR>]], opt)
-    vim.api.nvim_set_keymap("s", "<C-j>", [[<Cmd>lua require('plugins.luasnip').jump(1) <CR>]], opt)
-    vim.api.nvim_set_keymap("s", "<C-k>", [[<Cmd>lua require('plugins.luasnip').jump(-1) <CR>]], opt)
+    -- local opt = {noremap = true, silent = true}
+    -- vim.api.nvim_set_keymap("i", "<C-j>", [[<Cmd>lua require('plugins.luasnip').expand_or_jump() <CR>]], opt)
+    -- vim.api.nvim_set_keymap("i", "<C-k>", [[<Cmd>lua require('plugins.luasnip').jump(-1) <CR>]], opt)
+    -- vim.api.nvim_set_keymap("s", "<C-j>", [[<Cmd>lua require('plugins.luasnip').jump(1) <CR>]], opt)
+    -- vim.api.nvim_set_keymap("s", "<C-k>", [[<Cmd>lua require('plugins.luasnip').jump(-1) <CR>]], opt)
 
 end
 

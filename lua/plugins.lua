@@ -29,6 +29,12 @@ return {
             require('plugins.treesitter').config()
         end
     },
+    {
+        "nvim-treesitter/nvim-treesitter-textobjects",
+        config = function()
+            require('plugins.treesitter').textobjects()
+        end
+    },
     {"kyazdani42/nvim-web-devicons"},
     {
         'hoob3rt/lualine.nvim',
@@ -155,7 +161,7 @@ return {
         after = "nvim-cmp",
         event = "InsertCharPre",
         config = function()
-            require('nvim-autopairs').setup {}
+            require('plugins.autopairs').config()
         end
     },
     {

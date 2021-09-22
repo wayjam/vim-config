@@ -87,7 +87,7 @@ nnoremap cc "_cc
 xnoremap c "_c
 
 " Toggle fold
-nnoremap <CR> za
+nnoremap <leader>z za
 
 " Focus the current fold by closing all others
 nnoremap <S-Return> zMzvzt

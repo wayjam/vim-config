@@ -6,32 +6,34 @@ local function config()
         {
             ensure_installed = 'maintained', -- all, maintained, or list of languages
             highlight = {enable = true},
-            -- incremental_selection = {
-            -- 	enable = true,
-            -- 	keymaps = {
-            -- 		init_selection = 'gnn',
-            -- 		node_incremental = 'grn',
-            -- 		scope_incremental = 'grc',
-            -- 		node_decremental = 'grm',
-            -- 	},
-            -- },
-            -- indent = {enable = true},
+            indent = {enable = true},
             autotag = {enable = true},
-            textobjects = {
-                swap = {
-                    enable = false
-                    -- swap_next = textobj_swap_keymaps,
-                },
-                -- move = textobj_move_keymaps,
-                select = {
-                    enable = false
-                    -- keymaps = textobj_sel_keymaps,
-                }
-            },
+            autopairs = {enable = true},
             refactor = {highlight_definitions = {enable = true}, highlight_current_scope = {enable = true}}
         })
-    vim.api.nvim_set_option('foldmethod', "expr")
-    vim.api.nvim_set_option('foldexpr', "nvim_treesitter#foldexpr()")
+    vim.o.foldmethod = 'expr'
+    vim.o.foldexpr = "nvim_treesitter#foldexpr()"
 end
 
-return {setup = setup, config = config}
+local function textobjects()
+    require('nvim-treesitter.configs').setup(
+        {
+            textobjects = {
+                select = {
+                    enable = true,
+                    -- Automatically jump forward to textobj, similar to targets.vim
+                    lookahead = true,
+                    keymaps = {
+                        -- You can use the capture groups defined in textobjects.scm
+                        ['af'] = '@function.outer',
+                        ['if'] = '@function.inner',
+                        ['ac'] = '@class.outer',
+                        ['ic'] = '@class.inner'
+                    }
+                },
+                swap = {enable = false}
+            }
+        })
+end
+
+return {setup = setup, config = config, textobjects = textobjects}

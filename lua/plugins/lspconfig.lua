@@ -20,7 +20,7 @@ local on_attach = function(client, bufnr)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gR', '<cmd>lua vim.lsp.buf.references()<CR>', opts) --- using trouble
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gt', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gy', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<localleader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
@@ -99,6 +99,14 @@ local function make_config(server_name)
     c.capabilities = require('cmp_nvim_lsp').update_capabilities(c.capabilities)
     c.capabilities = vim.tbl_extend('keep', c.capabilities or {}, require('lsp-status').capabilities)
     c.capabilities.textDocument.completion.completionItem.snippetSupport = true
+    c.capabilities.textDocument.completion.completionItem.documentationFormat = {'markdown', 'plaintext'}
+    c.capabilities.textDocument.completion.completionItem.snippetSupport = true
+    c.capabilities.textDocument.completion.completionItem.preselectSupport = true
+    c.capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
+    c.capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
+    c.capabilities.textDocument.completion.completionItem.deprecatedSupport = true
+    c.capabilities.textDocument.completion.completionItem.commitCharactersSupport = true
+    c.capabilities.textDocument.completion.completionItem.tagSupport = {valueSet = {1}}
     c.capabilities.textDocument.completion.completionItem.resolveSupport = {
         properties = {'documentation', 'detail', 'additionalTextEdits'}
     }

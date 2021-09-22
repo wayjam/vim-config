@@ -13,7 +13,8 @@ local function config()
         },
         sections = {
             lualine_a = {{'mode', lower = false, color = {cterm = 'none', gui = 'none'}}},
-            lualine_c = {"filename", "os.data('%a')", 'data', status}
+            lualine_c = {"filename", "os.data('%a')", 'data', status},
+            lualine_z = {{'location', lower = false, color = {cterm = 'none', gui = 'none'}}}
         }
 
     }
