@@ -159,7 +159,7 @@ return {
     {
         "windwp/nvim-autopairs",
         after = "nvim-cmp",
-        event = "InsertCharPre",
+        event = "VimEnter",
         config = function()
             require('plugins.autopairs').config()
         end
