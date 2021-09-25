@@ -23,7 +23,7 @@ local function config()
                     luasnip = "(Snippet)",
                     buffer = "(Buffer)"
                 })[entry.source.name]
-                -- vim_item.dup = ({buffer = 1, path = 1, nvim_lsp = 0})[entry.source.name] or 0
+                vim_item.dup = ({buffer = 1, path = 1, nvim_lsp = 0})[entry.source.name] or 0
                 return vim_item
             end
         },
@@ -40,14 +40,16 @@ local function config()
         mapping = {
             ['<C-p>'] = cmp.mapping.select_prev_item(),
             ['<C-n>'] = cmp.mapping.select_next_item(),
-            ["<C-d>"] = cmp.mapping.scroll_docs(-4),
-            ["<C-f>"] = cmp.mapping.scroll_docs(4),
+            ["<C-u>"] = cmp.mapping.scroll_docs(-4),
+            ["<C-d>"] = cmp.mapping.scroll_docs(4),
             ['<Tab>'] = function(fallback)
                 if vim.fn.pumvisible() == 1 then
                     vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-n>', true, true, true), 'n')
                 elseif luasnip.expand_or_jumpable() then
                     vim.fn.feedkeys(
                         vim.api.nvim_replace_termcodes('<Plug>luasnip-expand-or-jump', true, true, true), '')
+                elseif check_back_space() then
+                    vim.fn.feedkeys(t('<Tab>'), 'n')
                 else
                     fallback()
                 end
@@ -57,6 +59,8 @@ local function config()
                     vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-p>', true, true, true), 'n')
                 elseif luasnip.jumpable(-1) then
                     vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>luasnip-jump-prev', true, true, true), '')
+                elseif check_back_space() then
+                    vim.fn.feedkeys(t('<C-h>'), 'n')
                 else
                     fallback()
                 end

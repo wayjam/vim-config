@@ -131,7 +131,7 @@ return {
     {
         "hrsh7th/nvim-cmp",
         config = function()
-            require('plugins.complete').config()
+            require('plugins.cmp').config()
         end
     },
     {"saadparwaiz1/cmp_luasnip", after = {"nvim-cmp", "LuaSnip"}},
@@ -147,12 +147,14 @@ return {
     {"nvim-lua/lsp-status.nvim"},
     {
         "neovim/nvim-lspconfig",
-        event = 'VimEnter',
         after = {"cmp-nvim-lsp", 'nvim-lspinstall', 'lsp_signature.nvim', 'nvim-lightbulb', 'lsp-status.nvim'},
         config = function()
             require('plugins.lspconfig').config()
         end
     },
+
+    --- debugger
+    {"mfussenegger/nvim-dap", event = "VimEnter"},
 
     --- editing
     {"tpope/vim-surround", event = "InsertCharPre"},
@@ -224,11 +226,11 @@ return {
 
     --- languages specifies
     {
-        "fatih/vim-go",
+        "ray-x/go.nvim",
         ft = {"go", "go.mod"},
-        run = ":GoInstallBinaries",
+        after = {"nvim-lspconfig"},
         config = function()
-            vim.fn['plugins#config']('vim-go')
+            require('plugins.go').config()
         end
     },
     {

@@ -1,6 +1,7 @@
 local function config()
-    require('nvim-autopairs').setup(
-        {check_ts = true, enable_check_bracket_line = true, disable_filetype = {"TelescopePrompt"}})
+    local npairs = require("nvim-autopairs")
+
+    npairs.setup({check_ts = true, enable_check_bracket_line = true, disable_filetype = {"TelescopePrompt"}})
 
     require("nvim-autopairs.completion.cmp").setup(
         {

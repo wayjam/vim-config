@@ -1,7 +1,7 @@
 local config = {
     filetypes = {
         "dockerfile",
-        "go",
+        -- "go",
         "javascript",
         "javascriptreact",
         "typescript",
@@ -31,12 +31,7 @@ local config = {
                     message = "${message} [${code}]",
                     security = "level"
                 },
-                securities = {
-                    error = "error",
-                    warning = "warning",
-                    info = "info",
-                    style = "hint"
-                }
+                securities = {error = "error", warning = "warning", info = "info", style = "hint"}
             },
             eslint = {
                 command = "./node_modules/.bin/eslint",
@@ -53,10 +48,7 @@ local config = {
                     message = "[eslint] ${message} [${ruleId}]",
                     security = "severity"
                 },
-                securities = {
-                    [2] = "error",
-                    [1] = "warning"
-                }
+                securities = {[2] = "error", [1] = "warning"}
             },
             ["golangci-lint"] = {
                 command = "golangci-lint",
@@ -72,9 +64,7 @@ local config = {
                     column = "Pos.Column",
                     message = "${Text} [${FromLinter}]"
                 },
-                securities = {
-                    undefined = "info"
-                }
+                securities = {undefined = "info"}
             },
             revive = {
                 command = "revive",
@@ -82,35 +72,16 @@ local config = {
                 debounce = 100,
                 args = {"%file"},
                 sourceName = "revive",
-                formatPattern = {
-                    "^[^:]+:(\\d+):(\\d+):\\s+(.*)$",
-                    {
-                        line = 1,
-                        column = 2,
-                        message = {3}
-                    }
-                },
-                securities = {
-                    undefined = "info"
-                }
+                formatPattern = {"^[^:]+:(\\d+):(\\d+):\\s+(.*)$", {line = 1, column = 2, message = {3}}},
+                securities = {undefined = "info"}
             },
             hadolint = {
                 command = "hadolint",
                 sourceName = "hadolint",
                 args = {"-f", "json", "-"},
                 rootPatterns = {".hadolint.yaml"},
-                parseJson = {
-                    line = "line",
-                    column = "column",
-                    security = "level",
-                    message = "${message} [${code}]"
-                },
-                securities = {
-                    error = "error",
-                    warning = "warning",
-                    info = "info",
-                    style = "hint"
-                }
+                parseJson = {line = "line", column = "column", security = "level", message = "${message} [${code}]"},
+                securities = {error = "error", warning = "warning", info = "info", style = "hint"}
             },
             languagetool = {
                 command = "languagetool",
@@ -122,15 +93,9 @@ local config = {
                 formatLines = 2,
                 formatPattern = {
                     "^\\d+?\\.\\)\\s+Line\\s+(\\d+),\\s+column\\s+(\\d+),\\s+([^\\n]+)\nMessage:\\s+(.*)(\\r|\\n)*$",
-                    {
-                        line = 1,
-                        column = 2,
-                        message = {4, 3}
-                    }
+                    {line = 1, column = 2, message = {4, 3}}
                 },
-                securities = {
-                    undefined = "hint"
-                }
+                securities = {undefined = "hint"}
             },
             markdownlint = {
                 command = "markdownlint",
@@ -144,15 +109,9 @@ local config = {
                 formatLines = 1,
                 formatPattern = {
                     "^.*?:\\s?(\\d+)(:(\\d+)?)?\\s(MD\\d{3}\\/[A-Za-z0-9-/]+)\\s(.*)$",
-                    {
-                        line = 1,
-                        column = 3,
-                        message = {4}
-                    }
+                    {line = 1, column = 3, message = {4}}
                 },
-                securities = {
-                    undefined = "hint"
-                }
+                securities = {undefined = "hint"}
             },
             vint = {
                 command = "vint",
@@ -162,14 +121,7 @@ local config = {
                 offsetColumn = 0,
                 sourceName = "vint",
                 formatLines = 1,
-                formatPattern = {
-                    "[^:]+:(\\d+):(\\d+):\\s*(.*)(\\r|\\n)*$",
-                    {
-                        line = 1,
-                        column = 2,
-                        message = 3
-                    }
-                }
+                formatPattern = {"[^:]+:(\\d+):(\\d+):\\s*(.*)(\\r|\\n)*$", {line = 1, column = 2, message = 3}}
             },
             ["write-good"] = {
                 command = "write-good",
@@ -181,15 +133,9 @@ local config = {
                 formatLines = 1,
                 formatPattern = {
                     "(.*)\\s+on\\s+line\\s+(\\d+)\\s+at\\s+column\\s+(\\d+)\\s*$",
-                    {
-                        line = 2,
-                        column = 3,
-                        message = 1
-                    }
+                    {line = 2, column = 3, message = 1}
                 },
-                securities = {
-                    undefined = "hint"
-                }
+                securities = {undefined = "hint"}
             }
         },
         filetypes = {
@@ -206,25 +152,10 @@ local config = {
             vim = "vint"
         },
         formatters = {
-            prettierEslint = {
-                command = "prettier-eslint",
-                args = {"--stdin"},
-                rootPatterns = {".git"}
-            },
-            eslint = {
-                command = "eslint",
-                args = {"--stdin", "--fix"},
-                rootPatterns = {".git"}
-            },
-            prettier = {
-                command = "prettier",
-                args = {"--stdin-filepath", "%file"}
-            },
-            luaformat = {
-                command = "lua-format",
-                args = {"%file", "-i"},
-                doesWriteToFile = true
-            }
+            prettierEslint = {command = "prettier-eslint", args = {"--stdin"}, rootPatterns = {".git"}},
+            eslint = {command = "eslint", args = {"--stdin", "--fix"}, rootPatterns = {".git"}},
+            prettier = {command = "prettier", args = {"--stdin-filepath", "%file"}},
+            luaformat = {command = "lua-format", args = {"%file", "-i"}, doesWriteToFile = true}
         },
         formatFiletypes = {
             javascript = "eslint",

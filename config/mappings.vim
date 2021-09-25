@@ -30,8 +30,8 @@ if has('nvim') || has('terminal')
 endif
 
 " jump
-nnoremap g- <C-O>
-nnoremap g= <C-I>
+nnoremap g[ <C-O>
+nnoremap g] <C-I>
 
 " Insert mode shortcut
 inoremap <C-j> <Down>
