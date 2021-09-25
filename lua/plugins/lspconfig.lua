@@ -15,10 +15,7 @@ local on_attach = function(client, bufnr)
     end
 
     -- Keyboard mappings
-    local opts = {
-        noremap = true,
-        silent = true
-    }
+    local opts = {noremap = true, silent = true}
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gR', '<cmd>lua vim.lsp.buf.references()<CR>', opts) --- using trouble
@@ -71,12 +68,7 @@ end
 -- Diagnostics signs and highlights
 for type, icon in pairs(signs) do
     local hl = 'LspDiagnosticsSign' .. type
-    vim.fn.sign_define(
-        hl, {
-            text = icon,
-            texthl = hl,
-            numhl = hl
-        })
+    vim.fn.sign_define(hl, {text = icon, texthl = hl, numhl = hl})
 end
 
 -- Setup CompletionItemKind symbols, see lua/lsp/kind.lua
@@ -87,9 +79,7 @@ vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
                                                           vim.lsp.diagnostic.on_publish_diagnostics, {
         update_in_insert = false,
         underline = false,
-        virtual_text = {
-            spacing = 4
-        },
+        virtual_text = {spacing = 4},
         signs = function(bufnr, _)
             return vim.bo[bufnr].buftype == ''
         end
@@ -97,16 +87,10 @@ vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
 
 -- Open references in quickfix window and jump to first item.
 local on_references = vim.lsp.handlers['textDocument/references']
-vim.lsp.handlers['textDocument/references'] = vim.lsp.with(
-                                                  on_references, {
-        loclist = true
-    })
+vim.lsp.handlers['textDocument/references'] = vim.lsp.with(on_references, {loclist = true})
 
 -- Configure hover (normal K) handle
-vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
-                                             vim.lsp.handlers.hover, {
-        border = 'rounded'
-    })
+vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {border = 'rounded'})
 
 -- Combine base config for each server and merge user-defined settings.
 local function make_config(server_name)
@@ -124,9 +108,7 @@ local function make_config(server_name)
     c.capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
     c.capabilities.textDocument.completion.completionItem.deprecatedSupport = true
     c.capabilities.textDocument.completion.completionItem.commitCharactersSupport = true
-    c.capabilities.textDocument.completion.completionItem.tagSupport = {
-        valueSet = {1}
-    }
+    c.capabilities.textDocument.completion.completionItem.tagSupport = {valueSet = {1}}
     c.capabilities.textDocument.completion.completionItem.resolveSupport = {
         properties = {'documentation', 'detail', 'additionalTextEdits'}
     }
@@ -204,7 +186,5 @@ local function config()
         ]], false)
 end
 
-return {
-    config = config
-}
+return {config = config}
 
