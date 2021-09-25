@@ -17,11 +17,11 @@ local function config()
                 local icons = require("lsp.kind").icons
                 vim_item.kind = icons[vim_item.kind]
                 vim_item.menu = ({
-                    nvim_lsp = "(LSP)",
-                    nvim_lua = "(Lua)",
-                    path = "(Path)",
-                    luasnip = "(Snippet)",
-                    buffer = "(Buffer)"
+                    nvim_lsp = "[LSP]",
+                    nvim_lua = "[Lua]",
+                    path = "[Path]",
+                    luasnip = "[Snippet]",
+                    buffer = "[Buffer]"
                 })[entry.source.name]
                 vim_item.dup = ({buffer = 1, path = 1, nvim_lsp = 0})[entry.source.name] or 0
                 return vim_item
@@ -44,23 +44,22 @@ local function config()
             ["<C-d>"] = cmp.mapping.scroll_docs(4),
             ['<Tab>'] = function(fallback)
                 if vim.fn.pumvisible() == 1 then
-                    vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-n>', true, true, true), 'n')
-                elseif luasnip.expand_or_jumpable() then
-                    vim.fn.feedkeys(
-                        vim.api.nvim_replace_termcodes('<Plug>luasnip-expand-or-jump', true, true, true), '')
+                    vim.fn.feedkeys(t("<C-n>"), 'n')
                 elseif check_back_space() then
                     vim.fn.feedkeys(t('<Tab>'), 'n')
+                elseif luasnip.expand_or_jumpable() then
+                    vim.fn.feedkeys(t('<Plug>luasnip-expand-or-jump'), '')
                 else
                     fallback()
                 end
             end,
             ['<S-Tab>'] = function(fallback)
                 if vim.fn.pumvisible() == 1 then
-                    vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-p>', true, true, true), 'n')
-                elseif luasnip.jumpable(-1) then
-                    vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>luasnip-jump-prev', true, true, true), '')
+                    vim.fn.feedkeys(t("<C-p>"), 'n')
                 elseif check_back_space() then
                     vim.fn.feedkeys(t('<C-h>'), 'n')
+                elseif luasnip.jumpable(-1) then
+                    vim.fn.feedkeys(t('<Plug>luasnip-jump-prev'), '')
                 else
                     fallback()
                 end
