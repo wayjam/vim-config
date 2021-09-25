@@ -4,30 +4,25 @@ local settings = {
     on_config_done = nil,
     side = "left",
     width = 30,
-    show_icons = {git = 1, folders = 1, files = 1},
+    show_icons = {git = 1, folders = 1, files = 1, folder_arrows = 0},
     ignore = {
         "node_modules",
         ".cache",
-        '.mypy_cache',
-        '.pytest_cache',
-        '.git',
-        '.hg',
-        '.svn',
-        '.stversions',
-        '__pycache__',
-        '.sass-cache',
-        '*.egg-info',
-        '.DS_Store',
-        '*.pyc'
+        ".mypy_cache",
+        ".pytest_cache",
+        ".git",
+        ".hg",
+        ".svn",
+        ".stversions",
+        "__pycache__",
+        ".sass-cache",
+        "*.egg-info",
+        ".DS_Store",
+        "*.pyc"
     },
-    auto_open = 0,
-    auto_close = 1,
-    quit_on_open = 0,
-    follow = 1,
     git_hl = 0,
     hide_dotfiles = 0,
     root_folder_modifier = ":t",
-    tab_open = 0,
     allow_resize = 1,
     lsp_diagnostics = 0,
     auto_ignore_ft = {"startify", "dashboard"},
@@ -56,16 +51,9 @@ local function on_close()
 end
 
 local function config()
-    local status_ok, nvim_tree_config = pcall(require, "nvim-tree.config")
-    if not status_ok then
-        print("Failed to load nvim-tree.config")
-        return
-    end
+    local tree_cb = require"nvim-tree.config".nvim_tree_callback
 
     for opt, val in pairs(settings) do vim.g["nvim_tree_" .. opt] = val end
-
-    local tree_cb = nvim_tree_config.nvim_tree_callback
-
     vim.g.nvim_tree_bindings = {
         {key = {"<CR>", "o", "<2-LeftMouse>"}, cb = tree_cb("edit")},
         {key = {"<2-RightMouse>", "<C-]>"}, cb = tree_cb("cd")},
@@ -99,20 +87,16 @@ local function config()
         {key = "q", cb = tree_cb("close")},
         {key = "g?", cb = tree_cb("toggle_help")}
     }
-
-    local tree_view = require "nvim-tree.view"
-
-    -- Add nvim_tree open callback
-    local open = tree_view.open
-    tree_view.open = function()
-        on_open()
-        open()
-    end
+    require("nvim-tree").setup(
+        {
+            open_on_setup = false,
+            open_on_tab = false,
+            auto_close = true,
+            update_focused_file = {disable_netrw = true, hijack_netrw = true, enable = true}
+        })
 
     vim.cmd "au WinClosed * lua require('plugins.nvimtree').on_close()"
-    vim.api.nvim_set_keymap('n', '<localleader>e', ':NvimTreeToggle<CR>', {noremap = true, silent = true})
-
-    if settings.on_config_done then settings.on_config_done(nvim_tree_config) end
+    vim.api.nvim_set_keymap("n", "<localleader>e", ":NvimTreeToggle<CR>", {noremap = true, silent = true})
 end
 
 local function change_tree_dir(dir)
