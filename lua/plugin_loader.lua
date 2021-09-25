@@ -1,8 +1,8 @@
 local utils = require("utils")
 
-local packer_install_dir = vim.g['DATA_PATH'] .. "/site/pack/packer/opt/packer.nvim"
-local packer_compiled_path = vim.g['DATA_PATH'] .. "/packer_compiled.lua"
-local packer_package_root = vim.g['DATA_PATH'] .. "/site/pack"
+local packer_install_dir = vim.g["DATA_PATH"] .. "/site/pack/packer/opt/packer.nvim"
+local packer_compiled_path = vim.g["DATA_PATH"] .. "/packer_compiled.lua"
+local packer_package_root = vim.g["DATA_PATH"] .. "/site/pack"
 local packer_repo = "https://github.com/wbthomason/packer.nvim"
 local install_cmd = string.format("10split |term git clone --depth=1 %s %s", packer_repo, packer_install_dir)
 
@@ -14,7 +14,7 @@ if vim.fn.glob(packer_install_dir) == "" then
 end
 
 vim.cmd("packadd packer.nvim")
-local packer = require('packer')
+local packer = require("packer")
 
 local settings = {
     profile = {enable = false, threshold = 1},
@@ -36,13 +36,13 @@ local function startup()
     packer.startup(
         {
             function(use)
-                vim.cmd("source" .. vim.g['CONFIG_PATH'] .. "/config/plugins/plugins.vim")
-                for _, plugin in ipairs(require('plugins')) do use(plugin) end
+                vim.cmd("source" .. vim.g["CONFIG_PATH"] .. "/config/plugins/plugins.vim")
+                for _, plugin in ipairs(require("plugins")) do use(plugin) end
             end,
             config = settings
         })
     if utils.file_exists(packer_compiled_path) then
-        vim.cmd('source ' .. packer_compiled_path)
+        vim.cmd("source " .. packer_compiled_path)
     else
         packer.compile()
     end

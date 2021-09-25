@@ -1,12 +1,12 @@
 return {
     --- basic
     {"wbthomason/packer.nvim", opt = true},
-    {'christoomey/vim-tmux-navigator'},
+    {"christoomey/vim-tmux-navigator"},
     {
         "tpope/vim-sleuth",
         event = "VimEnter",
         config = function()
-            vim.fn['plugins#config']('sleuth')
+            vim.fn["plugins#config"]("sleuth")
         end
     },
     {"editorconfig/editorconfig-vim"},
@@ -15,7 +15,7 @@ return {
     {
         "navarasu/onedark.nvim",
         config = function()
-            require('onedark').setup()
+            require("onedark").setup()
             vim.g.onedark_diagnostics_undercurl = false
             vim.g.onedark_darker_diagnostics = false
             vim.g.onedark_transparent_background = true
@@ -26,38 +26,39 @@ return {
         "nvim-treesitter/nvim-treesitter",
         run = ":TSUpdate",
         config = function()
-            require('plugins.treesitter').config()
+            require("plugins.treesitter").config()
         end
     },
     {
         "nvim-treesitter/nvim-treesitter-textobjects",
         config = function()
-            require('plugins.treesitter').textobjects()
+            require("plugins.treesitter").textobjects()
         end
     },
     {"kyazdani42/nvim-web-devicons"},
     {
-        'hoob3rt/lualine.nvim',
-        event = 'VimEnter',
-        requires = {'kyazdani42/nvim-web-devicons', "nvim-lua/lsp-status.nvim"},
-        after = {'lsp-status.nvim'},
+        -- 'hoob3rt/lualine.nvim',
+        "shadmansaleh/lualine.nvim",
+        event = "VimEnter",
+        requires = {"kyazdani42/nvim-web-devicons", "nvim-lua/lsp-status.nvim"},
+        after = {"lsp-status.nvim"},
         config = function()
             require("plugins.lualine").config()
         end
     },
     {
-        'seblj/nvim-tabline',
-        requires = {'kyazdani42/nvim-web-devicons'},
+        "seblj/nvim-tabline",
+        requires = {"kyazdani42/nvim-web-devicons"},
         config = function()
             require("plugins.tabline").config()
         end
     },
     {
-        'lewis6991/gitsigns.nvim',
-        event = 'VimEnter',
-        requires = {'nvim-lua/plenary.nvim'},
+        "lewis6991/gitsigns.nvim",
+        event = "VimEnter",
+        requires = {"nvim-lua/plenary.nvim"},
         config = function()
-            require('plugins.gitsigns').config()
+            require("plugins.gitsigns").config()
         end
     },
     {
@@ -65,10 +66,10 @@ return {
         cmd = {"Trouble", "TroubleToggle"},
         after = {"nvim-lspconfig"},
         setup = function()
-            require('plugins.trouble').setup()
+            require("plugins.trouble").setup()
         end,
         config = function()
-            require('plugins.trouble').config()
+            require("plugins.trouble").config()
         end
     },
 
@@ -77,29 +78,29 @@ return {
         "sbdchd/neoformat",
         cmd = {"Neoformat"},
         setup = function()
-            vim.fn['plugins#source']('neoformat')
+            vim.fn["plugins#source"]("neoformat")
         end
     },
 
     --- tools
     {
         "kyazdani42/nvim-tree.lua",
-        requires = {'kyazdani42/nvim-web-devicons'},
+        requires = {"kyazdani42/nvim-web-devicons"},
         config = function()
-            require('plugins.nvimtree').config()
+            require("plugins.nvimtree").config()
         end
     },
     {
         "tpope/vim-fugitive",
         event = "VimEnter",
         config = function()
-            vim.fn['plugins#config']('vim-fugitive')
+            vim.fn["plugins#config"]("vim-fugitive")
         end
     },
     {"nvim-lua/plenary.nvim"},
     {
         "nvim-telescope/telescope.nvim",
-        requires = {'nvim-lua/plenary.nvim'},
+        requires = {"nvim-lua/plenary.nvim"},
         setup = function()
             require("plugins.telescope").setup()
         end,
@@ -111,9 +112,9 @@ return {
     --- terminal
     {
         "akinsho/toggleterm.nvim",
-        event = 'VimEnter',
+        event = "VimEnter",
         config = function()
-            require('plugins.toggleterm').config()
+            require("plugins.toggleterm").config()
         end
     },
 
@@ -123,7 +124,7 @@ return {
         "L3MON4D3/LuaSnip",
         requires = {"rafamadriz/friendly-snippets"},
         config = function()
-            require('plugins.luasnip').config()
+            require("plugins.luasnip").config()
         end
     },
 
@@ -131,14 +132,14 @@ return {
     {
         "hrsh7th/nvim-cmp",
         config = function()
-            require('plugins.cmp').config()
+            require("plugins.cmp").config()
         end
     },
     {"saadparwaiz1/cmp_luasnip", after = {"nvim-cmp", "LuaSnip"}},
-    {"hrsh7th/cmp-nvim-lsp", after = 'nvim-cmp'},
-    {"hrsh7th/cmp-nvim-lua", after = 'nvim-cmp'},
-    {"hrsh7th/cmp-buffer", after = 'nvim-cmp'},
-    {"hrsh7th/cmp-path", after = 'nvim-cmp'},
+    {"hrsh7th/cmp-nvim-lsp", after = "nvim-cmp"},
+    {"hrsh7th/cmp-nvim-lua", after = "nvim-cmp"},
+    {"hrsh7th/cmp-buffer", after = "nvim-cmp"},
+    {"hrsh7th/cmp-path", after = "nvim-cmp"},
 
     --- lsp
     {"ray-x/lsp_signature.nvim"},
@@ -147,9 +148,9 @@ return {
     {"nvim-lua/lsp-status.nvim"},
     {
         "neovim/nvim-lspconfig",
-        after = {"cmp-nvim-lsp", 'nvim-lspinstall', 'lsp_signature.nvim', 'nvim-lightbulb', 'lsp-status.nvim'},
+        after = {"cmp-nvim-lsp", "nvim-lspinstall", "lsp_signature.nvim", "nvim-lightbulb", "lsp-status.nvim"},
         config = function()
-            require('plugins.lspconfig').config()
+            require("plugins.lspconfig").config()
         end
     },
 
@@ -163,14 +164,14 @@ return {
         after = "nvim-cmp",
         event = "VimEnter",
         config = function()
-            require('plugins.autopairs').config()
+            require("plugins.autopairs").config()
         end
     },
     {
         "itchyny/vim-cursorword",
         envnt = "InsertCharPre",
         config = function()
-            vim.fn['plugins#config']('vim-cursorword')
+            vim.fn["plugins#config"]("vim-cursorword")
         end
     },
     {
@@ -178,7 +179,7 @@ return {
         cmd = "Commentary",
         event = "VimEnter",
         config = function()
-            vim.fn['plugins#config']('vim-commentary')
+            vim.fn["plugins#config"]("vim-commentary")
         end
     },
     {
@@ -186,31 +187,31 @@ return {
         cmd = "EasyAlign",
         event = "VimEnter",
         config = function()
-            vim.fn['plugins#config']('vim-easy-align')
+            vim.fn["plugins#config"]("vim-easy-align")
         end
     },
     {
         "justinmk/vim-sneak",
         event = "VimEnter",
         setup = function()
-            vim.fn['plugins#config']('vim-sneak-setup')
+            vim.fn["plugins#config"]("vim-sneak-setup")
         end,
         config = function()
-            vim.fn['plugins#config']('vim-sneak')
+            vim.fn["plugins#config"]("vim-sneak")
         end
     },
     {
         "ojroques/vim-oscyank",
         cmd = {"OSCYank", "OSCYankReg"},
         setup = function()
-            vim.fn['plugins#config']('vim-oscyank')
+            vim.fn["plugins#config"]("vim-oscyank")
         end
     },
     {
         "Pocco81/TrueZen.nvim",
         cmd = {"TZAtaraxis", "TZFocus", "TZMinimailist"},
         setup = function()
-            require('plugins.truezen').setup()
+            require("plugins.truezen").setup()
         end
     },
 
@@ -220,7 +221,7 @@ return {
         event = "VimEnter",
         after = "nvim-treesitter",
         config = function()
-            require('plugins.colorizer').config()
+            require("plugins.colorizer").config()
         end
     },
 
@@ -230,35 +231,35 @@ return {
         ft = {"go", "go.mod"},
         after = {"nvim-lspconfig"},
         config = function()
-            require('plugins.go').config()
+            require("plugins.go").config()
         end
     },
     {
         "plasticboy/vim-markdown",
         ft = {"markdown", "pandoc.markdown", "rmc"},
         config = function()
-            vim.fn['plugins#config']('vim-markdown')
+            vim.fn["plugins#config"]("vim-markdown")
         end
     },
     {
         "iamcco/markdown-preview.nvim",
         ft = {"markdown", "pandoc.markdown", "rmc"},
-        cmd = 'MarkdownPreview',
+        cmd = "MarkdownPreview",
         run = "cd app && yarn install"
     },
     {
         "mattn/emmet-vim",
-        ft = {'html', "css", 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue', 'svelte'},
+        ft = {"html", "css", "javascript", "javascriptreact", "typescript", "typescriptreact", "vue", "svelte"},
         Event = "InsertEnter",
         config = function()
-            vim.fn['plugins#config']('emmet-vim')
+            vim.fn["plugins#config"]("emmet-vim")
         end
     },
     {
         "pangloss/vim-javascript",
         ft = {"typescript", "typescriptreact", "javascript", "javascriptreact"},
         config = function()
-            vim.fn['plugins#config']('vim-javascript')
+            vim.fn["plugins#config"]("vim-javascript")
         end
     },
     {
