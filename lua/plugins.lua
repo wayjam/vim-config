@@ -168,13 +168,7 @@ return {
             require("plugins.autopairs").config()
         end
     },
-    {
-        "itchyny/vim-cursorword",
-        envnt = "InsertCharPre",
-        config = function()
-            vim.fn["plugins#config"]("vim-cursorword")
-        end
-    },
+    {"yamatsum/nvim-cursorline", event = "InsertCharPre"},
     {
         "tpope/vim-commentary",
         cmd = "Commentary",

@@ -29,17 +29,6 @@ function! plugins#config(name)
 		vnoremap <silent> <localleader> :<c-u>WhichKeyVisual '\'<CR>
 	endif
 
-	if a:name ==# 'vim-go'
-		let g:go_term_enabled = 0
-		let g:go_def_mapping_enabled = 0
-		let g:go_diagnostics_enabled = 0
-		let g:go_doc_popup_window = 1
-		let g:go_gopls_enabled = 0
-		let g:go_code_completion_enabled = 0
-		let g:go_doc_keywordprg_enabled = 0
-		let g:go_textobj_enabled = 1
-	endif
-
 	if a:name ==# 'vim-commentary'
 		nmap <Leader>// gcc
 		omap <Leader>// <Plug>Commentary
@@ -95,22 +84,6 @@ function! plugins#config(name)
 			\ 'pattern': ['\.un~$']
 			\ }
 
-	endif
-
-	if a:name ==# 'vim-cursorword'
-		let g:cursorword = 0
-		augroup user_plugin_cursorword
-			autocmd!
-			autocmd FileType json,yaml,markdown,nginx,dosini,conf,text
-				\ let b:cursorword = 1
-			autocmd WinEnter * if &diff || &pvw | let b:cursorword = 0 | endif
-			autocmd InsertEnter * if get(b:, 'cursorword', 0) == 1
-				\| let b:cursorword = 0
-				\| endif
-			autocmd InsertLeave * if get(b:, 'cursorword', 1) == 0
-				\| let b:cursorword = 1
-				\| endif
-		augroup END
 	endif
 
 	if a:name ==# 'vim-markdown'
