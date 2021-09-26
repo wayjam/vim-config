@@ -1,7 +1,5 @@
 local utils = require("utils")
 
-local window_width_limit = 80
-
 local conditions = {
     buffer_not_empty = function()
         return vim.fn.empty(vim.fn.expand "%:t") ~= 1
@@ -61,9 +59,9 @@ local function config()
     }
     local branch = {"branch", icon = "", cond = conditions.check_git_workspace}
     local encoding = {"o:encoding", fmt = string.upper, color = {}, cond = conditions.hide_in_width}
-    local filetype = {"filetype", cond = conditions.hide_in_width, icon_only = true, padding = {left = 1, right = 1}}
-    local filename = {"filename", padding = 0}
-    local location = {"location", padding = {left = 1, right = 1}}
+    local filetype = {"filetype", cond = conditions.hide_in_width, icon_only = true, padding = {left = 1, right = 0}}
+    local filename = {"filename", padding = 1}
+    local location = {"location", padding = {left = 0, right = 1}}
     local fileformat = {
         "bo.fileformat",
         fmt = function()

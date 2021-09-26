@@ -53,6 +53,7 @@ return {
             require("plugins.tabline").config()
         end
     },
+    {"folke/lsp-colors.nvim"},
     {
         "lewis6991/gitsigns.nvim",
         event = "VimEnter",

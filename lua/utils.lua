@@ -5,10 +5,10 @@ local M = {}
 --   Hint:  
 --   Information:   ⁱ
 M.signs = {
-    Error = " ",
+    Error = "",
     Warning = "",
     Hint = "",
-    Information = " ",
+    Information = "",
     Other = "﫠",
     Added = "",
     Modified = "柳",
