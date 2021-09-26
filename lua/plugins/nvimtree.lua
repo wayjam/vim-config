@@ -1,9 +1,6 @@
 local settings = {
     active = true,
-    disable_default_keybindings = 1,
     on_config_done = nil,
-    side = "left",
-    width = 30,
     show_icons = {git = 1, folders = 1, files = 1, folder_arrows = 0},
     ignore = {
         "node_modules",
@@ -24,7 +21,6 @@ local settings = {
     hide_dotfiles = 0,
     root_folder_modifier = ":t",
     allow_resize = 1,
-    lsp_diagnostics = 0,
     auto_ignore_ft = {"startify", "dashboard"},
     icons = {
         default = "",
@@ -54,7 +50,7 @@ local function config()
     local tree_cb = require"nvim-tree.config".nvim_tree_callback
 
     for opt, val in pairs(settings) do vim.g["nvim_tree_" .. opt] = val end
-    vim.g.nvim_tree_bindings = {
+    local mappings = {
         {key = {"<CR>", "o", "<2-LeftMouse>"}, cb = tree_cb("edit")},
         {key = {"<2-RightMouse>", "<C-]>"}, cb = tree_cb("cd")},
         {key = "sv", cb = tree_cb("vsplit")},
@@ -92,7 +88,9 @@ local function config()
             open_on_setup = false,
             open_on_tab = false,
             auto_close = true,
-            update_focused_file = {disable_netrw = true, hijack_netrw = true, enable = true}
+            lsp_diagnostics = false,
+            update_focused_file = {disable_netrw = true, hijack_netrw = true, enable = true},
+            view = {width = 30, side = "left", auto_resize = false, mappings = {custom_only = false, list = mappings}}
         })
 
     vim.cmd "au WinClosed * lua require('plugins.nvimtree').on_close()"
