@@ -27,10 +27,6 @@ if has('termguicolors')
 	set termguicolors
 endif
 
-" Enable filetype detect
-filetype plugin indent on
-syntax enable
-
 " Enable italics, Make sure this is immediately after colorscheme
 " https://stackoverflow.com/questions/3494435/vimrc-make-comments-italic
 " highlight Comment cterm=italic gui=italic

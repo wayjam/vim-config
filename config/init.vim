@@ -53,6 +53,7 @@ let g:loaded_vimball = 1
 let g:loaded_vimballPlugin = 1
 let g:loaded_zip = 1
 let g:loaded_zipPlugin = 1
+let g:did_load_filetypes = 1 " replaced by filetype.nvim
 
 function! s:main()
 	if has('vim_starting')

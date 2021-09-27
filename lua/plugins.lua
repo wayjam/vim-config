@@ -1,6 +1,7 @@
 return {
     --- basic
     {"wbthomason/packer.nvim", opt = true},
+    {"nathom/filetype.nvim"},
     {"christoomey/vim-tmux-navigator"},
     {
         "tpope/vim-sleuth",
