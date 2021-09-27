@@ -96,6 +96,7 @@ local function config()
             disabled_filetypes = {"NvimTree"},
             color = {cterm = "none", gui = "none"}
         },
+        extensions = {"toggleterm", "fugitive"},
         sections = {
             lualine_a = {"mode"},
             lualine_b = {filetype, filename, location},
@@ -112,8 +113,6 @@ local function config()
             lualine_y = {},
             lualine_z = {}
         },
-        extensions = {"toggleterm", "nvim-tree", "fugitive"}
-
     }
 end
 

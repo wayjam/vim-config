@@ -87,10 +87,10 @@ local function config()
         {
             open_on_setup = false,
             open_on_tab = false,
-            auto_close = true,
+            auto_close = false,
             lsp_diagnostics = false,
             update_focused_file = {disable_netrw = true, hijack_netrw = true, enable = true},
-            view = {width = 30, side = "left", auto_resize = false, mappings = {custom_only = false, list = mappings}}
+            view = {width = 30, side = "left", auto_resize = false, mappings = {custom_only = true, list = mappings}}
         })
 
     vim.cmd "au WinClosed * lua require('plugins.nvimtree').on_close()"
