@@ -2,6 +2,7 @@ return {
     --- basic
     {"wbthomason/packer.nvim", opt = true},
     {"nathom/filetype.nvim"},
+    {"antoinemadec/FixCursorHold.nvim"},
     {"christoomey/vim-tmux-navigator"},
     {
         "tpope/vim-sleuth",
@@ -64,7 +65,8 @@ return {
         end
     },
     {
-        "folke/trouble.nvim",
+        -- "folke/trouble.nvim",
+        "wayjam/trouble.nvim",
         cmd = {"Trouble", "TroubleToggle"},
         after = {"nvim-lspconfig"},
         setup = function()
