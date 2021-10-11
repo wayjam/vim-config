@@ -1,6 +1,4 @@
 local settings = {
-    active = true,
-    on_config_done = nil,
     show_icons = {git = 1, folders = 1, files = 1, folder_arrows = 0},
     ignore = {
         "node_modules",
@@ -20,8 +18,6 @@ local settings = {
     git_hl = 0,
     hide_dotfiles = 0,
     root_folder_modifier = ":t",
-    allow_resize = 1,
-    auto_ignore_ft = {"startify", "dashboard"},
     icons = {
         default = "",
         symlink = "",
@@ -91,8 +87,11 @@ local function config()
             open_on_setup = false,
             open_on_tab = false,
             auto_close = false,
-            lsp_diagnostics = false,
-            update_focused_file = {disable_netrw = true, hijack_netrw = true, enable = true},
+            diagnostics = {
+              enable = false,
+            },
+            ignore_ft_on_setup = {"startify", "dashboard"},
+            update_focused_file = {disable_netrw = true, hijack_netrw = true, enable = false},
             view = {width = 30, side = "left", auto_resize = false, mappings = {custom_only = true, list = mappings}}
         })
 
