@@ -42,8 +42,11 @@ local function on_open()
 end
 
 local function on_close()
-    local buf = tonumber(vim.fn.expand "<abuf>")
-    local ft = vim.api.nvim_buf_get_option(buf, "filetype")
+end
+
+local function change_tree_dir(dir)
+    local lib_status_ok, lib = pcall(require, "nvim-tree.lib")
+    if lib_status_ok then lib.change_dir(dir) end
 end
 
 local function config()
@@ -93,13 +96,8 @@ local function config()
             view = {width = 30, side = "left", auto_resize = false, mappings = {custom_only = true, list = mappings}}
         })
 
-    vim.cmd "au WinClosed * lua require('plugins.nvimtree').on_close()"
+    -- vim.cmd "au WinClosed * lua require('plugins.nvimtree').on_close()"
     vim.api.nvim_set_keymap("n", "<localleader>e", ":NvimTreeToggle<CR>", {noremap = true, silent = true})
-end
-
-local function change_tree_dir(dir)
-    local lib_status_ok, lib = pcall(require, "nvim-tree.lib")
-    if lib_status_ok then lib.change_dir(dir) end
 end
 
 return {config = config, on_close = on_close, on_open = on_open}

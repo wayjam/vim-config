@@ -20,7 +20,6 @@ local settings = {
     profile = {enable = false, threshold = 1},
     package_root = packer_package_root,
     compile_path = packer_compiled_path,
-    git = {default_url_format = plug_url_format},
     auto_reload_compiled = true,
     compile_on_sync = true
 }

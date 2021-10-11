@@ -17,11 +17,10 @@ return {
     {
         "navarasu/onedark.nvim",
         config = function()
-            require("onedark").setup()
             vim.g.onedark_diagnostics_undercurl = false
             vim.g.onedark_darker_diagnostics = false
-            vim.g.onedark_transparent_background = true
             vim.g.onedark_disable_toggle_style = true
+            require("onedark").setup()
         end
     },
     {
