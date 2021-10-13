@@ -231,10 +231,10 @@ endif
 
 if exists('&pumblend')
 	" pseudo-transparency for completion menu
-	set pumblend=20
+	set pumblend=10
 endif
 
 if exists('&winblend')
 	" pseudo-transparency for floating window
-	set winblend=20
+	set winblend=10
 endif
