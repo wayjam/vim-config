@@ -63,22 +63,16 @@ local function config()
     local filename = {"filename", padding = 1}
     local location = {"location", padding = {left = 0, right = 1}}
     local fileformat = {
-        "bo.fileformat",
-        fmt = function()
-            local format = vim.bo.fileformat
-            local icon = lualine_fileformat.icon[format]
-            if icon ~= nil then
-                return string.upper(icon .. " " .. format)
-            else
-                return string.upper(format)
-            end
+        "fileformat",
+        fmt = function(str)
+            return str .. " " .. string.upper(vim.bo.fileformat)
         end
     }
 
     lsp_status.config(
         {
             indicator_separator = "",
-            component_separator = "",
+            component_separator = {left = "", right = ""},
             -- indicator_errors = signs.Error,
             -- indicator_warnings = signs.Warning,
             -- indicator_info = signs.Information,
@@ -112,7 +106,7 @@ local function config()
             lualine_x = {"location"},
             lualine_y = {},
             lualine_z = {}
-        },
+        }
     }
 end
 

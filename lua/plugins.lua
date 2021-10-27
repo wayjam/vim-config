@@ -35,8 +35,7 @@ return {
     },
     {"kyazdani42/nvim-web-devicons"},
     {
-        -- 'hoob3rt/lualine.nvim',
-        "shadmansaleh/lualine.nvim",
+        "nvim-lualine/lualine.nvim",
         event = "VimEnter",
         requires = {"kyazdani42/nvim-web-devicons", "nvim-lua/lsp-status.nvim"},
         after = {"lsp-status.nvim"},
