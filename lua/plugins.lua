@@ -60,8 +60,7 @@ return {
         end
     },
     {
-        -- "folke/trouble.nvim",
-        "wayjam/trouble.nvim",
+        "folke/trouble.nvim",
         cmd = {"Trouble", "TroubleToggle"},
         after = {"nvim-lspconfig"},
         setup = function()
