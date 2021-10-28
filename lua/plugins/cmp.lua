@@ -1,9 +1,9 @@
-local cmp = require('cmp')
+local cmp = require("cmp")
 local luasnip = require("luasnip")
 
 local check_back_space = function()
-    local col = vim.fn.col('.') - 1
-    return col == 0 or vim.fn.getline('.'):sub(col, col):match('%s')
+    local col = vim.fn.col(".") - 1
+    return col == 0 or vim.fn.getline("."):sub(col, col):match("%s")
 end
 
 local t = function(str)
@@ -36,36 +36,43 @@ local function config()
             border = {"╭", "─", "╮", "│", "╯", "─", "╰", "│"},
             winhighlight = "NormalFloat:CmpDocumentation,FloatBorder:CmpDocumentationBorder"
         },
-        sources = {{name = "nvim_lsp"}, {name = "path"}, {name = "luasnip"}, {name = "nvim_lua"}, {name = "buffer"}},
+        sources = cmp.config.sources(
+            {
+                {name = "nvim_lsp"},
+                { name = 'luasnip' }, -- For luasnip users.
+                {name = "path"},
+                {name = "nvim-lua"},
+            }, {{name = "buffer"}}),
         mapping = {
-            ['<C-p>'] = cmp.mapping.select_prev_item(),
-            ['<C-n>'] = cmp.mapping.select_next_item(),
-            ["<C-u>"] = cmp.mapping.scroll_docs(-4),
-            ["<C-d>"] = cmp.mapping.scroll_docs(4),
-            ['<Tab>'] = function(fallback)
+            ["<C-y>"] = cmp.config.disable,
+            ["<C-p>"] = cmp.mapping.select_prev_item(),
+            ["<C-n>"] = cmp.mapping.select_next_item(),
+            ["<C-d>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), {"i", "c"}),
+            ["<C-u>"] = cmp.mapping(cmp.mapping.scroll_docs(4), {"i", "c"}),
+            ["<Tab>"] = function(fallback)
                 if vim.fn.pumvisible() == 1 then
-                    vim.fn.feedkeys(t("<C-n>"), 'n')
+                    vim.fn.feedkeys(t("<C-n>"), "n")
                 elseif check_back_space() then
-                    vim.fn.feedkeys(t('<Tab>'), 'n')
+                    vim.fn.feedkeys(t("<Tab>"), "n")
                 elseif luasnip.expand_or_jumpable() then
-                    vim.fn.feedkeys(t('<Plug>luasnip-expand-or-jump'), '')
+                    vim.fn.feedkeys(t("<Plug>luasnip-expand-or-jump"), "")
                 else
                     fallback()
                 end
             end,
-            ['<S-Tab>'] = function(fallback)
+            ["<S-Tab>"] = function(fallback)
                 if vim.fn.pumvisible() == 1 then
-                    vim.fn.feedkeys(t("<C-p>"), 'n')
+                    vim.fn.feedkeys(t("<C-p>"), "n")
                 elseif check_back_space() then
-                    vim.fn.feedkeys(t('<C-h>'), 'n')
+                    vim.fn.feedkeys(t("<C-h>"), "n")
                 elseif luasnip.jumpable(-1) then
-                    vim.fn.feedkeys(t('<Plug>luasnip-jump-prev'), '')
+                    vim.fn.feedkeys(t("<Plug>luasnip-jump-prev"), "")
                 else
                     fallback()
                 end
             end,
-            ["<C-Space>"] = cmp.mapping.complete(),
-            ["<C-e>"] = cmp.mapping.close(),
+            ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), {"i", "c"}),
+            ["<C-e>"] = cmp.mapping({i = cmp.mapping.abort(), c = cmp.mapping.close()}),
             ["<CR>"] = cmp.mapping.confirm {behavior = cmp.ConfirmBehavior.Replace, select = true}
         }
     }

@@ -25,7 +25,6 @@ if has('vim_starting')
 	xnoremap \        <Nop>
 endif
 
-" load main config files
 " Set custom augroup
 augroup user_events
 	autocmd!
