@@ -30,6 +30,10 @@ endif
 " Enable syntax
 " syntax enable
 
+" italic support
+let &t_ZH="\e[3m"
+let &t_ZR="\e[23m"
+
 " Enable italics, Make sure this is immediately after colorscheme
 " https://stackoverflow.com/questions/3494435/vimrc-make-comments-italic
 highlight Comment cterm=italic gui=italic
