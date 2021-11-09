@@ -1,22 +1,6 @@
 local settings = {
     show_icons = {git = 1, folders = 1, files = 1, folder_arrows = 0},
-    ignore = {
-        "node_modules",
-        ".cache",
-        ".mypy_cache",
-        ".pytest_cache",
-        ".git",
-        ".hg",
-        ".svn",
-        ".stversions",
-        "__pycache__",
-        ".sass-cache",
-        "*.egg-info",
-        ".DS_Store",
-        "*.pyc"
-    },
     git_hl = 0,
-    hide_dotfiles = 0,
     root_folder_modifier = ":t",
     icons = {
         default = "",
@@ -87,11 +71,27 @@ local function config()
             open_on_setup = false,
             open_on_tab = false,
             auto_close = false,
-            diagnostics = {
-              enable = false,
-            },
+            diagnostics = {enable = false},
             ignore_ft_on_setup = {"startify", "dashboard"},
             update_focused_file = {disable_netrw = true, hijack_netrw = true, enable = false},
+            filters = {
+                dotfiles = false,
+                custom = {
+                    "node_modules",
+                    ".cache",
+                    ".mypy_cache",
+                    ".pytest_cache",
+                    ".git",
+                    ".hg",
+                    ".svn",
+                    ".stversions",
+                    "__pycache__",
+                    ".sass-cache",
+                    "*.egg-info",
+                    ".DS_Store",
+                    "*.pyc"
+                }
+            },
             view = {width = 30, side = "left", auto_resize = false, mappings = {custom_only = true, list = mappings}}
         })
 
