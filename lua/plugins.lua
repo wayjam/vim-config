@@ -194,9 +194,8 @@ return {
     },
     {
         "ojroques/vim-oscyank",
-        cmd = {"OSCYank", "OSCYankReg"},
         setup = function()
-            vim.fn["plugins#config"]("vim-oscyank")
+            vim.fn["plugins#source"]("oscyank")
         end
     },
     {

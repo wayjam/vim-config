@@ -281,17 +281,6 @@ nnoremap <expr> gp '`['.strpart(getregtype(), 0, 1).'`]'
 nnoremap <Leader>d m`YP``
 vnoremap <Leader>d YPgv
 
-function! s:add_to_register(str)
-  if get(g:, 'loaded_oscyank')
-    call YankOSC52(a:str)
-  endif
-  let @+=a:str
-endfunction
-
-" Yank buffer's absolute path to clipboard
-nnoremap <Leader>y :call <SID>add_to_register(expand("%:~:."))<CR>:echo 'Yanked relative path'<CR>
-nnoremap <Leader>Y :call <SID>add_to_register(expand("%:p"))<CR>:echo 'Yanked absolute path'<CR>
-
 " Drag current line/s vertically and auto-indent
 vnoremap <Leader>k :m '<-2<CR>gv=gv
 vnoremap <Leader>j :m '>+<CR>gv=gv

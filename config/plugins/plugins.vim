@@ -36,12 +36,6 @@ function! plugins#config(name)
 		autocmd FileType vue setlocal commentstring=//\ %s
 	endif
 
-	if a:name ==# 'vim-oscyank'
-		vnoremap <leader>c :OSCYank<CR>
-		autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '' | OSCYankReg " | endif
-		autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '+' | OSCYankReg + | endif
-	endif
-
 	if a:name ==# 'vim-sneak-setup'
 		let g:sneak#label = 1
 
