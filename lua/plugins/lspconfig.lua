@@ -127,13 +127,24 @@ end
 
 -- Iterate and setup all language servers and trigger FileType in windows.
 local function setup_servers()
-    local lsp_install = require("lspinstall")
-    lsp_install.setup()
-    local servers = lsp_install.installed_servers()
-    for _, server in pairs(servers) do
-        local config = make_config(server)
-        require"lspconfig"[server].setup(config)
-    end
+    local lsp_installer = require("nvim-lsp-installer")
+
+    lsp_installer.settings(
+        {ui = {icons = {server_installed = "✓", server_pending = "➜", server_uninstalled = "✗"}}})
+
+    lsp_installer.on_server_ready(
+        function(server)
+            local opts = make_config(server.name)
+            -- (optional) Customize the options passed to the server
+            -- if server.name == "tsserver" then
+            --     opts.root_dir = function() ... end
+            -- end
+            --
+            -- This setup() function is exactly the same as lspconfig's setup function.
+            -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/ADVANCED_README.md
+            server:setup(opts)
+
+        end)
 
     -- Reload if files were supplied in command-line arguments
     if vim.fn.argc() > 0 and not vim.o.modified then
@@ -142,7 +153,6 @@ local function setup_servers()
 end
 
 local function config()
-    local lsp_install = require("lspinstall")
     local lsp_signature = require("lsp_signature")
     local lsp_status = require("lsp-status")
 
@@ -156,14 +166,6 @@ local function config()
 
     -- Setup LSP with lspinstall
     setup_servers()
-
-    -- Automatically reload after `:LspInstall <server>`
-    lsp_install.post_install_hook = function()
-        setup_servers() -- reload installed servers
-        if not vim.bo.modified and vim.bo.buftype == "" then
-            vim.cmd("bufdo e") -- starts server by triggering the FileType autocmd
-        end
-    end
 
     vim.api.nvim_exec(
         [[

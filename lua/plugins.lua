@@ -141,12 +141,12 @@ return {
 
     --- lsp
     {"ray-x/lsp_signature.nvim"},
-    {"kabouzeid/nvim-lspinstall"},
+    {"williamboman/nvim-lsp-installer"},
     {"kosayoda/nvim-lightbulb"},
     {"nvim-lua/lsp-status.nvim"},
     {
         "neovim/nvim-lspconfig",
-        after = {"cmp-nvim-lsp", "nvim-lspinstall", "lsp_signature.nvim", "nvim-lightbulb", "lsp-status.nvim"},
+        after = {"cmp-nvim-lsp", "nvim-lsp-installer", "lsp_signature.nvim", "nvim-lightbulb", "lsp-status.nvim"},
         config = function()
             require("plugins.lspconfig").config()
         end
