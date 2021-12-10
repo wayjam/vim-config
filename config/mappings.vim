@@ -285,6 +285,19 @@ vnoremap <Leader>d YPgv
 vnoremap <Leader>k :m '<-2<CR>gv=gv
 vnoremap <Leader>j :m '>+<CR>gv=gv
 
+let s:activatedh = 0
+function! ToggleColorColumn()
+    if s:activatedh == 0
+        let s:activatedh = 1
+        set colorcolumn=120
+    else
+        let s:activatedh = 0
+        match none
+        set colorcolumn=0
+    endif
+endfunction
+
 " Useful command
 " --------------
 command! -nargs=1 ColorColumn :set colorcolumn=<args>
+command! -nargs=0 ToggleColorColumn :call ToggleColorColumn()
