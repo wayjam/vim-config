@@ -32,7 +32,7 @@ local function config()
     }
     local diagnostics = {
         "diagnostics",
-        sources = {"nvim_lsp"},
+        sources = {"nvim_diagnostic"},
         sections = {"error", "warn", "info", "hint"},
         -- all colors are in format #rrggbb
         -- default auto extract from 'Diagnostic', 'LspDiagnosticsDefault', 'Diff'
