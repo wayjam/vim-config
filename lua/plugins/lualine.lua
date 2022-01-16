@@ -16,7 +16,6 @@ local conditions = {
 
 local function config()
     local lualine = require("lualine")
-    local lsp_status = require("lsp-status")
     local lualine_fileformat = require("lualine.components.fileformat")
     local colors = require("onedark.colors")
 
@@ -68,19 +67,6 @@ local function config()
             return str .. " " .. string.upper(vim.bo.fileformat)
         end
     }
-
-    lsp_status.config(
-        {
-            indicator_separator = "",
-            component_separator = {left = "", right = ""},
-            -- indicator_errors = signs.Error,
-            -- indicator_warnings = signs.Warning,
-            -- indicator_info = signs.Information,
-            -- indicator_hint = signs.Hint,
-            indicator_ok = "✔",
-            status_symbol = "LSP",
-            diagnostics = false
-        })
 
     lualine.setup {
         options = {

@@ -80,9 +80,7 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
         update_in_insert = false,
         underline = false,
         virtual_text = {spacing = 4},
-        signs = function(bufnr, _)
-            return vim.bo[bufnr].buftype == ""
-        end
+        signs = true
     })
 
 -- Open references in quickfix window and jump to first item.
@@ -162,6 +160,19 @@ local function config()
         {
             bind = true,
             hint_prefix = " " --  
+        })
+
+    lsp_status.config(
+        {
+            indicator_separator = "",
+            component_separator = {left = "", right = ""},
+            -- indicator_errors = signs.Error,
+            -- indicator_warnings = signs.Warning,
+            -- indicator_info = signs.Information,
+            -- indicator_hint = signs.Hint,
+            indicator_ok = "✔",
+            status_symbol = "LSP",
+            diagnostics = false
         })
 
     -- Setup LSP with lspinstall
