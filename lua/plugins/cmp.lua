@@ -32,16 +32,16 @@ local function config()
                 require("luasnip").lsp_expand(args.body)
             end
         },
-        documentation = {
-            border = {"╭", "─", "╮", "│", "╯", "─", "╰", "│"},
-            winhighlight = "NormalFloat:CmpDocumentation,FloatBorder:CmpDocumentationBorder"
+        window = {
+            -- completion = cmp.config.window.bordered(),
+            documentation = cmp.config.window.bordered()
         },
         sources = cmp.config.sources(
             {
                 {name = "nvim_lsp"},
-                { name = 'luasnip' }, -- For luasnip users.
+                {name = "luasnip"}, -- For luasnip users.
                 {name = "path"},
-                {name = "nvim-lua"},
+                {name = "nvim-lua"}
             }, {{name = "buffer"}}),
         mapping = {
             ["<C-y>"] = cmp.config.disable,

@@ -110,6 +110,7 @@ return {
     --- terminal
     {
         "akinsho/toggleterm.nvim",
+        tag = "v1.*",
         event = "VimEnter",
         config = function()
             require("plugins.toggleterm").config()
@@ -153,7 +154,13 @@ return {
     },
 
     --- debugger
-    {"mfussenegger/nvim-dap", event = "VimEnter"},
+    {
+        "mfussenegger/nvim-dap",
+        event = "VimEnter",
+        config = function()
+            require("plugins.dap").config()
+        end
+    },
 
     --- editing
     {"tpope/vim-surround", event = "InsertCharPre"},

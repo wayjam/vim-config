@@ -7,7 +7,7 @@ Modern NeoVim config.
 
 ## Prerequisites
 
-*   NeoVim(0.5+)
+* NeoVim(0.7+)
 
 ## Installation
 

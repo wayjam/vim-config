@@ -1,23 +1,3 @@
-local settings = {
-    show_icons = {git = 1, folders = 1, files = 1, folder_arrows = 0},
-    git_hl = 0,
-    root_folder_modifier = ":t",
-    icons = {
-        default = "",
-        symlink = "",
-        git = {
-            unstaged = "",
-            staged = "✚",
-            unmerged = "",
-            renamed = "➜",
-            deleted = "✖",
-            untracked = "✭",
-            ignored = "◌"
-        },
-        folder = {default = "", open = "", empty = "", empty_open = "", symlink = ""}
-    }
-}
-
 local function on_open()
 end
 
@@ -32,7 +12,6 @@ end
 local function config()
     local tree_cb = require"nvim-tree.config".nvim_tree_callback
 
-    for opt, val in pairs(settings) do vim.g["nvim_tree_" .. opt] = val end
     local mappings = {
         {key = {"<CR>", "o", "<2-LeftMouse>"}, cb = tree_cb("edit")},
         {key = {"<2-RightMouse>", "<C-]>"}, cb = tree_cb("cd")},
@@ -70,10 +49,11 @@ local function config()
         {
             open_on_setup = false,
             open_on_tab = false,
-            auto_close = false,
             diagnostics = {enable = false},
             ignore_ft_on_setup = {"startify", "dashboard"},
-            update_focused_file = {disable_netrw = true, hijack_netrw = true, enable = false},
+            disable_netrw = true,
+            hijack_netrw = true,
+            update_focused_file = {enable = false},
             filters = {
                 dotfiles = false,
                 custom = {
@@ -92,7 +72,28 @@ local function config()
                     "*.pyc"
                 }
             },
-            view = {width = 30, side = "left", auto_resize = false, mappings = {custom_only = true, list = mappings}}
+            view = {width = 30, side = "left", auto_resize = false, mappings = {custom_only = true, list = mappings}},
+            renderer = {
+                highlight_git = false,
+                root_folder_modifier = ":~",
+                icons = {
+                    show = {git = true, folder = true, file = true, folder_arrow = true},
+                    glyphs = {
+                        default = "",
+                        symlink = "",
+                        git = {
+                            unstaged = "",
+                            staged = "✚",
+                            unmerged = "",
+                            renamed = "➜",
+                            deleted = "✖",
+                            untracked = "✭",
+                            ignored = "◌"
+                        },
+                        folder = {default = "", open = "", empty = "", empty_open = "", symlink = ""}
+                    }
+                }
+            }
         })
 
     -- vim.cmd "au WinClosed * lua require('plugins.nvimtree').on_close()"

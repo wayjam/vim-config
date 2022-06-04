@@ -1,5 +1,5 @@
 local function config()
-    require("trouble").setup {use_lsp_diagnostic_signs = true}
+    require("trouble").setup {use_diagnostic_signs = true}
 end
 
 local function setup()

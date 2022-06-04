@@ -11,7 +11,6 @@ local setup = function()
     keymap('n', '<leader>bf', '<cmd>Telescope buffers<CR>', opts)
     keymap('n', '<leader>jl', '<cmd>Telescope jumplist<CR>', opts)
     keymap('n', '<leader>mk', '<cmd>Telescope marks<CR>', opts)
-    keymap('n', '<leader>sy', '<cmd>Telescope lsp_dynamic_workspace_symbols<CR>', opts)
     keymap('n', '<leader>re', '<cmd>Telescope registers<CR>', opts)
     keymap('n', '<localleader><localleader>', '<cmd>Telescope commands<CR>', opts)
 
@@ -26,7 +25,7 @@ local setup = function()
     keymap('n', '<localleader>w', '<cmd>lua require"plugins.telescope".pickers.notebook()<CR>', opts)
 
     -- Navigation
-    keymap('n', '<localleader>/', '<cmd>Telescope current_buffer_fuzzy_find<CR>', opts)
+    keymap('n', '<leader>/', '<cmd>Telescope current_buffer_fuzzy_find<CR>', opts)
     keymap(
         'n', '<localleader>gt', '<cmd>lua require"plugins.telescope".pickers.lsp_workspace_symbols_cursor()<CR>', opts)
     keymap('n', '<localleader>gf', '<cmd>lua require"plugins.telescope".pickers.find_files_cursor()<CR>', opts)
@@ -39,6 +38,8 @@ local setup = function()
     keymap('n', '<leader>gr', '<cmd>Telescope lsp_references<CR>', opts)
     keymap('n', '<leader>ca', '<cmd>Telescope lsp_code_actions<CR>', opts)
     keymap('x', '<leader>ca', ':Telescope lsp_range_code_actions<CR>', opts)
+    keymap('n', '<leader>sy', '<cmd>Telescope lsp_dynamic_workspace_symbols<CR>', opts)
+    keymap('n', '<leader>dsy', '<cmd>Telescope lsp_document_symbols<CR>', opts)
 end
 
 -- Helpers
@@ -185,6 +186,10 @@ local config = function()
             prompt_prefix = '❯ ',
             selection_caret = '▷ ',
             set_env = {COLORTERM = 'truecolor'},
+
+            file_ignore_patterns = {
+                "^./.git/", "^node_modules/"
+            },
 
             -- Flex layout swaps between horizontal and vertical strategies
             -- based on the window width. See :h telescope.layout

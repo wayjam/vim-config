@@ -9,8 +9,10 @@ local function config()
         }
     })
     require('onedark').load()
-    -- local colors = require("onedark.colors")
-    -- vim.cmd("au VimEnter * highlight Pmenu guibg=" .. colors.bg0)
+
+    -- fix pmenu background color
+    local colors = require("onedark.colors")
+    vim.cmd("au VimEnter * highlight Pmenu guibg=" .. colors.bg0)
 end
 
 return {config = config}
