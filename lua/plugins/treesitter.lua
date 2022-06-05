@@ -5,12 +5,11 @@ local function config()
     require("nvim-treesitter.configs").setup(
         {
             ensure_installed = "all", -- all or a list of names
-            ignore_install = {}, -- List of parsers to ignore installing
+            ignore_install = {"phpdoc"}, -- List of parsers to ignore installing
             highlight = {
                 enable = true, -- false will disable the whole extension
                 disable = {} -- list of language that will be disabled
             },
-            highlight = {enable = true},
             indent = {enable = true},
             autotag = {enable = true},
             autopairs = {enable = true},
