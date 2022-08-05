@@ -1,56 +1,55 @@
 local setup = function()
-    local keymap = vim.api.nvim_set_keymap
-    local opts = {noremap = true, silent = true}
+  local keymap = vim.api.nvim_set_keymap
+  local opts = { noremap = true, silent = true }
 
-    -- General pickers
-    keymap('n', '<leader>?', '<cmd>Telescope<CR>', opts)
-    keymap('n', '<leader>r', '<cmd>Telescope resume<CR>', opts)
-    keymap('n', '<leader>pp', '<cmd>Telescope pickers<CR>', opts)
-    keymap('n', '<leader>ff', '<cmd>Telescope find_files<CR>', opts)
-    keymap('n', '<leader>rg', '<cmd>Telescope live_grep<CR>', opts)
-    keymap('n', '<leader>bf', '<cmd>Telescope buffers<CR>', opts)
-    keymap('n', '<leader>jl', '<cmd>Telescope jumplist<CR>', opts)
-    keymap('n', '<leader>mk', '<cmd>Telescope marks<CR>', opts)
-    keymap('n', '<leader>re', '<cmd>Telescope registers<CR>', opts)
-    keymap('n', '<localleader><localleader>', '<cmd>Telescope commands<CR>', opts)
+  -- General pickers
+  keymap("n", "<leader>?", "<cmd>Telescope<CR>", opts)
+  keymap("n", "<leader>r", "<cmd>Telescope resume<CR>", opts)
+  keymap("n", "<leader>pp", "<cmd>Telescope pickers<CR>", opts)
+  keymap("n", "<leader>ff", "<cmd>Telescope find_files<CR>", opts)
+  keymap("n", "<leader>rg", "<cmd>Telescope live_grep<CR>", opts)
+  keymap("n", "<leader>bf", "<cmd>Telescope buffers<CR>", opts)
+  keymap("n", "<leader>jl", "<cmd>Telescope jumplist<CR>", opts)
+  keymap("n", "<leader>mk", "<cmd>Telescope marks<CR>", opts)
+  keymap("n", "<leader>re", "<cmd>Telescope registers<CR>", opts)
+  keymap("n", "<localleader><localleader>", "<cmd>Telescope commands<CR>", opts)
 
-    -- git_commits    git_bcommits   git_branches
-    -- git_status     git_stash      git_files
-    -- file_browser   tags           fd             autocommands   quickfix
-    -- filetypes      commands       man_pages      help_tags      loclist
-    -- lsp_workspace_diagnostics     lsp_document_diagnostics
+  -- git_commits    git_bcommits   git_branches
+  -- git_status     git_stash      git_files
+  -- file_browser   tags           fd             autocommands   quickfix
+  -- filetypes      commands       man_pages      help_tags      loclist
+  -- lsp_workspace_diagnostics     lsp_document_diagnostics
 
-    -- Location-specific find files/directories
-    keymap('n', '<localleader>n', '<cmd>lua require"plugins.telescope".pickers.plugin_directories()<CR>', opts)
-    keymap('n', '<localleader>w', '<cmd>lua require"plugins.telescope".pickers.notebook()<CR>', opts)
+  -- Location-specific find files/directories
+  keymap("n", "<localleader>n", '<cmd>lua require"plugins.telescope".pickers.plugin_directories()<CR>', opts)
+  keymap("n", "<localleader>w", '<cmd>lua require"plugins.telescope".pickers.notebook()<CR>', opts)
 
-    -- Navigation
-    keymap('n', '<leader>/', '<cmd>Telescope current_buffer_fuzzy_find<CR>', opts)
-    keymap(
-        'n', '<localleader>gt', '<cmd>lua require"plugins.telescope".pickers.lsp_workspace_symbols_cursor()<CR>', opts)
-    keymap('n', '<localleader>gf', '<cmd>lua require"plugins.telescope".pickers.find_files_cursor()<CR>', opts)
-    keymap('n', '<localleader>gg', '<cmd>lua require"plugins.telescope".pickers.grep_string_cursor()<CR>', opts)
-    keymap('x', '<localleader>gg', '<cmd>lua require"plugins.telescope".pickers.grep_string_visual()<CR>', opts)
+  -- Navigation
+  keymap("n", "<leader>/", "<cmd>Telescope current_buffer_fuzzy_find<CR>", opts)
+  keymap("n", "<localleader>gt", '<cmd>lua require"plugins.telescope".pickers.lsp_workspace_symbols_cursor()<CR>', opts)
+  keymap("n", "<localleader>gf", '<cmd>lua require"plugins.telescope".pickers.find_files_cursor()<CR>', opts)
+  keymap("n", "<localleader>gg", '<cmd>lua require"plugins.telescope".pickers.grep_string_cursor()<CR>', opts)
+  keymap("x", "<localleader>gg", '<cmd>lua require"plugins.telescope".pickers.grep_string_visual()<CR>', opts)
 
-    -- LSP related
-    keymap('n', '<leader>gd', '<cmd>Telescope lsp_definitions<CR>', opts)
-    keymap('n', '<leader>gi', '<cmd>Telescope lsp_implementations<CR>', opts)
-    keymap('n', '<leader>gr', '<cmd>Telescope lsp_references<CR>', opts)
-    keymap('n', '<leader>ca', '<cmd>Telescope lsp_code_actions<CR>', opts)
-    keymap('x', '<leader>ca', ':Telescope lsp_range_code_actions<CR>', opts)
-    keymap('n', '<leader>sy', '<cmd>Telescope lsp_dynamic_workspace_symbols<CR>', opts)
-    keymap('n', '<leader>dsy', '<cmd>Telescope lsp_document_symbols<CR>', opts)
+  -- LSP related
+  keymap("n", "<leader>gd", "<cmd>Telescope lsp_definitions<CR>", opts)
+  keymap("n", "<leader>gi", "<cmd>Telescope lsp_implementations<CR>", opts)
+  keymap("n", "<leader>gr", "<cmd>Telescope lsp_references<CR>", opts)
+  keymap("n", "<leader>ca", "<cmd>Telescope lsp_code_actions<CR>", opts)
+  keymap("x", "<leader>ca", ":Telescope lsp_range_code_actions<CR>", opts)
+  keymap("n", "<leader>sy", "<cmd>Telescope lsp_dynamic_workspace_symbols<CR>", opts)
+  keymap("n", "<leader>dsy", "<cmd>Telescope lsp_document_symbols<CR>", opts)
 end
 
 -- Helpers
 
 -- Returns visually selected text
 local visual_selection = function()
-    local save_previous = vim.fn.getreg('a')
-    vim.api.nvim_command('silent! normal! "ay')
-    local selection = vim.fn.trim(vim.fn.getreg('a'))
-    vim.fn.setreg('a', save_previous)
-    return vim.fn.substitute(selection, [[\n]], [[\\n]], 'g')
+  local save_previous = vim.fn.getreg "a"
+  vim.api.nvim_command 'silent! normal! "ay'
+  local selection = vim.fn.trim(vim.fn.getreg "a")
+  vim.fn.setreg("a", save_previous)
+  return vim.fn.substitute(selection, [[\n]], [[\\n]], "g")
 end
 
 -- Custom actions
@@ -58,27 +57,27 @@ end
 local myactions = {}
 
 function myactions.send_to_qflist(prompt_bufnr)
-    require('telescope.actions').send_to_qflist(prompt_bufnr)
-    require('user').qflist.open()
+  require("telescope.actions").send_to_qflist(prompt_bufnr)
+  require("user").qflist.open()
 end
 
 function myactions.smart_send_to_qflist(prompt_bufnr)
-    require('telescope.actions').smart_send_to_qflist(prompt_bufnr)
-    require('user').qflist.open()
+  require("telescope.actions").smart_send_to_qflist(prompt_bufnr)
+  require("user").qflist.open()
 end
 
 function myactions.page_up(prompt_bufnr)
-    require('telescope.actions.set').shift_selection(prompt_bufnr, -5)
+  require("telescope.actions.set").shift_selection(prompt_bufnr, -5)
 end
 
 function myactions.page_down(prompt_bufnr)
-    require('telescope.actions.set').shift_selection(prompt_bufnr, 5)
+  require("telescope.actions.set").shift_selection(prompt_bufnr, 5)
 end
 
 function myactions.change_directory(prompt_bufnr)
-    local entry = require('telescope.actions.state').get_selected_entry()
-    require('telescope.actions').close(prompt_bufnr)
-    vim.cmd('lcd ' .. entry.path)
+  local entry = require("telescope.actions.state").get_selected_entry()
+  require("telescope.actions").close(prompt_bufnr)
+  vim.cmd("lcd " .. entry.path)
 end
 
 -- Custom pickers
@@ -86,254 +85,256 @@ end
 local pickers = {}
 
 pickers.grep_string_visual = function()
-    require'telescope.builtin'.live_grep({default_text = visual_selection()})
+  require("telescope.builtin").live_grep { default_text = visual_selection() }
 end
 
 pickers.grep_string_cursor = function()
-    require'telescope.builtin'.live_grep({default_text = vim.fn.expand('<cword>')})
+  require("telescope.builtin").live_grep { default_text = vim.fn.expand "<cword>" }
 end
 
 pickers.find_files_cursor = function()
-    require'telescope.builtin'.find_files({default_text = vim.fn.expand('<cword>')})
+  require("telescope.builtin").find_files { default_text = vim.fn.expand "<cword>" }
 end
 
 pickers.lsp_workspace_symbols_cursor = function()
-    require'telescope.builtin'.lsp_workspace_symbols({default_text = vim.fn.expand('<cword>')})
+  require("telescope.builtin").lsp_workspace_symbols { default_text = vim.fn.expand "<cword>" }
 end
 
 pickers.zoxide = function()
-    require'telescope'.extensions.zoxide.list({layout_config = {width = 0.4, height = 0.6}})
+  require("telescope").extensions.zoxide.list { layout_config = { width = 0.4, height = 0.6 } }
 end
 
 pickers.notebook = function()
-    require'telescope.builtin'.find_files({prompt_title = '[ Notebook ]', cwd = '$HOME/docs/blog'})
+  require("telescope.builtin").find_files { prompt_title = "[ Notebook ]", cwd = "$HOME/docs/blog" }
 end
 
 pickers.plugin_directories = function(opts)
-    local utils = require('telescope.utils')
-    local dir = vim.fn.expand('$VIM_DATA_PATH/dein/repos/github.com')
+  local utils = require "telescope.utils"
+  local dir = vim.fn.expand "$VIM_DATA_PATH/dein/repos/github.com"
 
-    opts = opts or {}
-    opts.cmd = utils.get_default(
-                   opts.cmd,
-                   {vim.o.shell, '-c', 'find ' .. vim.fn.shellescape(dir) .. ' -mindepth 2 -maxdepth 2 -type d'})
+  opts = opts or {}
+  opts.cmd = utils.get_default(
+    opts.cmd,
+    { vim.o.shell, "-c", "find " .. vim.fn.shellescape(dir) .. " -mindepth 2 -maxdepth 2 -type d" }
+  )
 
-    local dir_len = dir:len()
-    opts.entry_maker = function(line)
-        return {value = line, ordinal = line, display = line:sub(dir_len + 2), path = line}
-    end
+  local dir_len = dir:len()
+  opts.entry_maker = function(line)
+    return { value = line, ordinal = line, display = line:sub(dir_len + 2), path = line }
+  end
 
-    require('telescope.pickers').new(
-        opts, {
-            layout_config = {width = 0.65, height = 0.7},
-            prompt_title = '[ Plugin directories ]',
-            finder = require('telescope.finders').new_table {
-                results = utils.get_os_command_output(opts.cmd),
-                entry_maker = opts.entry_maker
-            },
-            sorter = require('telescope.sorters').get_fuzzy_file(),
-            previewer = require('telescope.previewers.term_previewer').cat.new(opts),
-            attach_mappings = function(_, map)
-                map('i', '<cr>', myactions.change_directory)
-                map('n', '<cr>', myactions.change_directory)
-                return true
-            end
-        }):find()
+  require("telescope.pickers").new(opts, {
+    layout_config = { width = 0.65, height = 0.7 },
+    prompt_title = "[ Plugin directories ]",
+    finder = require("telescope.finders").new_table {
+      results = utils.get_os_command_output(opts.cmd),
+      entry_maker = opts.entry_maker,
+    },
+    sorter = require("telescope.sorters").get_fuzzy_file(),
+    previewer = require("telescope.previewers.term_previewer").cat.new(opts),
+    attach_mappings = function(_, map)
+      map("i", "<cr>", myactions.change_directory)
+      map("n", "<cr>", myactions.change_directory)
+      return true
+    end,
+  }):find()
 end
 
 -- Custom window-sizes
 
 local horizontal_preview_width = function(_, cols, _)
-    if cols > 200 then
-        return math.floor(cols * 0.7)
-    else
-        return math.floor(cols * 0.6)
-    end
+  if cols > 200 then
+    return math.floor(cols * 0.7)
+  else
+    return math.floor(cols * 0.6)
+  end
 end
 
 local width_for_nopreview = function(_, cols, _)
-    if cols > 200 then
-        return math.floor(cols * 0.5)
-    elseif cols > 110 then
-        return math.floor(cols * 0.6)
-    else
-        return math.floor(cols * 0.75)
-    end
+  if cols > 200 then
+    return math.floor(cols * 0.5)
+  elseif cols > 110 then
+    return math.floor(cols * 0.6)
+  else
+    return math.floor(cols * 0.75)
+  end
 end
 
 local height_dropdown_nopreview = function(_, _, rows)
-    return math.floor(rows * 0.7)
+  return math.floor(rows * 0.7)
 end
 
 -- On-demand setup
 local config = function()
-    local telescope = require('telescope')
-    local transform_mod = require('telescope.actions.mt').transform_mod
-    local actions = require('telescope.actions')
+  local telescope = require "telescope"
+  local transform_mod = require("telescope.actions.mt").transform_mod
+  local actions = require "telescope.actions"
 
-    -- Transform to Telescope proper actions.
-    myactions = transform_mod(myactions)
+  -- Transform to Telescope proper actions.
+  myactions = transform_mod(myactions)
 
-    -- Setup Telescope
-    -- See telescope.nvim/lua/telescope/config.lua for defaults.
-    telescope.setup {
-        defaults = {
-            sorting_strategy = 'ascending',
-            selection_strategy = 'closest',
-            scroll_strategy = 'cycle',
-            cache_picker = {num_pickers = 3, limit_entries = 300},
+  -- Setup Telescope
+  -- See telescope.nvim/lua/telescope/config.lua for defaults.
+  telescope.setup {
+    defaults = {
+      sorting_strategy = "ascending",
+      selection_strategy = "closest",
+      scroll_strategy = "cycle",
+      cache_picker = { num_pickers = 3, limit_entries = 300 },
 
-            prompt_prefix = '❯ ',
-            selection_caret = '▷ ',
-            set_env = {COLORTERM = 'truecolor'},
+      prompt_prefix = "❯ ",
+      selection_caret = "▷ ",
+      set_env = { COLORTERM = "truecolor" },
 
-            file_ignore_patterns = {
-                "^./.git/", "^node_modules/"
-            },
+      file_ignore_patterns = {
+        "^./.git/",
+        "^node_modules/",
+      },
 
-            -- Flex layout swaps between horizontal and vertical strategies
-            -- based on the window width. See :h telescope.layout
-            layout_strategy = 'flex',
-            layout_config = {
-                width = 0.9,
-                height = 0.85,
-                prompt_position = 'top',
-                -- center = {
-                -- 	preview_cutoff = 40
-                -- },
-                horizontal = {
-                    -- width_padding = 0.1,
-                    -- height_padding = 0.1,
-                    -- preview_cutoff = 60,
-                    preview_width = horizontal_preview_width
-                },
-                vertical = {
-                    -- width_padding = 0.05,
-                    -- height_padding = 1,
-                    width = 0.75,
-                    height = 0.85,
-                    preview_height = 0.4,
-                    mirror = true
-                },
-                flex = {
-                    -- change to horizontal after 120 cols
-                    flip_columns = 120
-                }
-            },
-
-            mappings = {
-
-                i = {
-                    ['jj'] = {'<Esc>', type = 'command'},
-
-                    ['<Tab>'] = actions.move_selection_next,
-                    ['<S-Tab>'] = actions.move_selection_previous,
-                    ['<C-j>'] = actions.move_selection_next,
-                    ['<C-k>'] = actions.move_selection_previous,
-                    ['<C-u>'] = myactions.page_up,
-                    ['<C-d>'] = myactions.page_down,
-
-                    ['<C-q>'] = myactions.smart_send_to_qflist,
-                    -- ['<C-l'] = actions.complete_tag,
-
-                    ['<Down>'] = actions.cycle_history_next,
-                    ['<Up>'] = actions.cycle_history_prev,
-
-                    ['<C-b>'] = actions.preview_scrolling_up,
-                    ['<C-f>'] = actions.preview_scrolling_down
-                },
-
-                n = {
-                    ['q'] = actions.close,
-                    ['<Esc>'] = actions.close,
-
-                    ['<C-n>'] = actions.move_selection_next,
-                    ['<C-p>'] = actions.move_selection_previous,
-                    ['<C-u>'] = myactions.page_up,
-                    ['<C-d>'] = myactions.page_down,
-
-                    ['<C-b>'] = actions.preview_scrolling_up,
-                    ['<C-f>'] = actions.preview_scrolling_down,
-
-                    ['<C-down>'] = actions.cycle_history_next,
-                    ['<C-up>'] = actions.cycle_history_prev,
-
-                    ['*'] = actions.toggle_all,
-                    ['u'] = actions.drop_all,
-                    ['J'] = actions.toggle_selection + actions.move_selection_next,
-                    ['K'] = actions.toggle_selection + actions.move_selection_previous,
-                    ['<Tab>'] = {
-                        actions.toggle_selection,
-                        type = 'action',
-                        -- See https://github.com/nvim-telescope/telescope.nvim/pull/890
-                        keymap_opts = {nowait = true}
-                    },
-
-                    ['gg'] = actions.move_to_top,
-                    ['G'] = actions.move_to_bottom,
-
-                    ['sv'] = actions.select_horizontal,
-                    ['sp'] = actions.select_vertical,
-                    ['st'] = actions.select_tab,
-
-                    ['w'] = myactions.smart_send_to_qflist,
-                    ['e'] = myactions.send_to_qflist,
-
-                    ['!'] = actions.edit_command_line
-                }
-
-            }
+      -- Flex layout swaps between horizontal and vertical strategies
+      -- based on the window width. See :h telescope.layout
+      layout_strategy = "flex",
+      layout_config = {
+        width = 0.9,
+        height = 0.85,
+        prompt_position = "top",
+        -- center = {
+        -- 	preview_cutoff = 40
+        -- },
+        horizontal = {
+          -- width_padding = 0.1,
+          -- height_padding = 0.1,
+          -- preview_cutoff = 60,
+          preview_width = horizontal_preview_width,
         },
-        pickers = {
-            buffers = {
-                theme = 'dropdown',
-                previewer = false,
-                sort_lastused = true,
-                sort_mru = true,
-                show_all_buffers = true,
-                ignore_current_buffer = true,
-                path_display = {shorten = 5},
-                layout_config = {width = width_for_nopreview, height = height_dropdown_nopreview},
-                mappings = {n = {['dd'] = actions.delete_buffer}}
-            },
-            find_files = {
-                theme = 'dropdown',
-                previewer = false,
-                layout_config = {width = width_for_nopreview, height = height_dropdown_nopreview},
-                find_command = {'rg', '--smart-case', '--hidden', '--no-ignore-vcs', '--glob', '!.git', '--files'}
-            },
-            -- jumplist = {
-            -- 	layout_strategy = 'horizontal',
-            -- 	layout_config = { preview_width = 0.60 },
-            -- },
-            command_history = {theme = 'dropdown', previewer = false, layout_config = {width = 0.5, height = 0.7}},
-            search_history = {theme = 'dropdown', layout_config = {width = 0.4, height = 0.6}},
-            registers = {theme = 'cursor', previewer = false, layout_config = {width = 0.45, height = 0.6}},
-            lsp_definitions = {
-                layout_strategy = 'horizontal',
-                layout_config = {width = 0.95, height = 0.85, preview_width = 0.45}
-            },
-            lsp_implementations = {
-                layout_strategy = 'horizontal',
-                layout_config = {width = 0.95, height = 0.85, preview_width = 0.45}
-            },
-            lsp_references = {
-                layout_strategy = 'horizontal',
-                layout_config = {width = 0.95, height = 0.85, preview_width = 0.45}
-            },
-            lsp_code_actions = {theme = 'cursor', previewer = false, layout_config = {width = 0.3, height = 0.4}},
-            lsp_range_code_actions = {theme = 'cursor', previewer = false, layout_config = {width = 0.3, height = 0.4}}
-        }
-    }
+        vertical = {
+          -- width_padding = 0.05,
+          -- height_padding = 1,
+          width = 0.75,
+          height = 0.85,
+          preview_height = 0.4,
+          mirror = true,
+        },
+        flex = {
+          -- change to horizontal after 120 cols
+          flip_columns = 120,
+        },
+      },
 
-    -- Telescope extensions are loaded in each plugin.
-    if packer_plugins["cmp"] and packer_plugins["cmp"].loaded then
-        vim.api.nvim_exec(
-            [[   
+      mappings = {
+
+        i = {
+          ["jj"] = { "<Esc>", type = "command" },
+
+          ["<Tab>"] = actions.move_selection_next,
+          ["<S-Tab>"] = actions.move_selection_previous,
+          ["<C-j>"] = actions.move_selection_next,
+          ["<C-k>"] = actions.move_selection_previous,
+          ["<C-u>"] = myactions.page_up,
+          ["<C-d>"] = myactions.page_down,
+
+          ["<C-q>"] = myactions.smart_send_to_qflist,
+          -- ['<C-l'] = actions.complete_tag,
+
+          ["<Down>"] = actions.cycle_history_next,
+          ["<Up>"] = actions.cycle_history_prev,
+
+          ["<C-b>"] = actions.preview_scrolling_up,
+          ["<C-f>"] = actions.preview_scrolling_down,
+        },
+
+        n = {
+          ["q"] = actions.close,
+          ["<Esc>"] = actions.close,
+
+          ["<C-n>"] = actions.move_selection_next,
+          ["<C-p>"] = actions.move_selection_previous,
+          ["<C-u>"] = myactions.page_up,
+          ["<C-d>"] = myactions.page_down,
+
+          ["<C-b>"] = actions.preview_scrolling_up,
+          ["<C-f>"] = actions.preview_scrolling_down,
+
+          ["<C-down>"] = actions.cycle_history_next,
+          ["<C-up>"] = actions.cycle_history_prev,
+
+          ["*"] = actions.toggle_all,
+          ["u"] = actions.drop_all,
+          ["J"] = actions.toggle_selection + actions.move_selection_next,
+          ["K"] = actions.toggle_selection + actions.move_selection_previous,
+          ["<Tab>"] = {
+            actions.toggle_selection,
+            type = "action",
+            -- See https://github.com/nvim-telescope/telescope.nvim/pull/890
+            keymap_opts = { nowait = true },
+          },
+
+          ["gg"] = actions.move_to_top,
+          ["G"] = actions.move_to_bottom,
+
+          ["sv"] = actions.select_horizontal,
+          ["sp"] = actions.select_vertical,
+          ["st"] = actions.select_tab,
+
+          ["w"] = myactions.smart_send_to_qflist,
+          ["e"] = myactions.send_to_qflist,
+
+          ["!"] = actions.edit_command_line,
+        },
+      },
+    },
+    pickers = {
+      buffers = {
+        theme = "dropdown",
+        previewer = false,
+        sort_lastused = true,
+        sort_mru = true,
+        show_all_buffers = true,
+        ignore_current_buffer = true,
+        path_display = { shorten = 5 },
+        layout_config = { width = width_for_nopreview, height = height_dropdown_nopreview },
+        mappings = { n = { ["dd"] = actions.delete_buffer } },
+      },
+      find_files = {
+        theme = "dropdown",
+        previewer = false,
+        layout_config = { width = width_for_nopreview, height = height_dropdown_nopreview },
+        find_command = { "rg", "--smart-case", "--hidden", "--no-ignore-vcs", "--glob", "!.git", "--files" },
+      },
+      -- jumplist = {
+      -- 	layout_strategy = 'horizontal',
+      -- 	layout_config = { preview_width = 0.60 },
+      -- },
+      command_history = { theme = "dropdown", previewer = false, layout_config = { width = 0.5, height = 0.7 } },
+      search_history = { theme = "dropdown", layout_config = { width = 0.4, height = 0.6 } },
+      registers = { theme = "cursor", previewer = false, layout_config = { width = 0.45, height = 0.6 } },
+      lsp_definitions = {
+        layout_strategy = "horizontal",
+        layout_config = { width = 0.95, height = 0.85, preview_width = 0.45 },
+      },
+      lsp_implementations = {
+        layout_strategy = "horizontal",
+        layout_config = { width = 0.95, height = 0.85, preview_width = 0.45 },
+      },
+      lsp_references = {
+        layout_strategy = "horizontal",
+        layout_config = { width = 0.95, height = 0.85, preview_width = 0.45 },
+      },
+      lsp_code_actions = { theme = "cursor", previewer = false, layout_config = { width = 0.3, height = 0.4 } },
+      lsp_range_code_actions = { theme = "cursor", previewer = false, layout_config = { width = 0.3, height = 0.4 } },
+    },
+  }
+
+  -- Telescope extensions are loaded in each plugin.
+  if packer_plugins["cmp"] and packer_plugins["cmp"].loaded then
+    vim.api.nvim_exec(
+      [[   
             autocmd FileType TelescopePrompt lua require('cmp').setup.buffer { enabled = false }
-        ]], false)
-    end
+        ]],
+      false
+    )
+  end
 end
 
 -- Public functions
-return {setup = setup, config = config, pickers = pickers}
+return { setup = setup, config = config, pickers = pickers }

@@ -20,6 +20,9 @@ set formatoptions+=mM        " Correctly break multi-byte characters such as CJK
 if has('vim_starting')
 	set encoding=utf-8
 	scriptencoding utf-8
+	" Enable syntax
+	syntax on
+	filetype plugin indent on
 endif
 
 " Enables 24-bit RGB color in the TUI
@@ -33,9 +36,6 @@ if &term =~ '256color'
     " see also http://snk.tuxfamily.org/log/vim-256color-bce.html
     set t_ut=
 endif
-
-" Enable syntax
-" syntax enable
 
 " italic support
 let &t_ZH="\e[3m"

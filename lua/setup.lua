@@ -1,10 +1,6 @@
-local function pre_action()
+local function pre_action() end
 
-end
-
-local function post_action()
-
-end
+local function post_action() end
 
 ---
 -- Lua Setup and Plugins
