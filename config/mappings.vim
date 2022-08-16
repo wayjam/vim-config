@@ -57,9 +57,6 @@ cnoremap <C-k>          <Down>
 cnoremap <C-d>          <Del>
 cnoremap <C-y>          <C-r>*
 
-" Quit visual mode
-vnoremap v <Esc>
-
 " Macros
 nnoremap Q q
 nnoremap q <Nop>
@@ -94,11 +91,6 @@ nnoremap <S-Return> zMzvzt
 
 " Start new line from any cursor position in insert-mode
 inoremap <S-Return> <C-o>o
-
-" The plugin rhysd/accelerated-jk moves through display-lines in normal mode,
-" these mappings will move through display-lines in visual mode too.
-vnoremap j gj
-vnoremap k gk
 
 " nnoremap <expr> k (v:count > 5 ? "m'" . v:count : "") . 'k'
 " nnoremap <expr> j (v:count > 5 ? "m'" . v:count : "") . 'k'
