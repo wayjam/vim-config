@@ -53,6 +53,7 @@ local function setup(opts)
     },
 
     -- code actions
+    null_ls.builtins.code_actions.gitsigns,
 
     -- completion
     -- builtins.completion.spell,

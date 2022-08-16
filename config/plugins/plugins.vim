@@ -22,20 +22,6 @@ function! plugins#config(name)
 		nnoremap <silent> <leader>gi :git add -p %<cr>
 	endif
 
-	if a:name ==# 'vim-which-key'
-		nnoremap <silent> <leader> :<c-u>WhichKey '<Space>'<CR>
-		vnoremap <silent> <leader> :<c-u>WhichKeyVisual '<Space>'<CR>
-		nnoremap <silent> <localleader> :<c-u>WhichKey '\'<CR>
-		vnoremap <silent> <localleader> :<c-u>WhichKeyVisual '\'<CR>
-	endif
-
-	if a:name ==# 'vim-commentary'
-		nmap <Leader>// gcc
-		omap <Leader>// <Plug>Commentary
-		vmap <Leader>// <Plug>Commentary
-		autocmd FileType vue setlocal commentstring=//\ %s
-	endif
-
 	if a:name ==# 'vim-sneak-setup'
 		let g:sneak#label = 1
 		let g:sneak#s_next = 1

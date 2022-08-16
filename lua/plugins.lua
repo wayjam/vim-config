@@ -183,11 +183,10 @@ return {
   },
   { "yamatsum/nvim-cursorline", event = "InsertCharPre" },
   {
-    "tpope/vim-commentary",
-    cmd = "Commentary",
+    "numToStr/Comment.nvim",
     event = "VimEnter",
     config = function()
-      vim.fn["plugins#config"] "vim-commentary"
+      require("plugins.comment").config()
     end,
   },
   {
