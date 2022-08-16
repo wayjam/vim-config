@@ -38,19 +38,21 @@ function! plugins#config(name)
 
 	if a:name ==# 'vim-sneak-setup'
 		let g:sneak#label = 1
-
+		let g:sneak#s_next = 1
 		" case insensitive sneak
 		let g:sneak#use_ic_scs = 1
+		let g:sneak#t_reset = 1
+
 
 		" remap so I can use , and ; with f and t
 		map gS <Plug>Sneak_,
 		map gs <Plug>Sneak_;
 
 		" I like quickscope better for this since it keeps me in the scope of a single line
-		" map f <Plug>Sneak_f
-		" map F <Plug>Sneak_F
-		" map t <Plug>Sneak_t
-		" map T <Plug>Sneak_T
+		" nmap f <Plug>Sneak_f
+		" nmap F <Plug>Sneak_F
+		" nmap t <Plug>Sneak_t
+		" nmap T <Plug>Sneak_T
 	endif
 
 
