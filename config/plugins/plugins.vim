@@ -29,7 +29,6 @@ function! plugins#config(name)
 		let g:sneak#use_ic_scs = 1
 		let g:sneak#t_reset = 1
 
-
 		" remap so I can use , and ; with f and t
 		map gS <Plug>Sneak_,
 		map gs <Plug>Sneak_;
@@ -53,19 +52,6 @@ function! plugins#config(name)
 		xmap ga <Plug>(EasyAlign)
 		" Start interactive EasyAlign for a motion/text object (e.g. gaip)
 		nmap ga <Plug>(EasyAlign)
-	endif
-
-	if a:name ==# 'vim-editorconfig'
-		let g:editorconfig_verbose = 1
-		let g:editorconfig_blacklist = {
-		\ 'filetype': [
-			\   'git.*', 'fugitive', 'help', 'defx', 'denite.*', 'startify',
-			\   'vista.*', 'tagbar', 'lsp-.*', 'clap_.*', 'any-jump', 'gina-.*',
-			\   'lsp-*'
-			\  ],
-			\ 'pattern': ['\.un~$']
-			\ }
-
 	endif
 
 	if a:name ==# 'emmet-vim'

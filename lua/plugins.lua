@@ -17,7 +17,7 @@ return {
       vim.fn["plugins#config"] "sleuth"
     end,
   },
-  { "editorconfig/editorconfig-vim" },
+  { "gpanders/editorconfig.nvim" },
 
   --- ui
   {
