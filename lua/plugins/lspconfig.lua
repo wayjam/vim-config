@@ -42,17 +42,23 @@ local on_attach = function(client, bufnr)
   end
 
   -- Set autocommands conditional on server_capabilities
-  if client.supports_method "textDocument/documentHighlight" then
-    vim.api.nvim_exec(
-      [[
-	augroup lsp_document_highlight
-	  autocmd! * <buffer>
-	  autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-	  autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-	augroup END
-      ]],
-      false
-    )
+  -- refer to https://github.com/neovim/nvim-lspconfig/wiki/UI-Customization#highlight-symbol-under-cursor
+  if client.server_capabilities.documentHighlightProvider then
+    vim.api.nvim_create_augroup("lsp_document_highlight", { clear = false })
+    vim.api.nvim_clear_autocmds {
+      group = "lsp_document_highlight",
+      buffer = bufnr,
+    }
+    vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+      group = "lsp_document_highlight",
+      callback = vim.lsp.buf.document_highlight,
+      buffer = bufnr,
+    })
+    vim.api.nvim_create_autocmd("CursorMoved", {
+      group = "lsp_document_highlight",
+      callback = vim.lsp.buf.clear_references,
+      buffer = bufnr,
+    })
   end
 
   if utils.has_plugin "null-ls.nvim" then
@@ -77,7 +83,6 @@ local function make_config(server_name)
     c.capabilities = vim.tbl_extend("keep", c.capabilities or {}, require("lsp-status").capabilities)
   end
   c.capabilities.textDocument.completion.completionItem.snippetSupport = true
-  c.capabilities.textDocument.completion.completionItem.snippetSupport = true
   c.capabilities.textDocument.completion.completionItem.preselectSupport = true
   c.capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
   c.capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
@@ -86,6 +91,10 @@ local function make_config(server_name)
   c.capabilities.textDocument.completion.completionItem.tagSupport = { valueSet = { 1 } }
   c.capabilities.textDocument.completion.completionItem.resolveSupport = {
     properties = { "documentation", "detail", "additionalTextEdits" },
+  }
+  c.capabilities.textDocument.foldingRange = {
+    dynamicRegistration = true,
+    lineFoldingOnly = true,
   }
 
   -- Merge user-defined lsp settings.
