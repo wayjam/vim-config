@@ -68,42 +68,11 @@ function! plugins#config(name)
 
 	endif
 
-	if a:name ==# 'vim-markdown'
-		let g:vim_markdown_frontmatter = 1
-		let g:vim_markdown_strikethrough = 1
-		let g:vim_markdown_conceal = 0
-		let g:vim_markdown_conceal_code_blocks = 0
-		let g:vim_markdown_new_list_item_indent = 0
-		let g:vim_markdown_toc_autofit = 0
-		let g:vim_markdown_follow_anchor = 0
-		let g:vim_markdown_no_extensions_in_markdown = 1
-		let g:vim_markdown_edit_url_in = 'vsplit'
-		let g:vim_markdown_fenced_languages = [
-			\ 'c++=cpp',
-			\ 'viml=vim',
-			\ 'bash=sh',
-			\ 'ini=dosini',
-			\ 'js=javascript',
-			\ 'json=javascript',
-			\ 'jsx=javascriptreact',
-			\ 'tsx=typescriptreact',
-			\ 'docker=Dockerfile',
-			\ 'makefile=make',
-			\ 'py=python'
-			\ ]
-	endif
-
 	if a:name ==# 'emmet-vim'
 		let g:user_emmet_mode = 'i'
 		let g:user_emmet_install_global = 0
 		let g:user_emmet_install_command = 0
 		let g:user_emmet_complete_tag = 0
-	endif
-
-
-	if a:name ==# "vim-javascript"
-		let g:javascript_plugin_jsdoc = 1
-		let g:javascript_plugin_flow = 1
 	endif
 
 	if a:name ==# 'sleuth'

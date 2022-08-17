@@ -84,18 +84,10 @@ endif
 
 " Vim Directories
 set undofile
-if ! has('nvim')
-	set swapfile nobackup
-	set directory=g:DATA_PATH/swap//
-	set undodir=g:DATA_PATH/undo//
-	set backupdir=g:DATA_PATH/backup/
-	set viewdir=g:DATA_PATH/view/
-	set spellfile=g:DATA_PATH/spell/en.utf-8.add
-endif
 
 " History saving
 set history=1000
-if has('nvim') && ! has('win32') && ! has('win64')
+if ! has('win32') && ! has('win64')
 	set shada='400,<20,@100,s10,f1,h,r/tmp,r/private/var
 else
 	set viminfo='400,<20,@50,f1,h,n$HOME/.cache/viminfo
@@ -110,11 +102,7 @@ if $SUDO_USER !=# '' && $USER !=# $SUDO_USER
 	set nobackup
 	set nowritebackup
 	set noundofile
-	if has('nvim')
-		set shada="NONE"
-	else
-		set viminfo="NONE"
-	endif
+	set shada="NONE"
 endif
 
 " Secure sensitive information, disable backup files in temp directories
@@ -198,14 +186,6 @@ set noruler             " Disable default status ruler
 set list                " Show hidden characters
 
 set showtabline=2       " Always show the tabs line
-" set winwidth=30         " Minimum width for active window
-" set winminwidth=10      " Minimum width for inactive windows
-" set winheight=4         " Minimum height for active window
-" set winminheight=1      " Minimum height for inactive window
-" set pumheight=15        " Pop-up menu's line height
-" set helpheight=12       " Minimum help window height
-" set previewheight=12    " Completion preview height
-
 set showcmd             " Show command in status line
 set cmdheight=2        " Height of the command line
 set cmdwinheight=5      " Command-line lines
@@ -230,15 +210,8 @@ set listchars=tab:\▏\ ,precedes:«,extends:»,nbsp:␣,trail:·
 " Do not show "match xx of xx" and other messages during auto-completion
 set shortmess+=c
 
-" Do not show search match count on bottom right (seriously, I would strain my
-" neck looking at it). Using plugins like vim-anzu or nvim-hlslens is a better
-" choice, IMHO.
-set shortmess+=S
-
-if has('conceal') && v:version >= 703
-	" For snippet_complete marker
-	set conceallevel=2 concealcursor=niv
-endif
+" For snippet_complete marker
+set conceallevel=2 concealcursor=niv
 
 if exists('&pumblend')
 	" pseudo-transparency for completion menu

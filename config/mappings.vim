@@ -25,9 +25,7 @@ endif
 " Double leader key for toggling visual-line mode
 nmap <silent> <Leader><Leader> V
 vmap <Leader><Leader> <Esc>
-if has('nvim') || has('terminal')
-  tnoremap <Esc> <C-\><C-n>
-endif
+tnoremap <Esc> <C-\><C-n>
 
 " jump
 nnoremap g[ <C-O>
@@ -102,7 +100,6 @@ inoremap <S-Return> <C-o>o
 nnoremap ! :!
 
 " Allow misspellings
-cnoreabbrev qw wq
 cnoreabbrev Wq wq
 cnoreabbrev WQ wq
 cnoreabbrev Qa qa
@@ -220,12 +217,6 @@ nnoremap <C-J> <C-W>j
 nnoremap <C-K> <C-W>k
 nnoremap <C-L> <C-W>l
 nnoremap <C-H> <C-W>h
-if has('nvim') || has('terminal')
-  tnoremap <Leader>wj <C-W>j
-  tnoremap <Leader>wk <C-W>k
-  tnoremap <Leader>wh <C-W>h
-  tnoremap <Leader>wl <C-W>l
-endif
 nnoremap <Leader>wH <C-W>5<
 nnoremap <Leader>wL <C-W>5>
 nnoremap <Leader>wJ :resize +5<CR>
@@ -234,6 +225,12 @@ nnoremap <Leader>w= <C-W>=
 nnoremap <Leader>ws <C-W>s
 nnoremap <Leader>w- <C-W>s
 nnoremap <Leader>wv <C-W>v
+
+" Terminal Window
+tnoremap <Leader>wj <C-W>j
+tnoremap <Leader>wk <C-W>k
+tnoremap <Leader>wh <C-W>h
+tnoremap <Leader>wl <C-W>l
 
 function! s:window_empty_buffer()
   let l:current = bufnr('%')
@@ -265,13 +262,6 @@ nmap ]c :lnext<CR>
 nmap [c :lprev<CR>
 nmap ]q :cnext<CR>
 nmap [q :cprev<CR>
-
-" Select last paste
-nnoremap <expr> gp '`['.strpart(getregtype(), 0, 1).'`]'
-
-" Duplicate lines
-nnoremap <Leader>d m`YP``
-vnoremap <Leader>d YPgv
 
 " Drag current line/s vertically and auto-indent
 vnoremap <Leader>k :m '<-2<CR>gv=gv

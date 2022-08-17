@@ -25,7 +25,7 @@ local setup = function()
   keymap("n", "<localleader>w", '<cmd>lua require"plugins.telescope".pickers.notebook()<CR>', opts)
 
   -- Navigation
-  keymap("n", "<leader>/", "<cmd>Telescope current_buffer_fuzzy_find<CR>", opts)
+  keymap("n", "<localleader>/", "<cmd>Telescope current_buffer_fuzzy_find<CR>", opts)
   keymap("n", "<localleader>gt", '<cmd>lua require"plugins.telescope".pickers.lsp_workspace_symbols_cursor()<CR>', opts)
   keymap("n", "<localleader>gf", '<cmd>lua require"plugins.telescope".pickers.find_files_cursor()<CR>', opts)
   keymap("n", "<localleader>gg", '<cmd>lua require"plugins.telescope".pickers.grep_string_cursor()<CR>', opts)

@@ -5,10 +5,6 @@ local function format()
   -- vim.lsp.buf.format({timeout_ms = 2000}) -- 2 seconds
 end
 
-local function should_use_null_ls_format()
-  return true
-end
-
 local function has_exec(filename)
   return function(_)
     return vim.fn.executable(filename) == 1

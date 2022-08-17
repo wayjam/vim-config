@@ -26,31 +26,6 @@ return {
       require("plugins.onedark").config()
     end,
   },
-  {
-    "nvim-treesitter/nvim-treesitter",
-    run = ":TSUpdate",
-    config = function()
-      require("plugins.treesitter").config()
-    end,
-  },
-  {
-    "JoosepAlviste/nvim-ts-context-commentstring",
-    config = function()
-      require("plugins.treesitter").commentstring()
-    end,
-  },
-  {
-    "windwp/nvim-ts-autotag",
-    config = function()
-      require("plugins.treesitter").autotag()
-    end,
-  },
-  {
-    "nvim-treesitter/nvim-treesitter-textobjects",
-    config = function()
-      require("plugins.treesitter").textobjects()
-    end,
-  },
   { "kyazdani42/nvim-web-devicons" },
   {
     "nvim-lualine/lualine.nvim",
@@ -119,7 +94,7 @@ return {
   {
     "akinsho/toggleterm.nvim",
     tag = "v1.*",
-    event = "VimEnter",
+    cmd = "ToggleTerm",
     config = function()
       require("plugins.toggleterm").config()
     end,
@@ -178,6 +153,10 @@ return {
     config = function()
       require("plugins.dap").config()
     end,
+  },
+  {
+    "ravenxrz/DAPInstall.nvim",
+    requires = "nvim-dap",
   },
   {
     "rcarriga/nvim-dap-ui",
@@ -247,14 +226,34 @@ return {
     end,
   },
 
-  --- languages specifies
+  --- syntax
   {
-    "plasticboy/vim-markdown",
-    ft = { "markdown", "pandoc.markdown", "rmc" },
+    "nvim-treesitter/nvim-treesitter",
+    run = ":TSUpdate",
     config = function()
-      vim.fn["plugins#config"] "vim-markdown"
+      require("plugins.treesitter").config()
     end,
   },
+  {
+    "JoosepAlviste/nvim-ts-context-commentstring",
+    config = function()
+      require("plugins.treesitter").commentstring()
+    end,
+  },
+  {
+    "windwp/nvim-ts-autotag",
+    config = function()
+      require("plugins.treesitter").autotag()
+    end,
+  },
+  {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    config = function()
+      require("plugins.treesitter").textobjects()
+    end,
+  },
+
+  --- languages specifies
   {
     "iamcco/markdown-preview.nvim",
     ft = { "markdown", "pandoc.markdown", "rmc" },
@@ -270,21 +269,8 @@ return {
     end,
   },
   {
-    "pangloss/vim-javascript",
-    ft = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
-    config = function()
-      vim.fn["plugins#config"] "vim-javascript"
-    end,
-  },
-  {
-    "jeetsukumaran/vim-pythonsense",
-    ft = { "python" },
-    config = function() end,
-  },
-  {
     "petobens/poet-v",
     ft = { "python" },
     config = function() end,
   },
-  { "rust-lang/rust.vim", ft = { "rust" } },
 }

@@ -2,12 +2,6 @@
 " Runtime Initialize
 " ===
 
-if &compatible
-	" vint: -ProhibitSetNoCompatible
-	set nocompatible
-	" vint: +ProhibitSetNoCompatible
-endif
-
 " Initialize Global util
 call utils#init()
 
@@ -80,16 +74,7 @@ function! s:main()
 
 		" Python interpreter settings
 		if filereadable(l:virtualenv)
-			if has('nvim')
-				let g:python3_host_prog = l:virtualenv
-			elseif has('pythonx')
-				execute 'set pythonthreehome=' . fnamemodify(l:virtualenv, ':h:h')
-				if has('python3')
-					set pyxversion=3
-				elseif has('python')
-					set pyxversion=2
-				endif
-			endif
+			let g:python3_host_prog = l:virtualenv
 		endif
 
 	endif
