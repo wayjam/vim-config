@@ -183,8 +183,6 @@ set shortmess=aoOTI     " Shorten messages and don't show intro
 set scrolloff=2         " Keep at least 2 lines above/below
 set sidescrolloff=5     " Keep at least 5 lines left/right
 set noruler             " Disable default status ruler
-set list                " Show hidden characters
-
 set showtabline=2       " Always show the tabs line
 set showcmd             " Show command in status line
 set cmdheight=2        " Height of the command line
@@ -203,6 +201,7 @@ set foldlevel=99
 set foldclose=all
 
 " UI Symbols
+set list                " Show hidden characters
 let &showbreak='↳  '
 set listchars=tab:\▏\ ,precedes:«,extends:»,nbsp:␣,trail:·
 " set fillchars=vert:▉,fold:─

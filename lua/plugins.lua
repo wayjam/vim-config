@@ -52,6 +52,9 @@ return {
       require("plugins.gitsigns").config()
     end,
   },
+  {
+    "lukas-reineke/indent-blankline.nvim",
+  },
 
   --- tools
   {
