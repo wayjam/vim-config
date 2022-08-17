@@ -1,6 +1,12 @@
 return {
   --- basic
   { "wbthomason/packer.nvim", opt = true },
+  {
+    "lewis6991/impatient.nvim",
+    config = function()
+      require "impatient"
+    end,
+  },
   { "nathom/filetype.nvim" },
   { "antoinemadec/FixCursorHold.nvim" },
   { "christoomey/vim-tmux-navigator" },
