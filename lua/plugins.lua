@@ -77,6 +77,8 @@ return {
       require("plugins.gitsigns").config()
     end,
   },
+
+  --- tools
   {
     "folke/trouble.nvim",
     cmd = { "Trouble", "TroubleToggle" },
@@ -88,8 +90,6 @@ return {
       require("plugins.trouble").config()
     end,
   },
-
-  --- tools
   {
     "kyazdani42/nvim-tree.lua",
     requires = { "kyazdani42/nvim-web-devicons" },
@@ -172,8 +172,19 @@ return {
   {
     "mfussenegger/nvim-dap",
     event = "VimEnter",
+    setup = function()
+      require("plugins.dap").setup()
+    end,
     config = function()
       require("plugins.dap").config()
+    end,
+  },
+  {
+    "rcarriga/nvim-dap-ui",
+    requires = "nvim-dap",
+    after = "nvim-dap",
+    config = function()
+      require("dapui").setup()
     end,
   },
 
