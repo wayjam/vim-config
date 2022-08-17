@@ -115,24 +115,19 @@ end
 
 -- Iterate and setup all language servers and trigger FileType in windows.
 local function setup_servers()
-  local lsp_installer = require "nvim-lsp-installer"
+  if utils.has_plugin "mason-lspconfig" then
+    return
+  end
 
-  lsp_installer.settings {
-    ui = { icons = { server_installed = "✓", server_pending = "➜", server_uninstalled = "✗" } },
+  require("mason-lspconfig").setup_handlers {
+    -- The first entry (without a key) will be the default handler
+    -- and will be called for each installed server that doesn't have
+    -- a dedicated handler.
+    function(server_name)
+      local opts = make_config(server_name)
+      require("lspconfig")[server_name].setup(opts)
+    end,
   }
-
-  lsp_installer.on_server_ready(function(server)
-    local opts = make_config(server.name)
-    -- (optional) Customize the options passed to the server
-    -- if server.name == "tsserver" then
-    --     opts.root_dir = function() ... end
-    -- end
-    --
-    -- This setup() function is exactly the same as lspconfig's setup function.
-    -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/ADVANCED_README.md
-    server:setup(opts)
-  end)
-
   -- Reload if files were supplied in command-line arguments
   if vim.fn.argc() > 0 and not vim.o.modified then
     vim.cmd "windo e"
@@ -213,7 +208,7 @@ local function config()
     require("lsp.null-ls").setup { on_attach = on_attach }
   end
 
-  -- Setup LSP with lspinstall
+  -- Setup LSP servers
   setup_servers()
 end
 

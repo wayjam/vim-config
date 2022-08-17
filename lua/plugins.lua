@@ -124,8 +124,17 @@ return {
   { "hrsh7th/cmp-path", after = "nvim-cmp" },
 
   --- lsp
+  {
+    "williamboman/mason.nvim",
+  },
+  {
+    "williamboman/mason-lspconfig.nvim",
+    after = "mason.nvim",
+    config = function()
+      require("plugins.mason").config()
+    end,
+  },
   { "ray-x/lsp_signature.nvim" },
-  { "williamboman/nvim-lsp-installer" },
   { "kosayoda/nvim-lightbulb" },
   { "nvim-lua/lsp-status.nvim" },
   { "jose-elias-alvarez/null-ls.nvim" },
@@ -133,7 +142,7 @@ return {
     "neovim/nvim-lspconfig",
     after = {
       "cmp-nvim-lsp",
-      "nvim-lsp-installer",
+      "mason-lspconfig.nvim",
       "lsp_signature.nvim",
       "nvim-lightbulb",
       "lsp-status.nvim",
@@ -155,15 +164,11 @@ return {
     end,
   },
   {
-    "ravenxrz/DAPInstall.nvim",
-    requires = "nvim-dap",
-  },
-  {
     "rcarriga/nvim-dap-ui",
     requires = "nvim-dap",
     after = "nvim-dap",
     config = function()
-      require("dapui").setup()
+      require("plugins.dap").uiconfig()
     end,
   },
 

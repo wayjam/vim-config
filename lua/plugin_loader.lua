@@ -32,6 +32,14 @@ local function startup()
   --     autocmd BufWritePost plugins.lua source <afile> | PackerCompile
   --   augroup end
   -- ]])
+
+  packer.init {
+    display = {
+      open_fn = function()
+        return require("packer.util").float { border = "rounded" }
+      end,
+    },
+  }
   packer.startup {
     function(use)
       vim.cmd("source" .. vim.g["CONFIG_PATH"] .. "/config/plugins/plugins.vim")
