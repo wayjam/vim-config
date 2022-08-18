@@ -202,13 +202,10 @@ return {
     end,
   },
   {
-    "justinmk/vim-sneak",
+    "ggandor/leap.nvim",
     event = "VimEnter",
-    setup = function()
-      vim.fn["plugins#config"] "vim-sneak-setup"
-    end,
     config = function()
-      vim.fn["plugins#config"] "vim-sneak"
+      require("plugins.leap").config()
     end,
   },
   {

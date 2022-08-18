@@ -1,19 +1,24 @@
 local function uiconfig()
   local dapui = require "dapui"
   dapui.setup {
-    sidebar = {
-      elements = {
-        {
-          id = "scopes",
-          size = 0.25, -- Can be float or integer > 1
+    layouts = {
+      {
+        elements = {
+          -- Elements can be strings or table with id and size keys.
+          { id = "scopes", size = 0.25 },
+          "breakpoints",
         },
-        { id = "breakpoints", size = 0.25 },
+        size = 40, -- 40 columns
+        position = "right",
       },
-      size = 40,
-      position = "bottom", -- Can be "left", "right", "top", "bottom"
-    },
-    tray = {
-      elements = {},
+      {
+        elements = {
+          "repl",
+          "console",
+        },
+        size = 0.25, -- 25% of total lines
+        position = "bottom",
+      },
     },
   }
 end

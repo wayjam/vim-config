@@ -22,31 +22,6 @@ function! plugins#config(name)
 		nnoremap <silent> <leader>gi :git add -p %<cr>
 	endif
 
-	if a:name ==# 'vim-sneak-setup'
-		let g:sneak#label = 1
-		let g:sneak#s_next = 1
-		" case insensitive sneak
-		let g:sneak#use_ic_scs = 1
-		let g:sneak#t_reset = 1
-
-		" remap so I can use , and ; with f and t
-		map gS <Plug>Sneak_,
-		map gs <Plug>Sneak_;
-
-		" I like quickscope better for this since it keeps me in the scope of a single line
-		" nmap f <Plug>Sneak_f
-		" nmap F <Plug>Sneak_F
-		" nmap t <Plug>Sneak_t
-		" nmap T <Plug>Sneak_T
-	endif
-
-
-	if a:name ==# 'vim-sneak'
-		" Change the colors
-		hi link Sneak Search
-		hi link SneakScope Search
-	endif
-
 	if a:name ==# 'vim-easy-align'
 		" Start interactive EasyAlign in visual mode (e.g. vipga)
 		xmap ga <Plug>(EasyAlign)
