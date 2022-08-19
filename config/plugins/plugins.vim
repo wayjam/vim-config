@@ -29,13 +29,6 @@ function! plugins#config(name)
 		nmap ga <Plug>(EasyAlign)
 	endif
 
-	if a:name ==# 'emmet-vim'
-		let g:user_emmet_mode = 'i'
-		let g:user_emmet_install_global = 0
-		let g:user_emmet_install_command = 0
-		let g:user_emmet_complete_tag = 0
-	endif
-
 	if a:name ==# 'sleuth'
 		let g:sleuth_neighbor_limit = 5
 		autocmd user_events FileType markdown,yaml,help

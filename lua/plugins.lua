@@ -266,14 +266,6 @@ return {
     run = "cd app && yarn install",
   },
   {
-    "mattn/emmet-vim",
-    ft = { "html", "css", "javascript", "javascriptreact", "typescript", "typescriptreact", "vue", "svelte" },
-    Event = "InsertEnter",
-    config = function()
-      vim.fn["plugins#config"] "emmet-vim"
-    end,
-  },
-  {
     "petobens/poet-v",
     ft = { "python" },
     config = function() end,
