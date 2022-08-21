@@ -7,7 +7,7 @@ Modern NeoVim config.
 
 ## Prerequisites
 
-* NeoVim(0.8+)
+- NeoVim(0.7+)
 
 ## Installation
 
@@ -19,7 +19,7 @@ cd ~/.config
 git clone https://github.com/wayjam/vim-config.git nvim
 ```
 
-***Note***: Symlink for "regular" vim: `ln -s ~/.config/nvim ~/.vim`
+**_Note_**: Symlink for "regular" vim: `ln -s ~/.config/nvim ~/.vim`
 
 ## Feature
 
@@ -33,14 +33,13 @@ Update Plugin(the plugins are not updated automatically):
 :PackerSync
 ```
 
-#### LSP
+#### LSP && Dap && Formatter
 
-Using the Neovim's built-in language server client with \[nvim-lspconfig]\(https:
-//github.com/neovim/nvim-lspconfig), and you can install lsp server with [lsp-install](https://github.com/kabouzeid/nvim-lspinstall):
+Using the Neovim's built-in language server client with [nvim-lspconfig](https:
+//github.com/neovim/nvim-lspconfig), and you can install lsp server with [Mason](https://github.com/williamboman/mason.nvim):
 
 ```
-:LspInstall rust
-:LspInstall go
+:Mason
 ```
 
 ### Complete
@@ -49,7 +48,8 @@ Configured nvim-cmp with [LusSnip](https://github.com/L3MON4D3/LuaSnip) and [fri
 
 ## Customize
 
-Create your config named `customize.vim` at the root of this repo, edit it and save.
+Lua file in `customize/before` will source before all pre-configured plugins,
+Lua file in `customize/after` will source after all pre-configured plugins.
 
 ## Upgrade
 

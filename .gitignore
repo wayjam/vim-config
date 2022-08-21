@@ -75,3 +75,6 @@ spell
 indent
 syntax
 ftdetect
+customize/*
+!customize/after/.keep
+!customize/before/.keep

@@ -211,7 +211,7 @@ return {
   {
     "ojroques/vim-oscyank",
     setup = function()
-      vim.fn["plugins#source"] "oscyank"
+      require("utils").source_file "config/plugins/oscyank.vim"
     end,
   },
   {

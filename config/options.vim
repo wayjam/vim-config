@@ -18,16 +18,16 @@ set formatoptions-=t         " Don't auto-wrap text
 set formatoptions+=mM        " Correctly break multi-byte characters such as CJK, see https://stackoverflow.com/q/32669814/6064933
 
 if has('vim_starting')
-	set encoding=utf-8
-	scriptencoding utf-8
-	" Enable syntax
-	syntax on
-	filetype plugin indent on
+  set encoding=utf-8
+  scriptencoding utf-8
+  " Enable syntax
+  syntax on
+  filetype plugin indent on
 endif
 
 " Enables 24-bit RGB color in the TUI
 if has('termguicolors')
-	set termguicolors
+  set termguicolors
 endif
 
 if &term =~ '256color'
@@ -50,36 +50,36 @@ set viewoptions=folds,cursor,curdir,slash,unix
 set sessionoptions=curdir,help,tabpages,winsize
 
 if has('mac')
-	let g:clipboard = {
-		\   'name': 'macOS-clipboard',
-		\   'copy': {
-		\      '+': 'pbcopy',
-		\      '*': 'pbcopy',
-		\    },
-		\   'paste': {
-		\      '+': 'pbpaste',
-		\      '*': 'pbpaste',
-		\   },
-		\   'cache_enabled': 0,
-		\ }
+  let g:clipboard = {
+    \   'name': 'macOS-clipboard',
+    \   'copy': {
+    \      '+': 'pbcopy',
+    \      '*': 'pbcopy',
+    \    },
+    \   'paste': {
+    \      '+': 'pbpaste',
+    \      '*': 'pbpaste',
+    \   },
+    \   'cache_enabled': 0,
+    \ }
 endif
 
 " clipboard
 if has('clipboard')
-	set clipboard& clipboard+=unnamedplus
+  set clipboard& clipboard+=unnamedplus
 endif
 
 " Wildmenu
 if has('wildmenu')
-	set nowildmenu
-	set wildmode=list:longest,full
-	set wildoptions=tagfile
-	set wildignorecase
-	set wildignore+=.git,.hg,.svn,.stversions,*.pyc,*.spl,*.o,*.out,*~,%*
-	set wildignore+=*.jpg,*.jpeg,*.png,*.gif,*.zip,**/tmp/**,*.DS_Store
-	set wildignore+=**/node_modules/**,**/bower_modules/**,*/.sass-cache/*
-	set wildignore+=application/vendor/**,**/vendor/ckeditor/**,media/vendor/**
-	set wildignore+=__pycache__,*.egg-info,.pytest_cache
+  set nowildmenu
+  set wildmode=list:longest,full
+  set wildoptions=tagfile
+  set wildignorecase
+  set wildignore+=.git,.hg,.svn,.stversions,*.pyc,*.spl,*.o,*.out,*~,%*
+  set wildignore+=*.jpg,*.jpeg,*.png,*.gif,*.zip,**/tmp/**,*.DS_Store
+  set wildignore+=**/node_modules/**,**/bower_modules/**,*/.sass-cache/*
+  set wildignore+=application/vendor/**,**/vendor/ckeditor/**,media/vendor/**
+  set wildignore+=__pycache__,*.egg-info,.pytest_cache
 endif
 
 " Vim Directories
@@ -88,35 +88,35 @@ set undofile
 " History saving
 set history=1000
 if ! has('win32') && ! has('win64')
-	set shada='400,<20,@100,s10,f1,h,r/tmp,r/private/var
+  set shada='400,<20,@100,s10,f1,h,r/tmp,r/private/var
 else
-	set viminfo='400,<20,@50,f1,h,n$HOME/.cache/viminfo
+  set viminfo='400,<20,@50,f1,h,n$HOME/.cache/viminfo
 endif
 
 " If sudo, disable vim swap/backup/undo/shada/viminfo writing
 if $SUDO_USER !=# '' && $USER !=# $SUDO_USER
-	\ && $HOME !=# expand('~'.$USER)
-	\ && $HOME ==# expand('~'.$SUDO_USER)
+  \ && $HOME !=# expand('~'.$USER)
+  \ && $HOME ==# expand('~'.$SUDO_USER)
 
-	set noswapfile
-	set nobackup
-	set nowritebackup
-	set noundofile
-	set shada="NONE"
+  set noswapfile
+  set nobackup
+  set nowritebackup
+  set noundofile
+  set shada="NONE"
 endif
 
 " Secure sensitive information, disable backup files in temp directories
 if exists('&backupskip')
-	set backupskip+=/tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*,*/shm/*,/private/var/*
-	set backupskip+=.vault.vim
+  set backupskip+=/tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*,*/shm/*,/private/var/*
+  set backupskip+=.vault.vim
 endif
 
 " Disable swap/undo/viminfo/shada files in temp directories or shm
 augroup user_secure
-	autocmd!
-	silent! autocmd BufNewFile,BufReadPre
-		\ /tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*,*/shm/*,/private/var/*,.vault.vim
-		\ setlocal noswapfile noundofile nobackup nowritebackup viminfo= shada=
+  autocmd!
+  silent! autocmd BufNewFile,BufReadPre
+    \ /tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*,*/shm/*,/private/var/*,.vault.vim
+    \ setlocal noswapfile noundofile nobackup nowritebackup viminfo= shada=
 augroup END
 
 " Tabs and Indents
@@ -150,21 +150,20 @@ set showfulltag     " Show tag and tidy search in completion
 "set complete=.      " No wins, buffs, tags, include scanning
 
 if exists('+inccommand')
-	set inccommand=nosplit
+  set inccommand=nosplit
 endif
 
 if executable('rg')
-	set grepformat=%f:%l:%m
-	let &grepprg = 'rg --vimgrep' . (&smartcase ? ' --smart-case' : '')
+  set grepformat=%f:%l:%m
+  let &grepprg = 'rg --vimgrep' . (&smartcase ? ' --smart-case' : '')
 elseif executable('ag')
-	set grepformat=%f:%l:%m
-	let &grepprg = 'ag --vimgrep' . (&smartcase ? ' --smart-case' : '')
+  set grepformat=%f:%l:%m
+  let &grepprg = 'ag --vimgrep' . (&smartcase ? ' --smart-case' : '')
 endif
 
 " Behavior
 set nowrap                      " No wrap by default
 set linebreak                   " Break long lines at 'breakat'
-set breakat=\ \	;:,!?           " Long lines break chars
 set nostartofline               " Cursor in same column for few commands
 set whichwrap+=h,l,<,>,[,],~    " Move to following line on certain keys
 set splitbelow splitright       " Splits open bottom right
@@ -202,9 +201,8 @@ set foldclose=all
 
 " UI Symbols
 set list                " Show hidden characters
-let &showbreak='↳  '
-set listchars=tab:\▏\ ,precedes:«,extends:»,nbsp:␣,trail:·
-" set fillchars=vert:▉,fold:─
+set showbreak=↪
+set list listchars=tab:▸\ ,extends:❯,precedes:❮,nbsp:␣
 
 " Do not show "match xx of xx" and other messages during auto-completion
 set shortmess+=c
@@ -213,11 +211,11 @@ set shortmess+=c
 set conceallevel=2 concealcursor=niv
 
 if exists('&pumblend')
-	" pseudo-transparency for completion menu
-	set pumblend=5
+  " pseudo-transparency for completion menu
+  set pumblend=5
 endif
 
 if exists('&winblend')
-	" pseudo-transparency for floating window
-	set winblend=5
+  " pseudo-transparency for floating window
+  set winblend=5
 endif

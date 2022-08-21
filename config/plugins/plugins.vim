@@ -1,9 +1,3 @@
-function! plugins#source(name)
-	
-	call utils#source_file("/config/plugins/" . a:name . ".vim")
-
-endfunction
-
 function! plugins#config(name)
 
 	if a:name ==# 'vim-fugitive'
@@ -30,9 +24,9 @@ function! plugins#config(name)
 	endif
 
 	if a:name ==# 'sleuth'
-		let g:sleuth_neighbor_limit = 5
-		autocmd user_events FileType markdown,yaml,help
-			\ let b:sleuth_automatic = 0
+		let g:sleuth_no_filetype_indent_on = 1
+    let g:sleuth_gitcommit_heuristics = 0
+    let g:sleuth_help_heuristics = 0
 	end
 
 endfunction
