@@ -4,10 +4,10 @@ return {
       case_sensitive = false,
       special_keys = {
         repeat_search = "<enter>",
-        next_match = "<enter>",
-        prev_match = "<tab>",
-        next_group = "<C-n>",
-        prev_group = "<C-p>",
+        next_match = "<C-n>",
+        prev_match = "<C-p>",
+        next_group = "<C-b>",
+        prev_group = "<C-f>",
       },
     }
     require("leap").set_default_keymaps()

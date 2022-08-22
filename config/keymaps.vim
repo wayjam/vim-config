@@ -2,8 +2,14 @@
 " Key bindings
 " ===
 
-" Non-standard
-" ---
+let g:mapleader="\<Space>"
+let g:maplocalleader="\\"
+
+" Release keymappings prefixes, evict entirely for use of plug-ins.
+nnoremap <Space>  <Nop>
+xnoremap <Space>  <Nop>
+nnoremap \        <Nop>
+xnoremap \        <Nop>
 
 " Quick quit action
 nnoremap <silent> <Leader>q  :q<CR>
@@ -72,12 +78,6 @@ nnoremap c "_c
 nnoremap C "_C
 nnoremap cc "_cc
 xnoremap c "_c
-
-" Toggle fold
-nnoremap <leader>z za
-
-" Focus the current fold by closing all others
-nnoremap <S-Return> zMzvzt
 
 " Start new line from any cursor position in insert-mode
 inoremap <S-Return> <C-o>o

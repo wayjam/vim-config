@@ -25,3 +25,5 @@ end
 utils.source_dir "customize/before"
 require("plugin_loader").startup()
 utils.source_dir "customize/after"
+
+vim.api.nvim_set_option("secure", true)

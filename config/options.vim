@@ -17,13 +17,13 @@ set formatoptions+=1         " Don't break lines after a one-letter word
 set formatoptions-=t         " Don't auto-wrap text
 set formatoptions+=mM        " Correctly break multi-byte characters such as CJK, see https://stackoverflow.com/q/32669814/6064933
 
-if has('vim_starting')
-  set encoding=utf-8
-  scriptencoding utf-8
-  " Enable syntax
-  syntax on
-  filetype plugin indent on
-endif
+" Encoding
+set encoding=utf-8
+scriptencoding utf-8
+
+" Enable syntax
+syntax on
+filetype plugin indent on
 
 " Enables 24-bit RGB color in the TUI
 if has('termguicolors')
@@ -86,7 +86,7 @@ endif
 set undofile
 
 " History saving
-set history=1000
+set history=2000
 if ! has('win32') && ! has('win64')
   set shada='400,<20,@100,s10,f1,h,r/tmp,r/private/var
 else
@@ -123,7 +123,7 @@ augroup END
 set textwidth=80    " Text width maximum chars before wrapping
 set noexpandtab     " Don't expand tabs to spaces.
 set tabstop=2       " The number of spaces a tab is
-set softtabstop=2   " While performing editing operations
+set softtabstop=1   " Automatically keeps in sync with shiftwidth
 set shiftwidth=2    " Number of spaces to use in auto(indent)
 set smarttab        " Tab insert blanks according to 'shiftwidth'
 set autoindent      " Use same indenting on new lines
@@ -132,9 +132,10 @@ set shiftround      " Round indent to multiple of 'shiftwidth'
 
 " Timing
 set timeout ttimeout
-set timeoutlen=600  " Time out on mappings
-set updatetime=300  " Idle time to write swap and trigger CursorHold
-set ttimeoutlen=10  " Time out on key codes
+set timeoutlen=500   " Time out on mappings
+set ttimeoutlen=10   " Time out on key codes
+set updatetime=200   " Idle time to write swap and trigger CursorHold
+set redrawtime=2000  " Time in milliseconds for stopping display redraw
 
 " Searching
 set ignorecase      " Search ignoring case
@@ -147,7 +148,6 @@ set matchpairs+=<:> " Add HTML brackets to pair matching
 set matchtime=1     " Tenths of a second to show the matching paren
 set cpoptions-=m    " showmatch will wait 0.5s or until a char is typed
 set showfulltag     " Show tag and tidy search in completion
-"set complete=.      " No wins, buffs, tags, include scanning
 
 if exists('+inccommand')
   set inccommand=nosplit
@@ -170,39 +170,39 @@ set splitbelow splitright       " Splits open bottom right
 set switchbuf=useopen,usetab    " Jump to the first open window in any tab
 set switchbuf+=vsplit           " Switch buffer behavior to vsplit
 set backspace=indent,eol,start  " Intuitive backspacing in insert mode
-set diffopt=filler,iwhite       " Diff mode: show fillers, ignore whitespace
-set completeopt=menuone         " Always show menu, even for one item
-set completeopt+=noselect       " Do not select a match in the menu
-set completeopt+=noinsert       " Do not insert any text for a match until the user selects from menu
-set diffopt+=internal,algorithm:patience
+
+" Completion and Diff
+set complete=.,w,b,k                                    " C-n completion: Scan buffers, windows and dictionary
+set completeopt=menu,menuone,noselect                   " Always show menu, even for one item
+set diffopt+=iwhite,indent-heuristic,algorithm:patience " Diff mode: ignore whitespace
 
 " Editor UI
-set noshowmode          " Don't show mode in cmd window
-set shortmess=aoOTI     " Shorten messages and don't show intro
-set scrolloff=2         " Keep at least 2 lines above/below
-set sidescrolloff=5     " Keep at least 5 lines left/right
-set noruler             " Disable default status ruler
-set showtabline=2       " Always show the tabs line
-set showcmd             " Show command in status line
-set cmdheight=2        " Height of the command line
-set cmdwinheight=5      " Command-line lines
-set equalalways         " Resize windows on split or close
-set laststatus=2        " Always show a status line
-" set colorcolumn=80      " Highlight the 80th character limit
+set noshowmode               " Don't show mode in cmd window
+set shortmess=aoOTI          " Shorten messages and don't show intro
+set scrolloff=2              " Keep at least 2 lines above/below
+set sidescrolloff=5          " Keep at least 5 lines left/right
+set noruler                  " Disable default status ruler
+set showtabline=2            " Always show the tabs line
+set showcmd                  " Show command in status line
+set cmdheight=2              " Height of the command line
+set cmdwinheight=5           " Command-line lines
+set equalalways              " Resize windows on split or close
+set laststatus=2             " Always show a status line
 set display=lastline
-set background=dark         " Assume dark background
-set cursorline              " Highlight current line
-set fileformats=unix,dos,mac        " Use Unix as the standard file type
-set number                  " Line numbers on
-set relativenumber          " Relative numbers on
+set background=dark          " Assume dark background
+set cursorline               " Highlight current line
+set fileformats=unix,dos,mac " Use Unix as the standard file type
+set number                   " Line numbers on
+set relativenumber           " Relative numbers on
 set foldenable
 set foldlevel=99
 set foldclose=all
+" set colorcolumn=80      " Highlight the 80th character limit
 
 " UI Symbols
 set list                " Show hidden characters
 set showbreak=↪
-set list listchars=tab:▸\ ,extends:❯,precedes:❮,nbsp:␣
+set listchars=tab:\▏\ ,extends:⟫,precedes:⟪,nbsp:␣,trail:·
 
 " Do not show "match xx of xx" and other messages during auto-completion
 set shortmess+=c

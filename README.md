@@ -35,8 +35,7 @@ Update Plugin(the plugins are not updated automatically):
 
 #### LSP && Dap && Formatter
 
-Using the Neovim's built-in language server client with [nvim-lspconfig](https:
-//github.com/neovim/nvim-lspconfig), and you can install lsp server with [Mason](https://github.com/williamboman/mason.nvim):
+Using the Neovim's built-in language server client with [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig), and you can install lsp server with [Mason](https://github.com/williamboman/mason.nvim):
 
 ```
 :Mason
