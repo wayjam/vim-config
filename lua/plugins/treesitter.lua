@@ -58,7 +58,7 @@ end
 
 local function commentstring()
   require("nvim-treesitter.configs").setup {
-    context_commentstring = { enable = true, enable_autocmd = false, config = { gomod = "// %s" } },
+    context_commentstring = { enable = true, enable_autocmd = false, config = { gomod = "// %s", lua = "-- %s" } },
   }
 end
 
