@@ -207,9 +207,6 @@ set listchars=tab:\▏\ ,extends:⟫,precedes:⟪,nbsp:␣,trail:·
 " Do not show "match xx of xx" and other messages during auto-completion
 set shortmess+=c
 
-" For snippet_complete marker
-set conceallevel=2 concealcursor=niv
-
 if exists('&pumblend')
   " pseudo-transparency for completion menu
   set pumblend=5

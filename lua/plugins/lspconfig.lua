@@ -31,9 +31,9 @@ local on_attach = function(client, bufnr)
   end, opts)
   vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
   vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
-  vim.keymap.set("n", "<leader>e", vim.lsp.diagnostic.show_line_diagnostics, opts)
-  vim.keymap.set("n", "[d", vim.lsp.diagnostic.goto_prev, opts)
-  vim.keymap.set("n", "]d", vim.lsp.diagnostic.goto_next, opts)
+  vim.keymap.set("n", "<leader>e", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
+  vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
+  vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
 
   if utils.has_plugin "telescope" then
     vim.keymap.set("n", "<leader>sy", function()
@@ -63,8 +63,7 @@ local on_attach = function(client, bufnr)
 
   if utils.has_plugin "null-ls.nvim" then
     if client.name ~= "null-ls" then
-      client.resolved_capabilities.document_range_formatting = false
-      client.resolved_capabilities.document_formatting = false
+      client.server_capabilities.documentFormattingProvider = false
     end
   end
 end

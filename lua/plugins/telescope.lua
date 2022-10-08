@@ -182,7 +182,7 @@ local config = function()
       scroll_strategy = "cycle",
       cache_picker = { num_pickers = 3, limit_entries = 300 },
 
-      prompt_prefix = "❯ ",
+      prompt_prefix = " ",
       selection_caret = "▷ ",
       set_env = { COLORTERM = "truecolor" },
 
@@ -291,7 +291,6 @@ local config = function()
         sort_mru = true,
         show_all_buffers = true,
         ignore_current_buffer = true,
-        path_display = { shorten = 5 },
         layout_config = { width = width_for_nopreview, height = height_dropdown_nopreview },
         mappings = { n = { ["dd"] = actions.delete_buffer } },
       },
@@ -324,16 +323,6 @@ local config = function()
       lsp_range_code_actions = { theme = "cursor", previewer = false, layout_config = { width = 0.3, height = 0.4 } },
     },
   }
-
-  -- Telescope extensions are loaded in each plugin.
-  if packer_plugins["cmp"] and packer_plugins["cmp"].loaded then
-    vim.api.nvim_exec(
-      [[   
-            autocmd FileType TelescopePrompt lua require('cmp').setup.buffer { enabled = false }
-        ]],
-      false
-    )
-  end
 end
 
 -- Public functions

@@ -12,6 +12,10 @@ end
 
 local function config()
   cmp.setup {
+    enabled = function()
+      local ignore_file_type = { "TelescopePrompt", "help" }
+      return not require("utils").has_value(ignore_file_type, vim.bo.filetype)
+    end,
     formatting = {
       format = function(entry, vim_item)
         local icons = require("lsp.kind").icons
@@ -69,7 +73,6 @@ local function config()
           luasnip.expand_or_jump()
           print("3cmp tab" .. os.date())
         elseif check_backspace() then
-          print("4cmp tab" .. os.date())
           fallback()
         else
           fallback()
