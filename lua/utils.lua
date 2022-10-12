@@ -1,8 +1,6 @@
 local map_key = vim.api.nvim_set_keymap
 
-local function is_nil(v)
-  return v == vim.NIL
-end
+local function is_nil(v) return v == vim.NIL end
 
 local M = {}
 
@@ -40,9 +38,7 @@ function M.has_plugin(name)
 end
 
 function M.executable(name)
-  if vim.fn.executable(name) > 0 then
-    return true
-  end
+  if vim.fn.executable(name) > 0 then return true end
 
   return false
 end
@@ -51,9 +47,7 @@ function M.source_file(path)
   local full_path = vim.g["CONFIG_PATH"] .. "/" .. path
   if M.file_exists(full_path) then
     local ok, _ = pcall(vim.cmd, "source " .. full_path)
-    if not ok then
-      vim.api.nvim_echo({ { full_path .. " not sourced", "ErrorMsg" } }, false, {})
-    end
+    if not ok then vim.api.nvim_echo({ { full_path .. " not sourced", "ErrorMsg" } }, false, {}) end
     return ok
   end
 
@@ -67,9 +61,7 @@ function M.source_dir(path)
   for _, file in pairs(paths) do
     if file ~= "" then
       local ok, _ = pcall(vim.cmd, "source " .. file)
-      if not ok then
-        vim.api.nvim_echo({ { file .. " not sourced", "ErrorMsg" } }, false, {})
-      end
+      if not ok then vim.api.nvim_echo({ { file .. " not sourced", "ErrorMsg" } }, false, {}) end
     end
   end
 end
@@ -113,9 +105,7 @@ end
 function M.map(modes, lhs, rhs, opts)
   opts = opts or {}
   opts.noremap = opts.noremap == nil and true or opts.noremap
-  if type(modes) == "string" then
-    modes = { modes }
-  end
+  if type(modes) == "string" then modes = { modes } end
   for _, mode in ipairs(modes) do
     map_key(mode, lhs, rhs, opts)
   end
@@ -123,9 +113,7 @@ end
 
 function M.has_value(tab, val)
   for _, value in ipairs(tab) do
-    if value == val then
-      return true
-    end
+    if value == val then return true end
   end
 
   return false

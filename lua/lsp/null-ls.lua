@@ -7,9 +7,7 @@ local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 local function async_formatting(bufnr)
   bufnr = bufnr or vim.api.nvim_get_current_buf()
   vim.lsp.buf.format {
-    filter = function(client)
-      return client.name == "null-ls"
-    end,
+    filter = function(client) return client.name == "null-ls" end,
     bufnr = bufnr,
   }
 end
@@ -18,9 +16,7 @@ local function create_autocmd(bufnr)
   vim.api.nvim_create_autocmd("BufWritePre", {
     group = augroup,
     buffer = bufnr,
-    callback = function()
-      async_formatting(bufnr)
-    end,
+    callback = function() async_formatting(bufnr) end,
   })
 end
 
@@ -33,9 +29,7 @@ local function toggle_autoformat(bufnr)
 
   local id = 0
   for _, c in pairs(cmds) do
-    if c["buflocal"] == true then
-      id = c["id"]
-    end
+    if c["buflocal"] == true then id = c["id"] end
   end
 
   if id ~= 0 then
@@ -48,9 +42,7 @@ local function toggle_autoformat(bufnr)
 end
 
 local function register_source(name)
-  if name == "" or name == nil then
-    return
-  end
+  if name == "" or name == nil then return end
 
   if null_ls.is_registered(name) then
     vim.notify("registered Null-Ls " .. " source " .. name)
@@ -68,15 +60,11 @@ local function register_source(name)
     end
   end
 
-  if not is_registered then
-    vim.notify("not found null-ls source " .. name)
-  end
+  if not is_registered then vim.notify("not found null-ls source " .. name) end
 end
 
 local function has_exec(filename)
-  return function(_)
-    return vim.fn.executable(filename) == 1
-  end
+  return function(_) return vim.fn.executable(filename) == 1 end
 end
 
 local function setup(opts)
@@ -130,9 +118,7 @@ local function setup(opts)
     sources = sources,
     root_dir = utils.root_pattern ".git",
     on_attach = function(client, bufnr)
-      if opts.on_attach ~= nil then
-        opts.on_attach(client, bufnr)
-      end
+      if opts.on_attach ~= nil then opts.on_attach(client, bufnr) end
       if client.supports_method "textDocument/formatting" then
         vim.api.nvim_clear_autocmds { group = augroup, buffer = bufnr }
         create_autocmd(bufnr)
@@ -145,15 +131,9 @@ local function setup(opts)
   -- keymaps
   vim.keymap.set("n", "<leader>fm", async_formatting, { silent = true, noremap = true })
   vim.keymap.set("v", "<localleader>=", vim.lsp.buf.range_formatting, { silent = true, noremap = true })
-  vim.api.nvim_create_user_command("Format", function(_)
-    async_formatting()
-  end, {})
-  vim.api.nvim_create_user_command("AutoFormatToggle", function(_)
-    toggle_autoformat()
-  end, {})
-  vim.api.nvim_create_user_command("RegisterNullLSSource", function(args)
-    register_source(args.args)
-  end, {
+  vim.api.nvim_create_user_command("Format", function(_) async_formatting() end, {})
+  vim.api.nvim_create_user_command("AutoFormatToggle", function(_) toggle_autoformat() end, {})
+  vim.api.nvim_create_user_command("RegisterNullLSSource", function(args) register_source(args.args) end, {
     nargs = 1,
   })
 end

@@ -8,7 +8,6 @@ setlocal nowrap
 setlocal norelativenumber number
 setlocal linebreak
 setlocal nolist
-setlocal cursorline
 setlocal nobuflisted
 
 " https://vi.stackexchange.com/questions/8534/make-cnext-and-cprevious-loop-back-to-the-begining

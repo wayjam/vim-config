@@ -1,12 +1,8 @@
 local utils = require "utils"
 
 local conditions = {
-  buffer_not_empty = function()
-    return vim.fn.empty(vim.fn.expand "%:t") ~= 1
-  end,
-  hide_in_width = function()
-    return vim.fn.winwidth(0) > 80
-  end,
+  buffer_not_empty = function() return vim.fn.empty(vim.fn.expand "%:t") ~= 1 end,
+  hide_in_width = function() return vim.fn.winwidth(0) > 80 end,
   check_git_workspace = function()
     local filepath = vim.fn.expand "%:p:h"
     local gitdir = vim.fn.finddir(".git", filepath .. ";")
@@ -22,9 +18,7 @@ local function config()
 
   local lspstatus = {
     function()
-      if #vim.lsp.buf_get_clients() > 0 then
-        return require("lsp-status").status()
-      end
+      if #vim.lsp.buf_get_clients() > 0 then return require("lsp-status").status() end
       return ""
     end,
     padding = { left = 1 },
@@ -64,9 +58,7 @@ local function config()
   local location = { "location", padding = { left = 0, right = 1 } }
   local fileformat = {
     "fileformat",
-    fmt = function(str)
-      return str .. " " .. string.upper(vim.bo.fileformat)
-    end,
+    fmt = function(str) return str .. " " .. string.upper(vim.bo.fileformat) end,
   }
 
   lualine.setup {

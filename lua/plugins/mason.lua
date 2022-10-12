@@ -1,7 +1,6 @@
-local mason = require "mason"
-local masonconfig = require "mason-lspconfig"
-
 local config = function()
+  local mason = require "mason"
+  local masonconfig = require "mason-lspconfig"
   mason.setup {}
   masonconfig.setup {
     ensure_installed = { "sumneko_lua" },
@@ -11,6 +10,7 @@ local config = function()
     },
   }
 end
+
 return {
   config = config,
 }

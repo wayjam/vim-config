@@ -11,14 +11,12 @@ let g:loaded_netrwPlugin = 1
 let g:netrw_nogx = 1 " disable netrw's gx mapping.
 let g:loaded_remote_plugins = 1
 let g:loaded_shada_plugin = 1
-let g:loaded_tarPlugin = 1
 let g:loaded_2html_plugin = 1
 let g:loaded_tutor_mode_plugin = 1
-let g:loaded_zipPlugin = 1
 let g:loaded_tar = 1
-let g:loaded_tarPlugin= 1
-let g:loaded_zipPlugin= 1
+let g:loaded_tarPlugin = 1
 let g:loaded_zip      = 1
+let g:loaded_zipPlugin = 1
 let g:did_load_filetypes = 1 " replaced by filetype.nvim
 
 " When using VIMINIT trick for exotic MYVIMRC locations, add path now.

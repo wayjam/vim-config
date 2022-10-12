@@ -47,17 +47,11 @@ local function config()
   local dap = require "dap"
   local dapui = require "dapui"
 
-  dap.listeners.after.event_initialized["dapui_config"] = function()
-    dapui.open()
-  end
+  dap.listeners.after.event_initialized["dapui_config"] = function() dapui.open() end
 
-  dap.listeners.before.event_terminated["dapui_config"] = function()
-    dapui.close()
-  end
+  dap.listeners.before.event_terminated["dapui_config"] = function() dapui.close() end
 
-  dap.listeners.before.event_exited["dapui_config"] = function()
-    dapui.close()
-  end
+  dap.listeners.before.event_exited["dapui_config"] = function() dapui.close() end
 
   dap.configurations.lua = {
     {
@@ -66,9 +60,7 @@ local function config()
       name = "Attach to running Neovim instance",
       host = function()
         local value = vim.fn.input "Host [127.0.0.1]: "
-        if value ~= "" then
-          return value
-        end
+        if value ~= "" then return value end
         return "127.0.0.1"
       end,
       port = function()
@@ -79,9 +71,8 @@ local function config()
     },
   }
 
-  dap.adapters.nlua = function(callback, config)
-    callback { type = "server", host = config.host, port = config.port }
-  end
+  dap.adapters.nlua =
+    function(callback, config) callback { type = "server", host = config.host, port = config.port } end
 
   dap.adapters.go = function(callback, config)
     local handle

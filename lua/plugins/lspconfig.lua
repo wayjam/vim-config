@@ -1,12 +1,8 @@
 local utils = require "utils"
 
 local on_attach = function(client, bufnr)
-  if utils.has_plugin "lsp-status.nvim" then
-    require("lsp-status").on_attach(client)
-  end
-  if utils.has_plugin "lsp_signature.nvim" then
-    require("lsp_signature").on_attach(client)
-  end
+  if utils.has_plugin "lsp-status.nvim" then require("lsp-status").on_attach(client) end
+  if utils.has_plugin "lsp_signature.nvim" then require("lsp_signature").on_attach(client) end
 
   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
@@ -26,9 +22,7 @@ local on_attach = function(client, bufnr)
   vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
   vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, opts)
   vim.keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, opts)
-  vim.keymap.set("n", "<leader>wl", function()
-    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-  end, opts)
+  vim.keymap.set("n", "<leader>wl", function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, opts)
   vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
   vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
   vim.keymap.set("n", "<leader>e", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
@@ -36,9 +30,7 @@ local on_attach = function(client, bufnr)
   vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
 
   if utils.has_plugin "telescope" then
-    vim.keymap.set("n", "<leader>sy", function()
-      require("telescope.builtin").lsp_document_symbols()
-    end, opts)
+    vim.keymap.set("n", "<leader>sy", function() require("telescope.builtin").lsp_document_symbols() end, opts)
   end
 
   -- Set autocommands conditional on server_capabilities
@@ -62,9 +54,7 @@ local on_attach = function(client, bufnr)
   end
 
   if utils.has_plugin "null-ls.nvim" then
-    if client.name ~= "null-ls" then
-      client.server_capabilities.documentFormattingProvider = false
-    end
+    if client.name ~= "null-ls" then client.server_capabilities.documentFormattingProvider = false end
   end
 end
 
@@ -76,7 +66,7 @@ local function make_config(server_name)
   c.capabilities = vim.lsp.protocol.make_client_capabilities()
 
   if utils.has_plugin "cmp-nvim-lsp" then
-    c.capabilities = require("cmp_nvim_lsp").update_capabilities(c.capabilities)
+    c.capabilities = vim.tbl_extend("keep", c.capabilities or {}, require("cmp_nvim_lsp").default_capabilities())
   end
   if utils.has_plugin "lsp-status.nvim" then
     c.capabilities = vim.tbl_extend("keep", c.capabilities or {}, require("lsp-status").capabilities)
@@ -114,9 +104,7 @@ end
 
 -- Iterate and setup all language servers and trigger FileType in windows.
 local function setup_servers()
-  if utils.has_plugin "mason-lspconfig" then
-    return
-  end
+  if utils.has_plugin "mason-lspconfig" then return end
 
   require("mason-lspconfig").setup_handlers {
     -- The first entry (without a key) will be the default handler
@@ -128,9 +116,7 @@ local function setup_servers()
     end,
   }
   -- Reload if files were supplied in command-line arguments
-  if vim.fn.argc() > 0 and not vim.o.modified then
-    vim.cmd "windo e"
-  end
+  if vim.fn.argc() > 0 and not vim.o.modified then vim.cmd "windo e" end
 end
 
 local function config()
@@ -196,16 +182,12 @@ local function config()
     }
   end
 
-  if utils.has_plugin "nvim-lightbulb" then
-    require("nvim-lightbulb").setup { ignore = { "null-ls" } }
-  end
+  if utils.has_plugin "nvim-lightbulb" then require("nvim-lightbulb").setup { ignore = { "null-ls" } } end
 
   -- Setup CompletionItemKind symbols, see lua/lsp/kind.lua
   require("lsp.kind").setup()
 
-  if utils.has_plugin "null-ls.nvim" then
-    require("lsp.null-ls").setup { on_attach = on_attach }
-  end
+  if utils.has_plugin "null-ls.nvim" then require("lsp.null-ls").setup { on_attach = on_attach } end
 
   -- Setup LSP servers
   setup_servers()

@@ -35,9 +35,7 @@ local function startup()
 
   packer.init {
     display = {
-      open_fn = function()
-        return require("packer.util").float { border = "rounded" }
-      end,
+      open_fn = function() return require("packer.util").float { border = "rounded" } end,
     },
   }
   packer.startup {

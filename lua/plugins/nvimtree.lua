@@ -4,9 +4,7 @@ local function on_close() end
 
 local function change_tree_dir(dir)
   local lib_status_ok, lib = pcall(require, "nvim-tree.lib")
-  if lib_status_ok then
-    lib.change_dir(dir)
-  end
+  if lib_status_ok then lib.change_dir(dir) end
 end
 
 local function config()
@@ -50,7 +48,12 @@ local function config()
     ignore_ft_on_setup = { "startify", "dashboard" },
     disable_netrw = true,
     hijack_netrw = true,
-    update_focused_file = { enable = false },
+    sync_root_with_cwd = true,
+    respect_buf_cwd = true,
+    update_focused_file = {
+      enable = true,
+      update_cwd = true,
+    },
     filters = {
       dotfiles = true,
       custom = {

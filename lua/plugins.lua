@@ -3,104 +3,85 @@ return {
   { "wbthomason/packer.nvim", opt = true },
   {
     "lewis6991/impatient.nvim",
-    config = function()
-      require "impatient"
-    end,
+    config = function() require "impatient" end,
   },
   { "nathom/filetype.nvim" },
-  { "antoinemadec/FixCursorHold.nvim" },
   { "christoomey/vim-tmux-navigator" },
   {
     "tpope/vim-sleuth",
     event = "VimEnter",
-    config = function()
-      vim.fn["plugins#config"] "sleuth"
-    end,
+    config = function() vim.fn["plugins#config"] "sleuth" end,
   },
   { "gpanders/editorconfig.nvim" },
 
   --- ui
   {
     "navarasu/onedark.nvim",
-    config = function()
-      require("plugins.onedark").config()
-    end,
+    config = function() require("plugins.onedark").config() end,
   },
   { "kyazdani42/nvim-web-devicons" },
   {
     "nvim-lualine/lualine.nvim",
-    event = "VimEnter",
+    event = "UIEnter",
     requires = { "kyazdani42/nvim-web-devicons", "nvim-lua/lsp-status.nvim" },
     after = { "lsp-status.nvim" },
-    config = function()
-      require("plugins.lualine").config()
-    end,
+    config = function() require("plugins.lualine").config() end,
   },
   {
     "seblj/nvim-tabline",
+    event = "UIEnter",
     requires = { "kyazdani42/nvim-web-devicons" },
-    config = function()
-      require("plugins.tabline").config()
-    end,
+    config = function() require("plugins.tabline").config() end,
   },
   { "folke/lsp-colors.nvim" },
   {
     "lewis6991/gitsigns.nvim",
     event = "VimEnter",
     requires = { "nvim-lua/plenary.nvim" },
-    config = function()
-      require("plugins.gitsigns").config()
-    end,
+    config = function() require("plugins.gitsigns").config() end,
   },
   {
     "lukas-reineke/indent-blankline.nvim",
+    event = "BufRead",
+    config = function() require("plugins.indentline").config() end,
   },
 
   --- tools
   {
     "folke/trouble.nvim",
-    cmd = { "Trouble", "TroubleToggle" },
+    cmd = { "Trouble", "TroubleToggle", "TroubleRefresh" },
     after = { "nvim-lspconfig" },
-    setup = function()
-      require("plugins.trouble").setup()
-    end,
-    config = function()
-      require("plugins.trouble").config()
-    end,
+    setup = function() require("plugins.trouble").setup() end,
+    config = function() require("plugins.trouble").config() end,
   },
   {
     "kyazdani42/nvim-tree.lua",
     requires = { "kyazdani42/nvim-web-devicons" },
-    config = function()
-      require("plugins.nvimtree").config()
-    end,
+    config = function() require("plugins.nvimtree").config() end,
+  },
+  {
+    "ahmedkhalf/project.nvim",
+    after = { "telescope.nvim" },
+    config = function() require("plugins.project").config() end,
   },
   {
     "tpope/vim-fugitive",
     event = "VimEnter",
-    config = function()
-      vim.fn["plugins#config"] "vim-fugitive"
-    end,
+    config = function() vim.fn["plugins#config"] "vim-fugitive" end,
   },
   {
     "nvim-telescope/telescope.nvim",
-    requires = { "nvim-lua/plenary.nvim" },
-    setup = function()
-      require("plugins.telescope").setup()
-    end,
-    config = function()
-      require("plugins.telescope").config()
-    end,
+    requires = { "nvim-lua/plenary.nvim", "nvim-lua/popup.nvim" },
+    setup = function() require("plugins.telescope").setup() end,
+    config = function() require("plugins.telescope").config() end,
   },
 
   --- terminal
   {
     "akinsho/toggleterm.nvim",
-    tag = "v1.*",
+    tag = "*",
     cmd = "ToggleTerm",
-    config = function()
-      require("plugins.toggleterm").config()
-    end,
+    config = function() require("plugins.toggleterm").config() end,
   },
 
   --- snippets
@@ -108,17 +89,13 @@ return {
   {
     "L3MON4D3/LuaSnip",
     requires = { "rafamadriz/friendly-snippets" },
-    config = function()
-      require("plugins.luasnip").config()
-    end,
+    config = function() require("plugins.luasnip").config() end,
   },
 
   --- complete
   {
     "hrsh7th/nvim-cmp",
-    config = function()
-      require("plugins.cmp").config()
-    end,
+    config = function() require("plugins.cmp").config() end,
   },
   { "saadparwaiz1/cmp_luasnip", after = { "nvim-cmp", "LuaSnip" } },
   { "hrsh7th/cmp-nvim-lsp", after = "nvim-cmp" },
@@ -133,9 +110,7 @@ return {
   {
     "williamboman/mason-lspconfig.nvim",
     after = "mason.nvim",
-    config = function()
-      require("plugins.mason").config()
-    end,
+    config = function() require("plugins.mason").config() end,
   },
   { "ray-x/lsp_signature.nvim" },
   { "kosayoda/nvim-lightbulb" },
@@ -150,29 +125,21 @@ return {
       "nvim-lightbulb",
       "lsp-status.nvim",
     },
-    config = function()
-      require("plugins.lspconfig").config()
-    end,
+    config = function() require("plugins.lspconfig").config() end,
   },
 
   --- debugger
   {
     "mfussenegger/nvim-dap",
     event = "VimEnter",
-    setup = function()
-      require("plugins.dap").setup()
-    end,
-    config = function()
-      require("plugins.dap").config()
-    end,
+    setup = function() require("plugins.dap").setup() end,
+    config = function() require("plugins.dap").config() end,
   },
   {
     "rcarriga/nvim-dap-ui",
     requires = "nvim-dap",
     after = "nvim-dap",
-    config = function()
-      require("plugins.dap").uiconfig()
-    end,
+    config = function() require("plugins.dap").uiconfig() end,
   },
 
   --- editing
@@ -181,81 +148,62 @@ return {
     "windwp/nvim-autopairs",
     after = "nvim-cmp",
     event = "VimEnter",
-    config = function()
-      require("plugins.autopairs").config()
-    end,
+    config = function() require("plugins.autopairs").config() end,
   },
-  { "yamatsum/nvim-cursorline", event = "InsertCharPre" },
+  {
+    "RRethy/vim-illuminate",
+    config = function() require("plugins.illuminate").config() end,
+  },
   {
     "numToStr/Comment.nvim",
-    event = "VimEnter",
-    config = function()
-      require("plugins.comment").config()
-    end,
+    event = "BufRead",
+    config = function() require("plugins.comment").config() end,
   },
   {
     "junegunn/vim-easy-align",
     cmd = "EasyAlign",
     event = "VimEnter",
-    config = function()
-      vim.fn["plugins#config"] "vim-easy-align"
-    end,
+    config = function() vim.fn["plugins#config"] "vim-easy-align" end,
   },
   {
     "ggandor/leap.nvim",
     event = "VimEnter",
-    config = function()
-      require("plugins.leap").config()
-    end,
+    config = function() require("plugins.leap").config() end,
   },
   {
     "ojroques/vim-oscyank",
-    setup = function()
-      require("utils").source_file "config/plugins/oscyank.vim"
-    end,
+    setup = function() require("utils").source_file "config/plugins/oscyank.vim" end,
   },
   {
     "Pocco81/TrueZen.nvim",
     cmd = { "TZAtaraxis", "TZFocus", "TZMinimailist" },
-    setup = function()
-      require("plugins.truezen").setup()
-    end,
+    setup = function() require("plugins.truezen").setup() end,
   },
 
   --- colorizer
   {
     "norcalli/nvim-colorizer.lua",
     event = "VimEnter",
-    config = function()
-      require("plugins.colorizer").config()
-    end,
+    config = function() require("plugins.colorizer").config() end,
   },
 
   --- syntax
   {
     "nvim-treesitter/nvim-treesitter",
     run = ":TSUpdate",
-    config = function()
-      require("plugins.treesitter").config()
-    end,
+    config = function() require("plugins.treesitter").config() end,
   },
   {
     "JoosepAlviste/nvim-ts-context-commentstring",
-    config = function()
-      require("plugins.treesitter").commentstring()
-    end,
+    config = function() require("plugins.treesitter").commentstring() end,
   },
   {
     "windwp/nvim-ts-autotag",
-    config = function()
-      require("plugins.treesitter").autotag()
-    end,
+    config = function() require("plugins.treesitter").autotag() end,
   },
   {
     "nvim-treesitter/nvim-treesitter-textobjects",
-    config = function()
-      require("plugins.treesitter").textobjects()
-    end,
+    config = function() require("plugins.treesitter").textobjects() end,
   },
 
   --- languages specifies
@@ -268,6 +216,5 @@ return {
   {
     "petobens/poet-v",
     ft = { "python" },
-    config = function() end,
   },
 }

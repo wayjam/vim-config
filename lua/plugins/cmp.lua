@@ -1,9 +1,5 @@
-local cmp = require "cmp"
-
 local snip_status_ok, luasnip = pcall(require, "luasnip")
-if not snip_status_ok then
-  return
-end
+if not snip_status_ok then return end
 
 local function check_backspace()
   local col = vim.fn.col "." - 1
@@ -11,6 +7,7 @@ local function check_backspace()
 end
 
 local function config()
+  local cmp = require "cmp"
   cmp.setup {
     enabled = function()
       local ignore_file_type = { "TelescopePrompt", "help" }
@@ -37,7 +34,6 @@ local function config()
       end,
     },
     window = {
-      -- completion = cmp.config.window.bordered(),
       documentation = cmp.config.window.bordered(),
     },
     confirm_opts = {
@@ -71,7 +67,6 @@ local function config()
           luasnip.expand()
         elseif luasnip.expand_or_locally_jumpable() then
           luasnip.expand_or_jump()
-          print("3cmp tab" .. os.date())
         elseif check_backspace() then
           fallback()
         else
