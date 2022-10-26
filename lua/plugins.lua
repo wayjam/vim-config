@@ -181,8 +181,8 @@ return {
     config = function() require("plugins.leap").config() end,
   },
   {
-    "ojroques/vim-oscyank",
-    setup = function() require("utils").source_file "config/plugins/oscyank.vim" end,
+    "ojroques/nvim-osc52",
+    config = function() require("plugins.oscyank").config() end,
   },
   {
     "Pocco81/TrueZen.nvim",
