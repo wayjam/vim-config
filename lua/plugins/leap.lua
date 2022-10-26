@@ -1,15 +1,19 @@
 return {
   config = function()
-    require("leap").setup {
+    local leap = require "leap"
+    leap.setup {
       case_sensitive = false,
       special_keys = {
         repeat_search = "<enter>",
-        next_match = "<C-n>",
-        prev_match = "<C-p>",
+        next_phase_one_target = "<enter>",
+        next_target = { "<C-n>", ";" },
+        prev_target = { "<C-p>", "," },
         next_group = "<C-b>",
         prev_group = "<C-f>",
+        multi_accept = "<enter>",
+        multi_revert = "<backspace>",
       },
     }
-    require("leap").set_default_keymaps()
+    leap.add_default_mappings()
   end,
 }

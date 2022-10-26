@@ -1,6 +1,22 @@
 local function uiconfig()
   local dapui = require "dapui"
   dapui.setup {
+    expand_lines = true,
+    icons = { expanded = "", collapsed = "", circular = "" },
+    mappings = {
+      -- Use a table to apply multiple mappings
+      expand = { "<CR>", "<2-LeftMouse>" },
+      open = "o",
+      remove = "d",
+      edit = "e",
+      repl = "r",
+      toggle = "t",
+    },
+    floating = {
+      mappings = {
+        close = { "q", "<Esc>" },
+      },
+    },
     layouts = {
       {
         elements = {
@@ -48,11 +64,8 @@ local function config()
   local dapui = require "dapui"
 
   dap.listeners.after.event_initialized["dapui_config"] = function() dapui.open() end
-
   dap.listeners.before.event_terminated["dapui_config"] = function() dapui.close() end
-
   dap.listeners.before.event_exited["dapui_config"] = function() dapui.close() end
-
   dap.configurations.lua = {
     {
       type = "nlua",
@@ -73,7 +86,6 @@ local function config()
 
   dap.adapters.nlua =
     function(callback, config) callback { type = "server", host = config.host, port = config.port } end
-
   dap.adapters.go = function(callback, config)
     local handle
     local pid_or_err

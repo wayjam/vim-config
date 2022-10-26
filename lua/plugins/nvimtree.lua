@@ -51,8 +51,8 @@ local function config()
     sync_root_with_cwd = true,
     respect_buf_cwd = true,
     update_focused_file = {
-      enable = true,
-      update_cwd = true,
+      enable = false,
+      update_cwd = false,
     },
     filters = {
       dotfiles = true,
@@ -102,7 +102,7 @@ local function config()
           },
         },
       },
-      special_files = { "Cargo.toml", "Makefile", "README.md", "readme.md" },
+      special_files = { "Makefile", "README.md", "readme.md" },
     },
   }
 

@@ -41,6 +41,16 @@ return {
     config = function() require("plugins.gitsigns").config() end,
   },
   {
+    "sindrets/diffview.nvim",
+    requires = "nvim-lua/plenary.nvim",
+    cmd = {
+      "DiffviewOpen",
+      "DiffviewFileHistory",
+    },
+    config = function() require("plugins.diffview").config() end,
+    cond = function() return require("plugins.diffview").check_git_version() end,
+  },
+  {
     "lukas-reineke/indent-blankline.nvim",
     event = "BufRead",
     config = function() require("plugins.indentline").config() end,
@@ -115,7 +125,7 @@ return {
   { "ray-x/lsp_signature.nvim" },
   { "kosayoda/nvim-lightbulb" },
   { "nvim-lua/lsp-status.nvim" },
-  { "jose-elias-alvarez/null-ls.nvim" },
+  { "jose-elias-alvarez/null-ls.nvim", requires = { "nvim-lua/plenary.nvim" } },
   {
     "neovim/nvim-lspconfig",
     after = {
