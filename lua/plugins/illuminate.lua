@@ -42,7 +42,19 @@ return {
       modes_allowlist = {},
       providers_regex_syntax_denylist = {},
       providers_regex_syntax_allowlist = {},
-      under_cursor = false,
+      large_file_cutoff = 5000,
     }
+
+
+    local group = "illuminate_augroup"
+    vim.api.nvim_create_augroup(group, { clear = true })
+    vim.api.nvim_create_autocmd({ "VimEnter" }, {
+      group = group,
+      callback = function()
+        vim.api.nvim_set_hl(0, "IlluminatedWordText", { link = "Visual" })
+        vim.api.nvim_set_hl(0, "IlluminatedWordRead", { link = "Visual" })
+        vim.api.nvim_set_hl(0, "IlluminatedWordWrite", { link = "Visual" })
+      end,
+    })
   end,
 }

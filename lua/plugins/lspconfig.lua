@@ -32,30 +32,6 @@ local on_attach = function(client, bufnr)
   if utils.has_plugin "telescope" then
     vim.keymap.set("n", "<leader>sy", function() require("telescope.builtin").lsp_document_symbols() end, opts)
   end
-
-  -- Set autocommands conditional on server_capabilities
-  -- refer to https://github.com/neovim/nvim-lspconfig/wiki/UI-Customization#highlight-symbol-under-cursor
-  if client.server_capabilities.documentHighlightProvider then
-    vim.api.nvim_create_augroup("lsp_document_highlight", { clear = false })
-    vim.api.nvim_clear_autocmds {
-      group = "lsp_document_highlight",
-      buffer = bufnr,
-    }
-    vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-      group = "lsp_document_highlight",
-      callback = vim.lsp.buf.document_highlight,
-      buffer = bufnr,
-    })
-    vim.api.nvim_create_autocmd("CursorMoved", {
-      group = "lsp_document_highlight",
-      callback = vim.lsp.buf.clear_references,
-      buffer = bufnr,
-    })
-  end
-
-  if utils.has_plugin "null-ls.nvim" then
-    if client.name ~= "null-ls" then client.server_capabilities.documentFormattingProvider = false end
-  end
 end
 
 -- Combine base config for each server and merge user-defined settings.
