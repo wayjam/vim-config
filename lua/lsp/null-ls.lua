@@ -6,10 +6,34 @@ local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
 local function async_formatting(bufnr)
   bufnr = bufnr or vim.api.nvim_get_current_buf()
+
+  -- don't apply results if buffer is unloaded
+  if not vim.api.nvim_buf_is_loaded(bufnr) then
+    return
+  end
+
+  local ft = vim.api.nvim_buf_get_option(bufnr, "filetype")
+  local null_ls_client = require('null-ls.client').get_client()
+  local null_ls_attached = null_ls_client and null_ls_client.id > 0 and vim.lsp.buf_is_attached(bufnr, null_ls_client)
+  local null_ls_format_available = #(require('null-ls.sources').get_available(ft, null_ls.methods.FORMATTING)) > 0
+
+  -- null-ls not attach, use all
+  -- null-ls attached and format available, use null-ls only
+  -- null-ls attached and not available, use all or filter null-ls
   vim.lsp.buf.format {
-    filter = function(client) return client.name == "null-ls" end,
     bufnr = bufnr,
+    timeout_ms = 2000,
+    filter = function(client)
+      if not null_ls_attached then
+        return true
+      end
+      if null_ls_format_available then
+        return client.name == "null-ls"
+      end
+      return true
+    end,
   }
+  vim.notify("trigger format")
 end
 
 local function create_autocmd(bufnr)
@@ -70,7 +94,8 @@ end
 local function setup(opts)
   local sources = {
     -- code actions
-    null_ls.builtins.code_actions.gitsigns,
+    builtins.code_actions.gitsigns,
+    builtins.code_actions.eslint,
 
     -- completion
     -- builtins.completion.spell,
@@ -101,6 +126,9 @@ local function setup(opts)
     builtins.formatting.goimports.with {
       runtime_condition = has_exec "goimports",
     },
+    builtins.formatting.rustfmt.with {
+      runtime_condition = has_exec "rustfmt",
+    },
 
     -- diagnostics
     builtins.diagnostics.eslint.with {
@@ -109,6 +137,9 @@ local function setup(opts)
     builtins.diagnostics.yamllint.with {
       runtime_condition = has_exec "yamllint",
     },
+    builtins.diagnostics.buf.with {
+      runtime_condition = has_exec "buf",
+    },
   }
 
   local config = {
@@ -116,7 +147,8 @@ local function setup(opts)
     debounce = 150,
     save_after_format = false,
     sources = sources,
-    root_dir = utils.root_pattern ".git",
+    root_dir = utils.root_pattern(".null-ls-root", "Makefile", ".git"),
+    should_attach = function(bufnr) return not vim.api.nvim_buf_get_name(bufnr):match "^git://" end,
     on_attach = function(client, bufnr)
       if opts.on_attach ~= nil then opts.on_attach(client, bufnr) end
       if client.supports_method "textDocument/formatting" then
