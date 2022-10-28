@@ -3,6 +3,7 @@ local utils = require "utils"
 local on_attach = function(client, bufnr)
   if utils.has_plugin "lsp-status.nvim" then require("lsp-status").on_attach(client) end
   if utils.has_plugin "lsp_signature.nvim" then require("lsp_signature").on_attach(client) end
+  if utils.has_plugin "illuminate" then require("illuminate").on_attach(client) end
 
   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
@@ -163,10 +164,8 @@ local function config()
   -- Setup CompletionItemKind symbols, see lua/lsp/kind.lua
   require("lsp.kind").setup()
 
-  if utils.has_plugin "null-ls.nvim" then require("lsp.null-ls").setup { on_attach = on_attach } end
-
   -- Setup LSP servers
   setup_servers()
 end
 
-return { config = config }
+return { config = config, on_attach = on_attach }

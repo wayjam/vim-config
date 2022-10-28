@@ -113,19 +113,28 @@ return {
   { "hrsh7th/cmp-buffer", after = "nvim-cmp" },
   { "hrsh7th/cmp-path", after = "nvim-cmp" },
 
-  --- lsp
-  {
-    "williamboman/mason.nvim",
-  },
+  --- installer
+  { "jayp0521/mason-null-ls.nvim" },
+  { "jayp0521/mason-nvim-dap.nvim" },
   {
     "williamboman/mason-lspconfig.nvim",
-    after = "mason.nvim",
+  },
+  {
+    "williamboman/mason.nvim",
+    after = { "mason-lspconfig.nvim", "mason-null-ls.nvim" },
     config = function() require("plugins.mason").config() end,
   },
+
+  --- lsp
   { "ray-x/lsp_signature.nvim" },
   { "kosayoda/nvim-lightbulb" },
   { "nvim-lua/lsp-status.nvim" },
-  { "jose-elias-alvarez/null-ls.nvim", requires = { "nvim-lua/plenary.nvim" } },
+  {
+    "jose-elias-alvarez/null-ls.nvim",
+    requires = { "nvim-lua/plenary.nvim" },
+    after = "mason.nvim",
+    config = function() require("plugins.null-ls").config() end,
+  },
   {
     "neovim/nvim-lspconfig",
     after = {

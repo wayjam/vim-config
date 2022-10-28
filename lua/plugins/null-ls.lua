@@ -8,14 +8,12 @@ local function async_formatting(bufnr)
   bufnr = bufnr or vim.api.nvim_get_current_buf()
 
   -- don't apply results if buffer is unloaded
-  if not vim.api.nvim_buf_is_loaded(bufnr) then
-    return
-  end
+  if not vim.api.nvim_buf_is_loaded(bufnr) then return end
 
   local ft = vim.api.nvim_buf_get_option(bufnr, "filetype")
-  local null_ls_client = require('null-ls.client').get_client()
+  local null_ls_client = require("null-ls.client").get_client()
   local null_ls_attached = null_ls_client and null_ls_client.id > 0 and vim.lsp.buf_is_attached(bufnr, null_ls_client)
-  local null_ls_format_available = #(require('null-ls.sources').get_available(ft, null_ls.methods.FORMATTING)) > 0
+  local null_ls_format_available = #(require("null-ls.sources").get_available(ft, null_ls.methods.FORMATTING)) > 0
 
   -- null-ls not attach, use all
   -- null-ls attached and format available, use null-ls only
@@ -24,16 +22,12 @@ local function async_formatting(bufnr)
     bufnr = bufnr,
     timeout_ms = 2000,
     filter = function(client)
-      if not null_ls_attached then
-        return true
-      end
-      if null_ls_format_available then
-        return client.name == "null-ls"
-      end
+      if not null_ls_attached then return true end
+      if null_ls_format_available then return client.name == "null-ls" end
       return true
     end,
   }
-  vim.notify("trigger format")
+  vim.notify "formatted."
 end
 
 local function create_autocmd(bufnr)
@@ -65,30 +59,8 @@ local function toggle_autoformat(bufnr)
   end
 end
 
-local function register_source(name)
-  if name == "" or name == nil then return end
-
-  if null_ls.is_registered(name) then
-    vim.notify("registered Null-Ls " .. " source " .. name)
-    return
-  end
-
-  local is_registered = false
-  for method, _ in pairs(builtins) do
-    local ok, source = pcall(require, string.format("null-ls.builtins.%s.%s", method, name))
-    if ok and source ~= nil then
-      null_ls.register(source)
-      vim.notify("registered Null-LS " .. method .. " source " .. name)
-      is_registered = true
-      break
-    end
-  end
-
-  if not is_registered then vim.notify("not found null-ls source " .. name) end
-end
-
 local function has_exec(filename)
-  return function(_) return vim.fn.executable(filename) == 1 end
+  return function(_) return require('utils').executable(filename) end
 end
 
 local function setup(opts)
@@ -104,6 +76,9 @@ local function setup(opts)
     -- builtins.hover.dictionary
 
     -- formatting
+    builtins.formatting.stylua.with {
+      runtime_condition = has_exec "stylua",
+    },
     builtins.formatting.shfmt.with {
       runtime_condition = has_exec "shfmt",
       extra_filetypes = { "bash" },
@@ -116,9 +91,6 @@ local function setup(opts)
     builtins.formatting.black.with {
       runtime_condition = has_exec "black",
       extra_args = { "--fast" },
-    },
-    builtins.formatting.stylua.with {
-      runtime_condition = has_exec "stylua",
     },
     builtins.formatting.gofmt.with {
       runtime_condition = has_exec "gofmt",
@@ -136,9 +108,6 @@ local function setup(opts)
     },
     builtins.diagnostics.yamllint.with {
       runtime_condition = has_exec "yamllint",
-    },
-    builtins.diagnostics.buf.with {
-      runtime_condition = has_exec "buf",
     },
   }
 
@@ -165,14 +134,10 @@ local function setup(opts)
   vim.keymap.set("v", "<localleader>=", vim.lsp.buf.range_formatting, { silent = true, noremap = true })
   vim.api.nvim_create_user_command("Format", function(_) async_formatting() end, {})
   vim.api.nvim_create_user_command("AutoFormatToggle", function(_) toggle_autoformat() end, {})
-  vim.api.nvim_create_user_command("RegisterNullLSSource", function(args) register_source(args.args) end, {
-    nargs = 1,
-  })
 end
 
 return {
-  setup = setup,
+  config = function() setup { on_attach = require("plugins.lspconfig").on_attach } end,
   format = async_formatting,
   toggle_autoformat = toggle_autoformat,
-  register_source = register_source,
 }
