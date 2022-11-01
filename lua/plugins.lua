@@ -85,6 +85,11 @@ return {
     setup = function() require("plugins.telescope").setup() end,
     config = function() require("plugins.telescope").config() end,
   },
+  {
+    "kevinhwang91/nvim-bqf",
+    ft = "qf",
+  },
+  { "simrat39/symbols-outline.nvim", config = function() require("plugins.symbols_outline").config() end },
 
   --- terminal
   {
