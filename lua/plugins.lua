@@ -89,7 +89,11 @@ return {
     "kevinhwang91/nvim-bqf",
     ft = "qf",
   },
-  { "simrat39/symbols-outline.nvim", config = function() require("plugins.symbols_outline").config() end },
+  {
+    "simrat39/symbols-outline.nvim",
+    cmd = { "SymbolsOutline", "SymbolsOutlineOpen" },
+    config = function() require("plugins.symbols_outline").config() end,
+  },
 
   --- terminal
   {
