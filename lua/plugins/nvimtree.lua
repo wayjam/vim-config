@@ -1,12 +1,3 @@
-local function on_open() end
-
-local function on_close() end
-
-local function change_tree_dir(dir)
-  local lib_status_ok, lib = pcall(require, "nvim-tree.lib")
-  if lib_status_ok then lib.change_dir(dir) end
-end
-
 local function config()
   local mappings = {
     { key = { "<CR>", "o", "<2-LeftMouse>" }, action = "edit" },
@@ -53,22 +44,25 @@ local function config()
       dotfiles = true,
       custom = {
         "^\\.git$",
+        "__pycache__",
         "node_modules",
-        ".mypy_cache",
-        ".pytest_cache",
         ".hg",
         ".svn",
         ".stversions",
-        "__pycache__",
-        ".sass-cache",
         "*.egg-info",
-        ".DS_Store",
         "*.pyc",
       },
-      exclude = { ".gitignore", ".env", ".pylintrc", ".eslintrc", ".prettierrc" },
+      exclude = { ".gitignore", ".dockerignore", ".env", ".pylintrc", ".eslintrc", ".prettierrc" },
     },
-    view = { width = 30, side = "left", signcolumn = "no", mappings = { custom_only = true, list = mappings } },
+    view = {
+      adaptive_size = true,
+      width = 30,
+      side = "left",
+      signcolumn = "no",
+      mappings = { custom_only = true, list = mappings },
+    },
     renderer = {
+      group_empty = true,
       highlight_git = false,
       root_folder_modifier = ":~",
       icons = {
@@ -86,8 +80,8 @@ local function config()
             ignored = "⊙",
           },
           folder = {
-            arrow_closed = "",
-            arrow_open = "",
+            arrow_closed = " ",
+            arrow_open = " ",
             default = "",
             open = "",
             empty = "",
@@ -97,12 +91,11 @@ local function config()
           },
         },
       },
-      special_files = { "Makefile", "README.md", "readme.md" },
+      special_files = { "Makefile", "README.md", "readme.md", "LICENSE" },
     },
   }
 
-  -- vim.cmd "au WinClosed * lua require('plugins.nvimtree').on_close()"
   vim.api.nvim_set_keymap("n", "<localleader>e", ":NvimTreeToggle<CR>", { noremap = true, silent = true })
 end
 
-return { config = config, on_close = on_close, on_open = on_open }
+return { config = config }
