@@ -16,17 +16,9 @@ local function config()
 
   vim.g.qf_disable_statusline = true
 
-  local lspstatus = {
-    function()
-      if #vim.lsp.buf_get_clients() > 0 then return require("lsp-status").status() end
-      return ""
-    end,
-    padding = { left = 1 },
-    cond = conditions.hide_in_width,
-  }
   local diagnostics = {
     "diagnostics",
-    sources = { "nvim_diagnostic" },
+    sources = { "nvim_diagnostic", "nvim_lsp" },
     sections = { "error", "warn", "info", "hint" },
     -- all colors are in format #rrggbb
     -- default auto extract from 'Diagnostic', 'LspDiagnosticsDefault', 'Diff'
@@ -42,7 +34,9 @@ local function config()
       info = utils.padded_signs "Information",
       hint = utils.padded_signs "Hint",
     },
+    colored = true,
     update_in_insert = false, -- Update diagnostics in insert mode
+    always_visible = false,
   }
   local diff = {
     "diff",
@@ -53,7 +47,7 @@ local function config()
   }
   local branch = { "branch", icon = "", cond = conditions.check_git_workspace }
   local encoding = { "o:encoding", fmt = string.upper, color = {}, cond = conditions.hide_in_width }
-  local filetype = { "filetype", cond = conditions.hide_in_width, icon_only = true, padding = { left = 1, right = 0 } }
+  local filetype = { "filetype", cond = conditions.hide_in_width, icon_only = false, padding = { left = 1, right = 0 } }
   local filename = { "filename", padding = 1, file_status = true, path = 1, shorting_target = 64 }
   local location = { "location", padding = { left = 0, right = 1 } }
   local fileformat = {
@@ -73,7 +67,7 @@ local function config()
     sections = {
       lualine_a = { "mode" },
       lualine_b = { filetype, filename, location },
-      lualine_c = { lspstatus, diagnostics },
+      lualine_c = { diagnostics },
       lualine_x = { encoding, fileformat },
       lualine_y = { branch, diff },
       lualine_z = { "progress" },

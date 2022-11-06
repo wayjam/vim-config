@@ -23,8 +23,7 @@ return {
   {
     "nvim-lualine/lualine.nvim",
     event = "UIEnter",
-    requires = { "kyazdani42/nvim-web-devicons", "nvim-lua/lsp-status.nvim" },
-    after = { "lsp-status.nvim" },
+    requires = { "kyazdani42/nvim-web-devicons" },
     config = function() require("plugins.lualine").config() end,
   },
   {
@@ -137,7 +136,6 @@ return {
   --- lsp
   { "ray-x/lsp_signature.nvim" },
   { "kosayoda/nvim-lightbulb" },
-  { "nvim-lua/lsp-status.nvim" },
   {
     "jose-elias-alvarez/null-ls.nvim",
     requires = { "nvim-lua/plenary.nvim" },
@@ -150,7 +148,6 @@ return {
       "mason-lspconfig.nvim",
       "lsp_signature.nvim",
       "nvim-lightbulb",
-      "lsp-status.nvim",
     },
     config = function() require("plugins.lspconfig").config() end,
   },

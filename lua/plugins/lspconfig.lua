@@ -1,7 +1,6 @@
 local utils = require "utils"
 
 local on_attach = function(client, bufnr)
-  if utils.has_plugin "lsp-status.nvim" then require("lsp-status").on_attach(client) end
   if utils.has_plugin "lsp_signature.nvim" then require("lsp_signature").on_attach(client) end
   if utils.has_plugin "illuminate" then require("illuminate").on_attach(client) end
 
@@ -44,9 +43,6 @@ local function make_config(server_name)
 
   if utils.has_plugin "cmp-nvim-lsp" then
     c.capabilities = vim.tbl_extend("keep", c.capabilities or {}, require("cmp_nvim_lsp").default_capabilities())
-  end
-  if utils.has_plugin "lsp-status.nvim" then
-    c.capabilities = vim.tbl_extend("keep", c.capabilities or {}, require("lsp-status").capabilities)
   end
   c.capabilities.textDocument.completion.completionItem.snippetSupport = true
   c.capabilities.textDocument.completion.completionItem.preselectSupport = true
@@ -105,20 +101,27 @@ local function config()
   vim.keymap.set("n", "<localleader>q", vim.diagnostic.setloclist, opts)
 
   -- Diagnostics signs and highlights
-  local signs = require("utils").signs
-  for type, icon in pairs(signs) do
-    local hl = "LspDiagnosticsSign" .. type
-    vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+  for type, icon in pairs(utils.signs) do
+    local hl = "DiagnosticSign" .. type
+    vim.fn.sign_define(hl, { texthl = hl, text = icon, numhl = "" })
   end
 
   vim.diagnostic.config {
-    virtual_text = {
-      spacing = 4,
+    virtual_text = false, -- disable virtual text
+    signs = {
+      active = utils.signs, -- show signs
     },
-    signs = true,
-    underline = false,
-    update_in_insert = false,
+    update_in_insert = true,
+    underline = true,
     severity_sort = true,
+    float = {
+      focusable = true,
+      style = "minimal",
+      border = "rounded",
+      source = "always",
+      header = "",
+      prefix = "",
+    },
   }
 
   vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
@@ -135,30 +138,11 @@ local function config()
 
   -- Configure hover (normal K) handle
   vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
+  vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+    border = "rounded",
+  })
 
-  if utils.has_plugin "lsp_signature.nvim" then
-    local lsp_signature = require "lsp_signature"
-    lsp_signature.setup {
-      bind = true,
-    }
-  end
-
-  if utils.has_plugin "lsp-status.nvim" then
-    local lsp_status = require "lsp-status"
-    lsp_status.register_progress()
-    lsp_status.config {
-      indicator_separator = "",
-      component_separator = { left = "", right = "" },
-      -- indicator_errors = signs.Error,
-      -- indicator_warnings = signs.Warning,
-      -- indicator_info = signs.Information,
-      -- indicator_hint = signs.Hint,
-      indicator_ok = "✔",
-      status_symbol = "LSP",
-      diagnostics = false,
-    }
-  end
-
+  if utils.has_plugin "lsp_signature.nvim" then require("lsp_signature").setup { bind = true } end
   if utils.has_plugin "nvim-lightbulb" then require("nvim-lightbulb").setup { ignore = { "null-ls" } } end
 
   -- Setup CompletionItemKind symbols, see lua/lsp/kind.lua

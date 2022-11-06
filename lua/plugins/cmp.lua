@@ -14,6 +14,7 @@ local function config()
       return not require("utils").has_value(ignore_file_type, vim.bo.filetype)
     end,
     formatting = {
+      fields = { "kind", "abbr", "menu" },
       format = function(entry, vim_item)
         local icons = require("lsp.kind").icons
         vim_item.kind = icons[vim_item.kind]
@@ -34,14 +35,15 @@ local function config()
       end,
     },
     window = {
-      documentation = cmp.config.window.bordered(),
+      -- completion = cmp.config.window.bordered(),
+      -- documentation = cmp.config.window.bordered(),
     },
     confirm_opts = {
       behavior = cmp.ConfirmBehavior.Replace,
       select = false,
     },
     experimental = {
-      -- ghost_text = false,
+      ghost_text = true,
       -- native_menu = false,
     },
     sources = cmp.config.sources {
