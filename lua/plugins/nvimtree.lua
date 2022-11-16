@@ -38,9 +38,11 @@ local function config()
     diagnostics = { enable = false },
     ignore_ft_on_setup = { "startify", "dashboard" },
     disable_netrw = true,
+    respect_buf_cwd = false,
+    sync_root_with_cwd = true,
     update_focused_file = {
       enable = true,
-      update_cwd = true,
+      update_root = false,
     },
     filters = {
       dotfiles = true,

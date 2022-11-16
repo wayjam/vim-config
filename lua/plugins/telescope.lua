@@ -185,8 +185,21 @@ local function config()
         find_command = { "rg", "--smart-case", "--hidden", "--no-ignore-vcs", "--glob", "!.git", "--files" },
       },
     },
+    extensions = {
+      project = {
+        theme = "dropdown",
+        order_by = "asc",
+        sync_with_nvim_tree = true, -- default false
+      },
+    },
   }
 end
 
 -- Public functions
-return { setup = setup, config = config }
+return {
+  setup = setup,
+  config = config,
+  config_extension = function(name)
+    if name == "project" then require("telescope").load_extension "project" end
+  end,
+}

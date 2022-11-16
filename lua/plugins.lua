@@ -69,11 +69,6 @@ return {
     config = function() require("plugins.nvimtree").config() end,
   },
   {
-    "ahmedkhalf/project.nvim",
-    after = { "telescope.nvim" },
-    config = function() require("plugins.project").config() end,
-  },
-  {
     "tpope/vim-fugitive",
     event = "VimEnter",
     config = function() vim.fn["plugins#config"] "vim-fugitive" end,
@@ -83,6 +78,11 @@ return {
     requires = { "nvim-lua/plenary.nvim", "nvim-lua/popup.nvim" },
     setup = function() require("plugins.telescope").setup() end,
     config = function() require("plugins.telescope").config() end,
+  },
+  {
+    "nvim-telescope/telescope-project.nvim",
+    require = { "nvim-telescope/telescope.nvim" },
+    config = function() require("plugins.telescope").config_extension "project" end,
   },
   {
     "kevinhwang91/nvim-bqf",
@@ -161,7 +161,7 @@ return {
   },
   {
     "rcarriga/nvim-dap-ui",
-    requires = "nvim-dap",
+    requires = { "mfussenegger/nvim-dap" },
     after = "nvim-dap",
     config = function() require("plugins.dap").uiconfig() end,
   },
