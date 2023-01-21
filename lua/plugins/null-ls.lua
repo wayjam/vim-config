@@ -60,7 +60,7 @@ local function toggle_autoformat(bufnr)
 end
 
 local function has_exec(filename)
-  return function(_) return require('utils').executable(filename) end
+  return function(_) return require("utils").executable(filename) end
 end
 
 local function setup(opts)

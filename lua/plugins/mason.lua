@@ -11,7 +11,6 @@ end
 
 local config = function()
   local mason = require "mason"
-  local null_ls = require "null-ls"
   local mason_lspconfig = require "mason-lspconfig"
   local mason_null_ls = require "mason-null-ls"
 
@@ -25,19 +24,9 @@ local config = function()
   }
   mason_null_ls.setup {
     ensure_installed = { "stylua" },
+    automatic_setup = true, -- Recommended, but optional
   }
-  mason_null_ls.setup_handlers {
-    -- all sources with no handler get passed here
-    function(source_name)
-      local ok, source = try_require_null_ls(source_name)
-      if ok then
-        null_ls.register(source)
-      else
-        vim.notify("not found null-ls source " .. source_name)
-      end
-    end,
-    -- stylua = function(source_name, methods) null_ls.register(null_ls.builtins.formatting.stylua) end,
-  }
+  mason_null_ls.setup_handlers {}
   require("mason-nvim-dap").setup {
     ensure_installed = {},
   }
