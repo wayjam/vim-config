@@ -82,7 +82,7 @@ local function config()
         nowait = true,
       },
       mappings = {
-        ["<localleader>e"] = {
+        ["<space>"] = {
           "toggle_node",
           nowait = false, -- disable `nowait` if you have existing combos starting with this char that you want to use
         },
@@ -220,7 +220,7 @@ local function config()
     },
   }
 
-  vim.cmd [[nnoremap \ :Neotree reveal<cr>]]
+  vim.cmd [[nnoremap <localleader>e :Neotree reveal toggle<cr>]]
 end
 
 return {
