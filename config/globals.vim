@@ -17,7 +17,6 @@ let g:loaded_tar = 1
 let g:loaded_tarPlugin = 1
 let g:loaded_zip      = 1
 let g:loaded_zipPlugin = 1
-let g:did_load_filetypes = 1 " replaced by filetype.nvim
 
 " When using VIMINIT trick for exotic MYVIMRC locations, add path now.
 if &runtimepath !~# g:CONFIG_PATH

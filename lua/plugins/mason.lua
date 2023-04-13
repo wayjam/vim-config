@@ -14,17 +14,31 @@ local config = function()
   local mason_lspconfig = require "mason-lspconfig"
   local mason_null_ls = require "mason-null-ls"
 
-  mason.setup {}
+  mason.setup {
+    ui = {
+      border = "none",
+      icons = {
+        package_installed = "◍",
+        package_pending = "◍",
+        package_uninstalled = "◍",
+      },
+    },
+    log_level = vim.log.levels.INFO,
+    max_concurrent_installers = 4,
+  }
+
   mason_lspconfig.setup {
-    ensure_installed = { "sumneko_lua" },
+    ensure_installed = { "lua_ls", "bashls", "jsonls", "yamlls" },
+    automatic_installation = true,
     github = {
       -- https://github.com/fastgitorg/document
       download_url_template = "https://download.fastgit.org/%s/releases/download/%s/%s",
     },
   }
-  mason_null_ls.setup {
+
+  mwason_null_ls.setup {
     ensure_installed = { "stylua" },
-    automatic_setup = true, -- Recommended, but optional
+    automatic_setup = true,
   }
   mason_null_ls.setup_handlers {}
   require("mason-nvim-dap").setup {

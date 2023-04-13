@@ -45,17 +45,19 @@ local function toggle_autoformat(bufnr)
     event = "BufWritePre",
   }
 
-  local id = 0
+  local enabled = false
   for _, c in pairs(cmds) do
-    if c["buflocal"] == true then id = c["id"] end
+    if c["buflocal"] == true then
+      enabled = true
+      vim.api.nvim_del_autocmd(c["id"])
+    end
   end
 
-  if id ~= 0 then
-    vim.notify "DisableAutoFormat"
-    vim.api.nvim_del_autocmd(id)
-  else
+  if not enabled then
     vim.notify "EnableAutoFormat"
     create_autocmd(bufnr)
+  else
+    vim.notify "DisableAutoFormat"
   end
 end
 
@@ -131,7 +133,7 @@ local function setup(opts)
 
   -- keymaps
   vim.keymap.set("n", "<leader>fm", async_formatting, { silent = true, noremap = true })
-  vim.keymap.set("v", "<localleader>=", vim.lsp.buf.range_formatting, { silent = true, noremap = true })
+  vim.keymap.set("v", "<localleader>=", vim.lsp.buf.format, { silent = true, noremap = true })
   vim.api.nvim_create_user_command("Format", function(_) async_formatting() end, {})
   vim.api.nvim_create_user_command("AutoFormatToggle", function(_) toggle_autoformat() end, {})
 end

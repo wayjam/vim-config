@@ -1,11 +1,6 @@
 return {
   --- basic
   { "wbthomason/packer.nvim", opt = true },
-  {
-    "lewis6991/impatient.nvim",
-    config = function() require "impatient" end,
-  },
-  { "nathom/filetype.nvim" },
   { "christoomey/vim-tmux-navigator" },
   {
     "tpope/vim-sleuth",
@@ -20,6 +15,13 @@ return {
     config = function() require("plugins.onedark").config() end,
   },
   { "kyazdani42/nvim-web-devicons" },
+  {
+    "folke/noice.nvim",
+    config = function() require("plugins.noice").config() end,
+    requires = {
+      "MunifTanjim/nui.nvim",
+    },
+  },
   {
     "nvim-lualine/lualine.nvim",
     event = "UIEnter",
@@ -85,6 +87,12 @@ return {
     config = function() require("plugins.telescope").config() end,
   },
   {
+    "nvim-telescope/telescope-fzf-native.nvim",
+    run = "make",
+    event = "BufRead",
+    config = function() require("plugins.telescope").config_extension "fzf" end,
+  },
+  {
     "nvim-telescope/telescope-project.nvim",
     require = { "nvim-telescope/telescope.nvim" },
     config = function() require("plugins.telescope").config_extension "project" end,
@@ -92,6 +100,7 @@ return {
   {
     "kevinhwang91/nvim-bqf",
     ft = "qf",
+    config = function() require("plugins.bqf").config() end,
   },
   {
     "simrat39/symbols-outline.nvim",
@@ -127,7 +136,7 @@ return {
   { "hrsh7th/cmp-path", after = "nvim-cmp" },
 
   --- installer
-  { "jayp0521/mason-null-ls.nvim" },
+  { "jayp0521/mason-null-ls.nvim", event = { "BufReadPre", "BufNewFile" } },
   { "jayp0521/mason-nvim-dap.nvim" },
   {
     "williamboman/mason-lspconfig.nvim",
@@ -135,6 +144,7 @@ return {
   {
     "williamboman/mason.nvim",
     after = { "mason-lspconfig.nvim", "mason-null-ls.nvim" },
+    run = ":MasonUpdate",
     config = function() require("plugins.mason").config() end,
   },
 
