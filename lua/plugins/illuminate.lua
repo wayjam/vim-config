@@ -45,12 +45,12 @@ return {
       large_file_cutoff = 5000,
     }
 
-
     local group = "illuminate_augroup"
     vim.api.nvim_create_augroup(group, { clear = true })
     vim.api.nvim_create_autocmd({ "VimEnter" }, {
       group = group,
       callback = function()
+        vim.cmd "hi link illuminatedWord LspReferenceText"
         vim.api.nvim_set_hl(0, "IlluminatedWordText", { link = "Visual" })
         vim.api.nvim_set_hl(0, "IlluminatedWordRead", { link = "Visual" })
         vim.api.nvim_set_hl(0, "IlluminatedWordWrite", { link = "Visual" })

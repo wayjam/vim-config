@@ -19,7 +19,7 @@ local function startup()
     spec = {
       { import = "plugins_spec" },
     },
-    -- install = { colorscheme = { require("user.colorscheme").name } },
+    -- install = { colorscheme = { require("plugins.colorscheme").name } },
     defaults = { lazy = true },
     ui = { wrap = "true" },
     checker = { enabled = true },

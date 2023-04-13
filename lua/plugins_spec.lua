@@ -175,6 +175,7 @@ return {
     "neovim/nvim-lspconfig",
     lazy = true,
     dependencies = {
+      "williamboman/mason.nvim",
       "hrsh7th/cmp-nvim-lsp",
       { "ray-x/lsp_signature.nvim" },
       { "kosayoda/nvim-lightbulb" },
