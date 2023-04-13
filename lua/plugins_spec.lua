@@ -1,12 +1,6 @@
 return {
   --- basic
-  { "wbthomason/packer.nvim", opt = true },
   { "christoomey/vim-tmux-navigator" },
-  {
-    "tpope/vim-sleuth",
-    event = "VimEnter",
-    config = function() vim.fn["plugins#config"] "sleuth" end,
-  },
   { "gpanders/editorconfig.nvim" },
 
   --- ui
@@ -14,36 +8,36 @@ return {
     "navarasu/onedark.nvim",
     config = function() require("plugins.onedark").config() end,
   },
-  { "kyazdani42/nvim-web-devicons" },
+  { "kyazdani42/nvim-web-devicons", event = "VeryLazy" },
   {
     "folke/noice.nvim",
     config = function() require("plugins.noice").config() end,
-    requires = {
+    dependencies = {
       "MunifTanjim/nui.nvim",
     },
   },
   {
     "nvim-lualine/lualine.nvim",
-    event = "UIEnter",
-    requires = { "kyazdani42/nvim-web-devicons" },
+    event = { "VimEnter", "InsertEnter", "BufReadPre", "BufAdd", "BufNew", "BufReadPost", "UIEnter" },
+    dependencies = { "kyazdani42/nvim-web-devicons" },
     config = function() require("plugins.lualine").config() end,
   },
   {
     "seblj/nvim-tabline",
     event = "UIEnter",
-    requires = { "kyazdani42/nvim-web-devicons" },
+    dependencies = { "kyazdani42/nvim-web-devicons" },
     config = function() require("plugins.tabline").config() end,
   },
   { "folke/lsp-colors.nvim" },
   {
     "lewis6991/gitsigns.nvim",
-    event = "VimEnter",
-    requires = { "nvim-lua/plenary.nvim" },
+    event = "BufReadPre",
+    dependencies = { "nvim-lua/plenary.nvim" },
     config = function() require("plugins.gitsigns").config() end,
   },
   {
     "sindrets/diffview.nvim",
-    requires = "nvim-lua/plenary.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
     cmd = {
       "DiffviewOpen",
       "DiffviewFileHistory",
@@ -53,7 +47,7 @@ return {
   },
   {
     "lukas-reineke/indent-blankline.nvim",
-    event = "BufRead",
+    event = "BufReadPre",
     config = function() require("plugins.indentline").config() end,
   },
 
@@ -61,16 +55,16 @@ return {
   {
     "folke/trouble.nvim",
     cmd = { "Trouble", "TroubleToggle", "TroubleRefresh" },
-    after = { "nvim-lspconfig" },
-    setup = function() require("plugins.trouble").setup() end,
+    dependencies = { "neovim/nvim-lspconfig" },
+    init = function() require("plugins.trouble").setup() end,
     config = function() require("plugins.trouble").config() end,
   },
   {
     "nvim-neo-tree/neo-tree.nvim",
     branch = "v2.x",
-    requires = {
+    event = "VimEnter",
+    dependencies = {
       "nvim-lua/plenary.nvim",
-      "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
       "MunifTanjim/nui.nvim",
     },
     config = function() require("plugins.neotree").config() end,
@@ -78,24 +72,28 @@ return {
   {
     "tpope/vim-fugitive",
     event = "VimEnter",
-    config = function() vim.fn["plugins#config"] "vim-fugitive" end,
+    config = function() require("plugins.fugitive").config() end,
   },
   {
     "nvim-telescope/telescope.nvim",
-    requires = { "nvim-lua/plenary.nvim", "nvim-lua/popup.nvim" },
-    setup = function() require("plugins.telescope").setup() end,
+    event = "BufEnter",
+    cmd = { "Telescope" },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-lua/popup.nvim",
+      {
+        "nvim-telescope/telescope-fzf-native.nvim",
+        build = "make",
+        event = "BufRead",
+        config = function() require("plugins.telescope").config_extension "fzf" end,
+      },
+      {
+        "nvim-telescope/telescope-project.nvim",
+        config = function() require("plugins.telescope").config_extension "project" end,
+      },
+    },
+    init = function() require("plugins.telescope").setup() end,
     config = function() require("plugins.telescope").config() end,
-  },
-  {
-    "nvim-telescope/telescope-fzf-native.nvim",
-    run = "make",
-    event = "BufRead",
-    config = function() require("plugins.telescope").config_extension "fzf" end,
-  },
-  {
-    "nvim-telescope/telescope-project.nvim",
-    require = { "nvim-telescope/telescope.nvim" },
-    config = function() require("plugins.telescope").config_extension "project" end,
   },
   {
     "kevinhwang91/nvim-bqf",
@@ -111,7 +109,7 @@ return {
   --- terminal
   {
     "akinsho/toggleterm.nvim",
-    tag = "*",
+    version = "*",
     cmd = "ToggleTerm",
     config = function() require("plugins.toggleterm").config() end,
   },
@@ -120,49 +118,66 @@ return {
   { "rafamadriz/friendly-snippets" },
   {
     "L3MON4D3/LuaSnip",
-    requires = { "rafamadriz/friendly-snippets" },
+    event = "InsertEnter",
+    dependencies = { "rafamadriz/friendly-snippets" },
     config = function() require("plugins.luasnip").config() end,
   },
 
   --- complete
   {
     "hrsh7th/nvim-cmp",
+    event = {
+      "InsertEnter",
+      "CmdlineEnter",
+    },
+    dependencies = {
+      "L3MON4D3/LuaSnip",
+      { "saadparwaiz1/cmp_luasnip" },
+      { "hrsh7th/cmp-nvim-lsp" },
+      { "hrsh7th/cmp-nvim-lua" },
+      { "hrsh7th/cmp-buffer" },
+      { "hrsh7th/cmp-path" },
+      {
+        "hrsh7th/cmp-cmdline",
+      },
+    },
+
     config = function() require("plugins.cmp").config() end,
   },
-  { "saadparwaiz1/cmp_luasnip", after = { "nvim-cmp", "LuaSnip" } },
-  { "hrsh7th/cmp-nvim-lsp", after = "nvim-cmp" },
-  { "hrsh7th/cmp-nvim-lua", after = "nvim-cmp" },
-  { "hrsh7th/cmp-buffer", after = "nvim-cmp" },
-  { "hrsh7th/cmp-path", after = "nvim-cmp" },
 
   --- installer
-  { "jayp0521/mason-null-ls.nvim", event = { "BufReadPre", "BufNewFile" } },
-  { "jayp0521/mason-nvim-dap.nvim" },
-  {
-    "williamboman/mason-lspconfig.nvim",
-  },
   {
     "williamboman/mason.nvim",
-    after = { "mason-lspconfig.nvim", "mason-null-ls.nvim" },
-    run = ":MasonUpdate",
+    event = "BufReadPre",
+    dependencies = {
+      { "jayp0521/mason-nvim-dap.nvim", lazy = true },
+      {
+        "williamboman/mason-lspconfig.nvim",
+        lazy = true,
+      },
+      {
+        "jayp0521/mason-null-ls.nvim",
+        event = { "BufReadPre", "BufNewFile" },
+      },
+    },
+    build = ":MasonUpdate",
     config = function() require("plugins.mason").config() end,
   },
 
   --- lsp
-  { "ray-x/lsp_signature.nvim" },
-  { "kosayoda/nvim-lightbulb" },
   {
     "jose-elias-alvarez/null-ls.nvim",
-    requires = { "nvim-lua/plenary.nvim" },
+    event = "BufReadPre",
+    dependencies = { "nvim-lua/plenary.nvim" },
     config = function() require("plugins.null-ls").config() end,
   },
   {
     "neovim/nvim-lspconfig",
-    after = {
-      "cmp-nvim-lsp",
-      "mason-lspconfig.nvim",
-      "lsp_signature.nvim",
-      "nvim-lightbulb",
+    lazy = true,
+    dependencies = {
+      "hrsh7th/cmp-nvim-lsp",
+      { "ray-x/lsp_signature.nvim" },
+      { "kosayoda/nvim-lightbulb" },
     },
     config = function() require("plugins.lspconfig").config() end,
   },
@@ -170,14 +185,14 @@ return {
   --- debugger
   {
     "mfussenegger/nvim-dap",
-    event = "VimEnter",
-    setup = function() require("plugins.dap").setup() end,
+    event = "VeryLazy",
+    init = function() require("plugins.dap").setup() end,
     config = function() require("plugins.dap").config() end,
   },
   {
     "rcarriga/nvim-dap-ui",
-    requires = { "mfussenegger/nvim-dap" },
-    after = "nvim-dap",
+    event = "VeryLazy",
+    dependencies = { "mfussenegger/nvim-dap" },
     config = function() require("plugins.dap").uiconfig() end,
   },
 
@@ -185,12 +200,13 @@ return {
   { "tpope/vim-surround", event = "InsertCharPre" },
   {
     "windwp/nvim-autopairs",
-    after = "nvim-cmp",
-    event = "VimEnter",
+    dependencies = "hrsh7th/nvim-cmp",
+    event = "InsertEnter",
     config = function() require("plugins.autopairs").config() end,
   },
   {
     "RRethy/vim-illuminate",
+    event = "VeryLazy",
     config = function() require("plugins.illuminate").config() end,
   },
   {
@@ -202,7 +218,7 @@ return {
     "junegunn/vim-easy-align",
     cmd = "EasyAlign",
     event = "VimEnter",
-    config = function() vim.fn["plugins#config"] "vim-easy-align" end,
+    config = function() require("plugins.easy_align").config() end,
   },
   {
     "ggandor/leap.nvim",
@@ -216,7 +232,7 @@ return {
   {
     "Pocco81/TrueZen.nvim",
     cmd = { "TZAtaraxis", "TZFocus", "TZMinimailist" },
-    setup = function() require("plugins.truezen").setup() end,
+    init = function() require("plugins.truezen").setup() end,
   },
 
   --- colorizer
@@ -229,20 +245,26 @@ return {
   --- syntax
   {
     "nvim-treesitter/nvim-treesitter",
-    run = ":TSUpdate",
+    event = "BufReadPost",
+    build = ":TSUpdate",
+    dependencies = {
+      {
+        "JoosepAlviste/nvim-ts-context-commentstring",
+        event = "VeryLazy",
+        config = function() require("plugins.treesitter").commentstring() end,
+      },
+      {
+        "windwp/nvim-ts-autotag",
+        event = "VeryLazy",
+        config = function() require("plugins.treesitter").autotag() end,
+      },
+      {
+        "nvim-treesitter/nvim-treesitter-textobjects",
+        event = "VeryLazy",
+        config = function() require("plugins.treesitter").textobjects() end,
+      },
+    },
     config = function() require("plugins.treesitter").config() end,
-  },
-  {
-    "JoosepAlviste/nvim-ts-context-commentstring",
-    config = function() require("plugins.treesitter").commentstring() end,
-  },
-  {
-    "windwp/nvim-ts-autotag",
-    config = function() require("plugins.treesitter").autotag() end,
-  },
-  {
-    "nvim-treesitter/nvim-treesitter-textobjects",
-    config = function() require("plugins.treesitter").textobjects() end,
   },
 
   --- languages specifies
@@ -250,7 +272,7 @@ return {
     "iamcco/markdown-preview.nvim",
     ft = { "markdown", "pandoc.markdown", "rmc" },
     cmd = "MarkdownPreview",
-    run = "cd app && yarn install",
+    build = "cd app && yarn install",
   },
   {
     "petobens/poet-v",

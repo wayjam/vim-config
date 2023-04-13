@@ -33,13 +33,12 @@ function M.file_exists(fname)
 end
 
 function M.has_plugin(name)
-  local ok = packer_plugins[name] and packer_plugins[name].loaded
-  return ok
+  if not package.loaded["name"] then return false end
+  return true
 end
 
 function M.executable(name)
   if vim.fn.executable(name) > 0 then return true end
-
   return false
 end
 
@@ -69,10 +68,10 @@ end
 function M.get_config_path()
   local fn = vim.fn
   local path = vim.g.etc_vim_path
-    or fn.stdpath "config"
-    or (not is_nil(fn.getenv "$MYVIMRC") and fn.fnamemodify(fn.expand(fn.getenv "$MYVIMRC"), ":h") or "")
-    or (not is_nil(fn.getenv "$VIMCONFIG") and fn.expand(fn.getenv "$VIMCONFIG") or "")
-    or fn.fnamemodify(fn.resolve(fn.expand "<sfile>:p"), ":h")
+      or fn.stdpath "config"
+      or (not is_nil(fn.getenv "$MYVIMRC") and fn.fnamemodify(fn.expand(fn.getenv "$MYVIMRC"), ":h") or "")
+      or (not is_nil(fn.getenv "$VIMCONFIG") and fn.expand(fn.getenv "$VIMCONFIG") or "")
+      or fn.fnamemodify(fn.resolve(fn.expand "<sfile>:p"), ":h")
 
   return path
 end
@@ -82,7 +81,7 @@ function M.get_data_path()
   local xdg_data_home = fn.getenv "$XDG_DATA_HOME"
 
   local path = fn.stdpath "data"
-    or fn.expand((not is_nil(xdg_data_home) and xdg_data_home or "~/.local/share") .. "/nvim", 1)
+      or fn.expand((not is_nil(xdg_data_home) and xdg_data_home or "~/.local/share") .. "/nvim", 1)
 
   return path
 end
@@ -91,10 +90,9 @@ end
 function M.check_version(expected_ver)
   local current_ver = vim.version()
 
-  if
-    current_ver.major < expected_ver.major
-    or current_ver.minor < expected_ver.minor
-    or current_ver.patch < expected_ver.patch
+  if current_ver.major < expected_ver.major
+      or current_ver.minor < expected_ver.minor
+      or current_ver.patch < expected_ver.patch
   then
     local msg = string.format("Unsupported nvim version: expect %s, but got %s instead!", expected_ver, current_ver)
     vim.api.nvim_echo({ { msg, "ErrorMsg" } }, false, {})

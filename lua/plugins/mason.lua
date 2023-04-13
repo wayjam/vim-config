@@ -36,15 +36,17 @@ local config = function()
     },
   }
 
-  mwason_null_ls.setup {
+  mason_null_ls.setup {
     ensure_installed = { "stylua" },
     automatic_setup = true,
   }
-  mason_null_ls.setup_handlers {}
+
   require("mason-nvim-dap").setup {
     ensure_installed = {},
   }
 end
+
+-- local function config_null_ls
 
 return {
   config = config,

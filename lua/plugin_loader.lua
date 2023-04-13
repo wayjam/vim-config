@@ -1,57 +1,45 @@
 local utils = require "utils"
 
-local packer_install_dir = vim.g["DATA_PATH"] .. "/site/pack/packer/opt/packer.nvim"
-local packer_compiled_path = vim.g["DATA_PATH"] .. "/packer_compiled.lua"
-local packer_package_root = vim.g["DATA_PATH"] .. "/site/pack"
-local packer_repo = "https://github.com/wbthomason/packer.nvim"
-local install_cmd = string.format("10split |term git clone --depth=1 %s %s", packer_repo, packer_install_dir)
-
--- Auto-install packer in case it hasn't been installed.
-if vim.fn.glob(packer_install_dir) == "" then
-  vim.api.nvim_echo({ { "Installing packer.nvim", "Type" } }, true, {})
-  vim.cmd(install_cmd)
-  print "You shoud run `:PackerSync` at first time."
+local lazypath = vim.g["DATA_PATH"] .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system {
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  }
 end
-
-vim.cmd "packadd packer.nvim"
-local packer = require "packer"
-
-local settings = {
-  profile = { enable = false, threshold = 1 },
-  package_root = packer_package_root,
-  compile_path = packer_compiled_path,
-  auto_reload_compiled = true,
-  compile_on_sync = true,
-}
+vim.opt.rtp:prepend(lazypath)
 
 local function startup()
-  -- vim.cmd(
-  --     [[
-  --   augroup packer_user_config
-  --     autocmd!
-  --     autocmd BufWritePost plugins.lua source <afile> | PackerCompile
-  --   augroup end
-  -- ]])
-
-  packer.init {
-    display = {
-      open_fn = function() return require("packer.util").float { border = "rounded" } end,
+  -- load lazy
+  require("lazy").setup {
+    spec = {
+      { import = "plugins_spec" },
+    },
+    -- install = { colorscheme = { require("user.colorscheme").name } },
+    defaults = { lazy = true },
+    ui = { wrap = "true" },
+    checker = { enabled = true },
+    change_detection = { enabled = true },
+    debug = false,
+    performance = {
+      rtp = {
+        disabled_plugins = {
+          -- "gzip", -- Plugin for editing compressed files.
+          -- "matchit", -- What is it?
+          --  "matchparen", -- Plugin for showing matching parens
+          --  "netrwPlugin", -- Handles file transfers and remote directory listing across a network
+          --  "tarPlugin", -- Plugin for browsing tar files
+          "tohtml", -- Converting a syntax highlighted file to HTML
+          "tutor", -- Teaching?
+          --  "zipPlugin", -- Handles browsing zipfiles
+        },
+      },
     },
   }
-  packer.startup {
-    function(use)
-      vim.cmd("source" .. vim.g["CONFIG_PATH"] .. "/config/plugins/plugins.vim")
-      for _, plugin in ipairs(require "plugins") do
-        use(plugin)
-      end
-    end,
-    config = settings,
-  }
-  if utils.file_exists(packer_compiled_path) then
-    vim.cmd("source " .. packer_compiled_path)
-  else
-    packer.compile()
-  end
 end
 
 return { startup = startup }
