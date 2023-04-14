@@ -14,7 +14,7 @@ local function config()
     filetype_exclude = {
       "help",
       "packer",
-      "NvimTree",
+      "neo-tree",
       "Trouble",
       "ToggleTerm",
       "dashboard",

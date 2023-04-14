@@ -1,16 +1,24 @@
 return {
   --- basic
-  { "christoomey/vim-tmux-navigator" },
-  { "gpanders/editorconfig.nvim" },
+  { "christoomey/vim-tmux-navigator", event = "VeryLazy" },
+  { "gpanders/editorconfig.nvim", event = "BufReadPre" },
+  {
+    "lunarvim/bigfile.nvim",
+    config = function() require("bigfile").config {} end,
+    event = { "FileReadPre", "BufReadPre", "User FileOpened" },
+  },
 
   --- ui
   {
     "navarasu/onedark.nvim",
+    lazy = false,
+    priority = 1000,
     config = function() require("plugins.onedark").config() end,
   },
   { "kyazdani42/nvim-web-devicons", event = "VeryLazy" },
   {
     "folke/noice.nvim",
+    event = "VeryLazy",
     config = function() require("plugins.noice").config() end,
     dependencies = {
       "MunifTanjim/nui.nvim",
@@ -18,20 +26,19 @@ return {
   },
   {
     "nvim-lualine/lualine.nvim",
-    event = { "VimEnter", "InsertEnter", "BufReadPre", "BufAdd", "BufNew", "BufReadPost", "UIEnter" },
+    event = "VeryLazy",
     dependencies = { "kyazdani42/nvim-web-devicons" },
     config = function() require("plugins.lualine").config() end,
   },
   {
     "seblj/nvim-tabline",
-    event = "UIEnter",
+    event = "VeryLazy",
     dependencies = { "kyazdani42/nvim-web-devicons" },
     config = function() require("plugins.tabline").config() end,
   },
-  { "folke/lsp-colors.nvim" },
   {
     "lewis6991/gitsigns.nvim",
-    event = "BufReadPre",
+    event = { "BufReadPre", "BufNewFile" },
     dependencies = { "nvim-lua/plenary.nvim" },
     config = function() require("plugins.gitsigns").config() end,
   },
@@ -47,7 +54,7 @@ return {
   },
   {
     "lukas-reineke/indent-blankline.nvim",
-    event = "BufReadPre",
+    event = { "BufReadPost", "BufNewFile" },
     config = function() require("plugins.indentline").config() end,
   },
 
@@ -62,11 +69,15 @@ return {
   {
     "nvim-neo-tree/neo-tree.nvim",
     branch = "v2.x",
-    event = "VimEnter",
+    cmd = "Neotree",
     dependencies = {
       "nvim-lua/plenary.nvim",
       "MunifTanjim/nui.nvim",
     },
+    keys = {
+      { "<localleader>e", "<cmd>Neotree reveal toggle<cr>", desc = "NeoTree" },
+    },
+    -- deactivate = function() vim.cmd [[Neotree close]] end,
     config = function() require("plugins.neotree").config() end,
   },
   {
@@ -76,7 +87,6 @@ return {
   },
   {
     "nvim-telescope/telescope.nvim",
-    event = "BufEnter",
     cmd = { "Telescope" },
     dependencies = {
       "nvim-lua/plenary.nvim",
@@ -141,14 +151,14 @@ return {
         "hrsh7th/cmp-cmdline",
       },
     },
-
     config = function() require("plugins.cmp").config() end,
   },
 
   --- installer
   {
     "williamboman/mason.nvim",
-    event = "BufReadPre",
+    lazy = true,
+    cmd = { "Mason", "MasonInstall", "MasonUninstall", "MasonUninstallAll", "MasonLog" },
     dependencies = {
       { "jayp0521/mason-nvim-dap.nvim", lazy = true },
       {
@@ -158,6 +168,9 @@ return {
       {
         "jayp0521/mason-null-ls.nvim",
         event = { "BufReadPre", "BufNewFile" },
+        dependencies = {
+          "jose-elias-alvarez/null-ls.nvim",
+        },
       },
     },
     build = ":MasonUpdate",
@@ -167,7 +180,7 @@ return {
   --- lsp
   {
     "jose-elias-alvarez/null-ls.nvim",
-    event = "BufReadPre",
+    lazy = true,
     dependencies = { "nvim-lua/plenary.nvim" },
     config = function() require("plugins.null-ls").config() end,
   },
@@ -177,8 +190,8 @@ return {
     dependencies = {
       "williamboman/mason.nvim",
       "hrsh7th/cmp-nvim-lsp",
-      { "ray-x/lsp_signature.nvim" },
-      { "kosayoda/nvim-lightbulb" },
+      { "ray-x/lsp_signature.nvim", lazy = true },
+      { "kosayoda/nvim-lightbulb", lazy = true },
     },
     config = function() require("plugins.lspconfig").config() end,
   },
@@ -207,7 +220,8 @@ return {
   },
   {
     "RRethy/vim-illuminate",
-    event = "VeryLazy",
+    event = { "BufReadPost", "BufNewFile" },
+    opts = { delay = 200 },
     config = function() require("plugins.illuminate").config() end,
   },
   {
@@ -218,16 +232,17 @@ return {
   {
     "junegunn/vim-easy-align",
     cmd = "EasyAlign",
-    event = "VimEnter",
+    event = "BufReadPre",
     config = function() require("plugins.easy_align").config() end,
   },
   {
     "ggandor/leap.nvim",
-    event = "VimEnter",
+    event = "BufReadPre",
     config = function() require("plugins.leap").config() end,
   },
   {
     "ojroques/nvim-osc52",
+    event = "BufReadPre",
     config = function() require("plugins.oscyank").config() end,
   },
   {
@@ -239,15 +254,25 @@ return {
   --- colorizer
   {
     "norcalli/nvim-colorizer.lua",
-    event = "VimEnter",
+    event = "VeryLazy",
     config = function() require("plugins.colorizer").config() end,
   },
 
   --- syntax
   {
     "nvim-treesitter/nvim-treesitter",
-    event = "BufReadPost",
+    -- event = { "BufReadPost", "BufNewFile" },
+    event = "User FileOpened",
     build = ":TSUpdate",
+    cmd = {
+      "TSInstall",
+      "TSUninstall",
+      "TSUpdate",
+      "TSUpdateSync",
+      "TSInstallInfo",
+      "TSInstallSync",
+      "TSInstallFromGrammar",
+    },
     dependencies = {
       {
         "JoosepAlviste/nvim-ts-context-commentstring",
@@ -271,6 +296,7 @@ return {
   --- languages specifies
   {
     "iamcco/markdown-preview.nvim",
+    enabled = false,
     ft = { "markdown", "pandoc.markdown", "rmc" },
     cmd = "MarkdownPreview",
     build = "cd app && yarn install",

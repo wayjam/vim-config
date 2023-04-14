@@ -64,14 +64,6 @@ vim.api.nvim_set_keymap("v", "<leader>cN", [["y/\V<C-r>=escape(@", "/")<CR><CR>"
 -- Duplicate paragraph
 vim.api.nvim_set_keymap("n", "<leader>cp", "yap<S-}>p", {})
 
--- Cut & paste & change without pushing to register
-vim.api.nvim_set_keymap("x", "p", [["0p]], {})
-vim.api.nvim_set_keymap("n", "x", '"_x', {})
-vim.api.nvim_set_keymap("n", "c", '"_c', {})
-vim.api.nvim_set_keymap("n", "C", '"_C', {})
-vim.api.nvim_set_keymap("n", "cc", '"_cc', {})
-vim.api.nvim_set_keymap("x", "c", '"_c', {})
-
 -- Start new line from any cursor position in insert-mode
 vim.api.nvim_set_keymap("i", "<S-Return>", "<C-o>o", {})
 
@@ -216,7 +208,7 @@ vim.api.nvim_create_user_command("ColorColumn", function(opts)
   vim.opt.colorcolumn = opts.fargs[1]
   last_color_column = vim.opt.colorcolumn
 end, { nargs = 1 })
-vim.api.nvim_create_user_command("ColorColumnToggle", function(opts)
+vim.api.nvim_create_user_command("ColorColumnToggle", function()
   if not activatedh then
     activatedh = true
     vim.opt.colorcolumn = last_color_column

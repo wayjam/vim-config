@@ -77,8 +77,7 @@ end
 
 -- Iterate and setup all language servers and trigger FileType in windows.
 local function setup_servers()
-  if utils.has_plugin "mason-lspconfig" then return end
-
+  if not utils.has_plugin "mason-lspconfig" then return end
   require("mason-lspconfig").setup_handlers {
     -- The first entry (without a key) will be the default handler
     -- and will be called for each installed server that doesn't have
@@ -88,8 +87,6 @@ local function setup_servers()
       require("lspconfig")[server_name].setup(opts)
     end,
   }
-  -- Reload if files were supplied in command-line arguments
-  if vim.fn.argc() > 0 and not vim.o.modified then vim.cmd "windo e" end
 end
 
 local function config()

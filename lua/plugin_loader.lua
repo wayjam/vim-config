@@ -1,5 +1,3 @@
-local utils = require "utils"
-
 local lazypath = vim.g["DATA_PATH"] .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system {
@@ -28,14 +26,14 @@ local function startup()
     performance = {
       rtp = {
         disabled_plugins = {
-          -- "gzip", -- Plugin for editing compressed files.
+          "gzip", -- Plugin for editing compressed files.
           -- "matchit", -- What is it?
           --  "matchparen", -- Plugin for showing matching parens
-          --  "netrwPlugin", -- Handles file transfers and remote directory listing across a network
-          --  "tarPlugin", -- Plugin for browsing tar files
+          "netrwPlugin", -- Handles file transfers and remote directory listing across a network
+          "tarPlugin", -- Plugin for browsing tar files
           "tohtml", -- Converting a syntax highlighted file to HTML
           "tutor", -- Teaching?
-          --  "zipPlugin", -- Handles browsing zipfiles
+          "zipPlugin", -- Handles browsing zipfiles
         },
       },
     },

@@ -1,8 +1,6 @@
 let s:save_cpo = &cpoptions
-set cpoptions&vim
-
 let b:undo_ftplugin = 'setl fo< com< rnu< nu< bl<'
-
+set cpoptions&vim
 setlocal winminheight=1 winheight=3
 setlocal nowrap
 setlocal norelativenumber number
@@ -21,13 +19,12 @@ function! s:cycle(action, fallback) abort
   endtry
 endfunction
 
-nnoremap <silent> ]q :<c-u>call <SID>cycle('cnext', 'cfirst')<CR>
-nnoremap <silent> [q :<c-u>call <SID>cycle('cprev', 'clast')<CR>
 
 " Location
 nnoremap <silent> ]l :<c-u>call <SID>cycle('lnext', 'lfirst')<CR>
 nnoremap <silent> [l :<c-u>call <SID>cycle('lprev', 'llast')<CR>
-
+nnoremap <silent> ]q :<c-u>call <SID>cycle('cnext', 'cfirst')<CR>
+nnoremap <silent> [q :<c-u>call <SID>cycle('cprev', 'clast')<CR>
 nnoremap <silent> <buffer> q :cclose<bar>:lclose<CR>
 nnoremap <buffer> <CR> <CR>
 

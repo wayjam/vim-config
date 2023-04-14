@@ -76,7 +76,7 @@ local function config()
     use_default_mappings = false,
     window = {
       position = "left",
-      width = 40,
+      width = 35,
       mapping_options = {
         noremap = true,
         nowait = true,
@@ -97,7 +97,7 @@ local function config()
         ["<C-s>"] = "vsplit_with_window_picker",
         ["<C-t>"] = "open_tabnew",
         -- ["<cr>"] = "open_drop",
-        ["<C-T>"] = "open_tab_drop",
+        -- ["<C-T>"] = "open_tab_drop",
         ["w"] = "open_with_window_picker",
         --["P"] = "toggle_preview", -- enter preview mode, which shows the current node without focusing
         ["C"] = "close_node",
@@ -219,8 +219,6 @@ local function config()
       },
     },
   }
-
-  vim.cmd [[nnoremap <localleader>e :Neotree reveal toggle<cr>]]
 end
 
 return {
