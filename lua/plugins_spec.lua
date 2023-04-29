@@ -294,13 +294,7 @@ return {
   },
 
   --- languages specifies
-  {
-    "iamcco/markdown-preview.nvim",
-    enabled = false,
-    ft = { "markdown", "pandoc.markdown", "rmc" },
-    cmd = "MarkdownPreview",
-    build = "cd app && yarn install",
-  },
+  { "ellisonleao/glow.nvim", config = true, cmd = "Glow" },
   {
     "petobens/poet-v",
     ft = { "python" },

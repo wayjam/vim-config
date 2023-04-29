@@ -27,7 +27,7 @@ return {
         "fugitive",
         "alpha",
         "NvimTree",
-        "packer",
+        "lazy",
         "neogitstatus",
         "Trouble",
         "lir",

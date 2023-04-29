@@ -25,12 +25,12 @@ git clone https://github.com/wayjam/vim-config.git nvim
 
 ### Plugin Manager
 
-Using [packer.nvim](https://github.com/wbthomason/packer.nvim) as plugin manager.
+Using [lazy.nvim](https://github.com/folke/lazy.nvim) as plugin manager.
 
 Update Plugin(the plugins are not updated automatically):
 
 ```sh
-:PackerSync
+:Lazy
 ```
 
 #### LSP && Dap && Formatter

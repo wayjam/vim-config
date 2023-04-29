@@ -41,6 +41,9 @@ local function make_config(server_name)
   c.on_attach = on_attach
   c.capabilities = vim.lsp.protocol.make_client_capabilities()
 
+  -- https://github.com/jose-elias-alvarez/null-ls.nvim/issues/428
+  c.capabilities.offsetEncoding = { "utf-16" }
+
   if utils.has_plugin "cmp-nvim-lsp" then
     c.capabilities = vim.tbl_extend("keep", c.capabilities or {}, require("cmp_nvim_lsp").default_capabilities())
   end

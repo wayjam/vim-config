@@ -13,7 +13,7 @@ local function config()
     buftype_exclude = { "terminal", "nofile", "prompt" },
     filetype_exclude = {
       "help",
-      "packer",
+      "lazy",
       "neo-tree",
       "Trouble",
       "ToggleTerm",

@@ -21,7 +21,7 @@ local function startup()
     defaults = { lazy = true },
     ui = { wrap = "true" },
     checker = { enabled = true },
-    change_detection = { enabled = true },
+    change_detection = { enabled = false },
     debug = false,
     performance = {
       rtp = {

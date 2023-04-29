@@ -46,8 +46,6 @@ local config = function()
   }
 end
 
--- local function config_null_ls
-
 return {
   config = config,
 }
