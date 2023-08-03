@@ -26,6 +26,7 @@ M.icons = {
   Unit = "塞",
   Value = "",
   Variable = "",
+  Copilot = "",
 }
 
 function M.setup()

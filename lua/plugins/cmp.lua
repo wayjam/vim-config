@@ -1,31 +1,25 @@
-local snip_status_ok, luasnip = pcall(require, "luasnip")
-if not snip_status_ok then return end
-
 local function check_backspace()
   local col = vim.fn.col "." - 1
   return col == 0 or vim.fn.getline("."):sub(col, col):match "%s"
 end
 
 local function config()
+  local luasnip = require "luasnip"
+  local icons = require("lsp.kind").icons
   local cmp = require "cmp"
   cmp.setup {
-    enabled = function()
-      local ignore_file_type = { "TelescopePrompt", "help" }
-      return not require("utils").has_value(ignore_file_type, vim.bo.filetype)
-    end,
     formatting = {
       fields = { "kind", "abbr", "menu" },
       format = function(entry, vim_item)
-        local icons = require("lsp.kind").icons
         vim_item.kind = icons[vim_item.kind]
         vim_item.menu = ({
           nvim_lsp = "[LSP]",
           nvim_lua = "[Lua]",
-          path = "[Path]",
           luasnip = "[Snippet]",
           buffer = "[Buffer]",
+          path = "[Path]",
+          emoji = "[Emoji]",
         })[entry.source.name]
-        vim_item.dup = ({ buffer = 1, path = 1, nvim_lsp = 0 })[entry.source.name] or 0
         return vim_item
       end,
     },
@@ -43,13 +37,12 @@ local function config()
       select = false,
     },
     experimental = {
-      ghost_text = true,
-      -- native_menu = false,
+      ghost_text = { hl_group = "Comment" },
     },
     sources = cmp.config.sources {
       { name = "nvim_lsp" },
-      { name = "luasnip" }, -- For luasnip users.
       { name = "nvim-lua" },
+      { name = "luasnip" }, -- For luasnip users.
       { name = "buffer" },
       { name = "path" },
     },
@@ -57,17 +50,17 @@ local function config()
       ["<C-y>"] = cmp.config.disable,
       ["<C-p>"] = cmp.mapping.select_prev_item(),
       ["<C-n>"] = cmp.mapping.select_next_item(),
-      ["<C-d>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
-      ["<C-u>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
+      ["<C-d>"] = cmp.mapping(cmp.mapping.scroll_docs(-1), { "i", "c" }),
+      ["<C-u>"] = cmp.mapping(cmp.mapping.scroll_docs(1), { "i", "c" }),
       ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
       ["<C-e>"] = cmp.mapping { i = cmp.mapping.abort(), c = cmp.mapping.close() },
-      ["<CR>"] = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Replace, select = true },
+      ["<CR>"] = cmp.mapping.confirm { select = true },
       ["<Tab>"] = cmp.mapping(function(fallback)
         if cmp.visible() then
           cmp.select_next_item()
         elseif luasnip.expandable() then
           luasnip.expand()
-        elseif luasnip.expand_or_locally_jumpable() then
+        elseif luasnip.expand_or_jumpable() then
           luasnip.expand_or_jump()
         elseif check_backspace() then
           fallback()
@@ -92,6 +85,55 @@ local function config()
       }),
     },
   }
+
+  local file_type_specify = {
+    help = false,
+    lazy = false,
+    ["neo-tree"] = false,
+    ["neo-tree-popup"] = { "buffer", "path" },
+    Trouble = false,
+    ToggleTerm = { "path", "buffer" },
+    dashboard = false,
+    log = false,
+    fugitive = { "git", "buffer" },
+    git = { "git", "buffer" },
+    gitcommit = { "git", "buffer" },
+    TelescopePrompt = false,
+  }
+
+  for k, v in pairs(file_type_specify) do
+    if v == false then
+      cmp.setup.filetype(k, {
+        enabled = false,
+      })
+    else
+      local sources = {}
+      for _, s in ipairs(v) do
+        table.insert(sources, { name = s })
+      end
+      cmp.setup.filetype(k, {
+        sources = cmp.config.sources(sources),
+      })
+    end
+  end
+
+  -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
+  cmp.setup.cmdline({ "/", "?" }, {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+      { name = "buffer" },
+    },
+  })
+
+  -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+  cmp.setup.cmdline(":", {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources({
+      { name = "path" },
+    }, {
+      { name = "cmdline" },
+    }),
+  })
 end
 
 return { config = config }

@@ -15,25 +15,21 @@ return {
     priority = 1000,
     config = function() require("plugins.onedark").config() end,
   },
-  { "kyazdani42/nvim-web-devicons", event = "VeryLazy" },
   {
-    "folke/noice.nvim",
+    "nvim-tree/nvim-web-devicons",
     event = "VeryLazy",
-    config = function() require("plugins.noice").config() end,
-    dependencies = {
-      "MunifTanjim/nui.nvim",
-    },
+    config = function() require("plugins.devicons").config() end,
   },
   {
     "nvim-lualine/lualine.nvim",
     event = "VeryLazy",
-    dependencies = { "kyazdani42/nvim-web-devicons" },
+    dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function() require("plugins.lualine").config() end,
   },
   {
     "seblj/nvim-tabline",
     event = "VeryLazy",
-    dependencies = { "kyazdani42/nvim-web-devicons" },
+    dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function() require("plugins.tabline").config() end,
   },
   {
@@ -115,12 +111,24 @@ return {
     cmd = { "SymbolsOutline", "SymbolsOutlineOpen" },
     config = function() require("plugins.symbols_outline").config() end,
   },
+  {
+    "folke/which-key.nvim",
+    event = "VeryLazy",
+    init = function()
+      vim.o.timeout = true
+      vim.o.timeoutlen = 300
+    end,
+    opts = {},
+  },
 
   --- terminal
   {
     "akinsho/toggleterm.nvim",
     version = "*",
     cmd = "ToggleTerm",
+    keys = {
+      { "<localleader><tab>", desc = "ToggleTerm" },
+    },
     config = function() require("plugins.toggleterm").config() end,
   },
 
@@ -186,7 +194,7 @@ return {
   },
   {
     "neovim/nvim-lspconfig",
-    lazy = true,
+    event = { "BufReadPre" },
     dependencies = {
       "williamboman/mason.nvim",
       "hrsh7th/cmp-nvim-lsp",
