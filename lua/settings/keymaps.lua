@@ -30,9 +30,7 @@ vim.api.nvim_set_keymap("n", "g]", "<C-I>", {})
 vim.api.nvim_set_keymap("i", "<C-j>", "<Down>", {})
 vim.api.nvim_set_keymap("i", "<C-k>", "<Up>", {})
 vim.api.nvim_set_keymap("i", "<C-l>", "<Right>", {})
-vim.api.nvim_set_keymap("i", "<C-H>", "<Left>", {})
-vim.api.nvim_set_keymap("i", "<C-t>", "<C-v><TAB>", {})
-vim.api.nvim_set_keymap("i", "<C-u>", "<C-g>u<C-u>", {})
+vim.api.nvim_set_keymap("i", "<C-h>", "<Left>", {})
 vim.api.nvim_set_keymap("i", "<A-j>", "<Down>", {})
 vim.api.nvim_set_keymap("i", "<A-k>", "<Up>", {})
 vim.api.nvim_set_keymap("i", "<A-h>", "<Left>", {})
@@ -49,8 +47,8 @@ vim.api.nvim_set_keymap("c", "<C-d>", "<Del>", {})
 vim.api.nvim_set_keymap("c", "<C-y>", "<C-r>*", {})
 
 -- Macros
-vim.api.nvim_set_keymap("n", "Q", "q", {})
-vim.api.nvim_set_keymap("n", "q", "<Nop>", {})
+vim.api.nvim_set_keymap("n", "Q", "q", { noremap = true })
+vim.api.nvim_set_keymap("n", "q", "<Nop>", { noremap = true })
 
 -- Toggle pastemode
 vim.api.nvim_set_keymap("n", "<Leader>tp", ":setlocal paste!<CR>", { silent = true })
@@ -102,6 +100,12 @@ vim.api.nvim_set_keymap("c", "<C-s>", "<C-u>write<CR>", {})
 -- Highlight
 vim.api.nvim_set_keymap("n", "<leader>nh", ":nohl<CR>", {})
 
+-- Movement
+vim.api.nvim_set_keymap("n", "<C-d>", "<C-d>zz", {})
+vim.api.nvim_set_keymap("n", "<C-u>", "<C-u>zz", {})
+vim.api.nvim_set_keymap("n", "n", "nzzzv", {})
+vim.api.nvim_set_keymap("n", "N", "Nzzzv", {})
+
 -- Toggle editor's visual effects
 vim.api.nvim_set_keymap("n", "<Leader>ts", ":setlocal spell!<cr>", {})
 vim.api.nvim_set_keymap("n", "<Leader>tn", ":setlocal nonumber!<CR>", {})
@@ -151,8 +155,6 @@ vim.api.nvim_set_keymap("n", "<silent> <Leader>sp", ":split<CR>:wincmd p<CR>:e#<
 vim.api.nvim_set_keymap("n", "<silent> <Leader>sv", ":vsplit<CR>:wincmd p<CR>:e#<CR>", {})
 
 -- Buffer
-vim.api.nvim_set_keymap("n", "<silent> <Leader>bp", ":bprevious<CR>", {})
-vim.api.nvim_set_keymap("n", "<silent> <Leader>bn", ":bnext<CR>", {})
 vim.api.nvim_set_keymap("n", "<silent> <Leader>bf", ":bfirst<CR>", {})
 vim.api.nvim_set_keymap("n", "<silent> <Leader>bl", ":blast<CR>", {})
 vim.api.nvim_set_keymap("n", "<silent> <Leader>bd", ":bd<CR>", {})
@@ -161,8 +163,10 @@ vim.api.nvim_set_keymap("n", "]b", ":bnext<CR>", {})
 vim.api.nvim_set_keymap("n", "[b", ":bprev<CR>", {})
 
 -- Window control
-vim.api.nvim_set_keymap("n", "<C-q>", "<C-w>", {})
-vim.api.nvim_set_keymap("n", "<C-x>", "<C-w>x<C-w>w", {})
+vim.api.nvim_set_keymap("n", "<A-Up>", ":resize -2<CR>", {})
+vim.api.nvim_set_keymap("n", "<A-Down>", ":resize +2<CR>", {})
+vim.api.nvim_set_keymap("n", "<A-Left>", ":vertical resize -2<CR>", {})
+vim.api.nvim_set_keymap("n", "<A-Right>", ":vertical resize +2<CR>", {})
 vim.api.nvim_set_keymap("n", "<silent><C-w>z", ":vert resize<CR>:resize<CR>:normal! ze<CR>", {})
 
 -- Window
@@ -170,20 +174,12 @@ vim.api.nvim_set_keymap("n", "<C-J>", "<C-W>j", {})
 vim.api.nvim_set_keymap("n", "<C-K>", "<C-W>k", {})
 vim.api.nvim_set_keymap("n", "<C-L>", "<C-W>l", {})
 vim.api.nvim_set_keymap("n", "<C-H>", "<C-W>h", {})
-vim.api.nvim_set_keymap("n", "<Leader>wH", "<C-W>5<", {})
-vim.api.nvim_set_keymap("n", "<Leader>wL", "<C-W>5>", {})
-vim.api.nvim_set_keymap("n", "<Leader>wJ", ":resize +5<CR>", {})
-vim.api.nvim_set_keymap("n", "<Leader>wK", ":resize -5<CR>", {})
-vim.api.nvim_set_keymap("n", "<Leader>w=", "<C-W>=", {})
-vim.api.nvim_set_keymap("n", "<Leader>ws", "<C-W>s", {})
-vim.api.nvim_set_keymap("n", "<Leader>w-", "<C-W>s", {})
-vim.api.nvim_set_keymap("n", "<Leader>wv", "<C-W>v", {})
 
 -- Terminal Window
-vim.api.nvim_set_keymap("t", "<Leader>wj", "<C-W>j", {})
-vim.api.nvim_set_keymap("t", "<Leader>wk", "<C-W>k", {})
-vim.api.nvim_set_keymap("t", "<Leader>wh", "<C-W>h", {})
-vim.api.nvim_set_keymap("t", "<Leader>wl", "<C-W>l", {})
+vim.api.nvim_set_keymap("t", "<C-J>", "<cmd>wincmd j<CR>", {})
+vim.api.nvim_set_keymap("t", "<C-K>", "<cmd>wincmd k<CR>", {})
+vim.api.nvim_set_keymap("t", "<C-H>", "<cmd>wincmd h<CR>", {})
+vim.api.nvim_set_keymap("t", "<C-L>", "<cmd>wincmd l<CR>", {})
 
 -- Remove spaces at the end of lines
 vim.api.nvim_set_keymap("n", "<Leader>cw", [[:silent! keeppatterns %substitute/\s\+$//e<CR>]], { silent = true })
