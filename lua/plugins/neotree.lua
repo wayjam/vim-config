@@ -6,7 +6,7 @@ local function config()
   vim.fn.sign_define("DiagnosticSignHint", { text = "", texthl = "DiagnosticSignHint" })
   -- NOTE: this is changed from v1.x, which used the old style of highlight groups
   -- in the form "LspDiagnosticsSignWarning"
-
+  --
   require("neo-tree").setup {
     close_if_last_window = false, -- Close Neo-tree if it is the last window left in the tab
     popup_border_style = "rounded",
@@ -185,7 +185,7 @@ local function config()
           ["/"] = "fuzzy_finder",
           ["D"] = "fuzzy_finder_directory",
           ["f"] = "filter_on_submit",
-          ["<c-x>"] = "clear_filter",
+          ["<c-c>"] = "clear_filter",
           ["[g"] = "prev_git_modified",
           ["]g"] = "next_git_modified",
         },

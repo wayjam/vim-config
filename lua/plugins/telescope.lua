@@ -5,7 +5,7 @@ local setup = function()
   -- General pickers
   keymap("n", "<leader>?", "<cmd>Telescope<CR>", opts)
   keymap("n", "<leader>r", "<cmd>Telescope resume<CR>", opts)
-  keymap("n", "<leader>pp", "<cmd>Telescope pickers<CR>", opts)
+  keymap("n", "<leader>pk", "<cmd>Telescope pickers<CR>", opts)
   keymap("n", "<leader>ff", "<cmd>Telescope find_files<CR>", opts)
   keymap("n", "<leader>rg", "<cmd>Telescope live_grep<CR>", opts)
   keymap("n", "<leader>bf", "<cmd>Telescope buffers<CR>", opts)
