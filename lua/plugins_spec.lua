@@ -176,9 +176,6 @@ return {
       {
         "jayp0521/mason-null-ls.nvim",
         event = { "BufReadPre", "BufNewFile" },
-        dependencies = {
-          "jose-elias-alvarez/null-ls.nvim",
-        },
       },
     },
     build = ":MasonUpdate",
@@ -187,7 +184,7 @@ return {
 
   --- lsp
   {
-    "jose-elias-alvarez/null-ls.nvim",
+    "nvimtools/none-ls.nvim",
     lazy = true,
     dependencies = { "nvim-lua/plenary.nvim" },
     config = function() require("plugins.null-ls").config() end,

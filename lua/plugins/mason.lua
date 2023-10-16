@@ -12,7 +12,6 @@ end
 local config = function()
   local mason = require "mason"
   local mason_lspconfig = require "mason-lspconfig"
-  local mason_null_ls = require "mason-null-ls"
 
   mason.setup {
     ui = {
@@ -36,7 +35,7 @@ local config = function()
     },
   }
 
-  mason_null_ls.setup {
+  require("mason-null-ls").setup {
     ensure_installed = { "stylua" },
     automatic_setup = true,
   }
