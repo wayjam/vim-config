@@ -57,8 +57,12 @@ local function textobjects()
 end
 
 local function commentstring()
-  require("nvim-treesitter.configs").setup {
-    context_commentstring = { enable = true, enable_autocmd = false, config = { gomod = "// %s", lua = "-- %s" } },
+  require("ts_context_commentstring").setup {
+    enable_autocmd = false,
+    languages = {
+      css = "// %s",
+      gomod = "// %s",
+    },
   }
 end
 

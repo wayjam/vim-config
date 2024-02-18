@@ -81,6 +81,20 @@ local function config()
       entry_prefix = "  ",
       initial_mode = "insert",
       path_display = { "absolute" },
+      preview = {
+        treesitter = false,
+      },
+      vimgrep_arguments = {
+        "rg",
+        "--color=never",
+        "--no-heading",
+        "--with-filename",
+        "--line-number",
+        "--column",
+        "--smart-case",
+        "--hidden",
+        "--glob=!.git/",
+      },
       file_ignore_patterns = {
         "^./.git/",
         "^node_modules/",

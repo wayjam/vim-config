@@ -257,13 +257,6 @@ return {
     init = function() require("plugins.truezen").setup() end,
   },
 
-  --- colorizer
-  {
-    "norcalli/nvim-colorizer.lua",
-    event = "VeryLazy",
-    config = function() require("plugins.colorizer").config() end,
-  },
-
   --- syntax
   {
     "nvim-treesitter/nvim-treesitter",
