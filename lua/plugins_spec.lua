@@ -108,9 +108,13 @@ return {
     config = function() require("plugins.bqf").config() end,
   },
   {
-    "simrat39/symbols-outline.nvim",
-    cmd = { "SymbolsOutline", "SymbolsOutlineOpen" },
-    config = function() require("plugins.symbols_outline").config() end,
+    "hedyhli/outline.nvim",
+    lazy = true,
+    cmd = { "Outline", "OutlineOpen" },
+    keys = { -- Example mapping to toggle outline
+      { "<leader>o", "<cmd>Outline<CR>", desc = "Toggle outline" },
+    },
+    config = function() require("plugins.outline").config() end,
   },
   {
     "folke/which-key.nvim",
