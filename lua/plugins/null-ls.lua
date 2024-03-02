@@ -69,7 +69,6 @@ local function setup(opts)
   local sources = {
     -- code actions
     builtins.code_actions.gitsigns,
-    builtins.code_actions.eslint,
 
     -- completion
     -- builtins.completion.spell,
@@ -100,17 +99,17 @@ local function setup(opts)
     builtins.formatting.goimports.with {
       runtime_condition = has_exec "goimports",
     },
-    builtins.formatting.rustfmt.with {
-      runtime_condition = has_exec "rustfmt",
-    },
 
     -- diagnostics
-    builtins.diagnostics.eslint.with {
-      runtime_condition = has_exec "eslint",
+    builtins.diagnostics.buf.with {
+      runtime_condition = has_exec "buf",
     },
     builtins.diagnostics.yamllint.with {
       runtime_condition = has_exec "yamllint",
     },
+    builtins.diagnostics.write_good.with {
+      runtime_condition = has_exec "write_good",
+    }
   }
 
   local config = {
