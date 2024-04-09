@@ -23,8 +23,8 @@ vim.api.nvim_set_keymap("v", "<Leader><Leader>", "<Esc>", {})
 vim.api.nvim_set_keymap("t", "<Esc>", "<C-\\><C-n>", {})
 
 -- jump
-vim.api.nvim_set_keymap("n", "g[", "<C-O>", {})
-vim.api.nvim_set_keymap("n", "g]", "<C-I>", {})
+vim.api.nvim_set_keymap("n", "[g", "<C-O>", {})
+vim.api.nvim_set_keymap("n", "]g", "<C-I>", {})
 
 -- Insert mode shortcut
 vim.api.nvim_set_keymap("i", "<C-j>", "<Down>", {})
