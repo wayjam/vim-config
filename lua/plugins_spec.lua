@@ -246,9 +246,17 @@ return {
     config = function() require("plugins.easy_align").config() end,
   },
   {
-    "ggandor/leap.nvim",
-    event = "BufReadPre",
-    config = function() require("plugins.leap").config() end,
+    "folke/flash.nvim",
+    event = "VeryLazy",
+    opts = {},
+    config = function() end,
+    keys = {
+      { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+      { "S", mode = { "n", "o", "x" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
+      { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
+      { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+      { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+    },
   },
   {
     "ojroques/nvim-osc52",

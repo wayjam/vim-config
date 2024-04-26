@@ -67,122 +67,124 @@ local function config()
   local telescope = require "telescope"
   local actions = require "telescope.actions"
 
+  local defaults = {
+    sorting_strategy = "ascending",
+    selection_strategy = "closest",
+    scroll_strategy = "cycle",
+    cache_picker = { num_pickers = 3, limit_entries = 300 },
+    prompt_prefix = " ",
+    selection_caret = "▷ ",
+    set_env = { COLORTERM = "truecolor" },
+    entry_prefix = "  ",
+    initial_mode = "insert",
+    path_display = { "absolute" },
+    preview = {
+      treesitter = false,
+    },
+    vimgrep_arguments = {
+      "rg",
+      "--color=never",
+      "--no-heading",
+      "--with-filename",
+      "--line-number",
+      "--column",
+      "--smart-case",
+      "--hidden",
+      "--glob=!.git/",
+    },
+    file_ignore_patterns = {
+      "^./.git/",
+      "^node_modules/",
+    },
+    layout_strategy = "flex",
+    layout_config = {
+      horizontal = {
+        prompt_position = "top",
+        preview_width = 0.55,
+      },
+      vertical = {
+        mirror = false,
+      },
+      width = 0.87,
+      height = 0.80,
+      preview_cutoff = 120,
+    },
+    file_sorter = require("telescope.sorters").get_fuzzy_file,
+    generic_sorter = require("telescope.sorters").get_generic_fuzzy_sorter,
+    winblend = 0,
+    color_devicons = true,
+    use_less = true,
+    file_previewer = require("telescope.previewers").vim_buffer_cat.new,
+    grep_previewer = require("telescope.previewers").vim_buffer_vimgrep.new,
+    qflist_previewer = require("telescope.previewers").vim_buffer_qflist.new,
+    -- Developer configurations: Not meant for general override
+    buffer_previewer_maker = require("telescope.previewers").buffer_previewer_maker,
+    mappings = {
+      i = {
+        ["jj"] = { "<Esc>", type = "command" },
+
+        ["<Tab>"] = actions.move_selection_next,
+        ["<S-Tab>"] = actions.move_selection_previous,
+        ["<C-j>"] = actions.move_selection_next,
+        ["<C-k>"] = actions.move_selection_previous,
+        ["<C-u>"] = myactions.page_up,
+        ["<C-d>"] = myactions.page_down,
+
+        ["<C-q>"] = myactions.smart_send_to_qflist,
+        -- ['<C-l'] = actions.complete_tag,
+
+        ["<Down>"] = actions.cycle_history_next,
+        ["<Up>"] = actions.cycle_history_prev,
+
+        ["<C-b>"] = actions.preview_scrolling_up,
+        ["<C-f>"] = actions.preview_scrolling_down,
+      },
+
+      n = {
+        ["q"] = actions.close,
+        ["<Esc>"] = actions.close,
+
+        ["<C-n>"] = actions.move_selection_next,
+        ["<C-p>"] = actions.move_selection_previous,
+        ["<C-u>"] = myactions.page_up,
+        ["<C-d>"] = myactions.page_down,
+
+        ["<C-b>"] = actions.preview_scrolling_up,
+        ["<C-f>"] = actions.preview_scrolling_down,
+
+        ["<C-down>"] = actions.cycle_history_next,
+        ["<C-up>"] = actions.cycle_history_prev,
+
+        ["*"] = actions.toggle_all,
+        ["u"] = actions.drop_all,
+        ["J"] = actions.toggle_selection + actions.move_selection_next,
+        ["K"] = actions.toggle_selection + actions.move_selection_previous,
+        ["<Tab>"] = {
+          actions.toggle_selection,
+          type = "action",
+          -- See https://github.com/nvim-telescope/telescope.nvim/pull/890
+          keymap_opts = { nowait = true },
+        },
+
+        ["gg"] = actions.move_to_top,
+        ["G"] = actions.move_to_bottom,
+
+        ["sv"] = actions.select_horizontal,
+        ["sp"] = actions.select_vertical,
+        ["st"] = actions.select_tab,
+
+        ["w"] = myactions.smart_send_to_qflist,
+        ["e"] = myactions.send_to_qflist,
+
+        ["!"] = actions.edit_command_line,
+      },
+    },
+  }
+
   -- Setup Telescope
   -- See telescope.nvim/lua/telescope/config.lua for defaults.
   telescope.setup {
-    defaults = {
-      sorting_strategy = "ascending",
-      selection_strategy = "closest",
-      scroll_strategy = "cycle",
-      cache_picker = { num_pickers = 3, limit_entries = 300 },
-      prompt_prefix = " ",
-      selection_caret = "▷ ",
-      set_env = { COLORTERM = "truecolor" },
-      entry_prefix = "  ",
-      initial_mode = "insert",
-      path_display = { "absolute" },
-      preview = {
-        treesitter = false,
-      },
-      vimgrep_arguments = {
-        "rg",
-        "--color=never",
-        "--no-heading",
-        "--with-filename",
-        "--line-number",
-        "--column",
-        "--smart-case",
-        "--hidden",
-        "--glob=!.git/",
-      },
-      file_ignore_patterns = {
-        "^./.git/",
-        "^node_modules/",
-      },
-      layout_strategy = "flex",
-      layout_config = {
-        horizontal = {
-          prompt_position = "top",
-          preview_width = 0.55,
-        },
-        vertical = {
-          mirror = false,
-        },
-        width = 0.87,
-        height = 0.80,
-        preview_cutoff = 120,
-      },
-      file_sorter = require("telescope.sorters").get_fuzzy_file,
-      generic_sorter = require("telescope.sorters").get_generic_fuzzy_sorter,
-      winblend = 0,
-      color_devicons = true,
-      use_less = true,
-      file_previewer = require("telescope.previewers").vim_buffer_cat.new,
-      grep_previewer = require("telescope.previewers").vim_buffer_vimgrep.new,
-      qflist_previewer = require("telescope.previewers").vim_buffer_qflist.new,
-      -- Developer configurations: Not meant for general override
-      buffer_previewer_maker = require("telescope.previewers").buffer_previewer_maker,
-      mappings = {
-        i = {
-          ["jj"] = { "<Esc>", type = "command" },
-
-          ["<Tab>"] = actions.move_selection_next,
-          ["<S-Tab>"] = actions.move_selection_previous,
-          ["<C-j>"] = actions.move_selection_next,
-          ["<C-k>"] = actions.move_selection_previous,
-          ["<C-u>"] = myactions.page_up,
-          ["<C-d>"] = myactions.page_down,
-
-          ["<C-q>"] = myactions.smart_send_to_qflist,
-          -- ['<C-l'] = actions.complete_tag,
-
-          ["<Down>"] = actions.cycle_history_next,
-          ["<Up>"] = actions.cycle_history_prev,
-
-          ["<C-b>"] = actions.preview_scrolling_up,
-          ["<C-f>"] = actions.preview_scrolling_down,
-        },
-
-        n = {
-          ["q"] = actions.close,
-          ["<Esc>"] = actions.close,
-
-          ["<C-n>"] = actions.move_selection_next,
-          ["<C-p>"] = actions.move_selection_previous,
-          ["<C-u>"] = myactions.page_up,
-          ["<C-d>"] = myactions.page_down,
-
-          ["<C-b>"] = actions.preview_scrolling_up,
-          ["<C-f>"] = actions.preview_scrolling_down,
-
-          ["<C-down>"] = actions.cycle_history_next,
-          ["<C-up>"] = actions.cycle_history_prev,
-
-          ["*"] = actions.toggle_all,
-          ["u"] = actions.drop_all,
-          ["J"] = actions.toggle_selection + actions.move_selection_next,
-          ["K"] = actions.toggle_selection + actions.move_selection_previous,
-          ["<Tab>"] = {
-            actions.toggle_selection,
-            type = "action",
-            -- See https://github.com/nvim-telescope/telescope.nvim/pull/890
-            keymap_opts = { nowait = true },
-          },
-
-          ["gg"] = actions.move_to_top,
-          ["G"] = actions.move_to_bottom,
-
-          ["sv"] = actions.select_horizontal,
-          ["sp"] = actions.select_vertical,
-          ["st"] = actions.select_tab,
-
-          ["w"] = myactions.smart_send_to_qflist,
-          ["e"] = myactions.send_to_qflist,
-
-          ["!"] = actions.edit_command_line,
-        },
-      },
-    },
+    defaults = defaults,
     pickers = {
       buffers = {
         theme = "dropdown",
