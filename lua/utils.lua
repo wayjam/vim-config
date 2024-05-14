@@ -4,21 +4,40 @@ local function is_nil(v) return v == vim.NIL end
 
 local M = {}
 
---   Error:   ✘
---   Warning:  ⚠ 
---   Hint:  
---   Information:   ⁱ
+--   Error:   ✘  
+--   Warning:  ⚠  
+--   Hint:   
+--   Information:   ⁱ  
 M.signs = {
-  Error = "",
-  Warning = "",
-  Hint = "",
+  Error = "",
+  Warning = "",
+  Hint = "󰌶",
   Information = "",
+  BoldError = "",
+  BoldWarning = "",
+  BoldInformation = "",
+  BoldQuestion = "",
+  Question = "",
+  BoldHint = "",
+  Debug = "",
+  Trace = "✎",
   Other = "﫠",
-  Added = "",
-  Modified = "柳",
-  Removed = "",
   OK = "",
 }
+
+M.git_symbols = {
+  Added = "",
+  Modified = "",
+  Unstaged = "",
+  Staged = "✔",
+  Conflict = "",
+  Renamed = "≈",
+  Deleted = "×",
+  Untracked = "+",
+  Ignored = "⊙",
+}
+
+M.icons = {}
 
 M.color = {}
 

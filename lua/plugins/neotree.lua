@@ -1,12 +1,6 @@
 local function config()
-  -- If you want icons for diagnostic errors, you'll need to define them somewhere:
-  vim.fn.sign_define("DiagnosticSignError", { text = " ", texthl = "DiagnosticSignError" })
-  vim.fn.sign_define("DiagnosticSignWarn", { text = " ", texthl = "DiagnosticSignWarn" })
-  vim.fn.sign_define("DiagnosticSignInfo", { text = " ", texthl = "DiagnosticSignInfo" })
-  vim.fn.sign_define("DiagnosticSignHint", { text = "", texthl = "DiagnosticSignHint" })
-  -- NOTE: this is changed from v1.x, which used the old style of highlight groups
-  -- in the form "LspDiagnosticsSignWarning"
-  --
+  local utils = require "utils"
+
   require("neo-tree").setup {
     close_if_last_window = false, -- Close Neo-tree if it is the last window left in the tab
     popup_border_style = "rounded",
@@ -26,7 +20,7 @@ local function config()
         enable_character_fade = true,
       },
       indent = {
-        indent_size = 2,
+        indent_size = 1,
         padding = 1, -- extra padding on left hand side
         -- indent guides
         with_markers = true,
@@ -60,16 +54,16 @@ local function config()
       git_status = {
         symbols = {
           -- Change type
-          added = "", -- or "✚", but this is redundant info if you use git_status_colors on the name
-          modified = "", -- or "", but this is redundant info if you use git_status_colors on the name
+          added = utils.git_symbols["Added"],
+          modified = utils.git_symbols["Modified"],
           -- Status type
-          unstaged = "✦",
-          staged = "✔",
-          conflict = "",
-          renamed = "≈",
-          deleted = "×",
-          untracked = "+",
-          ignored = "⊙",
+          unstaged = utils.git_symbols["Unstaged"],
+          staged = utils.git_symbols["Staged"],
+          conflict = utils.git_symbols["Conflict"],
+          renamed = utils.git_symbols["Renamed"],
+          deleted = utils.git_symbols["Deleted"],
+          untracked = utils.git_symbols["Untracked"],
+          ignored = utils.git_symbols["Ignored"],
         },
       },
     },
