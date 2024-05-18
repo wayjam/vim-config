@@ -20,8 +20,8 @@ local function config()
         enable_character_fade = true,
       },
       indent = {
-        indent_size = 1,
-        padding = 1, -- extra padding on left hand side
+        indent_size = 2,
+        padding = 0, -- extra padding on left hand side
         -- indent guides
         with_markers = true,
         indent_marker = "│",
@@ -34,9 +34,9 @@ local function config()
         expander_highlight = "NeoTreeExpander",
       },
       icon = {
-        folder_closed = "",
-        folder_open = "",
-        folder_empty = "",
+        folder_closed = utils.icons["FolderClosed"],
+        folder_open = utils.icons["FolderOpen"],
+        folder_empty = utils.icons["FolderEmpty"],
         -- The next two settings are only a fallback, if you use nvim-web-devicons and configure default icons there
         -- then these will never be used.
         default = "*",
@@ -48,7 +48,7 @@ local function config()
       },
       name = {
         trailing_slash = false,
-        use_git_status_colors = true,
+        use_git_status_colors = false,
         highlight = "NeoTreeFileName",
       },
       git_status = {
@@ -161,10 +161,12 @@ local function config()
           --".null-ls_*",
         },
       },
-      follow_current_file = false, -- This will find and focus the file in the active buffer every
+      follow_current_file = {
+        enabled = false, -- This will find and focus the file in the active buffer every
+      },
       -- time the current file is changed while the tree is open.
       group_empty_dirs = false, -- when true, empty folders will be grouped together
-      hijack_netrw_behavior = "open_default", -- netrw disabled, opening a directory opens neo-tree
+      hijack_netrw_behavior = "open_current", -- netrw disabled, opening a directory opens neo-tree
       -- in whatever position is specified in window.position
       -- "open_current",  -- netrw disabled, opening a directory opens within the
       -- window like netrw would, regardless of window.position
@@ -186,7 +188,9 @@ local function config()
       },
     },
     buffers = {
-      follow_current_file = true, -- This will find and focus the file in the active buffer every
+      follow_current_file = {
+        enabled = true, -- This will find and focus the file in the active buffer every
+      },
       -- time the current file is changed while the tree is open.
       group_empty_dirs = true, -- when true, empty folders will be grouped together
       show_unloaded = true,
@@ -215,6 +219,33 @@ local function config()
   }
 end
 
+local function init()
+  local group = vim.api.nvim_create_augroup("neotree_start", { clear = true })
+  vim.api.nvim_create_autocmd("VimEnter", {
+    desc = "Open Neotree automatically",
+    group = group,
+    callback = function()
+      local buffer_path = vim.api.nvim_buf_get_name(0)
+      local fs_info = vim.loop.fs_stat(buffer_path)
+      local is_directory = fs_info ~= nil and fs_info.type == "directory"
+      local is_empty_buffer = buffer_path == ""
+
+      if not (is_empty_buffer or is_directory) then return end
+
+      local dir
+      if is_empty_buffer then
+        dir = vim.fn.getcwd()
+      elseif is_directory then
+        dir = buffer_path
+      end
+
+      vim.cmd("Neotree current dir=" .. dir)
+      vim.api.nvim_clear_autocmds { group = "neotree_start" }
+    end,
+  })
+end
+
 return {
   config = config,
+  init = init,
 }

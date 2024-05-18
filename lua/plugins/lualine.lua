@@ -12,7 +12,6 @@ local conditions = {
 
 local function config()
   local lualine = require "lualine"
-  local colors = require "onedark.colors"
 
   vim.g.qf_disable_statusline = true
 
@@ -41,7 +40,6 @@ local function config()
   local diff = {
     "diff",
     symbols = { added = "+", modified = "~", removed = "-" },
-    diff_color = { added = { fg = colors.green }, modified = { fg = colors.yellow }, removed = { fg = colors.red } },
     cond = conditions.hide_in_width,
     padding = 1,
   }

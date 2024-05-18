@@ -2,7 +2,7 @@ local function setup() end
 
 local function config()
   require("nvim-treesitter.configs").setup {
-    ensure_installed = "all", -- all or a list of names
+    ensure_installed = { "comment", "markdown_inline", "markdown", "regex", "lua", "bash" }, -- all or a list of names
     ignore_install = { "phpdoc" }, -- List of parsers to ignore installing
     playground = {
       enable = true,
@@ -31,13 +31,6 @@ local function config()
     },
     indent = { enable = true, disable = { "yaml", "python" } },
     refactor = { highlight_definitions = { enable = true }, highlight_current_scope = { enable = true } },
-  }
-  vim.o.foldmethod = "expr"
-  vim.o.foldexpr = "nvim_treesitter#foldexpr()"
-end
-
-local function textobjects()
-  require("nvim-treesitter.configs").setup {
     textobjects = {
       select = {
         enable = true,
@@ -54,6 +47,8 @@ local function textobjects()
       swap = { enable = false },
     },
   }
+  vim.o.foldmethod = "expr"
+  vim.o.foldexpr = "nvim_treesitter#foldexpr()"
 end
 
 local function commentstring()
@@ -80,4 +75,4 @@ local function autotag()
   }
 end
 
-return { setup = setup, config = config, textobjects = textobjects, commentstring = commentstring, autotag = autotag }
+return { setup = setup, config = config, commentstring = commentstring, autotag = autotag }

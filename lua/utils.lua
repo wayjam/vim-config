@@ -37,7 +37,12 @@ M.git_symbols = {
   Ignored = "⊙",
 }
 
-M.icons = {}
+M.icons = {
+  FolderClosed = "",
+  FolderOpen = "",
+  FolderEmpty = "",
+  File = "",
+}
 
 M.color = {}
 

@@ -11,9 +11,11 @@ return {
   --- ui
   {
     "navarasu/onedark.nvim",
+    -- "olimorris/onedarkpro.nvim",
+    -- "shaunsingh/nord.nvim",
     lazy = false,
     priority = 1000,
-    config = function() require("plugins.onedark").config() end,
+    config = function() require("plugins.colorscheme").config() end,
   },
   {
     "nvim-tree/nvim-web-devicons",
@@ -27,10 +29,10 @@ return {
     config = function() require("plugins.lualine").config() end,
   },
   {
-    "seblj/nvim-tabline",
-    event = "VeryLazy",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    config = function() require("plugins.tabline").config() end,
+    "nanozuki/tabby.nvim",
+    event = "VimEnter",
+    dependencies = "nvim-tree/nvim-web-devicons",
+    config = function() require("plugins.tabby").config() end,
   },
   {
     "lewis6991/gitsigns.nvim",
@@ -65,17 +67,19 @@ return {
   },
   {
     "nvim-neo-tree/neo-tree.nvim",
-    branch = "v2.x",
+    branch = "v3.x",
     cmd = "Neotree",
     dependencies = {
       "nvim-lua/plenary.nvim",
       "MunifTanjim/nui.nvim",
+      "nvim-tree/nvim-web-devicons",
     },
     keys = {
       { "<localleader>e", "<cmd>Neotree reveal toggle<cr>", desc = "NeoTree" },
     },
     -- deactivate = function() vim.cmd [[Neotree close]] end,
     config = function() require("plugins.neotree").config() end,
+    init = function() require("plugins.neotree").init() end,
   },
   {
     "tpope/vim-fugitive",
@@ -272,7 +276,6 @@ return {
   --- syntax
   {
     "nvim-treesitter/nvim-treesitter",
-    -- event = { "BufReadPost", "BufNewFile" },
     event = "User FileOpened",
     build = ":TSUpdate",
     cmd = {
@@ -287,18 +290,12 @@ return {
     dependencies = {
       {
         "JoosepAlviste/nvim-ts-context-commentstring",
-        event = "VeryLazy",
+        lazy = true,
         config = function() require("plugins.treesitter").commentstring() end,
       },
       {
         "windwp/nvim-ts-autotag",
-        event = "VeryLazy",
         config = function() require("plugins.treesitter").autotag() end,
-      },
-      {
-        "nvim-treesitter/nvim-treesitter-textobjects",
-        event = "VeryLazy",
-        config = function() require("plugins.treesitter").textobjects() end,
       },
     },
     config = function() require("plugins.treesitter").config() end,
