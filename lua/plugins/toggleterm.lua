@@ -15,4 +15,12 @@ local function config()
   }
 end
 
-return { config = config }
+return {
+  "akinsho/toggleterm.nvim",
+  version = "*",
+  cmd = "ToggleTerm",
+  keys = {
+    { "<localleader><tab>", desc = "ToggleTerm" },
+  },
+  config = config,
+}

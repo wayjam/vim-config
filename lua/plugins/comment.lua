@@ -9,5 +9,7 @@ local function config()
 end
 
 return {
+  "numToStr/Comment.nvim",
+  event = "BufRead",
   config = config,
 }

@@ -46,5 +46,20 @@ local config = function()
 end
 
 return {
+  "williamboman/mason.nvim",
+  lazy = true,
+  cmd = { "Mason", "MasonInstall", "MasonUninstall", "MasonUninstallAll", "MasonLog" },
+  dependencies = {
+    { "jayp0521/mason-nvim-dap.nvim", lazy = true },
+    {
+      "williamboman/mason-lspconfig.nvim",
+      lazy = true,
+    },
+    {
+      "jayp0521/mason-null-ls.nvim",
+      event = { "BufReadPre", "BufNewFile" },
+    },
+  },
+  build = ":MasonUpdate",
   config = config,
 }

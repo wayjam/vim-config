@@ -1,4 +1,6 @@
 return {
+  "ojroques/nvim-osc52",
+  event = "BufReadPre",
   config = function()
     local osc52 = require "osc52"
     osc52.setup {

@@ -152,4 +152,15 @@ local function config()
   setup_servers()
 end
 
-return { config = config, on_attach = on_attach }
+return {
+  "neovim/nvim-lspconfig",
+  event = { "BufReadPre" },
+  dependencies = {
+    "williamboman/mason.nvim",
+    "hrsh7th/cmp-nvim-lsp",
+    { "ray-x/lsp_signature.nvim", lazy = true },
+    { "kosayoda/nvim-lightbulb", lazy = true },
+  },
+  config = config,
+  on_attach = on_attach,
+}

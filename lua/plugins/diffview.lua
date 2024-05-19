@@ -1,5 +1,11 @@
 return {
-  check_git_version = function()
+  "sindrets/diffview.nvim",
+  dependencies = { "nvim-lua/plenary.nvim" },
+  cmd = {
+    "DiffviewOpen",
+    "DiffviewFileHistory",
+  },
+  cond = function()
     local git_cmd = "git"
     local target = {
       major = 2,
@@ -18,9 +24,8 @@ return {
     v.minor = tonumber(parts[2])
     v.patch = tonumber(parts[3]) or 0
 
-    if
-      ("%08d%08d%08d"):format(v.major, v.minor, v.patch)
-      < ("%08d%08d%08d"):format(target.major, target.minor, target.patch)
+    if ("%08d%08d%08d"):format(v.major, v.minor, v.patch)
+        < ("%08d%08d%08d"):format(target.major, target.minor, target.patch)
     then
       return false
     end

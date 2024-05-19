@@ -1,4 +1,6 @@
 return {
+  "tpope/vim-fugitive",
+  event = "VimEnter",
   config = function()
     -- Git mappings
     vim.api.nvim_set_keymap("n", "<Leader>gs", ":Git status<CR>", { silent = true })

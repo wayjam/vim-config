@@ -38,10 +38,85 @@ M.git_symbols = {
 }
 
 M.icons = {
+  ArrowCircleDown = "",
+  ArrowCircleLeft = "",
+  ArrowCircleRight = "",
+  ArrowCircleUp = "",
+  BoldArrowDown = "",
+  BoldArrowLeft = "",
+  BoldArrowRight = "",
+  BoldArrowUp = "",
+  BoldClose = "",
+  BoldDividerLeft = "",
+  BoldDividerRight = "",
+  BoldLineLeft = "▎",
+  BoldLineMiddle = "┃",
+  BoldLineDashedMiddle = "┋",
+  BookMark = "",
+  BoxChecked = "",
+  Bug = "",
+  Stacks = "",
+  Scopes = "",
+  Watches = "󰂥",
+  DebugConsole = "",
+  Calendar = "",
+  Check = "",
+  ChevronRight = "",
+  ChevronShortDown = "",
+  ChevronShortLeft = "",
+  ChevronShortRight = "",
+  ChevronShortUp = "",
+  Circle = "",
+  Close = "󰅖",
+  CloudDownload = "",
+  Code = "",
+  Comment = "",
+  Dashboard = "",
+  DividerLeft = "",
+  DividerRight = "",
+  DoubleChevronRight = "»",
+  Ellipsis = "",
+  EmptyFolder = "",
+  EmptyFolderOpen = "",
+  FileSymlink = "",
+  File = "",
+  Files = "",
+  FindFile = "󰈞",
+  FindText = "󰊄",
+  Fire = "",
+  Folder = "",
   FolderClosed = "",
   FolderOpen = "",
   FolderEmpty = "",
-  File = "",
+  FolderSymlink = "",
+  Forward = "",
+  Gear = "",
+  History = "",
+  Lightbulb = "",
+  LineLeft = "▏",
+  LineMiddle = "│",
+  List = "",
+  Lock = "",
+  NewFile = "",
+  Note = "",
+  Package = "",
+  Pencil = "󰏫",
+  Plus = "",
+  Project = "",
+  Search = "",
+  SignIn = "",
+  SignOut = "",
+  Tab = "󰌒",
+  Table = "",
+  Target = "󰀘",
+  Telescope = "",
+  Text = "",
+  Tree = "",
+  Triangle = "󰐊",
+  TriangleShortArrowDown = "",
+  TriangleShortArrowLeft = "",
+  TriangleShortArrowRight = "",
+  TriangleShortArrowUp = "",
 }
 
 M.color = {}
@@ -152,6 +227,15 @@ function M.has_value(tab, val)
   end
 
   return false
+end
+
+function M.dec_to_hex(n, chars)
+  chars = chars or 6
+  local hex = string.format("%0" .. chars .. "x", n)
+  while #hex < chars do
+    hex = "0" .. hex
+  end
+  return hex
 end
 
 return M

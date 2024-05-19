@@ -9,4 +9,10 @@ local function setup()
   vim.keymap.set("n", "gr", function() require("trouble").open "lsp_references" end)
 end
 
-return { setup = setup, config = config }
+return {
+  "folke/trouble.nvim",
+  cmd = { "Trouble", "TroubleToggle", "TroubleRefresh" },
+  dependencies = { "neovim/nvim-lspconfig" },
+  init = setup,
+  config = config,
+}

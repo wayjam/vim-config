@@ -156,6 +156,8 @@ local function config()
           ".prettierrc",
         },
         never_show = { -- remains hidden even if visible is toggled to true, this overrides always_show
+          --".DS_Store",
+          --"thumbs.db"
         },
         never_show_by_pattern = { -- uses glob style patterns
           --".null-ls_*",
@@ -166,11 +168,12 @@ local function config()
       },
       -- time the current file is changed while the tree is open.
       group_empty_dirs = false, -- when true, empty folders will be grouped together
-      hijack_netrw_behavior = "open_current", -- netrw disabled, opening a directory opens neo-tree
+      hijack_netrw_behavior = "open_current",
+      -- "open_default", netrw disabled, opening a directory opens neo-tree
       -- in whatever position is specified in window.position
-      -- "open_current",  -- netrw disabled, opening a directory opens within the
+      -- "open_current", netrw disabled, opening a directory opens within the
       -- window like netrw would, regardless of window.position
-      -- "disabled",    -- netrw left alone, neo-tree does not handle opening dirs
+      -- "disabled", netrw left alone, neo-tree does not handle opening dirs
       use_libuv_file_watcher = false, -- This will use the OS level file watchers to detect changes
       -- instead of relying on nvim autocmd events.
       window = {
@@ -217,6 +220,11 @@ local function config()
       },
     },
   }
+
+  if utils.has_plugin "onedark" then
+    local color = "#" .. utils.dec_to_hex(vim.api.nvim_get_hl(0, { name = "NeoTreeMessage" }).fg, 6)
+    vim.api.nvim_set_hl(0, "NeoTreeMessage", { fg = require("onedark.util").lighten(color, 0.9) })
+  end
 end
 
 local function init()
@@ -246,6 +254,18 @@ local function init()
 end
 
 return {
+  "nvim-neo-tree/neo-tree.nvim",
+  branch = "v3.x",
+  cmd = "Neotree",
+  dependencies = {
+    "nvim-lua/plenary.nvim",
+    "MunifTanjim/nui.nvim",
+    "nvim-tree/nvim-web-devicons",
+  },
+  keys = {
+    { "<localleader>e", "<cmd>Neotree reveal toggle<cr>", desc = "NeoTree" },
+  },
+  -- deactivate = function() vim.cmd [[Neotree close]] end,
   config = config,
   init = init,
 }

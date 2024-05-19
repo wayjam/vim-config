@@ -1,4 +1,17 @@
 return {
+  "nvim-neotest/neotest",
+  event = "VeryLazy",
+  dependencies = {
+    "nvim-treesitter/nvim-treesitter",
+    -- general tests
+    "nvim-neotest/neotest-vim-test",
+    -- language specific tests
+    "marilari88/neotest-vitest",
+    "nvim-neotest/neotest-python",
+    "nvim-neotest/neotest-plenary",
+    "rouge8/neotest-rust",
+    "nvim-neotest/neotest-go",
+  },
   config = function()
     local neotest = require "neotest"
 

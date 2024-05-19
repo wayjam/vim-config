@@ -1,4 +1,7 @@
 return {
+  "RRethy/vim-illuminate",
+  event = { "BufReadPost", "BufNewFile" },
+  opts = { delay = 200 },
   config = function()
     local illuminate = require "illuminate"
     vim.g.Illuminate_ftblacklist = { "NvimTree" }

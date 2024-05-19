@@ -1,6 +1,5 @@
-local luasnip = require "luasnip"
-
 local function config()
+  local luasnip = require "luasnip"
   require("luasnip.config").setup {
     history = true,
     -- updateevents = "TextChanged,TextChangedI",
@@ -17,4 +16,9 @@ local function config()
   end, opt)
 end
 
-return { config = config }
+return {
+  "L3MON4D3/LuaSnip",
+  event = "InsertEnter",
+  dependencies = { "rafamadriz/friendly-snippets" },
+  config = config,
+}

@@ -218,9 +218,24 @@ local function config()
   }
 end
 
--- Public functions
 return {
-  setup = setup,
+  "nvim-telescope/telescope.nvim",
+  cmd = { "Telescope" },
+  dependencies = {
+    "nvim-lua/plenary.nvim",
+    "nvim-lua/popup.nvim",
+    {
+      "nvim-telescope/telescope-fzf-native.nvim",
+      build = "make",
+      event = "BufRead",
+      config = function() require("plugins.telescope").config_extension "fzf" end,
+    },
+    {
+      "nvim-telescope/telescope-project.nvim",
+      config = function() require("plugins.telescope").config_extension "project" end,
+    },
+  },
+  init = setup,
   config = config,
   config_extension = function(name)
     if name == "project" then require("telescope").load_extension "project" end

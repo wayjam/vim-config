@@ -1,5 +1,3 @@
-local function setup() end
-
 local function config()
   require("nvim-treesitter.configs").setup {
     ensure_installed = { "comment", "markdown_inline", "markdown", "regex", "lua", "bash" }, -- all or a list of names
@@ -75,4 +73,32 @@ local function autotag()
   }
 end
 
-return { setup = setup, config = config, commentstring = commentstring, autotag = autotag }
+return {
+  "nvim-treesitter/nvim-treesitter",
+  event = "User FileOpened",
+  build = ":TSUpdate",
+  cmd = {
+    "TSInstall",
+    "TSUninstall",
+    "TSUpdate",
+    "TSUpdateSync",
+    "TSInstallInfo",
+    "TSInstallSync",
+    "TSInstallFromGrammar",
+  },
+  dependencies = {
+    {
+      "JoosepAlviste/nvim-ts-context-commentstring",
+      lazy = true,
+      config = function() require("plugins.treesitter").commentstring() end,
+    },
+    {
+      "windwp/nvim-ts-autotag",
+      config = function() require("plugins.treesitter").autotag() end,
+    },
+  },
+  init = function() end,
+  config = config,
+  commentstring = commentstring,
+  autotag = autotag,
+}

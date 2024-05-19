@@ -1,10 +1,7 @@
-local null_ls = require "null-ls"
-local utils = require "null-ls.utils"
-local builtins = null_ls.builtins
-
 local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
 local function async_formatting(bufnr)
+  local null_ls = require "null-ls"
   bufnr = bufnr or vim.api.nvim_get_current_buf()
 
   -- don't apply results if buffer is unloaded
@@ -66,6 +63,9 @@ local function has_exec(filename)
 end
 
 local function setup(opts)
+  local null_ls = require "null-ls"
+  local utils = require "null-ls.utils"
+  local builtins = null_ls.builtins
   local sources = {
     -- code actions
     builtins.code_actions.gitsigns,
@@ -109,7 +109,7 @@ local function setup(opts)
     },
     builtins.diagnostics.write_good.with {
       runtime_condition = has_exec "write_good",
-    }
+    },
   }
 
   local config = {
@@ -138,6 +138,9 @@ local function setup(opts)
 end
 
 return {
+  "nvimtools/none-ls.nvim",
+  lazy = true,
+  dependencies = { "nvim-lua/plenary.nvim" },
   config = function() setup { on_attach = require("plugins.lspconfig").on_attach } end,
   format = async_formatting,
   toggle_autoformat = toggle_autoformat,

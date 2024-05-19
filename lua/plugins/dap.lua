@@ -1,44 +1,3 @@
-local function uiconfig()
-  local dapui = require "dapui"
-  dapui.setup {
-    expand_lines = true,
-    icons = { expanded = "", collapsed = "", circular = "" },
-    mappings = {
-      -- Use a table to apply multiple mappings
-      expand = { "<CR>", "<2-LeftMouse>" },
-      open = "o",
-      remove = "d",
-      edit = "e",
-      repl = "r",
-      toggle = "t",
-    },
-    floating = {
-      mappings = {
-        close = { "q", "<Esc>" },
-      },
-    },
-    layouts = {
-      {
-        elements = {
-          -- Elements can be strings or table with id and size keys.
-          { id = "scopes", size = 0.25 },
-          "breakpoints",
-        },
-        size = 40, -- 40 columns
-        position = "right",
-      },
-      {
-        elements = {
-          "repl",
-          "console",
-        },
-        size = 0.25, -- 25% of total lines
-        position = "bottom",
-      },
-    },
-  }
-end
-
 local function setup()
   local map = require("utils").map
 
@@ -85,7 +44,7 @@ local function config()
   }
 
   dap.adapters.nlua =
-    function(callback, config) callback { type = "server", host = config.host, port = config.port } end
+  function(callback, config) callback { type = "server", host = config.host, port = config.port } end
   dap.adapters.go = function(callback, config)
     local handle
     local pid_or_err
@@ -117,4 +76,58 @@ local function config()
   }
 end
 
-return { setup = setup, config = config, uiconfig = uiconfig }
+local function configui()
+  local dapui = require "dapui"
+  dapui.setup {
+    expand_lines = true,
+    icons = { expanded = "", collapsed = "", circular = "" },
+    mappings = {
+      -- Use a table to apply multiple mappings
+      expand = { "<CR>", "<2-LeftMouse>" },
+      open = "o",
+      remove = "d",
+      edit = "e",
+      repl = "r",
+      toggle = "t",
+    },
+    floating = {
+      mappings = {
+        close = { "q", "<Esc>" },
+      },
+    },
+    layouts = {
+      {
+        elements = {
+          -- Elements can be strings or table with id and size keys.
+          { id = "scopes", size = 0.25 },
+          "breakpoints",
+        },
+        size = 40, -- 40 columns
+        position = "right",
+      },
+      {
+        elements = {
+          "repl",
+          "console",
+        },
+        size = 0.25, -- 25% of total lines
+        position = "bottom",
+      },
+    },
+  }
+end
+
+return {
+  {
+    "mfussenegger/nvim-dap",
+    event = "VeryLazy",
+    init = setup,
+    config = config,
+  },
+  {
+    "rcarriga/nvim-dap-ui",
+    event = "VeryLazy",
+    dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" },
+    config = configui,
+  },
+}

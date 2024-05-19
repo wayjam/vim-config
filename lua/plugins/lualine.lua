@@ -81,4 +81,9 @@ local function config()
   }
 end
 
-return { config = config }
+return {
+  "nvim-lualine/lualine.nvim",
+  event = "VeryLazy",
+  dependencies = { "nvim-tree/nvim-web-devicons" },
+  config = function() config() end,
+}

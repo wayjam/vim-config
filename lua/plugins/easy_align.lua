@@ -1,4 +1,7 @@
 return {
+  "junegunn/vim-easy-align",
+  cmd = "EasyAlign",
+  event = "BufReadPre",
   config = function()
     -- Start interactive EasyAlign in visual mode (e.g. vipga)
     vim.api.nvim_set_keymap("x", "ga", "<Plug>(EasyAlign)", {})

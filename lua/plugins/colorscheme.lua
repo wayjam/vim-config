@@ -1,5 +1,6 @@
 local function onedark()
-  require("onedark").setup {
+  local theme = require "onedark"
+  theme.setup {
     style = "dark",
     transparent = true,
     term_colors = true,
@@ -8,7 +9,7 @@ local function onedark()
       undercurl = false,
     },
   }
-  require("onedark").load()
+  theme.load()
 
   -- fix pmenu background color
   -- vim.cmd("au VimEnter * highlight Pmenu guibg=" .. colors.bg0)
@@ -26,4 +27,11 @@ end
 
 local function nord() vim.cmd [[colorscheme nord]] end
 
-return { config = function() onedark() end }
+return {
+  "navarasu/onedark.nvim",
+  -- "olimorris/onedarkpro.nvim",
+  -- "shaunsingh/nord.nvim",
+  lazy = false,
+  priority = 1000,
+  config = function() onedark() end,
+}
