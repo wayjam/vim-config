@@ -17,6 +17,7 @@ return {
       local current_bufinfo = vim.fn.getbufinfo(current_bufnr)[1]
       local current_buf_name = vim.fn.fnamemodify(current_bufinfo.name, ":t")
 
+      if string.find(current_buf_name, "NvimTree") then return "[File Explorer]" end
       if string.find(current_buf_name, "neo-tree") ~= nil then return "[File Explorer]" end
       if current_buf_name == "NeogitStatus" then return "[Neogit]" end
       if current_buf_name == "" then return "[Empty]" end

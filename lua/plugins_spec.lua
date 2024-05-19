@@ -1,3 +1,7 @@
+LAZY_PLUGIN_SPEC = {}
+
+function spec(item) table.insert(LAZY_PLUGIN_SPEC, { import = item }) end
+
 return {
   --- basic
   { "christoomey/vim-tmux-navigator", event = "VeryLazy" },
@@ -169,6 +173,24 @@ return {
       },
     },
     config = function() require("plugins.cmp").config() end,
+  },
+
+  --- test
+  {
+    "nvim-neotest/neotest",
+    event = "VeryLazy",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      -- general tests
+      "nvim-neotest/neotest-vim-test",
+      -- language specific tests
+      "marilari88/neotest-vitest",
+      "nvim-neotest/neotest-python",
+      "nvim-neotest/neotest-plenary",
+      "rouge8/neotest-rust",
+      "nvim-neotest/neotest-go",
+    },
+    config = function() require("plugins.neotest").config() end,
   },
 
   --- installer
