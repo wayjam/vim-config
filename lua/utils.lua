@@ -1,5 +1,3 @@
-local map_key = vim.api.nvim_set_keymap
-
 local function is_nil(v) return v == vim.NIL end
 
 local M = {}
@@ -212,14 +210,7 @@ function M.check_version(expected_ver)
   end
 end
 
-function M.map(modes, lhs, rhs, opts)
-  opts = opts or {}
-  opts.noremap = opts.noremap == nil and true or opts.noremap
-  if type(modes) == "string" then modes = { modes } end
-  for _, mode in ipairs(modes) do
-    map_key(mode, lhs, rhs, opts)
-  end
-end
+function M.keymap(modes, lhs, rhs, opts) vim.keymap.set(modes, lhs, rhs, opts) end
 
 function M.has_value(tab, val)
   for _, value in ipairs(tab) do

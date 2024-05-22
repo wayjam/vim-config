@@ -1,5 +1,5 @@
 local setup = function()
-  local keymap = vim.api.nvim_set_keymap
+  local keymap = require("utils").keymap
   local opts = { noremap = true, silent = true }
 
   -- General pickers
@@ -14,22 +14,21 @@ local setup = function()
   keymap("n", "<leader>re", "<cmd>Telescope registers<CR>", opts)
   keymap("n", "<localleader><localleader>", "<cmd>Telescope commands<CR>", opts)
 
-  -- git_commits    git_bcommits   git_branches
-  -- git_status     git_stash      git_files
-  -- file_browser   tags           fd             autocommands   quickfix
-  -- filetypes      commands       man_pages      help_tags      loclist
-  -- lsp_workspace_diagnostics     lsp_document_diagnostics
-
   -- Location-specific find files/directories
-  keymap("n", "<localleader>n", '<cmd>lua require"plugins.telescope".pickers.plugin_directories()<CR>', opts)
-  keymap("n", "<localleader>w", '<cmd>lua require"plugins.telescope".pickers.notebook()<CR>', opts)
+  keymap("n", "<localleader>n", function() require("plugins.telescope").pickers.plugin_directories() end, opts)
+  keymap("n", "<localleader>w", function() require("plugins.telescope").pickers.notebook() end, opts)
 
   -- Navigation
   keymap("n", "<localleader>/", "<cmd>Telescope current_buffer_fuzzy_find<CR>", opts)
-  keymap("n", "<localleader>gt", '<cmd>lua require"plugins.telescope".pickers.lsp_workspace_symbols_cursor()<CR>', opts)
-  keymap("n", "<localleader>gf", '<cmd>lua require"plugins.telescope".pickers.find_files_cursor()<CR>', opts)
-  keymap("n", "<localleader>gg", '<cmd>lua require"plugins.telescope".pickers.grep_string_cursor()<CR>', opts)
-  keymap("x", "<localleader>gg", '<cmd>lua require"plugins.telescope".pickers.grep_string_visual()<CR>', opts)
+  keymap(
+    "n",
+    "<localleader>gt",
+    function() require("plugins.telescope").pickers.lsp_workspace_symbols_cursor() end,
+    opts
+  )
+  keymap("n", "<localleader>gf", function() require("plugins.telescope").pickers.find_files_cursor() end, opts)
+  keymap("n", "<localleader>gg", function() require("plugins.telescope").pickers.grep_string_cursor() end, opts)
+  keymap("x", "<localleader>gg", function() require("plugins.telescope").pickers.grep_string_visual() end, opts)
 
   -- LSP related
   keymap("n", "<leader>gd", "<cmd>Telescope lsp_definitions<CR>", opts)

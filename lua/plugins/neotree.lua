@@ -222,8 +222,11 @@ local function config()
   }
 
   if utils.has_plugin "onedark" then
-    local color = "#" .. utils.dec_to_hex(vim.api.nvim_get_hl(0, { name = "NeoTreeMessage" }).fg, 6)
-    vim.api.nvim_set_hl(0, "NeoTreeMessage", { fg = require("onedark.util").lighten(color, 0.9) })
+    local util = require "onedark.util"
+    local msg_color = "#" .. utils.dec_to_hex(vim.api.nvim_get_hl(0, { name = "NeoTreeMessage" }).fg, 6)
+    vim.api.nvim_set_hl(0, "NeoTreeMessage", { fg = util.lighten(msg_color, 0.9) })
+    local sep_color = "#" .. utils.dec_to_hex(vim.api.nvim_get_hl(0, { name = "NeoTreeWinSeparator" }).fg, 6)
+    vim.api.nvim_set_hl(0, "NeoTreeWinSeparator", { fg = util.lighten(sep_color, 0.9) })
   end
 end
 

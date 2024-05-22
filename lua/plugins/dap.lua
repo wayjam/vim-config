@@ -1,20 +1,20 @@
 local function setup()
-  local map = require("utils").map
+  local keymap = require("utils").keymap
 
   vim.cmd [[command! BreakpointToggle lua require('dap').toggle_breakpoint()]]
   vim.cmd [[command! Debug lua require('dap').continue()]]
   vim.cmd [[command! DapREPL lua require('dap').repl.open()]]
 
-  local opts = { silent = true }
-  map("n", "<leader>db", "<cmd>lua require'dap'.toggle_breakpoint()<cr>", opts)
-  map("n", "<leader>dc", "<cmd>lua require'dap'.continue()<cr>", opts)
-  map("n", "<leader>di", "<cmd>lua require'dap'.step_into()<cr>", opts)
-  map("n", "<leader>do", "<cmd>lua require'dap'.step_over()<cr>", opts)
-  map("n", "<leader>dO", "<cmd>lua require'dap'.step_out()<cr>", opts)
-  map("n", "<leader>dr", "<cmd>lua require'dap'.repl.toggle()<cr>", opts)
-  map("n", "<leader>dl", "<cmd>lua require'dap'.run_last()<cr>", opts)
-  map("n", "<leader>du", "<cmd>lua require'dapui'.toggle()<cr>", opts)
-  map("n", "<leader>dt", "<cmd>lua require'dap'.terminate()<cr>", opts)
+  local opts = { noremap = true, silent = true }
+  keymap("n", "<leader>db", function() require("dap").toggle_breakpoint() end, opts)
+  keymap("n", "<leader>dc", function() require("dap").continue() end, opts)
+  keymap("n", "<leader>di", function() require("dap").step_into() end, opts)
+  keymap("n", "<leader>do", function() require("dap").step_over() end, opts)
+  keymap("n", "<leader>dO", function() require("dap").step_out() end, opts)
+  keymap("n", "<leader>dr", function() require("dap").repl.toggle() end, opts)
+  keymap("n", "<leader>dl", function() require("dap").run_last() end, opts)
+  keymap("n", "<leader>du", function() require("dapui").toggle() end, opts)
+  keymap("n", "<leader>dt", function() require("dap").terminate() end, opts)
 end
 
 local function config()

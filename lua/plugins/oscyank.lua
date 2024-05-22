@@ -2,6 +2,7 @@ return {
   "ojroques/nvim-osc52",
   event = "BufReadPre",
   config = function()
+    local keymap = require("utils").keymap
     local osc52 = require "osc52"
     osc52.setup {
       max_length = 0, -- Maximum length of selection (0 for no limit)
@@ -19,8 +20,8 @@ return {
       paste = { ["+"] = paste, ["*"] = paste },
     }
     -- Now the '+' register will copy to system clipboard using OSC52
-    vim.keymap.set("n", "<leader>c", '"+y')
-    vim.keymap.set("n", "<leader>cc", '"+yy')
+    keymap("n", "<leader>c", '"+y')
+    keymap("n", "<leader>cc", '"+yy')
 
     -- Auto copy from unnamed register to osc52
     vim.api.nvim_create_autocmd("TextYankPost", {

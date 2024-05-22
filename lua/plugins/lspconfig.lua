@@ -1,4 +1,5 @@
 local utils = require "utils"
+local keymap = utils.keymap
 
 local on_attach = function(client, bufnr)
   if utils.has_plugin "lsp_signature.nvim" then require("lsp_signature").on_attach(client) end
@@ -13,24 +14,24 @@ local on_attach = function(client, bufnr)
 
   -- Keyboard mappings
   local opts = { noremap = true, silent = true, buffer = bufnr }
-  vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-  vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-  vim.keymap.set("n", "gR", vim.lsp.buf.references, opts) --- using trouble
-  vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
-  vim.keymap.set("n", "gy", vim.lsp.buf.type_definition, opts)
-  vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-  vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
-  vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, opts)
-  vim.keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, opts)
-  vim.keymap.set("n", "<leader>wl", function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, opts)
-  vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-  vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
-  vim.keymap.set("n", "<leader>e", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
-  vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
-  vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
+  keymap("n", "gD", vim.lsp.buf.declaration, opts)
+  keymap("n", "gd", vim.lsp.buf.definition, opts)
+  keymap("n", "gR", vim.lsp.buf.references, opts) --- using trouble
+  keymap("n", "gi", vim.lsp.buf.implementation, opts)
+  keymap("n", "gy", vim.lsp.buf.type_definition, opts)
+  keymap("n", "K", vim.lsp.buf.hover, opts)
+  keymap("n", "<C-k>", vim.lsp.buf.signature_help, opts)
+  keymap("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, opts)
+  keymap("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, opts)
+  keymap("n", "<leader>wl", function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, opts)
+  keymap("n", "<leader>rn", vim.lsp.buf.rename, opts)
+  keymap("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+  keymap("n", "<leader>e", vim.diagnostic.open_float, opts)
+  keymap("n", "[d", vim.diagnostic.goto_prev, opts)
+  keymap("n", "]d", vim.diagnostic.goto_next, opts)
 
   if utils.has_plugin "telescope" then
-    vim.keymap.set("n", "<leader>sy", function() require("telescope.builtin").lsp_document_symbols() end, opts)
+    keymap("n", "<leader>sy", function() require("telescope.builtin").lsp_document_symbols() end, opts)
   end
 end
 
@@ -95,10 +96,10 @@ end
 local function config()
   -- Mappings
   local opts = { noremap = true, silent = true }
-  vim.keymap.set("n", "<leadaer>e", vim.diagnostic.open_float, opts)
-  vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
-  vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
-  vim.keymap.set("n", "<localleader>q", vim.diagnostic.setloclist, opts)
+  keymap("n", "<leadaer>e", vim.diagnostic.open_float, opts)
+  keymap("n", "[d", vim.diagnostic.goto_prev, opts)
+  keymap("n", "]d", vim.diagnostic.goto_next, opts)
+  keymap("n", "<localleader>q", vim.diagnostic.setloclist, opts)
 
   -- Diagnostics signs and highlights
   for type, icon in pairs(utils.signs) do

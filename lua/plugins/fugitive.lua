@@ -3,18 +3,19 @@ return {
   event = "VimEnter",
   config = function()
     -- Git mappings
-    vim.api.nvim_set_keymap("n", "<Leader>gs", ":Git status<CR>", { silent = true })
-    vim.api.nvim_set_keymap("n", "<Leader>gd", ":Gdiff<CR>", { silent = true })
-    vim.api.nvim_set_keymap("n", "<Leader>gc", ":Git commit<CR>", { silent = true })
-    vim.api.nvim_set_keymap("n", "<Leader>gb", ":Git blame<CR>", { silent = true })
-    vim.api.nvim_set_keymap("n", "<Leader>gl", ":Git log<CR>", { silent = true })
-    vim.api.nvim_set_keymap("n", "<Leader>gp", ":Git push<CR>", { silent = true })
-    vim.api.nvim_set_keymap("n", "<Leader>gr", ":Gread<CR>", { silent = true })
-    vim.api.nvim_set_keymap("n", "<Leader>gw", ":Gwrite<CR>", { silent = true })
-    vim.api.nvim_set_keymap("n", "<Leader>ge", ":Gedit<CR>", { silent = true })
-    vim.api.nvim_set_keymap("n", "<Leader>gF", ":diffget //2<CR>", { silent = true })
-    vim.api.nvim_set_keymap("n", "<Leader>gJ", ":diffget //3<CR>", { silent = true })
+    local keymap = require("utils").keymap
+    keymap("n", "<Leader>gs", ":Git status<CR>", { silent = true })
+    keymap("n", "<Leader>gd", ":Gdiff<CR>", { silent = true })
+    keymap("n", "<Leader>gc", ":Git commit<CR>", { silent = true })
+    keymap("n", "<Leader>gb", ":Git blame<CR>", { silent = true })
+    keymap("n", "<Leader>gl", ":Git log<CR>", { silent = true })
+    keymap("n", "<Leader>gp", ":Git push<CR>", { silent = true })
+    keymap("n", "<Leader>gr", ":Gread<CR>", { silent = true })
+    keymap("n", "<Leader>gw", ":Gwrite<CR>", { silent = true })
+    keymap("n", "<Leader>ge", ":Gedit<CR>", { silent = true })
+    keymap("n", "<Leader>gF", ":diffget //2<CR>", { silent = true })
+    keymap("n", "<Leader>gJ", ":diffget //3<CR>", { silent = true })
     -- Mnemonic _i_nteractive
-    vim.api.nvim_set_keymap("n", "<leader>gi", ":Git add -p %<CR>", { silent = true })
+    keymap("n", "<leader>gi", ":Git add -p %<CR>", { silent = true })
   end,
 }

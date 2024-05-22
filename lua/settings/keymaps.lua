@@ -1,73 +1,74 @@
+local keymap = require("utils").keymap
 --- Leader
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
 -- Release keymappings prefixes, evict entirely for use of plug-ins.
-vim.api.nvim_set_keymap("n", "<Space>", "<Nop>", { noremap = true })
-vim.api.nvim_set_keymap("x", "<Space>", "<Nop>", { noremap = true })
-vim.api.nvim_set_keymap("n", "\\", "<Nop>", { noremap = true })
-vim.api.nvim_set_keymap("x", "\\", "<Nop>", { noremap = true })
+keymap("n", "<Space>", "<Nop>", { noremap = true })
+keymap("x", "<Space>", "<Nop>", { noremap = true })
+keymap("n", "\\", "<Nop>", { noremap = true })
+keymap("x", "\\", "<Nop>", { noremap = true })
 
 -- Quick quit action
-vim.api.nvim_set_keymap("n", "<Leader>q", ":q<CR>", { silent = true })
-vim.api.nvim_set_keymap("n", "<Leader>w", ":w<CR>", { silent = true })
-vim.api.nvim_set_keymap("n", "<localleader>q", ":q<CR>", { silent = true })
+keymap("n", "<Leader>q", ":q<CR>", { silent = true })
+keymap("n", "<Leader>w", ":w<CR>", { silent = true })
+keymap("n", "<localleader>q", ":q<CR>", { silent = true })
 
 -- Fix keybind name for Ctrl+Spacebar
-vim.api.nvim_set_keymap("n", "<Nul>", "<C-Space>", {})
-vim.api.nvim_set_keymap("v", "<Nul>", "<C-Space>", {})
+keymap("n", "<Nul>", "<C-Space>", {})
+keymap("v", "<Nul>", "<C-Space>", {})
 
 -- Double leader key for toggling visual-line mode
-vim.api.nvim_set_keymap("n", "<Leader><Leader>", "V", { silent = true })
-vim.api.nvim_set_keymap("v", "<Leader><Leader>", "<Esc>", {})
-vim.api.nvim_set_keymap("t", "<Esc>", "<C-\\><C-n>", {})
+keymap("n", "<Leader><Leader>", "V", { silent = true })
+keymap("v", "<Leader><Leader>", "<Esc>", {})
+keymap("t", "<Esc>", "<C-\\><C-n>", {})
 
 -- jump
-vim.api.nvim_set_keymap("n", "[g", "<C-O>", {})
-vim.api.nvim_set_keymap("n", "]g", "<C-I>", {})
+keymap("n", "[g", "<C-O>", {})
+keymap("n", "]g", "<C-I>", {})
 
 -- Insert mode shortcut
-vim.api.nvim_set_keymap("i", "<C-j>", "<Down>", {})
-vim.api.nvim_set_keymap("i", "<C-k>", "<Up>", {})
-vim.api.nvim_set_keymap("i", "<C-l>", "<Right>", {})
-vim.api.nvim_set_keymap("i", "<C-h>", "<Left>", {})
-vim.api.nvim_set_keymap("i", "<A-j>", "<Down>", {})
-vim.api.nvim_set_keymap("i", "<A-k>", "<Up>", {})
-vim.api.nvim_set_keymap("i", "<A-h>", "<Left>", {})
-vim.api.nvim_set_keymap("i", "<A-l>", "<Right>", {})
+keymap("i", "<C-j>", "<Down>", {})
+keymap("i", "<C-k>", "<Up>", {})
+keymap("i", "<C-l>", "<Right>", {})
+keymap("i", "<C-h>", "<Left>", {})
+keymap("i", "<A-j>", "<Down>", {})
+keymap("i", "<A-k>", "<Up>", {})
+keymap("i", "<A-h>", "<Left>", {})
+keymap("i", "<A-l>", "<Right>", {})
 
 -- Command mode shortcut
-vim.api.nvim_set_keymap("c", "<C-a>", "<Home>", {})
-vim.api.nvim_set_keymap("c", "<C-e>", "<End>", {})
-vim.api.nvim_set_keymap("c", "<C-h>", "<Left>", {})
-vim.api.nvim_set_keymap("c", "<C-l>", "<Right>", {})
-vim.api.nvim_set_keymap("c", "<C-j>", "<Up>", {})
-vim.api.nvim_set_keymap("c", "<C-k>", "<Down>", {})
-vim.api.nvim_set_keymap("c", "<C-d>", "<Del>", {})
-vim.api.nvim_set_keymap("c", "<C-y>", "<C-r>*", {})
+keymap("c", "<C-a>", "<Home>", {})
+keymap("c", "<C-e>", "<End>", {})
+keymap("c", "<C-h>", "<Left>", {})
+keymap("c", "<C-l>", "<Right>", {})
+keymap("c", "<C-j>", "<Up>", {})
+keymap("c", "<C-k>", "<Down>", {})
+keymap("c", "<C-d>", "<Del>", {})
+keymap("c", "<C-y>", "<C-r>*", {})
 
 -- Macros
-vim.api.nvim_set_keymap("n", "Q", "q", { noremap = true })
-vim.api.nvim_set_keymap("n", "q", "<Nop>", { noremap = true })
+keymap("n", "Q", "q", { noremap = true })
+keymap("n", "q", "<Nop>", { noremap = true })
 
 -- Toggle pastemode
-vim.api.nvim_set_keymap("n", "<Leader>tp", ":setlocal paste!<CR>", { silent = true })
+keymap("n", "<Leader>tp", ":setlocal paste!<CR>", { silent = true })
 
 -- Change current word in a repeatable manner
-vim.api.nvim_set_keymap("n", "<leader>cn", "*``cgn", {})
-vim.api.nvim_set_keymap("n", "<leader>cN", "*``cgN", {})
-vim.api.nvim_set_keymap("v", "<leader>cn", [["y/\V<C-r>=escape(@", "/")<CR><CR>"``cgn]], { expr = true })
-vim.api.nvim_set_keymap("v", "<leader>cN", [["y/\V<C-r>=escape(@", "/")<CR><CR>"``cgN]], { expr = true })
+keymap("n", "<leader>cn", "*``cgn", {})
+keymap("n", "<leader>cN", "*``cgN", {})
+keymap("v", "<leader>cn", [["y/\V<C-r>=escape(@", "/")<CR><CR>"``cgn]], { expr = true })
+keymap("v", "<leader>cN", [["y/\V<C-r>=escape(@", "/")<CR><CR>"``cgN]], { expr = true })
 
 -- Duplicate paragraph
-vim.api.nvim_set_keymap("n", "<leader>cp", "yap<S-}>p", {})
+keymap("n", "<leader>cp", "yap<S-}>p", {})
 
 -- Start new line from any cursor position in insert-mode
-vim.api.nvim_set_keymap("i", "<S-Return>", "<C-o>o", {})
+keymap("i", "<S-Return>", "<C-o>o", {})
 
 -- Global niceties
 -- Start an external command with a single bang
-vim.api.nvim_set_keymap("n", "!", ":", {})
+keymap("n", "!", ":", {})
 
 -- Allow misspellings
 vim.cmd [[
@@ -84,63 +85,63 @@ vim.cmd [[
 ]]
 
 -- Select blocks after indenting in visual/select mode
-vim.api.nvim_set_keymap("x", "<", "<gv", {})
-vim.api.nvim_set_keymap("x", ">", ">gv|", {})
+keymap("x", "<", "<gv", {})
+keymap("x", ">", ">gv|", {})
 
 -- Switch to the directory of the opened buffer in current window
-vim.api.nvim_set_keymap("n", "<Leader>cd", ":lcd %:p:h<CR>:pwd<CR>", {})
+keymap("n", "<Leader>cd", ":lcd %:p:h<CR>:pwd<CR>", {})
 
 -- Fast saving from all modes
-vim.api.nvim_set_keymap("n", "<Leader>w", ":write<CR>", {})
-vim.api.nvim_set_keymap("v", "<Leader>w", "<Esc>:write<CR>", {})
-vim.api.nvim_set_keymap("n", "<C-s>", ":<C-u>write<CR>", {})
-vim.api.nvim_set_keymap("v", "<C-s>", ":<C-u>write<CR>", {})
-vim.api.nvim_set_keymap("c", "<C-s>", "<C-u>write<CR>", {})
+keymap("n", "<Leader>w", ":write<CR>", {})
+keymap("v", "<Leader>w", "<Esc>:write<CR>", {})
+keymap("n", "<C-s>", ":<C-u>write<CR>", {})
+keymap("v", "<C-s>", ":<C-u>write<CR>", {})
+keymap("c", "<C-s>", "<C-u>write<CR>", {})
 
 -- Highlight
-vim.api.nvim_set_keymap("n", "<leader>nh", ":nohl<CR>", {})
+keymap("n", "<leader>nh", ":nohl<CR>", {})
 
 -- Movement
-vim.api.nvim_set_keymap("n", "<C-d>", "<C-d>zz", {})
-vim.api.nvim_set_keymap("n", "<C-u>", "<C-u>zz", {})
-vim.api.nvim_set_keymap("n", "n", "nzzzv", {})
-vim.api.nvim_set_keymap("n", "N", "Nzzzv", {})
+keymap("n", "<C-d>", "<C-d>zz", {})
+keymap("n", "<C-u>", "<C-u>zz", {})
+keymap("n", "n", "nzzzv", {})
+keymap("n", "N", "Nzzzv", {})
 
 -- Toggle editor's visual effects
-vim.api.nvim_set_keymap("n", "<Leader>ts", ":setlocal spell!<cr>", {})
-vim.api.nvim_set_keymap("n", "<Leader>tn", ":setlocal nonumber!<CR>", {})
-vim.api.nvim_set_keymap("n", "<Leader>tl", ":setlocal nolist!<CR>", {})
-vim.api.nvim_set_keymap("n", "<Leader>th", ":nohlsearch<CR>", {})
-vim.api.nvim_set_keymap("n", "<Leader>tw", ":setlocal wrap! breakindent!<CR>", {})
+keymap("n", "<Leader>ts", ":setlocal spell!<cr>", {})
+keymap("n", "<Leader>tn", ":setlocal nonumber!<CR>", {})
+keymap("n", "<Leader>tl", ":setlocal nolist!<CR>", {})
+keymap("n", "<Leader>th", ":nohlsearch<CR>", {})
+keymap("n", "<Leader>tw", ":setlocal wrap! breakindent!<CR>", {})
 
 -- Tabs
-vim.api.nvim_set_keymap("n", "g$", ":tabfirst<CR>", { silent = true })
-vim.api.nvim_set_keymap("n", "g^", ":tablast<CR>", { silent = true })
-vim.api.nvim_set_keymap("n", "<A-j>", ":tabnext<CR>", { silent = true })
-vim.api.nvim_set_keymap("n", "<A-k>", ":tabprevious<CR>", { silent = true })
-vim.api.nvim_set_keymap("n", "]t", ":tabnext<CR>", { silent = true })
-vim.api.nvim_set_keymap("n", "[t", ":tabprevious<CR>", { silent = true })
+keymap("n", "g$", ":tabfirst<CR>", { silent = true })
+keymap("n", "g^", ":tablast<CR>", { silent = true })
+keymap("n", "<A-j>", ":tabnext<CR>", { silent = true })
+keymap("n", "<A-k>", ":tabprevious<CR>", { silent = true })
+keymap("n", "]t", ":tabnext<CR>", { silent = true })
+keymap("n", "[t", ":tabprevious<CR>", { silent = true })
 
 for i = 1, 9 do
   -- <Leader>[1-9] move to window [1-9]
-  vim.api.nvim_set_keymap("n", "<Leader>" .. i, ":wincmd " .. i .. "w<CR>", { silent = true })
+  keymap("n", "<Leader>" .. i, ":wincmd " .. i .. "w<CR>", { silent = true })
   -- <Leader><leader>[1-9] move to tab [1-9]
-  vim.api.nvim_set_keymap("n", "<Leader><Leader>" .. i, ":" .. i .. "tabnext<CR>", { silent = true })
+  keymap("n", "<Leader><Leader>" .. i, ":" .. i .. "tabnext<CR>", { silent = true })
   -- <Leader>b[1-9] move to buffer [1-9]
-  vim.api.nvim_set_keymap("n", "<Leader>b" .. i, ":b" .. i .. "<CR>", { silent = true })
+  keymap("n", "<Leader>b" .. i, ":b" .. i .. "<CR>", { silent = true })
 end
 
 if not vim.g.lasttab then vim.g.lasttab = 1 end
-vim.api.nvim_set_keymap("n", "<Leader>lt", ':exe "tabn " . g:lasttab<CR>', { silent = true })
+keymap("n", "<Leader>lt", ':exe "tabn " . g:lasttab<CR>', { silent = true })
 
 -- Windows and buffers
-vim.api.nvim_set_keymap("n", "<silent> [Window]v", ":split<CR>", {})
-vim.api.nvim_set_keymap("n", "<silent> [Window]g", ":vsplit<CR>", {})
-vim.api.nvim_set_keymap("n", "<silent> [Window]t", ":tabnew<CR>", {})
-vim.api.nvim_set_keymap("n", "<silent> [Window]o", ":only<CR>", {})
-vim.api.nvim_set_keymap("n", "<silent> [Window]b", ":b#<CR>", {})
-vim.api.nvim_set_keymap("n", "<silent> [Window]c", ":close<CR>", {})
-vim.keymap.set("n", "<silent> [Window]x", function()
+keymap("n", "<silent> [Window]v", ":split<CR>", {})
+keymap("n", "<silent> [Window]g", ":vsplit<CR>", {})
+keymap("n", "<silent> [Window]t", ":tabnew<CR>", {})
+keymap("n", "<silent> [Window]o", ":only<CR>", {})
+keymap("n", "<silent> [Window]b", ":b#<CR>", {})
+keymap("n", "<silent> [Window]c", ":close<CR>", {})
+keymap("n", "<silent> [Window]x", function()
   local bufnr = vim.api.nvim_get_current_buf()
   local winnr = vim.api.nvim_get_current_win()
   local tabnr = vim.api.nvim_get_current_tabpage()
@@ -151,51 +152,51 @@ vim.keymap.set("n", "<silent> [Window]x", function()
 end)
 
 -- Split current buffer, go to previous window and previous buffer
-vim.api.nvim_set_keymap("n", "<silent> <Leader>sp", ":split<CR>:wincmd p<CR>:e#<CR>", {})
-vim.api.nvim_set_keymap("n", "<silent> <Leader>sv", ":vsplit<CR>:wincmd p<CR>:e#<CR>", {})
+keymap("n", "<silent> <Leader>sp", ":split<CR>:wincmd p<CR>:e#<CR>", {})
+keymap("n", "<silent> <Leader>sv", ":vsplit<CR>:wincmd p<CR>:e#<CR>", {})
 
 -- Buffer
-vim.api.nvim_set_keymap("n", "<silent> <Leader>bf", ":bfirst<CR>", {})
-vim.api.nvim_set_keymap("n", "<silent> <Leader>bl", ":blast<CR>", {})
-vim.api.nvim_set_keymap("n", "<silent> <Leader>bd", ":bd<CR>", {})
-vim.api.nvim_set_keymap("n", "<silent> <Leader>bk", ":bw<CR>", {})
-vim.api.nvim_set_keymap("n", "]b", ":bnext<CR>", {})
-vim.api.nvim_set_keymap("n", "[b", ":bprev<CR>", {})
+keymap("n", "<silent> <Leader>bf", ":bfirst<CR>", {})
+keymap("n", "<silent> <Leader>bl", ":blast<CR>", {})
+keymap("n", "<silent> <Leader>bd", ":bd<CR>", {})
+keymap("n", "<silent> <Leader>bk", ":bw<CR>", {})
+keymap("n", "]b", ":bnext<CR>", {})
+keymap("n", "[b", ":bprev<CR>", {})
 
 -- Window control
-vim.api.nvim_set_keymap("n", "<A-Up>", ":resize -2<CR>", {})
-vim.api.nvim_set_keymap("n", "<A-Down>", ":resize +2<CR>", {})
-vim.api.nvim_set_keymap("n", "<A-Left>", ":vertical resize -2<CR>", {})
-vim.api.nvim_set_keymap("n", "<A-Right>", ":vertical resize +2<CR>", {})
-vim.api.nvim_set_keymap("n", "<silent><C-w>z", ":vert resize<CR>:resize<CR>:normal! ze<CR>", {})
+keymap("n", "<A-Up>", ":resize -2<CR>", {})
+keymap("n", "<A-Down>", ":resize +2<CR>", {})
+keymap("n", "<A-Left>", ":vertical resize -2<CR>", {})
+keymap("n", "<A-Right>", ":vertical resize +2<CR>", {})
+keymap("n", "<silent><C-w>z", ":vert resize<CR>:resize<CR>:normal! ze<CR>", {})
 
 -- Window
-vim.api.nvim_set_keymap("n", "<C-J>", "<C-W>j", {})
-vim.api.nvim_set_keymap("n", "<C-K>", "<C-W>k", {})
-vim.api.nvim_set_keymap("n", "<C-L>", "<C-W>l", {})
-vim.api.nvim_set_keymap("n", "<C-H>", "<C-W>h", {})
+keymap("n", "<C-J>", "<C-W>j", {})
+keymap("n", "<C-K>", "<C-W>k", {})
+keymap("n", "<C-L>", "<C-W>l", {})
+keymap("n", "<C-H>", "<C-W>h", {})
 
 -- Terminal Window
-vim.api.nvim_set_keymap("t", "<C-J>", "<cmd>wincmd j<CR>", {})
-vim.api.nvim_set_keymap("t", "<C-K>", "<cmd>wincmd k<CR>", {})
-vim.api.nvim_set_keymap("t", "<C-H>", "<cmd>wincmd h<CR>", {})
-vim.api.nvim_set_keymap("t", "<C-L>", "<cmd>wincmd l<CR>", {})
+keymap("t", "<C-J>", "<cmd>wincmd j<CR>", {})
+keymap("t", "<C-K>", "<cmd>wincmd k<CR>", {})
+keymap("t", "<C-H>", "<cmd>wincmd h<CR>", {})
+keymap("t", "<C-L>", "<cmd>wincmd l<CR>", {})
 
 -- Remove spaces at the end of lines
-vim.api.nvim_set_keymap("n", "<Leader>cw", [[:silent! keeppatterns %substitute/\s\+$//e<CR>]], { silent = true })
+keymap("n", "<Leader>cw", [[:silent! keeppatterns %substitute/\s\+$//e<CR>]], { silent = true })
 
 -- Quick substitute within selected area
-vim.api.nvim_set_keymap("x", "sg", [[:s//gc<Left><Left><Left>]], {})
+keymap("x", "sg", [[:s//gc<Left><Left><Left>]], {})
 
 -- Location/quickfix list movement
-vim.api.nvim_set_keymap("n", "]c", [[:lnext<CR>]], {})
-vim.api.nvim_set_keymap("n", "[c", [[:lprev<CR>]], {})
-vim.api.nvim_set_keymap("n", "]q", [[:cnext<CR>]], {})
-vim.api.nvim_set_keymap("n", "[q", [[:cprev<CR>]], {})
+keymap("n", "]c", [[:lnext<CR>]], {})
+keymap("n", "[c", [[:lprev<CR>]], {})
+keymap("n", "]q", [[:cnext<CR>]], {})
+keymap("n", "[q", [[:cprev<CR>]], {})
 
 -- Drag current line/s vertically and auto-indent
-vim.api.nvim_set_keymap("v", "<Leader>k", [[:m '<-2<CR>gv=gv]], {})
-vim.api.nvim_set_keymap("v", "<Leader>j", [[:m '>+<CR>gv=gv]], {})
+keymap("v", "<Leader>k", [[:m '<-2<CR>gv=gv]], {})
+keymap("v", "<Leader>j", [[:m '>+<CR>gv=gv]], {})
 
 -- Useful command
 local last_color_column = vim.opt.colorcolumn

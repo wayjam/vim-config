@@ -1,8 +1,8 @@
 -- General
-vim.opt.swapfile = false -- creates a swapfile
-vim.opt.backup = false -- creates a backup file
+vim.opt.swapfile = false -- disable swapfile
+vim.opt.backup = false -- disable backup file
 vim.opt.writebackup = false -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
-vim.opt.mouse = "a" -- allow the mouse to be used in neovim
+vim.opt.mouse = "nv" -- allow the mouse to be used in neovim
 vim.opt.modeline = true
 vim.opt.report = 0
 vim.opt.errorbells = true
@@ -67,7 +67,6 @@ vim.opt.timeout = true
 vim.opt.timeoutlen = 300 -- time to wait for a mapped sequence to complete (in milliseconds)
 vim.opt.ttimeoutlen = 10
 vim.opt.updatetime = 300 -- faster completion (4000ms default)
-vim.opt.redrawtime = 2000
 
 -- Searching
 vim.opt.ignorecase = true -- ignore case in search patterns
@@ -112,7 +111,6 @@ vim.opt.sidescrolloff = 8 -- minimal number of screen columns to keep to the lef
 vim.opt.ruler = false -- hide the line and column number of the cursor position
 vim.opt.showcmd = false -- hide (partial) command in the last line of the screen (for performance)
 vim.opt.cmdwinheight = 5
-vim.opt.equalalways = true
 vim.opt.laststatus = 3 -- only the last window will always have a status line
 vim.opt.display = "lastline"
 vim.opt.background = "dark"
@@ -125,7 +123,7 @@ vim.opt.hlsearch = true -- highlight all matches on previous search pattern
 vim.opt.foldclose = "all"
 vim.opt.cmdheight = 1 -- more space in the neovim command line for displaying messages
 vim.opt.pumheight = 10 -- pop up menu height
-vim.opt.guifont = "monospace:h17" -- the font used in graphical neovim applications
+vim.opt.guifont = "monospace:h16" -- the font used in graphical neovim applications
 -- vim.opt.colorcolumn = 120
 vim.opt.shortmess:append { W = true, I = true, c = true }
 vim.opt.iskeyword:append "-" -- treats words with `-` as single words
@@ -133,5 +131,11 @@ vim.opt.iskeyword:append "-" -- treats words with `-` as single words
 -- UI Symbols
 vim.opt.list = true
 vim.opt.showbreak = "↪"
-vim.opt.listchars = "tab:▏\\ ,extends:⟫,precedes:⟪,nbsp:␣,trail:·"
-vim.opt.fillchars.eob = " " -- show empty lines at the end of a buffer as ` ` {default `~`}
+vim.opt.listchars = {
+  tab = "▏ ",
+  extends = "⟫",
+  precedes = "⟪",
+  nbsp = "␣",
+  trail = "·",
+}
+vim.opt.fillchars:append { eob = " " }

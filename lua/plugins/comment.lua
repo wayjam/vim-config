@@ -1,11 +1,12 @@
 local function config()
+  local keymap = require("utils").keymap
   local comment = require "Comment"
   comment.setup {
     pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
   }
 
-  vim.keymap.set("n", "<Leader>//", "<Plug>(comment_toggle_linewise_current)")
-  vim.keymap.set("x", "<Leader>//", "<Plug>(comment_toggle_linewise_visual)<CR>")
+  keymap("n", "<Leader>//", "<Plug>(comment_toggle_linewise_current)")
+  keymap("x", "<Leader>//", "<Plug>(comment_toggle_linewise_visual)<CR>")
 end
 
 return {

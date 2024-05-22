@@ -13,6 +13,7 @@ return {
     "nvim-neotest/neotest-go",
   },
   config = function()
+    local keymap = require("utils").keymap
     local neotest = require "neotest"
 
     neotest.setup {
@@ -32,19 +33,19 @@ return {
     }
 
     -- Test Nearest
-    vim.keymap.set("n", "<leader>tt", function() neotest.run.run() end, opts)
+    keymap("n", "<leader>tt", function() neotest.run.run() end, opts)
     -- Test File
-    vim.keymap.set("n", "<leader>tf", function() neotest.run.run(vim.fn.expand "%") end, opts)
+    keymap("n", "<leader>tf", function() neotest.run.run(vim.fn.expand "%") end, opts)
     -- Debug Test
-    vim.keymap.set("n", "<leader>td", function() neotest.run.run { strategy = "dap" } end, opts)
+    keymap("n", "<leader>td", function() neotest.run.run { strategy = "dap" } end, opts)
     --- Test Stop
-    vim.keymap.set("n", "<leader>ts", function() neotest.run.stop() end, opts)
+    keymap("n", "<leader>ts", function() neotest.run.stop() end, opts)
     -- Attach Test
-    vim.keymap.set("n", "<leader>ta", function() neotest.run.attach() end, opts)
+    keymap("n", "<leader>ta", function() neotest.run.attach() end, opts)
     -- Output
-    vim.keymap.set("n", "<leader>to", function() neotest.output.open { enter = true } end, opts)
+    keymap("n", "<leader>to", function() neotest.output.open { enter = true } end, opts)
     -- Output Panel
-    vim.keymap.set("n", "<leader>tO", function() require("neotest").output_panel.open() end, opts)
-    vim.keymap.set("n", "<leadaer>tS", function() require("neotest").summary.toggle() end, opts)
+    keymap("n", "<leader>tO", function() require("neotest").output_panel.open() end, opts)
+    keymap("n", "<leadaer>tS", function() require("neotest").summary.toggle() end, opts)
   end,
 }

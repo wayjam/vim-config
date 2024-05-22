@@ -1,3 +1,4 @@
+local keymap = require("utils").keymap
 local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
 local function async_formatting(bufnr)
@@ -131,8 +132,8 @@ local function setup(opts)
   null_ls.setup(config)
 
   -- keymaps
-  vim.keymap.set("n", "<leader>fm", async_formatting, { silent = true, noremap = true })
-  vim.keymap.set("v", "<localleader>=", vim.lsp.buf.format, { silent = true, noremap = true })
+  keymap("n", "<leader>fm", async_formatting, { silent = true, noremap = true })
+  keymap("v", "<localleader>=", vim.lsp.buf.format, { silent = true, noremap = true })
   vim.api.nvim_create_user_command("Format", function(_) async_formatting() end, {})
   vim.api.nvim_create_user_command("AutoFormatToggle", function(_) toggle_autoformat() end, {})
 end
