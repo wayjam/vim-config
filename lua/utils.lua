@@ -210,7 +210,33 @@ function M.check_version(expected_ver)
   end
 end
 
-function M.keymap(modes, lhs, rhs, opts) vim.keymap.set(modes, lhs, rhs, opts) end
+local keymap_register = {}
+
+function M.keymap(modes, lhs, rhs, opts)
+  if opts and opts.buffer then
+    vim.keymap.set(modes, lhs, rhs, opts)
+    return
+  end
+
+  local modes_list = {}
+  if type(modes) == "string" then
+    modes_list = { modes }
+  else
+    modes_list = modes
+  end
+
+  for _, mode in ipairs(modes_list) do
+    local key = mode .. "#" .. lhs
+
+    if keymap_register[key] then
+      vim.notify("Duplicate keymap: " .. key .. vim.inspect(opts))
+    else
+      keymap_register[key] = true
+    end
+  end
+
+  vim.keymap.set(modes, lhs, rhs, opts)
+end
 
 function M.has_value(tab, val)
   for _, value in ipairs(tab) do

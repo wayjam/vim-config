@@ -1,19 +1,43 @@
-local function config() require("trouble").setup { use_diagnostic_signs = true } end
-
-local function setup()
-  local keymap = require("utils").keymap
-  keymap("n", "<leader>xx", function() require("trouble").open() end)
-  keymap("n", "<leader>xw", function() require("trouble").open "workspace_diagnostics" end)
-  keymap("n", "<leader>xd", function() require("trouble").open "document_diagnostics" end)
-  keymap("n", "<leader>xq", function() require("trouble").open "quickfix" end)
-  keymap("n", "<leader>xl", function() require("trouble").open "loclist" end)
-  keymap("n", "gr", function() require("trouble").open "lsp_references" end)
-end
-
 return {
   "folke/trouble.nvim",
   cmd = { "Trouble", "TroubleToggle", "TroubleRefresh" },
   dependencies = { "neovim/nvim-lspconfig" },
-  init = setup,
-  config = config,
+  config = function() require("trouble").setup { use_diagnostic_signs = true } end,
+  keys = {
+    {
+      "<leader>xx",
+      "<cmd>Trouble diagnostics toggle<cr>",
+      desc = "Diagnostics (Trouble)",
+    },
+    {
+      "<leader>xX",
+      "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
+      desc = "Buffer Diagnostics (Trouble)",
+    },
+    {
+      "<leader>cs",
+      "<cmd>Trouble symbols toggle focus=false<cr>",
+      desc = "Symbols (Trouble)",
+    },
+    {
+      "<leader>cl",
+      "<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
+      desc = "LSP Definitions / references / ... (Trouble)",
+    },
+    {
+      "<leader>xl",
+      "<cmd>Trouble loclist toggle<cr>",
+      desc = "Location List (Trouble)",
+    },
+    {
+      "<leader>xq",
+      "<cmd>Trouble qflist toggle<cr>",
+      desc = "Quickfix List (Trouble)",
+    },
+    {
+      "<leader>xr",
+      "<cmd>Trouble lsp_references toggle<cr>",
+      desc = "References (Trouble)",
+    },
+  },
 }

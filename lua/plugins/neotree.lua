@@ -196,7 +196,7 @@ local function config()
       },
       -- time the current file is changed while the tree is open.
       group_empty_dirs = true, -- when true, empty folders will be grouped together
-      show_unloaded = true,
+      show_unloaded = false,
       window = {
         mappings = {
           ["bd"] = "buffer_delete",
@@ -226,7 +226,7 @@ local function config()
     local msg_color = "#" .. utils.dec_to_hex(vim.api.nvim_get_hl(0, { name = "NeoTreeMessage" }).fg, 6)
     vim.api.nvim_set_hl(0, "NeoTreeMessage", { fg = util.lighten(msg_color, 0.9) })
     local sep_color = "#" .. utils.dec_to_hex(vim.api.nvim_get_hl(0, { name = "NeoTreeWinSeparator" }).fg, 6)
-    vim.api.nvim_set_hl(0, "NeoTreeWinSeparator", { fg = util.lighten(sep_color, 0.9) })
+    vim.api.nvim_set_hl(0, "NeoTreeWinSeparator", { fg = util.lighten(sep_color, 0.8) })
   end
 end
 

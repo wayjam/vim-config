@@ -1,43 +1,32 @@
 local setup = function()
   local keymap = require("utils").keymap
-  local opts = { noremap = true, silent = true }
 
-  -- General pickers
-  keymap("n", "<leader>?", "<cmd>Telescope<CR>", opts)
-  keymap("n", "<leader>r", "<cmd>Telescope resume<CR>", opts)
-  keymap("n", "<leader>pk", "<cmd>Telescope pickers<CR>", opts)
-  keymap("n", "<leader>ff", "<cmd>Telescope find_files<CR>", opts)
-  keymap("n", "<leader>rg", "<cmd>Telescope live_grep<CR>", opts)
-  keymap("n", "<leader>bf", "<cmd>Telescope buffers<CR>", opts)
-  keymap("n", "<leader>jl", "<cmd>Telescope jumplist<CR>", opts)
-  keymap("n", "<leader>mk", "<cmd>Telescope marks<CR>", opts)
-  keymap("n", "<leader>re", "<cmd>Telescope registers<CR>", opts)
-  keymap("n", "<localleader><localleader>", "<cmd>Telescope commands<CR>", opts)
-
-  -- Location-specific find files/directories
-  keymap("n", "<localleader>n", function() require("plugins.telescope").pickers.plugin_directories() end, opts)
-  keymap("n", "<localleader>w", function() require("plugins.telescope").pickers.notebook() end, opts)
-
-  -- Navigation
-  keymap("n", "<localleader>/", "<cmd>Telescope current_buffer_fuzzy_find<CR>", opts)
-  keymap(
-    "n",
-    "<localleader>gt",
-    function() require("plugins.telescope").pickers.lsp_workspace_symbols_cursor() end,
-    opts
-  )
-  keymap("n", "<localleader>gf", function() require("plugins.telescope").pickers.find_files_cursor() end, opts)
-  keymap("n", "<localleader>gg", function() require("plugins.telescope").pickers.grep_string_cursor() end, opts)
-  keymap("x", "<localleader>gg", function() require("plugins.telescope").pickers.grep_string_visual() end, opts)
-
-  -- LSP related
-  keymap("n", "<leader>gd", "<cmd>Telescope lsp_definitions<CR>", opts)
-  keymap("n", "<leader>gi", "<cmd>Telescope lsp_implementations<CR>", opts)
-  keymap("n", "<leader>gr", "<cmd>Telescope lsp_references<CR>", opts)
-  keymap("n", "<leader>ca", "<cmd>Telescope lsp_code_actions<CR>", opts)
-  keymap("x", "<leader>ca", ":Telescope lsp_range_code_actions<CR>", opts)
-  keymap("n", "<leader>sy", "<cmd>Telescope lsp_dynamic_workspace_symbols<CR>", opts)
-  keymap("n", "<leader>dsy", "<cmd>Telescope lsp_document_symbols<CR>", opts)
+  for _, item in ipairs {
+    { "n", "<leader>?", "<cmd>Telescope<CR>", "Open Telescope" },
+    { "n", "<leader>r", "<cmd>Telescope resume<CR>", "Resume Telescope" },
+    { "n", "<leader>pk", "<cmd>Telescope pickers<CR>", "Show Telescope Pickers" },
+    { "n", "<leader>ff", "<cmd>Telescope find_files<CR>", "Find Files with Telescope" },
+    { "n", "<leader>rg", "<cmd>Telescope live_grep<CR>", "Live Grep with Telescope" },
+    { "n", "<leader>bf", "<cmd>Telescope buffers previewer=false<CR>", "Find Buffers with Telescope" },
+    { "n", "<leader>jl", "<cmd>Telescope jumplist<CR>", "Navigate Jumplist with Telescope" },
+    { "n", "<leader>mk", "<cmd>Telescope marks<CR>", "Navigate Marks with Telescope" },
+    { "n", "<leader>re", "<cmd>Telescope registers<CR>", "Browse Registers with Telescope" },
+    { "n", "<localleader><localleader>", "<cmd>Telescope commands<CR>", "Show Telescope Commands" },
+    {
+      "n",
+      "<localleader>/",
+      "<cmd>Telescope current_buffer_fuzzy_find<CR>",
+      "Fuzzy Find in Current Buffer with Telescope",
+    },
+    { { "n", "x" }, "<localleader>gg", "<cmd>Telescope grep_string<CR>", "Grep String under Cursor with Telescope" },
+  } do
+    local mode, lhs, rhs, desc = unpack(item)
+    keymap(mode, lhs, rhs, {
+      desc = desc,
+      noremap = true,
+      silent = true,
+    })
+  end
 end
 
 local myactions = {}
@@ -239,5 +228,6 @@ return {
   config_extension = function(name)
     if name == "project" then require("telescope").load_extension "project" end
     if name == "fzf" then require("telescope").load_extension "fzf" end
+    if name == "dap" then require("telescope").load_extension "dap" end
   end,
 }

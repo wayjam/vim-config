@@ -1,20 +1,29 @@
 local function setup()
-  local keymap = require("utils").keymap
-
   vim.cmd [[command! BreakpointToggle lua require('dap').toggle_breakpoint()]]
   vim.cmd [[command! Debug lua require('dap').continue()]]
   vim.cmd [[command! DapREPL lua require('dap').repl.open()]]
 
   local opts = { noremap = true, silent = true }
-  keymap("n", "<leader>db", function() require("dap").toggle_breakpoint() end, opts)
-  keymap("n", "<leader>dc", function() require("dap").continue() end, opts)
-  keymap("n", "<leader>di", function() require("dap").step_into() end, opts)
-  keymap("n", "<leader>do", function() require("dap").step_over() end, opts)
-  keymap("n", "<leader>dO", function() require("dap").step_out() end, opts)
-  keymap("n", "<leader>dr", function() require("dap").repl.toggle() end, opts)
-  keymap("n", "<leader>dl", function() require("dap").run_last() end, opts)
-  keymap("n", "<leader>du", function() require("dapui").toggle() end, opts)
-  keymap("n", "<leader>dt", function() require("dap").terminate() end, opts)
+  local keymaps = {
+    { "n", "<leader>db", function() require("dap").toggle_breakpoint() end, "Toggle Breakpoint" },
+    { "n", "<leader>dc", function() require("dap").continue() end, "Continue Debugging" },
+    { "n", "<leader>di", function() require("dap").step_into() end, "Step Into" },
+    { "n", "<leader>do", function() require("dap").step_over() end, "Step Over" },
+    { "n", "<leader>dO", function() require("dap").step_out() end, "Step Out" },
+    { "n", "<leader>dr", function() require("dap").repl.toggle() end, "Toggle REPL" },
+    { "n", "<leader>dl", function() require("dap").run_last() end, "Run Last Debug" },
+    { "n", "<leader>du", function() require("dapui").toggle() end, "Toggle DAP UI" },
+    { "n", "<leader>dt", function() require("dap").terminate() end, "Terminate Debugging" },
+  }
+
+  for _, item in ipairs(keymaps) do
+    local mode, lhs, rhs, desc = unpack(item)
+    require("utils").keymap(mode, lhs, rhs, {
+      desc = desc,
+      noremap = opts.noremap,
+      silent = opts.silent,
+    })
+  end
 end
 
 local function config()

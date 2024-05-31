@@ -4,23 +4,19 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
 -- Release keymappings prefixes, evict entirely for use of plug-ins.
-keymap("n", "<Space>", "<Nop>", { noremap = true })
-keymap("x", "<Space>", "<Nop>", { noremap = true })
-keymap("n", "\\", "<Nop>", { noremap = true })
-keymap("x", "\\", "<Nop>", { noremap = true })
+keymap({ "n", "x" }, "<Space>", "<Nop>", { noremap = true })
+keymap({ "n", "x" }, "\\", "<Nop>", { noremap = true })
 
 -- Quick quit action
-keymap("n", "<Leader>q", ":q<CR>", { silent = true })
-keymap("n", "<Leader>w", ":w<CR>", { silent = true })
-keymap("n", "<localleader>q", ":q<CR>", { silent = true })
+keymap("n", "<Leader>q", ":q<CR>", { silent = true, desc = "Quit" })
+keymap("n", "<localleader>q", ":q<CR>", { silent = true, desc = "Quit" })
 
 -- Fix keybind name for Ctrl+Spacebar
-keymap("n", "<Nul>", "<C-Space>", {})
-keymap("v", "<Nul>", "<C-Space>", {})
+keymap({ "n", "v" }, "<Nul>", "<C-Space>", {})
 
 -- Double leader key for toggling visual-line mode
-keymap("n", "<Leader><Leader>", "V", { silent = true })
-keymap("v", "<Leader><Leader>", "<Esc>", {})
+keymap("n", "<Leader><Leader>", "V", { silent = true, desc = "Visual mode" })
+keymap("v", "<Leader><Leader>", "<Esc>", { desc = "Back to normal mode" })
 keymap("t", "<Esc>", "<C-\\><C-n>", {})
 
 -- jump
@@ -28,10 +24,6 @@ keymap("n", "[g", "<C-O>", {})
 keymap("n", "]g", "<C-I>", {})
 
 -- Insert mode shortcut
-keymap("i", "<C-j>", "<Down>", {})
-keymap("i", "<C-k>", "<Up>", {})
-keymap("i", "<C-l>", "<Right>", {})
-keymap("i", "<C-h>", "<Left>", {})
 keymap("i", "<A-j>", "<Down>", {})
 keymap("i", "<A-k>", "<Up>", {})
 keymap("i", "<A-h>", "<Left>", {})
@@ -40,19 +32,19 @@ keymap("i", "<A-l>", "<Right>", {})
 -- Command mode shortcut
 keymap("c", "<C-a>", "<Home>", {})
 keymap("c", "<C-e>", "<End>", {})
-keymap("c", "<C-h>", "<Left>", {})
-keymap("c", "<C-l>", "<Right>", {})
-keymap("c", "<C-j>", "<Up>", {})
-keymap("c", "<C-k>", "<Down>", {})
 keymap("c", "<C-d>", "<Del>", {})
 keymap("c", "<C-y>", "<C-r>*", {})
+keymap("c", "<A-h>", "<Left>", {})
+keymap("c", "<A-l>", "<Right>", {})
+keymap("c", "<A-j>", "<Up>", {})
+keymap("c", "<A-k>", "<Down>", {})
 
 -- Macros
 keymap("n", "Q", "q", { noremap = true })
 keymap("n", "q", "<Nop>", { noremap = true })
 
 -- Toggle pastemode
-keymap("n", "<Leader>tp", ":setlocal paste!<CR>", { silent = true })
+keymap("n", "<Leader>tp", ":setlocal paste!<CR>", { silent = true, desc = "Toggle paste mode" })
 
 -- Change current word in a repeatable manner
 keymap("n", "<leader>cn", "*``cgn", {})
@@ -61,7 +53,7 @@ keymap("v", "<leader>cn", [["y/\V<C-r>=escape(@", "/")<CR><CR>"``cgn]], { expr =
 keymap("v", "<leader>cN", [["y/\V<C-r>=escape(@", "/")<CR><CR>"``cgN]], { expr = true })
 
 -- Duplicate paragraph
-keymap("n", "<leader>cp", "yap<S-}>p", {})
+keymap("n", "<leader>cp", "yap<S-}>p", { desc = "Duplicate paragraph" })
 
 -- Start new line from any cursor position in insert-mode
 keymap("i", "<S-Return>", "<C-o>o", {})
@@ -89,17 +81,17 @@ keymap("x", "<", "<gv", {})
 keymap("x", ">", ">gv|", {})
 
 -- Switch to the directory of the opened buffer in current window
-keymap("n", "<Leader>cd", ":lcd %:p:h<CR>:pwd<CR>", {})
+keymap("n", "<Leader>cd", ":lcd %:p:h<CR>:pwd<CR>", { desc = "Switch dir to current buffer" })
 
 -- Fast saving from all modes
-keymap("n", "<Leader>w", ":write<CR>", {})
-keymap("v", "<Leader>w", "<Esc>:write<CR>", {})
+keymap("n", "<Leader>w", ":write<CR>", { desc = "Save" })
+keymap("v", "<Leader>w", "<Esc>:write<CR>", { desc = "Save" })
 keymap("n", "<C-s>", ":<C-u>write<CR>", {})
 keymap("v", "<C-s>", ":<C-u>write<CR>", {})
 keymap("c", "<C-s>", "<C-u>write<CR>", {})
 
 -- Highlight
-keymap("n", "<leader>nh", ":nohl<CR>", {})
+keymap("n", "<leader>nh", ":nohl<CR>", { desc = "Disable search highlight" })
 
 -- Movement
 keymap("n", "<C-d>", "<C-d>zz", {})
@@ -108,15 +100,14 @@ keymap("n", "n", "nzzzv", {})
 keymap("n", "N", "Nzzzv", {})
 
 -- Toggle editor's visual effects
-keymap("n", "<Leader>ts", ":setlocal spell!<cr>", {})
-keymap("n", "<Leader>tn", ":setlocal nonumber!<CR>", {})
-keymap("n", "<Leader>tl", ":setlocal nolist!<CR>", {})
-keymap("n", "<Leader>th", ":nohlsearch<CR>", {})
-keymap("n", "<Leader>tw", ":setlocal wrap! breakindent!<CR>", {})
+keymap("n", "<Leader>ts", ":setlocal spell!<cr>", { desc = "Enable spell checking" })
+keymap("n", "<Leader>tn", ":setlocal nonumber!<CR>", { desc = "No number" })
+keymap("n", "<Leader>tl", ":setlocal nolist!<CR>", { desc = "No list" })
+keymap("n", "<Leader>tw", ":setlocal wrap! breakindent!<CR>", { desc = "Wrap breakindent" })
 
 -- Tabs
-keymap("n", "g$", ":tabfirst<CR>", { silent = true })
-keymap("n", "g^", ":tablast<CR>", { silent = true })
+keymap("n", "g0", ":tabfirst<CR>", { silent = true })
+keymap("n", "g$", ":tablast<CR>", { silent = true })
 keymap("n", "<A-j>", ":tabnext<CR>", { silent = true })
 keymap("n", "<A-k>", ":tabprevious<CR>", { silent = true })
 keymap("n", "]t", ":tabnext<CR>", { silent = true })
@@ -132,7 +123,7 @@ for i = 1, 9 do
 end
 
 if not vim.g.lasttab then vim.g.lasttab = 1 end
-keymap("n", "<Leader>lt", ':exe "tabn " . g:lasttab<CR>', { silent = true })
+keymap("n", "<Leader>lt", ':exe "tabn " . g:lasttab<CR>', { silent = true, desc = "Last tab" })
 
 -- Windows and buffers
 keymap("n", "<silent> [Window]v", ":split<CR>", {})
@@ -151,15 +142,9 @@ keymap("n", "<silent> [Window]x", function()
   vim.api.nvim_command "enew"
 end)
 
--- Split current buffer, go to previous window and previous buffer
-keymap("n", "<silent> <Leader>sp", ":split<CR>:wincmd p<CR>:e#<CR>", {})
-keymap("n", "<silent> <Leader>sv", ":vsplit<CR>:wincmd p<CR>:e#<CR>", {})
-
 -- Buffer
-keymap("n", "<silent> <Leader>bf", ":bfirst<CR>", {})
-keymap("n", "<silent> <Leader>bl", ":blast<CR>", {})
-keymap("n", "<silent> <Leader>bd", ":bd<CR>", {})
-keymap("n", "<silent> <Leader>bk", ":bw<CR>", {})
+keymap("n", "<silent> <Leader>b0", ":bfirst<CR>", { desc = "First buffer" })
+keymap("n", "<silent> <Leader>b$", ":blast<CR>", { desc = "Last buffer" })
 keymap("n", "]b", ":bnext<CR>", {})
 keymap("n", "[b", ":bprev<CR>", {})
 
@@ -183,7 +168,12 @@ keymap("t", "<C-H>", "<cmd>wincmd h<CR>", {})
 keymap("t", "<C-L>", "<cmd>wincmd l<CR>", {})
 
 -- Remove spaces at the end of lines
-keymap("n", "<Leader>cw", [[:silent! keeppatterns %substitute/\s\+$//e<CR>]], { silent = true })
+keymap(
+  "n",
+  "<Leader>cw",
+  [[:silent! keeppatterns %substitute/\s\+$//e<CR>]],
+  { silent = true, desc = "Remove spaces at the end of lines" }
+)
 
 -- Quick substitute within selected area
 keymap("x", "sg", [[:s//gc<Left><Left><Left>]], {})
@@ -195,8 +185,8 @@ keymap("n", "]q", [[:cnext<CR>]], {})
 keymap("n", "[q", [[:cprev<CR>]], {})
 
 -- Drag current line/s vertically and auto-indent
-keymap("v", "<Leader>k", [[:m '<-2<CR>gv=gv]], {})
-keymap("v", "<Leader>j", [[:m '>+<CR>gv=gv]], {})
+keymap("v", "<Leader>k", [[:m '<-2<CR>gv=gv]], { desc = "Drag current selection up" })
+keymap("v", "<Leader>j", [[:m '>+<CR>gv=gv]], { desc = "Drag current selection down" })
 
 -- Useful command
 local last_color_column = vim.opt.colorcolumn

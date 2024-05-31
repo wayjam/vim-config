@@ -25,7 +25,6 @@ Spec "plugins.tabby"
 Spec "plugins.gitsigns"
 Spec "plugins.diffview"
 Spec "plugins.indentline"
-Spec "plugins.neoscroll"
 
 -- tool
 Spec "plugins.trouble"
@@ -63,9 +62,10 @@ Spec "plugins.truezen"
 -- debugger
 Spec "plugins.dap"
 
---- syntax
+-- syntax
 Spec "plugins.treesitter"
 
+-- language specify
 Spec "plugins.languages"
 
 return LAZY_PLUGIN_SPEC

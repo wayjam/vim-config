@@ -3,14 +3,11 @@ return {
   event = { "BufReadPost", "BufNewFile" },
   opts = { delay = 200 },
   config = function()
-    local illuminate = require "illuminate"
-    vim.g.Illuminate_ftblacklist = { "NvimTree" }
     local keymap = require("utils").keymap
-    keymap("n", "<a-n>", function() illuminate.next_reference { wrap = true } end, { noremap = true })
-    keymap("n", "<a-n>", function() illuminate.next_reference { wrap = true } end, { noremap = true })
-    keymap("n", "<a-p>", function() illuminate.next_reference { reverse = true, wrap = true } end, { noremap = true })
+    keymap("n", "<a-n>", function() require("illuminate").goto_next_reference() end, { desc = "Next reference" })
+    keymap("n", "<a-p>", function() require("illuminate").goto_prev_reference() end, { desc = "Prev reference" })
 
-    illuminate.configure {
+    require("illuminate").configure {
       providers = {
         "lsp",
         "treesitter",
@@ -18,15 +15,25 @@ return {
       },
       delay = 200,
       filetypes_denylist = {
+        "mason",
+        "harpoon",
+        "DressingInput",
+        "NeogitCommitMessage",
+        "qf",
         "dirvish",
+        "oil",
+        "minifiles",
         "fugitive",
         "alpha",
         "NvimTree",
         "lazy",
-        "neogitstatus",
+        "NeogitStatus",
         "Trouble",
+        "netrw",
         "lir",
+        "DiffviewFiles",
         "Outline",
+        "Jaq",
         "spectre_panel",
         "toggleterm",
         "DressingSelect",
