@@ -8,9 +8,9 @@ local M = {}
 --   Information:   ⁱ  
 M.signs = {
   Error = "",
-  Warning = "",
+  Warn = "",
   Hint = "󰌶",
-  Information = "",
+  Info = "",
   BoldError = "",
   BoldWarning = "",
   BoldInformation = "",

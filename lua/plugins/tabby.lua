@@ -44,9 +44,9 @@ return {
         local bufinfo = vim.fn.getbufinfo(bufnr)[1]
         if not already_marked and bufinfo.changed == 1 then
           already_marked = true
-          return ""
+          return { "", fg = theme.current_tab }
         else
-          return ""
+          return { " ", fg = theme.fill }
         end
       end)
     end
@@ -74,7 +74,7 @@ return {
           return {
             -- line.sep("", hl, theme.fill),
             line.sep("", hl, theme.fill),
-            tab.is_current() and "" or "",
+            { tab.is_current() and "" or "", fg = theme.current_tab },
             tab.number(),
             tab_name(tab),
             -- tab.close_btn("󰅖 "),

@@ -29,8 +29,8 @@ local function config()
     -- },
     symbols = {
       error = utils.padded_signs "Error",
-      warn = utils.padded_signs "Warning",
-      info = utils.padded_signs "Information",
+      warn = utils.padded_signs "Warn",
+      info = utils.padded_signs "Info",
       hint = utils.padded_signs "Hint",
     },
     colored = true,

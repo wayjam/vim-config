@@ -5,7 +5,7 @@ local function config()
     close_if_last_window = false, -- Close Neo-tree if it is the last window left in the tab
     popup_border_style = "rounded",
     enable_git_status = true,
-    enable_diagnostics = true,
+    enable_diagnostics = false,
     sort_case_insensitive = false, -- used when sorting files and directories in the tree
     sort_function = nil, -- use a custom function for sorting files and directories in the tree
     -- sort_function = function (a,b)
@@ -48,7 +48,7 @@ local function config()
       },
       name = {
         trailing_slash = false,
-        use_git_status_colors = false,
+        use_git_status_colors = true,
         highlight = "NeoTreeFileName",
       },
       git_status = {
