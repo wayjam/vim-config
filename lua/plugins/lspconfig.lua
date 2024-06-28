@@ -2,7 +2,6 @@ local utils = require "utils"
 local keymap = utils.keymap
 
 local on_attach = function(client, bufnr)
-  if utils.has_plugin "lsp_signature.nvim" then require("lsp_signature").on_attach(client) end
   if utils.has_plugin "illuminate" then require("illuminate").on_attach(client) end
 
   if client.config.flags then
@@ -14,11 +13,10 @@ local on_attach = function(client, bufnr)
   local keymaps = {
     { "n", "gD", vim.lsp.buf.declaration, "Go to Declaration" },
     { "n", "gd", vim.lsp.buf.definition, "Go to Definition" },
-    { "n", "gr", vim.lsp.buf.references, "Go to References" },
     { "n", "gi", vim.lsp.buf.implementation, "Go to Implementation" },
     { "n", "gy", vim.lsp.buf.type_definition, "Go to Type Definition" },
     { "n", "K", vim.lsp.buf.hover, "Show Hover Documentation" },
-    { "n", "<C-k>", vim.lsp.buf.signature_help, "Show Signature Help" },
+    { { "i", "n" }, "<C-k>", vim.lsp.buf.signature_help, "Show Signature Help" },
     { "n", "<leader>wa", vim.lsp.buf.add_workspace_folder, "Add Workspace Folder" },
     { "n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, "Remove Workspace Folder" },
     {
@@ -45,6 +43,19 @@ local on_attach = function(client, bufnr)
       "<leader>dsy",
       function() require("telescope.builtin").lsp_dynamic_workspace_symbols() end,
       "Workspace Symbols",
+    })
+    table.insert(keymaps, {
+      "n",
+      "gr",
+      function() require("telescope.builtin").lsp_references() end,
+      "Go to References",
+    })
+  else
+    table.insert(keymaps, {
+      "n",
+      "gr",
+      vim.lsp.buf.references,
+      "Go to References",
     })
   end
 
@@ -128,7 +139,6 @@ return {
   dependencies = {
     "williamboman/mason.nvim",
     "hrsh7th/cmp-nvim-lsp",
-    { "ray-x/lsp_signature.nvim", lazy = true },
     { "kosayoda/nvim-lightbulb", lazy = true },
   },
   on_attach = on_attach,
@@ -139,6 +149,7 @@ return {
       virtual_text = {
         source = "if_many",
         spacing = 4,
+        prefix = utils.icons["Triangle"],
       },
       update_in_insert = false,
       underline = true,
@@ -154,15 +165,16 @@ return {
     }
     for type, icon in pairs(utils.signs) do
       local hl = "DiagnosticSign" .. type
-      vim.fn.sign_define(hl, { texthl = hl, text = icon, numhl = hl })
+      vim.fn.sign_define(hl, { texthl = hl, text = icon, numhl = "" })
     end
 
     -- Configure hover (normal K) handle
     vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
-    vim.lsp.handlers["textDocument/signatureHelp"] =
-    vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
+    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
+      vim.lsp.handlers.signature_help,
+      { border = "single", close_events = { "CursorMoved", "BufHidden" } }
+    )
 
-    if utils.has_plugin "lsp_signature.nvim" then require("lsp_signature").setup { bind = true } end
     if utils.has_plugin "nvim-lightbulb" then
       require("nvim-lightbulb").setup {
         autocmd = { enabled = true },

@@ -1,3 +1,4 @@
+-- https://github.com/folke/noice.nvim
 return {
   config = function()
     require("noice").setup {

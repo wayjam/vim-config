@@ -7,6 +7,7 @@ local function config()
   local luasnip = require "luasnip"
   local icons = require("lsp.kind").icons
   local cmp = require "cmp"
+
   cmp.setup {
     formatting = {
       fields = { "kind", "abbr", "menu" },
@@ -43,6 +44,7 @@ local function config()
       { name = "nvim_lsp" },
       { name = "nvim-lua" },
       { name = "luasnip" }, -- For luasnip users.
+      { name = "nvim_lsp_signature_help" },
       { name = "buffer" },
       { name = "path" },
     },
@@ -50,9 +52,9 @@ local function config()
       ["<C-y>"] = cmp.config.disable,
       ["<C-p>"] = cmp.mapping.select_prev_item(),
       ["<C-n>"] = cmp.mapping.select_next_item(),
-      ["<C-d>"] = cmp.mapping(cmp.mapping.scroll_docs(-1), { "i", "c" }),
-      ["<C-u>"] = cmp.mapping(cmp.mapping.scroll_docs(1), { "i", "c" }),
-      ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
+      ["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
+      ["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
+      ["<A-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
       ["<C-e>"] = cmp.mapping { i = cmp.mapping.abort(), c = cmp.mapping.close() },
       ["<CR>"] = cmp.mapping.confirm { select = true },
       ["<Tab>"] = cmp.mapping(function(fallback)
@@ -133,6 +135,7 @@ local function config()
     }, {
       { name = "cmdline" },
     }),
+    matching = { disallow_symbol_nonprefix_matching = false },
   })
 end
 
@@ -152,6 +155,7 @@ return {
     {
       "hrsh7th/cmp-cmdline",
     },
+    { "hrsh7th/cmp-nvim-lsp-signature-help" },
   },
   config = config,
 }
