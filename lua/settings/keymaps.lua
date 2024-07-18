@@ -8,8 +8,46 @@ keymap({ "n", "x" }, "<Space>", "<Nop>", { noremap = true })
 keymap({ "n", "x" }, "\\", "<Nop>", { noremap = true })
 
 -- Quick quit action
-keymap("n", "<Leader>q", ":q<CR>", { silent = true, desc = "Quit" })
-keymap("n", "<localleader>q", ":q<CR>", { silent = true, desc = "Quit" })
+local quit_buf_options = {
+  ["neo-tree"] = {
+    ft = "neo-tree",
+    close = function()
+      require("neo-tree.command").execute {
+        action = "close",
+      }
+    end,
+  },
+}
+local file_manager = "neo-tree"
+local function quit_buf()
+  local opts = quit_buf_options[file_manager]
+
+  if require("utils").has_plugin(file_manager) then
+    local current_tabpage = vim.api.nvim_get_current_tabpage()
+    local windows = vim.api.nvim_tabpage_list_wins(current_tabpage)
+
+    --- left 2 window(current and file manager), auto close file manager
+    local should_close = false
+    if #windows == 2 then
+      for _, win in ipairs(windows) do
+        local buf = vim.api.nvim_win_get_buf(win)
+        if vim.api.nvim_get_option_value("filetype", {
+          buf = buf,
+        }) == opts.ft then
+          should_close = true
+          break
+        end
+      end
+    end
+
+    if should_close then opts.close() end
+  end
+
+  vim.cmd "q"
+end
+
+keymap("n", "<Leader>q", quit_buf, { silent = true, desc = "Quit" })
+keymap("n", "<localleader>q", quit_buf, { silent = true, desc = "Quit" })
 
 -- Fix keybind name for Ctrl+Spacebar
 keymap({ "n", "v" }, "<Nul>", "<C-Space>", {})
