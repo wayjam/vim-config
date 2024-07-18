@@ -4,40 +4,22 @@ local function config()
   require("gitsigns").setup {
     signs = {
       add = {
-        hl = "GitSignsAdd",
         text = icons["BoldLineMiddle"],
-        numhl = "GitSignsAddNr",
-        linehl = "GitSignsAddLn",
       },
       change = {
-        hl = "GitSignsChange",
         text = icons["BoldLineDashedMiddle"],
-        numhl = "GitSignsChangeNr",
-        linehl = "GitSignsChangeLn",
       },
       delete = {
-        hl = "GitSignsDelete",
         text = icons["ChevronRight"],
-        numhl = "GitSignsDeleteNr",
-        linehl = "GitSignsDeleteLn",
       },
       topdelete = {
-        hl = "GitSignsTopdelete",
         text = icons["ChevronRight"],
-        numhl = "GitSignsTopdeleteNr",
-        linehl = "GitSignsTopdeleteLn",
       },
       changedelete = {
-        hl = "GitSignsChangedelete",
         text = icons["BoldLineMiddle"],
-        numhl = "GitSignsChangedeleteNr",
-        linehl = "GitSignsChangedeleteLn",
       },
       untracked = {
-        hl = "GitSignsUntracked",
         text = icons["LineMiddle"],
-        numhl = "GitSignsUntrackedNr",
-        linehl = "GitSignsUntrackedLn",
       },
     },
     signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
