@@ -37,29 +37,6 @@ return {
       end
     end
 
-    local change_mark = function(tab)
-      local already_marked = false
-      return tab.wins().foreach(function(win)
-        local bufnr = vim.fn.getwininfo(win.id)[1].bufnr
-        local bufinfo = vim.fn.getbufinfo(bufnr)[1]
-        if not already_marked and bufinfo.changed == 1 then
-          already_marked = true
-          return { "", fg = theme.current_tab }
-        else
-          return { " ", fg = theme.fill }
-        end
-      end)
-    end
-
-    local window_count = function(tab)
-      local api = require "tabby.module.api"
-      local win_count = #api.get_tab_wins(tab.id)
-      if win_count == 1 then
-        return ""
-      else
-        return "[" .. win_count .. "]"
-      end
-    end
 
     require("tabby.tabline").set(function(line)
       return {
@@ -78,8 +55,6 @@ return {
             tab.number(),
             tab_name(tab),
             -- tab.close_btn("󰅖 "),
-            -- window_count(tab),
-            change_mark(tab),
             -- line.sep(" ", hl, theme.fill),
             line.sep("", hl, theme.fill),
             hl = hl,

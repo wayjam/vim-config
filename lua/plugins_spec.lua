@@ -44,6 +44,8 @@ Spec "plugins.cmp"
 
 -- test
 Spec "plugins.neotest"
+
+-- mason
 Spec "plugins.mason"
 
 -- lsp
