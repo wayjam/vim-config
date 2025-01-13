@@ -1,8 +1,8 @@
 LAZY_PLUGIN_SPEC = {
   -- basic
   { "christoomey/vim-tmux-navigator", event = "VeryLazy" },
-  { "gpanders/editorconfig.nvim", event = "BufReadPre" },
-  { "tpope/vim-surround", event = "InsertCharPre" },
+  { "gpanders/editorconfig.nvim",     event = "BufReadPre" },
+  { "tpope/vim-surround",             event = "InsertCharPre" },
 }
 
 function Spec(item)
@@ -40,7 +40,8 @@ Spec "plugins.illuminate"
 Spec "plugins.snippets"
 
 -- complete
-Spec "plugins.cmp"
+-- Spec "plugins.cmp"
+Spec "plugins.blink"
 
 -- test
 Spec "plugins.neotest"

@@ -191,7 +191,8 @@ function M.check_version(expected_ver)
     return
   elseif current_ver.major == expected_ver.major and current_ver.minor > expected_ver.minor then
     return
-  elseif current_ver.major == expected_ver.major
+  elseif
+      current_ver.major == expected_ver.major
       and current_ver.minor == expected_ver.minor
       and current_ver.patch > expected_ver.patch
   then

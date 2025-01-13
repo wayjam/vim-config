@@ -1,6 +1,6 @@
 local function config()
   require("nvim-treesitter.configs").setup {
-    ensure_installed = { "comment", "markdown_inline", "markdown", "regex", "lua", "bash" }, -- all or a list of names
+    ensure_installed = { "comment", "markdown_inline", "markdown", "regex", "lua", "bash", "vim", "query", "json" }, -- all or a list of names
     ignore_install = { "phpdoc" }, -- List of parsers to ignore installing
     playground = {
       enable = true,
