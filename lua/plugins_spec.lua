@@ -59,7 +59,6 @@ Spec "plugins.autopairs"
 Spec "plugins.comment"
 Spec "plugins.easy_align"
 Spec "plugins.flash"
-Spec "plugins.oscyank"
 Spec "plugins.truezen"
 
 -- debugger

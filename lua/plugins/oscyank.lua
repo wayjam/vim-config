@@ -1,3 +1,4 @@
+-- drop this plugin, sicne `10.0` https://github.com/neovim/neovim/pull/25872
 return {
   "ojroques/nvim-osc52",
   event = "BufReadPre",
@@ -7,7 +8,7 @@ return {
     osc52.setup {
       max_length = 0, -- Maximum length of selection (0 for no limit)
       silent = false, -- Disable message on successful copy
-      trim = false, -- Trim text before copy
+      trim = false,   -- Trim text before copy
     }
 
     local function copy(lines, _) osc52.copy(table.concat(lines, "\n")) end
