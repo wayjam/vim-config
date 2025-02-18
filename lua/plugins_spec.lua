@@ -30,11 +30,14 @@ Spec "plugins.indentline"
 Spec "plugins.trouble"
 Spec "plugins.neotree"
 Spec "plugins.fugitive"
-Spec "plugins.telescope"
 Spec "plugins.bqf"
 Spec "plugins.outline"
 Spec "plugins.toggleterm"
 Spec "plugins.illuminate"
+
+-- picker
+-- Spec "plugins.telescope"
+Spec "plugins.fzf"
 
 -- snippets
 Spec "plugins.snippets"

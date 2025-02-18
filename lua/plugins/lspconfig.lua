@@ -33,24 +33,7 @@ local on_attach = function(client, bufnr)
     { "n", "<leader>el", vim.diagnostic.setloclist, "Set LocList" },
   }
 
-  if utils.has_plugin "telescope" then
-    table.insert(
-      keymaps,
-      { "n", "<leader>sy", function() require("telescope.builtin").lsp_document_symbols() end, "Document Symbols" }
-    )
-    table.insert(keymaps, {
-      "n",
-      "<leader>dsy",
-      function() require("telescope.builtin").lsp_dynamic_workspace_symbols() end,
-      "Workspace Symbols",
-    })
-    table.insert(keymaps, {
-      "n",
-      "gr",
-      function() require("telescope.builtin").lsp_references() end,
-      "Go to References",
-    })
-  else
+  if not (utils.has_plugin "telescope" or utils.has_plugin "fzf-lua") then
     table.insert(keymaps, {
       "n",
       "gr",

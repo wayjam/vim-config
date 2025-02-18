@@ -2,15 +2,30 @@ local setup = function()
   local keymap = require("utils").keymap
 
   for _, item in ipairs {
-    { "n", "<leader>?", "<cmd>Telescope<CR>", "Open Telescope" },
-    { "n", "<leader>r", "<cmd>Telescope resume<CR>", "Resume Telescope" },
-    { "n", "<leader>pk", "<cmd>Telescope pickers<CR>", "Show Telescope Pickers" },
-    { "n", "<leader>ff", "<cmd>Telescope find_files<CR>", "Find Files with Telescope" },
-    { "n", "<leader>rg", "<cmd>Telescope live_grep<CR>", "Live Grep with Telescope" },
+    { "n", "<leader>?",  "<cmd>Telescope<CR>",                         "Open Telescope" },
+    { "n", "<leader>r",  "<cmd>Telescope resume<CR>",                  "Resume Telescope" },
+    { "n", "<leader>pk", "<cmd>Telescope pickers<CR>",                 "Show Telescope Pickers" },
+    { "n", "<leader>ff", "<cmd>Telescope find_files<CR>",              "Find Files with Telescope" },
+    { "n", "<leader>rg", "<cmd>Telescope live_grep<CR>",               "Live Grep with Telescope" },
     { "n", "<leader>bf", "<cmd>Telescope buffers previewer=false<CR>", "Find Buffers with Telescope" },
-    { "n", "<leader>jl", "<cmd>Telescope jumplist<CR>", "Navigate Jumplist with Telescope" },
-    { "n", "<leader>mk", "<cmd>Telescope marks<CR>", "Navigate Marks with Telescope" },
-    { "n", "<leader>re", "<cmd>Telescope registers<CR>", "Browse Registers with Telescope" },
+    {
+      "n",
+      "<leader>jl",
+      "<cmd>Telescope jumplist<CR>",
+      "Navigate Jumplist with Telescope",
+    },
+    {
+      "n",
+      "<leader>mk",
+      "<cmd>Telescope marks<CR>",
+      "Navigate Marks with Telescope",
+    },
+    {
+      "n",
+      "<leader>re",
+      "<cmd>Telescope registers<CR>",
+      "Browse Registers with Telescope",
+    },
     { "n", "<localleader><localleader>", "<cmd>Telescope commands<CR>", "Show Telescope Commands" },
     {
       "n",
@@ -18,7 +33,31 @@ local setup = function()
       "<cmd>Telescope current_buffer_fuzzy_find<CR>",
       "Fuzzy Find in Current Buffer with Telescope",
     },
-    { { "n", "x" }, "<localleader>gg", "<cmd>Telescope grep_string<CR>", "Grep String under Cursor with Telescope" },
+    {
+      { "n", "x" },
+      "<localleader>gg",
+      "<cmd>Telescope grep_string<CR>",
+      "Grep String under Cursor with Telescope",
+    },
+    {
+      "n",
+      "<leader>sy",
+      function() require("telescope.builtin").lsp_document_symbols() end,
+      "Document Symbols",
+    },
+    {
+
+      "n",
+      "<leader>dsy",
+      function() require("telescope.builtin").lsp_dynamic_workspace_symbols() end,
+      "Workspace Symbols",
+    },
+    {
+      "n",
+      "gr",
+      function() require("telescope.builtin").lsp_references() end,
+      "Go to References",
+    },
   } do
     local mode, lhs, rhs, desc = unpack(item)
     keymap(mode, lhs, rhs, {
@@ -196,10 +235,10 @@ local function config()
         sync_with_nvim_tree = true, -- default false
       },
       fzf = {
-        fuzzy = true, -- false will only do exact matching
+        fuzzy = true,                   -- false will only do exact matching
         override_generic_sorter = true, -- override the generic sorter
-        override_file_sorter = true, -- override the file sorter
-        case_mode = "smart_case", -- or "ignore_case" or "respect_case"
+        override_file_sorter = true,    -- override the file sorter
+        case_mode = "smart_case",       -- or "ignore_case" or "respect_case"
         -- the default case_mode is "smart_case"
       },
     },
