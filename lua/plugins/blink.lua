@@ -1,14 +1,15 @@
-local function config() end
-
 return {
   "saghen/blink.cmp",
   version = "*",
   event = {
     "InsertEnter",
-    "CmdlineEnter",
   },
   dependencies = {
     "L3MON4D3/LuaSnip",
+    {
+      "olimorris/codecompanion.nvim",
+      optional = true,
+    },
     {
       "saghen/blink.compat",
       optional = true, -- make optional so it's only enabled if any extras need it
@@ -16,6 +17,11 @@ return {
     },
   },
   opts = {
+    enabled = function()
+      return not vim.tbl_contains({ "lua", "markdown" }, vim.bo.filetype)
+          and vim.bo.buftype ~= "prompt"
+          and vim.b.completion ~= false
+    end,
     snippets = {
       preset = "luasnip",
     },
@@ -28,11 +34,17 @@ return {
       -- adjusts spacing to ensure icons are aligned
       nerd_font_variant = "mono",
     },
+    cmdline = {
+      enabled = false,
+    },
     completion = {
       accept = {
         -- experimental auto-brackets support
         auto_brackets = {
           enabled = true,
+          kind_resolution = {
+            blocked_filetypes = { "typescriptreact", "javascriptreact", "vue", "codecompanion" },
+          },
         },
       },
       menu = {
@@ -45,7 +57,7 @@ return {
         auto_show_delay_ms = 200,
       },
       ghost_text = {
-        enabled = vim.g.ai_cmp,
+        enabled = false,
       },
     },
 
@@ -57,7 +69,6 @@ return {
       -- with blink.compat
       compat = {},
       default = { "lsp", "path", "snippets", "buffer" },
-      cmdline = {},
     },
 
     keymap = {
@@ -73,6 +84,8 @@ return {
     },
   },
   config = function(_, opts)
+    local utils = require "utils"
+
     -- setup compat sources
     local enabled = opts.sources.default
     for _, source in ipairs(opts.sources.compat or {}) do
@@ -86,6 +99,16 @@ return {
 
     -- Unset custom prop to pass blink.cmp validation
     opts.sources.compat = nil
+    opts.sources.providers = opts.sources.providers or {}
+
+    if utils.has_plugin "codecompanion" then
+      table.insert(opts.sources.compat or {}, "codecompanion")
+      opts.sources.providers["codecompanion"] = {
+        name = "CodeCompanion",
+        module = "codecompanion.providers.completion.blink",
+        enabled = true,
+      }
+    end
 
     -- check if we need to override symbol kinds
     for _, provider in pairs(opts.sources.providers or {}) do

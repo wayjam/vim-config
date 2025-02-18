@@ -43,7 +43,7 @@ Using the Neovim's built-in language server client with [nvim-lspconfig](https:/
 
 ### Complete
 
-Configured nvim-cmp with [LusSnip](https://github.com/L3MON4D3/LuaSnip) and [friendly-snippets](https://github.com/rafamadriz/friendly-snippets).
+Configured blink.cmp with [LusSnip](https://github.com/L3MON4D3/LuaSnip) and [friendly-snippets](https://github.com/rafamadriz/friendly-snippets).
 
 ## Customize
 

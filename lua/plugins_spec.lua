@@ -49,6 +49,9 @@ Spec "plugins.neotest"
 -- mason
 Spec "plugins.mason"
 
+-- AI
+Spec "plugins.ai"
+
 -- lsp
 Spec "plugins.lspconfig"
 Spec "plugins.null-ls"
