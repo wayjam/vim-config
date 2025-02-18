@@ -69,5 +69,6 @@ Spec "plugins.treesitter"
 
 -- language specify
 Spec "plugins.languages"
+Spec "plugins.markdown"
 
 return LAZY_PLUGIN_SPEC
