@@ -2,12 +2,14 @@ local function config()
   local utils = require "utils"
 
   require("neo-tree").setup {
+    sources = { "filesystem", "buffers", "git_status" },
+    open_files_do_not_replace_types = { "terminal", "Trouble", "trouble", "qf", "Outline" },
     close_if_last_window = false, -- Close Neo-tree if it is the last window left in the tab
     popup_border_style = "rounded",
     enable_git_status = true,
     enable_diagnostics = false,
     sort_case_insensitive = false, -- used when sorting files and directories in the tree
-    sort_function = nil, -- use a custom function for sorting files and directories in the tree
+    sort_function = nil,           -- use a custom function for sorting files and directories in the tree
     -- sort_function = function (a,b)
     --       if a.type == b.type then
     --           return a.path > b.path
@@ -174,7 +176,8 @@ local function config()
       -- "open_current", netrw disabled, opening a directory opens within the
       -- window like netrw would, regardless of window.position
       -- "disabled", netrw left alone, neo-tree does not handle opening dirs
-      use_libuv_file_watcher = false, -- This will use the OS level file watchers to detect changes
+      bind_to_cwd = false,
+      use_libuv_file_watcher = true,
       -- instead of relying on nvim autocmd events.
       window = {
         mappings = {
@@ -220,40 +223,6 @@ local function config()
       },
     },
   }
-
-  if utils.has_plugin "onedark" then
-    local util = require "onedark.util"
-    local msg_color = "#" .. utils.dec_to_hex(vim.api.nvim_get_hl(0, { name = "NeoTreeMessage" }).fg, 6)
-    vim.api.nvim_set_hl(0, "NeoTreeMessage", { fg = util.lighten(msg_color, 0.9) })
-    local sep_color = "#" .. utils.dec_to_hex(vim.api.nvim_get_hl(0, { name = "NeoTreeWinSeparator" }).fg, 6)
-    vim.api.nvim_set_hl(0, "NeoTreeWinSeparator", { fg = util.lighten(sep_color, 0.8) })
-  end
-end
-
-local function init()
-  local group = vim.api.nvim_create_augroup("neotree_start", { clear = true })
-  vim.api.nvim_create_autocmd("VimEnter", {
-    desc = "Open Neotree automatically",
-    group = group,
-    callback = function()
-      local buffer_path = vim.api.nvim_buf_get_name(0)
-      local fs_info = vim.loop.fs_stat(buffer_path)
-      local is_directory = fs_info ~= nil and fs_info.type == "directory"
-      local is_empty_buffer = buffer_path == ""
-
-      if not (is_empty_buffer or is_directory) then return end
-
-      local dir
-      if is_empty_buffer then
-        dir = vim.fn.getcwd()
-      elseif is_directory then
-        dir = buffer_path
-      end
-
-      vim.cmd("Neotree current dir=" .. dir)
-      vim.api.nvim_clear_autocmds { group = "neotree_start" }
-    end,
-  })
 end
 
 return {
@@ -269,6 +238,40 @@ return {
     { "<localleader>e", "<cmd>Neotree reveal toggle<cr>", desc = "NeoTree" },
   },
   -- deactivate = function() vim.cmd [[Neotree close]] end,
+  init = function()
+    local group = vim.api.nvim_create_augroup("neotree_start", { clear = true })
+    vim.api.nvim_create_autocmd("VimEnter", {
+      desc = "Open Neotree automatically",
+      group = group,
+      callback = function()
+        local buffer_path = vim.api.nvim_buf_get_name(0)
+        local fs_info = vim.loop.fs_stat(buffer_path)
+        local is_directory = fs_info ~= nil and fs_info.type == "directory"
+        local is_empty_buffer = buffer_path == ""
+
+        if not (is_empty_buffer or is_directory) then return end
+
+        local dir
+        if is_empty_buffer then
+          dir = vim.fn.getcwd()
+        elseif is_directory then
+          dir = buffer_path
+        end
+
+        vim.cmd("Neotree current dir=" .. dir)
+        vim.api.nvim_clear_autocmds { group = "neotree_start" }
+
+        if require("utils").has_plugin "onedark" then
+          local util = require "onedark.util"
+          local msg_color = "#"
+              .. require("utils").dec_to_hex(vim.api.nvim_get_hl(0, { name = "NeoTreeMessage" }).fg, 6)
+          vim.api.nvim_set_hl(0, "NeoTreeMessage", { fg = util.lighten(msg_color, 0.9) })
+          local sep_color = "#"
+              .. require("utils").dec_to_hex(vim.api.nvim_get_hl(0, { name = "NeoTreeWinSeparator" }).fg, 6)
+          vim.api.nvim_set_hl(0, "NeoTreeWinSeparator", { fg = util.lighten(sep_color, 0.8) })
+        end
+      end,
+    })
+  end,
   config = config,
-  init = init,
 }
