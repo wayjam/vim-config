@@ -2,7 +2,7 @@ local utils = require "utils"
 local keymap = utils.keymap
 
 local on_attach = function(client, bufnr)
-  if utils.has_plugin "illuminate" then require("illuminate").on_attach(client) end
+  if utils.has_plugin "vim-illuminate" then require("illuminate").on_attach(client) end
 
   if client.config.flags then
     client.config.flags.allow_incremental_sync = true
@@ -11,10 +11,10 @@ local on_attach = function(client, bufnr)
 
   -- Keyboard mappings
   local keymaps = {
-    { "n",          "gD",         vim.lsp.buf.declaration,             "Go to Declaration" },
-    { "n",          "gd",         vim.lsp.buf.definition,              "Go to Definition" },
-    { "n",          "gi",         vim.lsp.buf.implementation,          "Go to Implementation" },
-    { "n",          "gy",         vim.lsp.buf.type_definition,         "Go to Type Definition" },
+    { "n",          "gD",         vim.lsp.buf.declaration,             "Goto Declaration" },
+    { "n",          "gd",         vim.lsp.buf.definition,              "Goto Definition" },
+    { "n",          "gi",         vim.lsp.buf.implementation,          "Goto Implementation" },
+    { "n",          "gy",         vim.lsp.buf.type_definition,         "Goto Type Definition" },
     { "n",          "K",          vim.lsp.buf.hover,                   "Show Hover Documentation" },
     { { "i", "n" }, "<C-k>",      vim.lsp.buf.signature_help,          "Show Signature Help" },
     { "n",          "<leader>wa", vim.lsp.buf.add_workspace_folder,    "Add Workspace Folder" },
@@ -38,7 +38,7 @@ local on_attach = function(client, bufnr)
       "n",
       "gr",
       vim.lsp.buf.references,
-      "Go to References",
+      "Goto References",
     })
   end
 
@@ -106,7 +106,7 @@ end
 
 -- Iterate and setup all language servers and trigger FileType in windows.
 local function setup_servers()
-  if not utils.has_plugin "mason-lspconfig" then return end
+  if not utils.has_plugin "mason-lspconfig.nvim" then return end
   require("mason-lspconfig").setup_handlers {
     -- The first entry (without a key) will be the default handler
     -- and will be called for each installed server that doesn't have
@@ -163,7 +163,7 @@ return {
     if utils.has_plugin "nvim-lightbulb" then
       require("nvim-lightbulb").setup {
         autocmd = { enabled = true },
-        ignore = { "null-ls" },
+        ignore = { clients = { "null-ls" }, actions_without_kind = false },
       }
     end
 

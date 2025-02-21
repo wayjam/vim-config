@@ -17,9 +17,18 @@ return {
     config.defaults.keymap.builtin["<c-b>"] = "preview-page-up"
 
     -- Trouble
-    if require("utils").has_plugin "trouble.nvim" then
-      config.defaults.actions.files["ctrl-t"] = require("trouble.sources.fzf").actions.open
-    end
+    -- if require("utils").has_plugin "trouble.nvim" then
+    --   config.defaults.actions.files["ctrl-t"] = require("trouble.sources.fzf").actions.open
+    -- end
+    -- config.defaults.actions.files["ctrl-t"] = {
+    --   desc = "Open",
+    --   fn = function(selected, opts)
+    --     actions.file_tabedit(selected, opts)
+    --     if require("utils").has_plugin "trouble.nvim" then
+    --       require("trouble.sources.fzf").actions.open.fn(selected, opts)
+    --     end
+    --   end,
+    -- }
 
     local img_previewer ---@type string[]?
     for _, v in ipairs {
@@ -160,11 +169,12 @@ return {
       mode = "t",
       nowait = true,
     },
-    { "<leader>?",  "<cmd>FzfLua<cr>",                                          desc = "Fzf" },
-    { "<leader>:",  "<cmd>FzfLua command_history<cr>",                          desc = "Command History" },
+    { "<leader>?",      "<cmd>FzfLua<cr>",                                          desc = "Fzf" },
+    { "<leader>:",      "<cmd>FzfLua command_history<cr>",                          desc = "Command History" },
+    { "<localleader>?", "<cmd>FzfLua commands<cr>",                                 desc = "Commands" },
     -- find
-    { "<leader>fb", "<cmd>FzfLua buffers sort_mru=true sort_lastused=true<cr>", desc = "Buffers" },
-    { "<leader>ff", "<cmd>FzfLua files<cr>",                                    desc = "Find Files (Root Dir)" },
+    { "<leader>fb",     "<cmd>FzfLua buffers sort_mru=true sort_lastused=true<cr>", desc = "Buffers" },
+    { "<leader>ff",     "<cmd>FzfLua files<cr>",                                    desc = "Find Files (Root Dir)" },
     {
       "<leader>fF",
       function() require("fzf-lua").files { root = false } end,
@@ -173,29 +183,24 @@ return {
     { "<leader>fg", "<cmd>FzfLua git_files<cr>",             desc = "Find Files (git-files)" },
     { "<leader>fr", "<cmd>FzfLua oldfiles<cr>",              desc = "Recent" },
     -- git
-    -- { "<leader>gc", "<cmd>FzfLua git_commits<CR>",           desc = "Commits" },
-    -- { "<leader>gs", "<cmd>FzfLua git_status<CR>",            desc = "Status" },
+    { "<leader>Gc", "<cmd>FzfLua git_commits<CR>",           desc = "Git Commits" },
+    { "<leader>Gs", "<cmd>FzfLua git_status<CR>",            desc = "Git Status" },
+    { "<leader>GB", "<cmd>FzfLua git_branches<CR>",          desc = "Git Branches" },
     -- search
     { "<leader>rs", "<cmd>FzfLua resume<cr>",                desc = "Resume" },
-    -- { '<leader>s"', "<cmd>FzfLua registers<cr>",             desc = "Registers" },
-    -- { "<leader>sa", "<cmd>FzfLua autocmds<cr>",              desc = "Auto Commands" },
     { "<leader>sb", "<cmd>FzfLua grep_curbuf<cr>",           desc = "Buffer" },
     { "<leader>sc", "<cmd>FzfLua command_history<cr>",       desc = "Command History" },
     { "<leader>sC", "<cmd>FzfLua commands<cr>",              desc = "Commands" },
     { "<leader>sd", "<cmd>FzfLua diagnostics_document<cr>",  desc = "Document Diagnostics" },
     { "<leader>sD", "<cmd>FzfLua diagnostics_workspace<cr>", desc = "Workspace Diagnostics" },
-    { "<leader>sg", "<cmd>FzfLua live_grep",                 desc = "Grep (Root Dir)" },
+    { "<leader>sg", "<cmd>FzfLua live_grep<cr>",             desc = "Grep (Root Dir)" },
     {
       "<leader>sG",
       function() require("fzf-lua").live_grep { root = false } end,
       desc = "Grep (cwd)",
     },
-    { "<leader>sh", "<cmd>FzfLua help_tags<cr>",                                   desc = "Help Pages" },
-    { "<leader>sH", "<cmd>FzfLua highlights<cr>",                                  desc = "Search Highlight Groups" },
     { "<leader>sj", "<cmd>FzfLua jumps<cr>",                                       desc = "Jumplist" },
-    { "<leader>sk", "<cmd>FzfLua keymaps<cr>",                                     desc = "Key Maps" },
     { "<leader>sl", "<cmd>FzfLua loclist<cr>",                                     desc = "Location List" },
-    { "<leader>sM", "<cmd>FzfLua man_pages<cr>",                                   desc = "Man Pages" },
     { "<leader>sm", "<cmd>FzfLua marks<cr>",                                       desc = "Jump to Mark" },
     { "<leader>sq", "<cmd>FzfLua quickfix<cr>",                                    desc = "Quickfix List" },
     { "<leader>sw", "<cmd>FzfLua grep_cword<cr>",                                  desc = "Word (Root Dir)" },
@@ -214,21 +219,23 @@ return {
     },
     {
       "<leader>ss",
-      function()
-        require("fzf-lua").lsp_document_symbols {
-          regex_filter = symbols_filter,
-        }
-      end,
+      function() require("fzf-lua").lsp_document_symbols() end,
       desc = "Goto Symbol",
     },
     {
       "<leader>sS",
-      function()
-        require("fzf-lua").lsp_live_workspace_symbols {
-          regex_filter = symbols_filter,
-        }
-      end,
+      function() require("fzf-lua").lsp_live_workspace_symbols() end,
       desc = "Goto Symbol (Workspace)",
+    },
+    {
+      "<leader>gi",
+      function() require("fzf-lua").lsp_implementations() end,
+      desc = "Goto Implementations",
+    },
+    {
+      "gr",
+      function() require("fzf-lua").lsp_references() end,
+      desc = "Goto References",
     },
   },
 }

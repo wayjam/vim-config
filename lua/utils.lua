@@ -130,6 +130,11 @@ function M.file_exists(fname)
 end
 
 function M.has_plugin(name)
+  local installed = vim.tbl_get(require "lazy.core.config", "plugins", name, "_", "installed") ~= nil
+  return installed
+end
+
+function M.is_loaded_package(name)
   if not package.loaded[name] then return false end
   return true
 end

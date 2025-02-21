@@ -29,14 +29,11 @@ Spec "plugins.indentline"
 -- tool
 Spec "plugins.trouble"
 Spec "plugins.neotree"
-Spec "plugins.fugitive"
-Spec "plugins.bqf"
 Spec "plugins.outline"
 Spec "plugins.toggleterm"
 Spec "plugins.illuminate"
 
 -- picker
--- Spec "plugins.telescope"
 Spec "plugins.fzf"
 
 -- snippets

@@ -101,7 +101,7 @@ return {
     opts.sources.compat = nil
     opts.sources.providers = opts.sources.providers or {}
 
-    if utils.has_plugin "codecompanion" then
+    if utils.has_plugin "codecompanion.nvim" then
       table.insert(opts.sources.compat or {}, "codecompanion")
       opts.sources.providers["codecompanion"] = {
         name = "CodeCompanion",
