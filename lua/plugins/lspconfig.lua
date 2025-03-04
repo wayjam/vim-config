@@ -124,7 +124,6 @@ return {
   dependencies = {
     "williamboman/mason.nvim",
     "saghen/blink.cmp",
-    { "kosayoda/nvim-lightbulb", lazy = true },
   },
   on_attach = on_attach,
   config = function()
