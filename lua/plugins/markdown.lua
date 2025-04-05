@@ -10,6 +10,9 @@ return {
       sign = false,
       icons = {},
     },
+    checkbox = {
+      enabled = false,
+    },
   },
   ft = { "markdown", "norg", "rmd", "org", "Avante", "codecompanion" },
   config = function(_, opts)

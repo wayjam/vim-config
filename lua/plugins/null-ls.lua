@@ -141,7 +141,19 @@ end
 return {
   "nvimtools/none-ls.nvim",
   lazy = true,
-  dependencies = { "nvim-lua/plenary.nvim" },
+  dependencies = {
+    "nvim-lua/plenary.nvim",
+    {
+      "jayp0521/mason-null-ls.nvim",
+      event = { "BufReadPre", "BufNewFile" },
+      config = function()
+        require("mason-null-ls").setup {
+          ensure_installed = { "stylua" },
+          automatic_setup = true,
+        }
+      end,
+    },
+  },
   config = function() setup { on_attach = require("plugins.lspconfig").on_attach } end,
   format = async_formatting,
   toggle_autoformat = toggle_autoformat,

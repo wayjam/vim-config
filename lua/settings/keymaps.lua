@@ -177,7 +177,7 @@ keymap("n", "<silent> [Window]x", function()
   vim.api.nvim_buf_delete(bufnr, { force = true })
   vim.api.nvim_set_current_win(winnr)
   vim.api.nvim_set_current_tabpage(tabnr)
-  vim.api.nvim_command "enew"
+  vim.api.nvim_command "new"
 end)
 
 -- Buffer

@@ -1,77 +1,74 @@
-LAZY_PLUGIN_SPEC = {
-  -- basic
-  { "christoomey/vim-tmux-navigator", event = "VeryLazy" },
-  { "gpanders/editorconfig.nvim",     event = "BufReadPre" },
-  { "tpope/vim-surround",             event = "InsertCharPre" },
-}
+local SpecFile = require("utils").SpecFile
+local Spec = require("utils").Spec
 
-function Spec(item)
-  if type(item) == "table" then
-    for _, value in pairs(item) do
-      table.insert(LAZY_PLUGIN_SPEC, { import = value })
-    end
-  else
-    table.insert(LAZY_PLUGIN_SPEC, { import = item })
-  end
-end
+-- basic
+Spec { "christoomey/vim-tmux-navigator", event = "VeryLazy" }
+Spec { "gpanders/editorconfig.nvim", event = "BufReadPre" }
+Spec { "tpope/vim-surround", event = "InsertCharPre" }
 
-Spec "plugins.bigfile"
+SpecFile "plugins.bigfile"
 
 -- UI
-Spec "plugins.colorscheme"
-Spec "plugins.devicons"
-Spec "plugins.lualine"
-Spec "plugins.tabby"
-Spec "plugins.gitsigns"
-Spec "plugins.diffview"
-Spec "plugins.indentline"
+SpecFile "plugins.colorscheme"
+SpecFile "plugins.devicons"
+SpecFile "plugins.lualine"
+SpecFile "plugins.tabby"
+SpecFile "plugins.indentline"
+
+-- git
+SpecFile "plugins.fugitive"
+SpecFile "plugins.gitsigns"
+SpecFile "plugins.diffview"
 
 -- tool
-Spec "plugins.trouble"
-Spec "plugins.neotree"
-Spec "plugins.outline"
-Spec "plugins.toggleterm"
-Spec "plugins.illuminate"
+SpecFile "plugins.trouble"
+SpecFile "plugins.neotree"
+SpecFile "plugins.outline"
+SpecFile "plugins.toggleterm"
+SpecFile "plugins.illuminate"
 
 -- picker
-Spec "plugins.fzf"
+SpecFile "plugins.fzf"
 
 -- snippets
-Spec "plugins.snippets"
+SpecFile "plugins.snippets"
 
 -- complete
--- Spec "plugins.cmp"
-Spec "plugins.blink"
+SpecFile "plugins.blink"
 
 -- test
-Spec "plugins.neotest"
+SpecFile "plugins.neotest"
 
 -- mason
-Spec "plugins.mason"
+SpecFile "plugins.mason"
 
 -- AI
-Spec "plugins.ai"
+SpecFile "plugins.ai"
 
 -- lsp
-Spec "plugins.lspconfig"
-Spec "plugins.null-ls"
+SpecFile "plugins.lspconfig"
+-- SpecFile "plugins.null-ls"
+
+-- format & lint
+SpecFile "plugins.nvim-lint"
+SpecFile "plugins.conform"
 
 -- tool
-Spec "plugins.which_key"
-Spec "plugins.autopairs"
-Spec "plugins.comment"
-Spec "plugins.easy_align"
-Spec "plugins.flash"
-Spec "plugins.truezen"
+SpecFile "plugins.which_key"
+SpecFile "plugins.autopairs"
+SpecFile "plugins.comment"
+SpecFile "plugins.easy_align"
+SpecFile "plugins.flash"
+SpecFile "plugins.truezen"
 
 -- debugger
-Spec "plugins.dap"
+SpecFile "plugins.dap"
 
 -- syntax
-Spec "plugins.treesitter"
+SpecFile "plugins.treesitter"
 
 -- language specify
-Spec "plugins.languages"
-Spec "plugins.markdown"
+SpecFile "plugins.languages"
+SpecFile "plugins.markdown"
 
 return LAZY_PLUGIN_SPEC

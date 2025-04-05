@@ -4,9 +4,9 @@ return {
   config = function()
     -- Git mappings
     local keymap = require("utils").keymap
-    keymap("n", "<Leader>Gs", ":Git status<CR>", { silent = true })
+    -- keymap("n", "<Leader>Gs", ":Git status<CR>", { silent = true })
     keymap("n", "<Leader>Gd", ":Gdiff<CR>", { silent = true })
-    keymap("n", "<Leader>Gc", ":Git commit<CR>", { silent = true })
+    keymap("n", "<Leader>GC", ":Git commit<CR>", { silent = true })
     keymap("n", "<Leader>Gb", ":Git blame<CR>", { silent = true })
     keymap("n", "<Leader>Gl", ":Git log<CR>", { silent = true })
     keymap("n", "<Leader>Gp", ":Git push<CR>", { silent = true })

@@ -44,19 +44,18 @@ return {
       },
     }
 
-    local keymap = require("utils").keymap
-
-    for _, item in ipairs {
-      { "n", "<leader>Gb", "<cmd>Gitsigns blame<CR>",    "Git blame" },
-      { "n", "<leader>Gd", "<cmd>Gitsigns diffthis<CR>", "Git Diffthis" },
-    } do
-      local mode, lhs, rhs, desc = unpack(item)
-      keymap(mode, lhs, rhs, {
-        desc = desc,
-        noremap = true,
-        silent = true,
-      })
-    end
+    -- local keymap = require("utils").keymap
+    -- for _, item in ipairs {
+    --   { "n", "<leader>Gb", "<cmd>Gitsigns blame<CR>", "Git blame" },
+    --   { "n", "<leader>Gd", "<cmd>Gitsigns diffthis<CR>", "Git Diffthis" },
+    -- } do
+    --   local mode, lhs, rhs, desc = unpack(item)
+    --   keymap(mode, lhs, rhs, {
+    --     desc = desc,
+    --     noremap = true,
+    --     silent = true,
+    --   })
+    -- end
   end,
   on_attach = function(bufnr) end,
 }

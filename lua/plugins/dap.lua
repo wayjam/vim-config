@@ -52,8 +52,7 @@ local function config()
     },
   }
 
-  dap.adapters.nlua =
-  function(callback, config) callback { type = "server", host = config.host, port = config.port } end
+  dap.adapters.nlua = function(callback, config) callback { type = "server", host = config.host, port = config.port } end
   dap.adapters.go = function(callback, config)
     local handle
     local pid_or_err
@@ -132,6 +131,9 @@ return {
     event = "VeryLazy",
     init = setup,
     config = config,
+    dependencies = {
+      { "jayp0521/mason-nvim-dap.nvim", lazy = true },
+    },
   },
   {
     "rcarriga/nvim-dap-ui",

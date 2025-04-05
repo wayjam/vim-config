@@ -1,6 +1,19 @@
 local function is_nil(v) return v == vim.NIL end
+LAZY_PLUGIN_SPEC = {}
 
 local M = {}
+
+M.SpecFile = function(item)
+  if type(item) == "table" then
+    for _, value in pairs(item) do
+      table.insert(LAZY_PLUGIN_SPEC, { import = value })
+    end
+  else
+    table.insert(LAZY_PLUGIN_SPEC, { import = item })
+  end
+end
+
+M.Spec = function(item) table.insert(LAZY_PLUGIN_SPEC, item) end
 
 --   Error:   ✘  
 --   Warning:  ⚠  
@@ -147,12 +160,18 @@ end
 function M.source_file(path)
   local full_path = vim.g["CONFIG_PATH"] .. "/" .. path
   if M.file_exists(full_path) then
-    local ok, _ = pcall(vim.cmd, "source " .. full_path)
-    if not ok then vim.api.nvim_echo({ { full_path .. " not sourced", "ErrorMsg" } }, false, {}) end
-    return ok
+    local module_path = string.gsub(path, ".lua", "")
+    module_path = string.gsub(module_path, "^lua/", "") -- 移除 lua/ 前缀
+    module_path = string.gsub(module_path, "/", ".") -- 将 / 替换为 .
+    local status, result = pcall(require, module_path)
+    if not status then
+      vim.api.nvim_err_writeln(string.format("Error loading %s: %s", full_path, result))
+      return false, result
+    end
+    return true, result
+  else
+    return false, "File not found"
   end
-
-  return false
 end
 
 function M.source_dir(path)
@@ -161,19 +180,47 @@ function M.source_dir(path)
 
   for _, file in pairs(paths) do
     if file ~= "" then
-      local ok, _ = pcall(vim.cmd, "source " .. file)
-      if not ok then vim.api.nvim_echo({ { file .. " not sourced", "ErrorMsg" } }, false, {}) end
+      local relative_path = string.gsub(file, vim.g.CONFIG_PATH .. "/", "")
+      relative_path = string.gsub(relative_path, ".lua", "")
+      relative_path = string.gsub(relative_path, "^lua/", "") -- 移除 lua/ 前缀
+      relative_path = string.gsub(relative_path, "/", ".") -- 将 / 替换为 .
+
+      local status, result = pcall(require, relative_path)
+      if not status then vim.api.nvim_err_writeln(string.format("Error loading %s: %s", file, result)) end
     end
   end
 end
 
+-- function M.source_file(path)
+--   local full_path = vim.g["CONFIG_PATH"] .. "/" .. path
+--   if M.file_exists(full_path) then
+--     local ok, _ = pcall(vim.cmd, "source " .. full_path)
+--     if not ok then vim.api.nvim_echo({ { full_path .. " not sourced", "ErrorMsg" } }, false, {}) end
+--     return ok
+--   end
+--
+--   return false
+-- end
+--
+-- function M.source_dir(path)
+--   local dir = vim.g.CONFIG_PATH .. "/" .. path .. "/**/*.lua"
+--   local paths = vim.split(vim.fn.glob(dir), "\n")
+--
+--   for _, file in pairs(paths) do
+--     if file ~= "" then
+--       local ok, _ = pcall(vim.cmd, "source " .. file)
+--       if not ok then vim.api.nvim_echo({ { file .. " not sourced", "ErrorMsg" } }, false, {}) end
+--     end
+--   end
+-- end
+
 function M.get_config_path()
   local fn = vim.fn
   local path = vim.g.etc_vim_path
-      or fn.stdpath "config"
-      or (not is_nil(fn.getenv "$MYVIMRC") and fn.fnamemodify(fn.expand(fn.getenv "$MYVIMRC"), ":h") or "")
-      or (not is_nil(fn.getenv "$VIMCONFIG") and fn.expand(fn.getenv "$VIMCONFIG") or "")
-      or fn.fnamemodify(fn.resolve(fn.expand "<sfile>:p"), ":h")
+    or fn.stdpath "config"
+    or (not is_nil(fn.getenv "$MYVIMRC") and fn.fnamemodify(fn.expand(fn.getenv "$MYVIMRC"), ":h") or "")
+    or (not is_nil(fn.getenv "$VIMCONFIG") and fn.expand(fn.getenv "$VIMCONFIG") or "")
+    or fn.fnamemodify(fn.resolve(fn.expand "<sfile>:p"), ":h")
 
   return path
 end
@@ -183,7 +230,7 @@ function M.get_data_path()
   local xdg_data_home = fn.getenv "$XDG_DATA_HOME"
 
   local path = fn.stdpath "data"
-      or fn.expand((not is_nil(xdg_data_home) and xdg_data_home or "~/.local/share") .. "/nvim", 1)
+    or fn.expand((not is_nil(xdg_data_home) and xdg_data_home or "~/.local/share") .. "/nvim", 1)
 
   return path
 end
@@ -197,9 +244,9 @@ function M.check_version(expected_ver)
   elseif current_ver.major == expected_ver.major and current_ver.minor > expected_ver.minor then
     return
   elseif
-      current_ver.major == expected_ver.major
-      and current_ver.minor == expected_ver.minor
-      and current_ver.patch > expected_ver.patch
+    current_ver.major == expected_ver.major
+    and current_ver.minor == expected_ver.minor
+    and current_ver.patch > expected_ver.patch
   then
     return
   else

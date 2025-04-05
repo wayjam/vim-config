@@ -1,14 +1,3 @@
-local function try_require_null_ls(source_name)
-  local types = { "formatting", "diagnostics" }
-  local ok = false
-  local source = nil
-  for _, t in ipairs(types) do
-    ok, source = pcall(require, string.format("null-ls.builtins.%s.%s", t, source_name))
-    if ok then break end
-  end
-  return ok, source
-end
-
 local config = function()
   local mason = require "mason"
   local mason_lspconfig = require "mason-lspconfig"
@@ -35,11 +24,6 @@ local config = function()
     },
   }
 
-  require("mason-null-ls").setup {
-    ensure_installed = { "stylua" },
-    automatic_setup = true,
-  }
-
   require("mason-nvim-dap").setup {
     ensure_installed = {},
   }
@@ -50,14 +34,9 @@ return {
   lazy = true,
   cmd = { "Mason", "MasonInstall", "MasonUninstall", "MasonUninstallAll", "MasonLog" },
   dependencies = {
-    { "jayp0521/mason-nvim-dap.nvim", lazy = true },
     {
       "williamboman/mason-lspconfig.nvim",
       lazy = true,
-    },
-    {
-      "jayp0521/mason-null-ls.nvim",
-      event = { "BufReadPre", "BufNewFile" },
     },
   },
   build = ":MasonUpdate",

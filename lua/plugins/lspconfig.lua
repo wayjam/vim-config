@@ -11,25 +11,25 @@ local on_attach = function(client, bufnr)
 
   -- Keyboard mappings
   local keymaps = {
-    { "n",          "gD",         vim.lsp.buf.declaration,             "Goto Declaration" },
-    { "n",          "gd",         vim.lsp.buf.definition,              "Goto Definition" },
-    { "n",          "gi",         vim.lsp.buf.implementation,          "Goto Implementation" },
-    { "n",          "gy",         vim.lsp.buf.type_definition,         "Goto Type Definition" },
-    { "n",          "K",          vim.lsp.buf.hover,                   "Show Hover Documentation" },
-    { { "i", "n" }, "<C-k>",      vim.lsp.buf.signature_help,          "Show Signature Help" },
-    { "n",          "<leader>wa", vim.lsp.buf.add_workspace_folder,    "Add Workspace Folder" },
-    { "n",          "<leader>wr", vim.lsp.buf.remove_workspace_folder, "Remove Workspace Folder" },
+    { "n", "gD", vim.lsp.buf.declaration, "Goto Declaration" },
+    { "n", "gd", vim.lsp.buf.definition, "Goto Definition" },
+    { "n", "gi", vim.lsp.buf.implementation, "Goto Implementation" },
+    { "n", "gy", vim.lsp.buf.type_definition, "Goto Type Definition" },
+    { "n", "K", vim.lsp.buf.hover, "Show Hover Documentation" },
+    { { "i", "n" }, "<C-k>", vim.lsp.buf.signature_help, "Show Signature Help" },
+    { "n", "<leader>wa", vim.lsp.buf.add_workspace_folder, "Add Workspace Folder" },
+    { "n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, "Remove Workspace Folder" },
     {
       "n",
       "<leader>wl",
       function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end,
       "List Workspace Folders",
     },
-    { "n", "<leader>rn", vim.lsp.buf.rename,        "Rename Symbol" },
-    { "n", "<leader>ca", vim.lsp.buf.code_action,   "Code Action" },
-    { "n", "<leader>e",  vim.diagnostic.open_float, "Open Diagnostic Float" },
-    { "n", "[d",         vim.diagnostic.goto_prev,  "Prev Diagnostic" },
-    { "n", "]d",         vim.diagnostic.goto_next,  "Next Diagnostic" },
+    { "n", "<leader>rn", vim.lsp.buf.rename, "Rename Symbol" },
+    { "n", "<leader>ca", vim.lsp.buf.code_action, "Code Action" },
+    { "n", "<leader>e", vim.diagnostic.open_float, "Open Diagnostic Float" },
+    { "n", "[d", vim.diagnostic.goto_prev, "Prev Diagnostic" },
+    { "n", "]d", vim.diagnostic.goto_next, "Next Diagnostic" },
     { "n", "<leader>el", vim.diagnostic.setloclist, "Set LocList" },
   }
 
@@ -63,7 +63,7 @@ local function make_config(server_name)
 
   if utils.has_plugin "blink.cmp" then capabilities = require("blink.cmp").get_lsp_capabilities(capabilities) end
 
-  vim.tbl_extend("keep", capabilities, {
+  vim.tbl_deep_extend("keep", capabilities, {
     textDocument = {
       completion = {
         completionItem = {
@@ -84,8 +84,15 @@ local function make_config(server_name)
         lineFoldingOnly = true,
       },
     },
-    offsetEncoding = { "utf-16" }, -- for null-ls
   })
+
+  vim.tbl_deep_extend("force", capabilities, {
+    offsetEncoding = { "utf-16" },
+    general = {
+      positionEncodings = { "utf-16" },
+    },
+  })
+  if ls == "clangd" then capabilities.offsetEncoding = { "utf-16" } end
 
   local config = {
     on_attach = on_attach,
@@ -142,7 +149,7 @@ return {
         focusable = true,
         style = "minimal",
         border = "rounded",
-        source = "always",
+        source = true,
         header = "",
         prefix = "",
       },
