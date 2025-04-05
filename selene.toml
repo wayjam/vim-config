@@ -1,0 +1,78 @@
+# selene.toml - Selene configuration for a Neovim config project
+
+# --- Basic Settings ---
+
+# Specifies the Lua standard the project adheres to. Neovim uses LuaJIT, which is highly compatible with Lua 5.1.
+std = "lua51"
+
+# --- Globals ---
+# Define global variables provided by the Neovim environment here to avoid "undefined_variable" warnings.
+# This is the most important part because Neovim injects the `vim` global variable.
+# You may also need to add other global variables set by plugins or your configuration.
+[global]
+vim = "ReadOnly"    # Neovim's main API entry point
+require = "ReadOnly" # Lua's require function
+# If you use a testing framework (like plenary.busted), you may need to add describe, it, etc.
+# describe = "ReadOnly"
+# it = "ReadOnly"
+# before_each = "ReadOnly"
+# after_each = "ReadOnly"
+# If you define global helper functions in init.lua or other early-loaded files, add them here as well.
+# my_global_helper = "ReadOnly"
+
+# --- Linting Rules ---
+# Enable or disable specific linting checks.
+# You can adjust the strictness of rules here or disable them entirely.
+# By default, Selene enables most useful rules.
+# Rule list: https://kampfkarren.github.io/selene/check/
+[lint]
+# Common useful rules (usually enabled by default, listed here explicitly for reference)
+undefined_variable = "Error" # Checks for undefined variables (requires correct [global] configuration)
+unused_variable = "Warn"     # Checks for unused local variables
+shadowing = "Warn"           # Checks for variable shadowing
+incorrect_standard_library_use = "Warn" # Checks for incorrect usage of standard library functions
+empty_block = "Warn"         # Checks for empty do..end, then..end, etc. blocks
+cyclical_require = "Error"   # Checks for circular dependencies
+
+# Example rules you might want to disable or adjust:
+# global_usage = "Allow" # If you really need to use global variables in multiple places (besides those defined above), you can relax this rule.
+# implicit_any = "Allow" # If you don't care about type inference for function parameters/return values (Selene is limited in this regard).
+
+# --- Style Rules ---
+# Configure code style related checks.
+# Rule list: https://kampfkarren.github.io/selene/style/
+[style]
+# Line length limit (adjust according to your preference)
+line_length = { level = "Warn", limit = 100 }
+
+# Spacing rules (keeping the defaults is usually fine)
+spaces_around_operators = "Enforce"
+spaces_after_commas = "Enforce"
+spaces_in_brackets = "Enforce" # e.g., table = { key = value }
+
+# Other style rules
+trailing_whitespace = "Warn"
+# leading_zero = "Enforce" # Whether to enforce 0.5 instead of .5
+# unnecessary_double_quotes = "Warn" # Prefer using single quotes ''
+
+# Naming conventions (optional, might be too strict, depends on team or personal habits)
+# variable_naming_convention = { level = "Warn", convention = "snake_case" }
+# function_naming_convention = { level = "Warn", convention = "snake_case" }
+
+# --- Options ---
+[options]
+# Ignore specific files or directories.
+# Use glob patterns.
+ignore = [
+    ".git/",            # Ignore Git directory
+    "pack/",            # Ignore Vim/Neovim package manager directory (if you use packadd)
+    "lazy-lock.json",   # Ignore lazy.nvim's lock file
+    "plugin/packer_compiled.lua", # Ignore packer.nvim's compiled file (if used)
+    "target/",          # Ignore Rust/Cargo build output (if your configuration involves Rust)
+    # Add other paths to ignore, such as test data, temporary files, etc.
+    # "lua/tests/fixtures/",
+]
+
+# Configure output format (optional)
+# output_format = "Compact" # or "Json", "Tap"
+
