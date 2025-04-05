@@ -136,7 +136,14 @@ return {
   config = function()
     -- Diagnostics signs and highlights
     vim.diagnostic.config {
-      signs = true,
+      signs = {
+        text = {
+          [vim.diagnostic.severity.ERROR] = utils.signs["BoldError"],
+          [vim.diagnostic.severity.WARN] = utils.signs["BoldWarning"],
+          [vim.diagnostic.severity.INFO] = utils.signs["BoldInformation"],
+          [vim.diagnostic.severity.HINT] = utils.signs["BoldQuestion"],
+        },
+      },
       virtual_text = {
         source = "if_many",
         spacing = 4,
@@ -154,10 +161,6 @@ return {
         prefix = "",
       },
     }
-    for type, icon in pairs(utils.signs) do
-      local hl = "DiagnosticSign" .. type
-      vim.fn.sign_define(hl, { texthl = hl, text = icon, numhl = "" })
-    end
 
     -- Configure hover (normal K) handle
     vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })

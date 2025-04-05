@@ -9,7 +9,7 @@ local function config()
     enable_git_status = true,
     enable_diagnostics = false,
     sort_case_insensitive = false, -- used when sorting files and directories in the tree
-    sort_function = nil,           -- use a custom function for sorting files and directories in the tree
+    sort_function = nil, -- use a custom function for sorting files and directories in the tree
     -- sort_function = function (a,b)
     --       if a.type == b.type then
     --           return a.path > b.path
@@ -72,7 +72,7 @@ local function config()
     use_default_mappings = false,
     window = {
       position = "left",
-      width = 35,
+      width = 30,
       mapping_options = {
         noremap = true,
         nowait = true,
@@ -264,10 +264,10 @@ return {
         if require("utils").has_plugin "onedark" then
           local util = require "onedark.util"
           local msg_color = "#"
-              .. require("utils").dec_to_hex(vim.api.nvim_get_hl(0, { name = "NeoTreeMessage" }).fg, 6)
+            .. require("utils").dec_to_hex(vim.api.nvim_get_hl(0, { name = "NeoTreeMessage" }).fg, 6)
           vim.api.nvim_set_hl(0, "NeoTreeMessage", { fg = util.lighten(msg_color, 0.9) })
           local sep_color = "#"
-              .. require("utils").dec_to_hex(vim.api.nvim_get_hl(0, { name = "NeoTreeWinSeparator" }).fg, 6)
+            .. require("utils").dec_to_hex(vim.api.nvim_get_hl(0, { name = "NeoTreeWinSeparator" }).fg, 6)
           vim.api.nvim_set_hl(0, "NeoTreeWinSeparator", { fg = util.lighten(sep_color, 0.8) })
         end
       end,
