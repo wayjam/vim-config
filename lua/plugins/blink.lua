@@ -19,8 +19,8 @@ return {
   opts = {
     enabled = function()
       return not vim.tbl_contains({ "lua", "markdown" }, vim.bo.filetype)
-          and vim.bo.buftype ~= "prompt"
-          and vim.b.completion ~= false
+        and vim.bo.buftype ~= "prompt"
+        and vim.b.completion ~= false
     end,
     snippets = {
       preset = "luasnip",
@@ -68,6 +68,7 @@ return {
       -- adding any nvim-cmp sources here will enable them
       -- with blink.compat
       compat = {},
+      per_filetype = {},
       default = { "lsp", "path", "snippets", "buffer" },
     },
 
@@ -101,14 +102,7 @@ return {
     opts.sources.compat = nil
     opts.sources.providers = opts.sources.providers or {}
 
-    if utils.has_plugin "codecompanion.nvim" then
-      table.insert(opts.sources.compat or {}, "codecompanion")
-      opts.sources.providers["codecompanion"] = {
-        name = "CodeCompanion",
-        module = "codecompanion.providers.completion.blink",
-        enabled = true,
-      }
-    end
+    if utils.has_plugin "codecompanion.nvim" then opts.sources.per_filetype["codecompanion"] = { "codecompanion" } end
 
     -- check if we need to override symbol kinds
     for _, provider in pairs(opts.sources.providers or {}) do

@@ -322,4 +322,14 @@ function M.get_clients(opts)
   return opts and opts.filter and vim.tbl_filter(opts.filter, ret) or ret
 end
 
+function M.getenv_with_default(env_name, default_value)
+  --- get env variable or using default var
+  --- @param env_name string
+  --- @param default_value any
+  --- @return any
+
+  local env_value = os.getenv(env_name)
+  return env_value or default_value
+end
+
 return M

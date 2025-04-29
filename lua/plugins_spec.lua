@@ -43,7 +43,7 @@ SpecFile "plugins.neotest"
 SpecFile "plugins.mason"
 
 -- AI
-SpecFile "plugins.ai"
+SpecFile "plugins.codecompanion"
 
 -- lsp
 SpecFile "plugins.lspconfig"
