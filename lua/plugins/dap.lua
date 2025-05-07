@@ -131,9 +131,16 @@ return {
     event = "VeryLazy",
     init = setup,
     config = config,
-    dependencies = {
-      { "jayp0521/mason-nvim-dap.nvim", lazy = true },
-    },
+  },
+  {
+    "jayp0521/mason-nvim-dap.nvim",
+    lazy = true,
+    dependencies = { "mason-org/mason.nvim", "mfussenegger/nvim-dap" },
+    config = function()
+      require("mason-nvim-dap").setup {
+        ensure_installed = {},
+      }
+    end,
   },
   {
     "rcarriga/nvim-dap-ui",

@@ -18,13 +18,10 @@ return {
   },
   opts = {
     enabled = function()
-      return not vim.tbl_contains({ "lua", "markdown" }, vim.bo.filetype)
+      return not vim.tbl_contains({ "markdown" }, vim.bo.filetype)
         and vim.bo.buftype ~= "prompt"
         and vim.b.completion ~= false
     end,
-    snippets = {
-      preset = "luasnip",
-    },
     appearance = {
       -- sets the fallback highlight groups to nvim-cmp's highlight groups
       -- useful for when your theme doesn't support blink.cmp
@@ -72,8 +69,10 @@ return {
       default = { "lsp", "path", "snippets", "buffer" },
     },
 
+    fuzzy = { implementation = "prefer_rust_with_warning" },
+
     keymap = {
-      preset = "enter",
+      preset = "default",
       ["<C-y>"] = { "select_and_accept" },
       ["<C-e>"] = { "show" },
       ["<S-CR>"] = { "hide" },
@@ -126,13 +125,6 @@ return {
         -- Unset custom prop to pass blink.cmp validation
         provider.kind = nil
       end
-    end
-
-    -- custom kind icon
-    local icons = require("lsp.kind").icons
-    opts.appearance.kind_icons = {}
-    for key, icon in pairs(require("blink.cmp.config.appearance").default.kind_icons) do
-      if icons[key] ~= nil then opts.appearance.kind_icons[key] = icons[key] end
     end
 
     require("blink.cmp").setup(opts)

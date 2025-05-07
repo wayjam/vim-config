@@ -50,6 +50,13 @@ return {
     },
     opts = {
       adapters = {},
+      display = {
+        chat = {
+          window = {
+            layout = "float", -- float|vertical|horizontal|buffer
+          },
+        },
+      },
       strategies = {
         inline = { adapter = "copilot" },
         chat = {
@@ -87,8 +94,6 @@ return {
       local default_provider = "ollama"
 
       if getenv("AI_OLLAMA_ENABLED", "false") == "true" then
-        print(getenv("AI_OLLAMA_ENABLED", "false"))
-
         opts.adapters["ollama"] = function()
           return require("codecompanion.adapters").extend("ollama", {
             env = {

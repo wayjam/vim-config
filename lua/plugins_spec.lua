@@ -47,7 +47,6 @@ SpecFile "plugins.codecompanion"
 
 -- lsp
 SpecFile "plugins.lspconfig"
--- SpecFile "plugins.null-ls"
 
 -- format & lint
 SpecFile "plugins.nvim-lint"

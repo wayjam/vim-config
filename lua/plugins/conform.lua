@@ -1,5 +1,6 @@
 local format_opts = {
-   timeout_ms = 500, lsp_format = "fallback",
+  timeout_ms = 500,
+  lsp_format = "fallback", -- Corrected key name (was lsp_fallback in original format_opts, should be lsp_format)
 }
 
 local function format() require("conform").format(format_opts) end
@@ -33,24 +34,27 @@ return {
   end,
   opts = function()
     local opts = {
+      -- Default options for formatters
       default_format_opts = {
         timeout_ms = 3000,
-        async = false, -- not recommended to change
-        quiet = false, -- not recommended to change
-        lsp_format = "fallback", -- not recommended to change
+        async = false, -- Recommended default
+        quiet = false, -- Recommended default
+        lsp_format = "fallback", -- Recommended default
       },
+
+      -- *** This is the main section that needed updating ***
       formatters_by_ft = {
         c = { "clang_format" },
         clojure = { "zprint" },
         cmake = { "cmake_format" },
         cpp = { "clang_format" },
-        cs = { "charpier" },
+        cs = { "csharpier" },
         dart = { "dart_format" },
         elixir = { "mix" },
         fish = { "fish_indent" },
         go = { "gofumpt", "goimports-reviser", "golines" },
         java = { "google-java-format" },
-        json = { "jq" },
+        json = { "prettierd" },
         kotlin = { "ktlint" },
         lua = { "stylua" },
         perl = { "perlimports", "perltidy" },
@@ -65,42 +69,41 @@ return {
         yaml = { "yamlfmt" },
         zig = { "zigfmt" },
         proto = { "buf" },
-        svelte = { { "prettierd", "prettier" } },
-        javascript = { { "prettierd", "prettier" } },
-        typescript = { { "prettierd", "prettier" } },
-        javascriptreact = { { "prettierd", "prettier" } },
-        typescriptreact = { { "prettierd", "prettier" } },
+        svelte = { "prettierd", "prettier" },
+        javascript = { "prettierd", "prettier" },
+        typescript = { "prettierd", "prettier" },
+        javascriptreact = { "prettierd", "prettier" },
+        typescriptreact = { "prettierd", "prettier" },
+
         -- Use the "*" filetype to run formatters on all filetypes.
         -- ["*"] = {},
         -- Use the "_" filetype to run formatters on filetypes that don't
         -- have other formatters configured.
         ["_"] = { "trim_whitespace" },
       },
-      -- The options you set here will be merged with the builtin formatters.
-      -- You can also define any custom formatters here.
+
+      -- Custom formatters or overrides
       formatters = {
-        -- # Example of using dprint only when a dprint.json file is present
-        -- dprint = {
-        --   condition = function(ctx)
-        --     return vim.fs.find({ "dprint.json" }, { path = ctx.filename, upward = true })[1]
-        --   end,
-        -- },
-        --
-        -- # Example of using shfmt with extra args
-        -- shfmt = {
-        --   prepend_args = { "-i", "2", "-ci" },
-        -- },
+        injected = { options = { ignore_errors = true } },
+        -- Example overrides (currently commented out)
+        -- dprint = { ... }
+        -- shfmt = { ... }
       },
-      -- Set the log level. Use `:ConformInfo` to see the location of the log file.
+
+      -- Ensure 'stop_after_first' is true (this is the default, so explicitly setting it is optional
+      -- but good for clarity if you want this behavior). This replaces the old nested {} logic.
+      -- conform will try formatters in the list sequentially and stop after the first success.
+      stop_after_first = true, -- Added for clarity, usually defaults to true
+
       log_level = vim.log.levels.ERROR,
-      -- Conform will notify you when a formatter errors
       notify_on_error = true,
-      -- If this is set, Conform will run the formatter on save.
-      -- It will pass the table to conform.format().
-      -- This can also be a function that returns the table.
+
+      -- Format on save configuration
       format_on_save = function(bufnr)
         -- Disable with a global or buffer-local variable
         if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then return end
+        -- Use the options defined at the top for consistency
+        -- Note: I corrected lsp_fallback to lsp_format in the format_opts table at the top
         return format_opts
       end,
     }

@@ -37,36 +37,30 @@ return {
       end
     end
 
-
-    require("tabby.tabline").set(function(line)
-      return {
-        {
-          { " 󰓩  ", hl = theme.head },
-          { tab_count(), hl = theme.head },
-          -- line.sep(" ", theme.head, theme.fill),
-          line.sep(" ", theme.head, theme.fill),
-        },
-        line.tabs().foreach(function(tab)
-          local hl = tab.is_current() and theme.current_tab or theme.tab
-          return {
-            -- line.sep("", hl, theme.fill),
-            line.sep("", hl, theme.fill),
-            { tab.is_current() and "" or "", fg = theme.current_tab },
-            tab.number(),
-            tab_name(tab),
-            -- tab.close_btn("󰅖 "),
-            -- line.sep(" ", hl, theme.fill),
-            line.sep("", hl, theme.fill),
-            hl = hl,
-            margin = " ",
-          }
-        end),
-        hl = theme.fill,
-      }
-    end, {
-      buf_name = {
-        mode = "unique",
-      },
-    })
+    require("tabby").setup {
+      line = function(line)
+        return {
+          {
+            { " 󰓩  ", hl = theme.head },
+            { tab_count(), hl = theme.head },
+            line.sep(" ", theme.head, theme.fill),
+          },
+          line.tabs().foreach(function(tab)
+            local hl = tab.is_current() and theme.current_tab or theme.tab
+            return {
+              line.sep("", hl, theme.fill),
+              tab.is_current() and "" or "",
+              tab.number(),
+              tab_name(tab),
+              line.sep("", hl, theme.fill),
+              hl = hl,
+              margin = " ",
+            }
+          end),
+          hl = theme.fill,
+        }
+      end,
+      option = { theme = theme }, -- setup modules' option,
+    }
   end,
 }
