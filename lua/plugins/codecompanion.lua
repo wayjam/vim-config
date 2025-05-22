@@ -21,7 +21,6 @@ return {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
     },
-    event = "VeryLazy",
     keys = {
       {
         "<leader>ac",
@@ -54,6 +53,8 @@ return {
         chat = {
           window = {
             layout = "float", -- float|vertical|horizontal|buffer
+            height = 0.8,
+            width = 0.6,
           },
         },
       },
@@ -128,6 +129,9 @@ return {
       end
 
       opts.strategies.chat.adapter = default_provider
+
+      local ok, customize = pcall(require, "customize.codecompanion")
+      if ok then customize.config(_, opts) end
 
       require("codecompanion").setup(opts)
     end,

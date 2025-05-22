@@ -1,15 +1,11 @@
 return {
   "saghen/blink.cmp",
-  version = "*",
+  version = "1.*",
   event = {
     "InsertEnter",
   },
   dependencies = {
     "L3MON4D3/LuaSnip",
-    {
-      "olimorris/codecompanion.nvim",
-      optional = true,
-    },
     {
       "saghen/blink.compat",
       optional = true, -- make optional so it's only enabled if any extras need it
@@ -54,8 +50,12 @@ return {
         auto_show_delay_ms = 200,
       },
       ghost_text = {
-        enabled = false,
+        enabled = true,
       },
+      -- trigger = {
+      -- for super-tab
+      -- show_in_snippet = false,
+      -- },
     },
 
     -- experimental signature help support

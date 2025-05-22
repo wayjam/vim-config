@@ -8,8 +8,8 @@ local function format() require("conform").format(format_opts) end
 return {
   "stevearc/conform.nvim",
   dependencies = { "mason.nvim", "zapling/mason-conform.nvim" },
-  event = { "BufWritePre" },
-  cmd = "ConformInfo",
+  event = "VeryLazy",
+  cmd = { "ConformInfo" },
   keys = {
     {
       "<leader>cF",

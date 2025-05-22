@@ -1,6 +1,26 @@
-local function config()
-  require("colorizer").setup {
-    { "css", "javascript", "lua", "vim", "toml", "svelte", "typescript", "tmux", "stylus", "sass", "scss", "html" },
+local ft = {
+  "css",
+  "javascript",
+  "lua",
+  "vim",
+  "toml",
+  "svelte",
+  "typescript",
+  "tmux",
+  "stylus",
+  "sass",
+  "scss",
+  "html",
+  "markdown",
+  "javascriptreact",
+  "typescriptreact",
+}
+
+return {
+  "catgoose/nvim-colorizer.lua",
+  ft = ft,
+  opts = {
+    filetypes = ft,
     user_default_options = {
       RGB = true, -- #RGB hex codes
       RRGGBB = true, -- #RRGGBB hex codes
@@ -13,7 +33,5 @@ local function config()
       -- Available modes: foreground, background, virtualtext
       mode = "background", -- Set the display mode.)
     },
-  }
-end
-
-return { config = config }
+  },
+}

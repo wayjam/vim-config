@@ -1,6 +1,6 @@
 return {
   "nvim-neotest/neotest",
-  event = "VeryLazy",
+  cmd = { "Neotest" },
   dependencies = {
     "nvim-treesitter/nvim-treesitter",
     -- general tests
@@ -12,22 +12,8 @@ return {
     "rouge8/neotest-rust",
     "nvim-neotest/neotest-go",
   },
-  config = function()
+  init = function()
     local neotest = require "neotest"
-
-    neotest.setup {
-      adapters = {
-        require "neotest-python" {
-          dap = { justMyCode = false },
-        },
-        require "neotest-go",
-        require "neotest-vitest",
-        require "neotest-vim-test" {
-          ignore_file_types = { "python", "vim", "lua", "javascript", "typescript" },
-        },
-      },
-    }
-
     local keymaps = {
       { "n", "<leader>tt", function() neotest.run.run() end, "Run Nearest Test" },
       { "n", "<leader>tf", function() neotest.run.run(vim.fn.expand "%") end, "Run File Test" },
@@ -45,5 +31,22 @@ return {
         desc = desc,
       })
     end
+  end,
+  config = function()
+    local neotest = require "neotest"
+
+    neotest.setup {
+      adapters = {
+        require "neotest-python" {
+          dap = { justMyCode = false },
+        },
+        require "neotest-go",
+        require "neotest-vitest",
+        require "neotest-rust",
+        require "neotest-vim-test" {
+          ignore_file_types = { "python", "vim", "lua", "javascript", "typescript" },
+        },
+      },
+    }
   end,
 }

@@ -58,7 +58,7 @@ SpecFile "plugins.autopairs"
 SpecFile "plugins.comment"
 SpecFile "plugins.easy_align"
 SpecFile "plugins.flash"
-SpecFile "plugins.truezen"
+SpecFile "plugins.zenmode"
 
 -- debugger
 SpecFile "plugins.dap"
@@ -69,5 +69,6 @@ SpecFile "plugins.treesitter"
 -- language specify
 SpecFile "plugins.languages"
 SpecFile "plugins.markdown"
+SpecFile "plugins.colorizer"
 
 return LAZY_PLUGIN_SPEC

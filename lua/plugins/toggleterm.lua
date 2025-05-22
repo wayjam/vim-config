@@ -18,7 +18,14 @@ end
 return {
   "akinsho/toggleterm.nvim",
   version = "*",
-  cmd = "ToggleTerm",
+  cmd = {
+    "ToggleTerm",
+    "TermExec",
+    "ToggleTermToggleAll",
+    "ToggleTermSendCurrentLine",
+    "ToggleTermSendVisualLines",
+    "ToggleTermSendVisualSelection",
+  },
   keys = {
     { "<localleader><tab>", desc = "ToggleTerm" },
   },

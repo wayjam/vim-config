@@ -1,7 +1,7 @@
 return {
   "L3MON4D3/LuaSnip",
-  event = "VeryLazy",
   version = "v2.*",
+  lazy = true,
   dependencies = {
     "rafamadriz/friendly-snippets",
     lazy = true,
@@ -12,7 +12,22 @@ return {
     region_check_events = "CursorMoved",
   },
   specs = {
-    { "Saghen/blink.cmp", optional = true, opts = { snippets = { preset = "luasnip" } } },
+    {
+      "Saghen/blink.cmp",
+      optional = true,
+      opts = {
+        snippets = {
+          preset = "luasnip",
+        },
+        sources = {
+          providers = {
+            snippets = {
+              should_show_items = function(ctx) return ctx.trigger.initial_kind ~= "trigger_character" end,
+            },
+          },
+        },
+      },
+    },
   },
   config = function(_, opts)
     require("luasnip").config.setup(opts)

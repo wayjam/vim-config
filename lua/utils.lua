@@ -1,9 +1,15 @@
+---@param v any
+---@return boolean
 local function is_nil(v) return v == vim.NIL end
+
+---@type table[]
 LAZY_PLUGIN_SPEC = {}
 
+---@class Utils
 local M = {}
 
-M.SpecFile = function(item)
+---@param item string|table
+function M.SpecFile(item)
   if type(item) == "table" then
     for _, value in pairs(item) do
       table.insert(LAZY_PLUGIN_SPEC, { import = value })
@@ -13,12 +19,10 @@ M.SpecFile = function(item)
   end
 end
 
-M.Spec = function(item) table.insert(LAZY_PLUGIN_SPEC, item) end
+---@param item any
+function M.Spec(item) table.insert(LAZY_PLUGIN_SPEC, item) end
 
---   Error:   ✘  
---   Warning:  ⚠  
---   Hint:   
---   Information:   ⁱ  
+---@type table<string, string>
 M.signs = {
   Error = "",
   Warn = "",
@@ -36,6 +40,7 @@ M.signs = {
   OK = "",
 }
 
+---@type table<string, string>
 M.git_symbols = {
   Added = "",
   Modified = "",
@@ -48,6 +53,7 @@ M.git_symbols = {
   Ignored = "⊙",
 }
 
+---@type table<string, string>
 M.icons = {
   ArrowCircleDown = "",
   ArrowCircleLeft = "",
@@ -130,39 +136,52 @@ M.icons = {
   TriangleShortArrowUp = "",
 }
 
+---@type table
 M.color = {}
 
+---@param name string
+---@return string
 function M.padded_signs(name)
   local pad = vim.g.global_symbol_padding or " "
   return M.signs[name] .. pad
 end
 
+---@param fname string
+---@return boolean|string
 function M.file_exists(fname)
   local stat = vim.loop.fs_stat(fname)
   return (stat and stat.type) or false
 end
 
+---@param name string
+---@return boolean
 function M.has_plugin(name)
   local installed = vim.tbl_get(require "lazy.core.config", "plugins", name, "_", "installed") ~= nil
   return installed
 end
 
+---@param name string
+---@return boolean
 function M.is_loaded_package(name)
   if not package.loaded[name] then return false end
   return true
 end
 
+---@param name string
+---@return boolean
 function M.executable(name)
   if vim.fn.executable(name) > 0 then return true end
   return false
 end
 
+---@param path string
+---@return boolean, any
 function M.source_file(path)
   local full_path = vim.g["CONFIG_PATH"] .. "/" .. path
   if M.file_exists(full_path) then
     local module_path = string.gsub(path, ".lua", "")
-    module_path = string.gsub(module_path, "^lua/", "") -- 移除 lua/ 前缀
-    module_path = string.gsub(module_path, "/", ".") -- 将 / 替换为 .
+    module_path = string.gsub(module_path, "^lua/", "")
+    module_path = string.gsub(module_path, "/", ".")
     local status, result = pcall(require, module_path)
     if not status then
       vim.api.nvim_err_writeln(string.format("Error loading %s: %s", full_path, result))
@@ -174,6 +193,7 @@ function M.source_file(path)
   end
 end
 
+---@param path string
 function M.source_dir(path)
   local dir = vim.g.CONFIG_PATH .. "/" .. path .. "/**/*.lua"
   local paths = vim.split(vim.fn.glob(dir), "\n")
@@ -182,8 +202,8 @@ function M.source_dir(path)
     if file ~= "" then
       local relative_path = string.gsub(file, vim.g.CONFIG_PATH .. "/", "")
       relative_path = string.gsub(relative_path, ".lua", "")
-      relative_path = string.gsub(relative_path, "^lua/", "") -- 移除 lua/ 前缀
-      relative_path = string.gsub(relative_path, "/", ".") -- 将 / 替换为 .
+      relative_path = string.gsub(relative_path, "^lua/", "")
+      relative_path = string.gsub(relative_path, "/", ".")
 
       local status, result = pcall(require, relative_path)
       if not status then vim.api.nvim_err_writeln(string.format("Error loading %s: %s", file, result)) end
@@ -191,29 +211,7 @@ function M.source_dir(path)
   end
 end
 
--- function M.source_file(path)
---   local full_path = vim.g["CONFIG_PATH"] .. "/" .. path
---   if M.file_exists(full_path) then
---     local ok, _ = pcall(vim.cmd, "source " .. full_path)
---     if not ok then vim.api.nvim_echo({ { full_path .. " not sourced", "ErrorMsg" } }, false, {}) end
---     return ok
---   end
---
---   return false
--- end
---
--- function M.source_dir(path)
---   local dir = vim.g.CONFIG_PATH .. "/" .. path .. "/**/*.lua"
---   local paths = vim.split(vim.fn.glob(dir), "\n")
---
---   for _, file in pairs(paths) do
---     if file ~= "" then
---       local ok, _ = pcall(vim.cmd, "source " .. file)
---       if not ok then vim.api.nvim_echo({ { file .. " not sourced", "ErrorMsg" } }, false, {}) end
---     end
---   end
--- end
-
+---@return string
 function M.get_config_path()
   local fn = vim.fn
   local path = vim.g.etc_vim_path
@@ -225,6 +223,7 @@ function M.get_config_path()
   return path
 end
 
+---@return string
 function M.get_data_path()
   local fn = vim.fn
   local xdg_data_home = fn.getenv "$XDG_DATA_HOME"
@@ -235,7 +234,7 @@ function M.get_data_path()
   return path
 end
 
--- check if we have the latest stable version of nvim
+---@param expected_ver table
 function M.check_version(expected_ver)
   local current_ver = vim.version()
 
@@ -263,8 +262,13 @@ function M.check_version(expected_ver)
   end
 end
 
+---@type table<string, boolean>
 local keymap_register = {}
 
+---@param modes string|string[]
+---@param lhs string
+---@param rhs string|function
+---@param opts table|nil
 function M.keymap(modes, lhs, rhs, opts)
   if opts and opts.buffer then
     vim.keymap.set(modes, lhs, rhs, opts)
@@ -291,6 +295,9 @@ function M.keymap(modes, lhs, rhs, opts)
   vim.keymap.set(modes, lhs, rhs, opts)
 end
 
+---@param tab table
+---@param val any
+---@return boolean
 function M.has_value(tab, val)
   for _, value in ipairs(tab) do
     if value == val then return true end
@@ -299,6 +306,9 @@ function M.has_value(tab, val)
   return false
 end
 
+---@param n number
+---@param chars number|nil
+---@return string
 function M.dec_to_hex(n, chars)
   chars = chars or 6
   local hex = string.format("%0" .. chars .. "x", n)
@@ -308,6 +318,8 @@ function M.dec_to_hex(n, chars)
   return hex
 end
 
+---@param opts table|nil
+---@return table
 function M.get_clients(opts)
   local ret = {}
   if vim.lsp.get_clients then
@@ -322,12 +334,10 @@ function M.get_clients(opts)
   return opts and opts.filter and vim.tbl_filter(opts.filter, ret) or ret
 end
 
+---@param env_name string
+---@param default_value any
+---@return any
 function M.getenv_with_default(env_name, default_value)
-  --- get env variable or using default var
-  --- @param env_name string
-  --- @param default_value any
-  --- @return any
-
   local env_value = os.getenv(env_name)
   return env_value or default_value
 end

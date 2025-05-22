@@ -126,6 +126,7 @@ function M.on_attach(client, bufnr) M.setup_keymaps(bufnr) end
 return {
   {
     "neovim/nvim-lspconfig",
+    lazy = true,
     dependencies = {
       "saghen/blink.cmp",
     },
@@ -209,7 +210,9 @@ return {
   },
   {
     "mason-org/mason-lspconfig.nvim",
-    event = "BufReadPost",
+    cmd = { "LspInstall", "LspUninstall" },
+    lazy = true,
+    event = { "BufReadPre", "BufNewFile", "FileReadPre" },
     dependencies = {
       "mason-org/mason.nvim",
       "neovim/nvim-lspconfig",

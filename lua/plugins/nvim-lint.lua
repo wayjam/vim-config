@@ -1,7 +1,6 @@
 return {
   "mfussenegger/nvim-lint",
-  lazy = true,
-  event = "VeryLazy",
+  event = { "BufReadPre", "BufNewFile", "FileReadPre" },
   dependencies = { "mason.nvim", "rshkarin/mason-nvim-lint" },
   opts = {
     -- Event to trigger linters

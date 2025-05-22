@@ -133,15 +133,18 @@ vim.opt.cursorline = true -- highlight the current line
 vim.opt.number = true -- set numbered lines
 vim.opt.numberwidth = 4 -- minimal number of columns to use for the line number {default 4}
 vim.opt.relativenumber = true
-vim.opt.foldlevel = 10
 vim.opt.hlsearch = true -- highlight all matches on previous search pattern
-vim.opt.foldclose = "all"
 vim.opt.cmdheight = 1 -- more space in the neovim command line for displaying messages
 vim.opt.pumheight = 10 -- pop up menu height
 vim.opt.guifont = "monospace:h16" -- the font used in graphical neovim applications
 -- vim.opt.colorcolumn = 120
 vim.opt.shortmess:append { W = true, I = true, c = true }
 vim.opt.iskeyword:append "-" -- treats words with `-` as single words
+
+-- Fold
+vim.opt.foldenable = true -- Enable folding.
+vim.opt.foldclose = "all"
+vim.opt.foldlevel = 10
 
 -- UI Symbols
 vim.opt.list = true
