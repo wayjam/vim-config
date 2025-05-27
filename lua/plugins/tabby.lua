@@ -1,6 +1,6 @@
 return {
   "nanozuki/tabby.nvim",
-  event = "VimEnter",
+  event = "UIEnter",
   dependencies = "nvim-tree/nvim-web-devicons",
   config = function()
     local theme = {

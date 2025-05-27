@@ -2,7 +2,7 @@ local utils = require "utils"
 
 local expected_ver = {
   major = 0,
-  minor = 7,
+  minor = 11,
   patch = 2,
 }
 

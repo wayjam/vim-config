@@ -13,6 +13,7 @@ SpecFile "plugins.colorscheme"
 SpecFile "plugins.devicons"
 SpecFile "plugins.lualine"
 SpecFile "plugins.tabby"
+SpecFile "plugins.noice"
 SpecFile "plugins.indentline"
 
 -- git
