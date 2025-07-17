@@ -41,7 +41,9 @@ return {
     linters = {},
   },
   config = function(_, opts)
-    local M = {}
+    local M = {
+      lint_globally_disabled = false,
+    }
 
     local lint = require "lint"
     for name, linter in pairs(opts.linters) do
@@ -66,6 +68,11 @@ return {
           vim.schedule_wrap(fn)(unpack(argv))
         end)
       end
+    end
+
+    function M.clear_diagnostics(bufnr)
+      bufnr = bufnr or vim.api.nvim_get_current_buf()
+      vim.diagnostic.reset(bufnr, nil)
     end
 
     function M.lint()
@@ -97,9 +104,44 @@ return {
       if #names > 0 then lint.try_lint(names) end
     end
 
+    vim.api.nvim_create_user_command("ToggleLintGlobal", function()
+      M.lint_globally_disabled = not M.lint_globally_disabled
+
+      if M.lint_globally_disabled then
+        vim.notify("Lint globally disabled", vim.log.levels.WARN)
+        for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+          if vim.api.nvim_buf_is_loaded(bufnr) then M.clear_diagnostics(bufnr) end
+        end
+      else
+        vim.notify("Lint globally enabled", vim.log.levels.INFO)
+        M.lint()
+      end
+    end, {
+      desc = "Toggle lint globally",
+    })
+
+    vim.api.nvim_create_user_command("ToggleLintBuffer", function()
+      local bufnr = vim.api.nvim_get_current_buf()
+
+      if vim.b.disable_autolint then
+        vim.b.disable_autolint = false
+        vim.notify(string.format("Lint enabled for buffer %d", bufnr), vim.log.levels.WARN)
+      else
+        vim.b.disable_autolint = true
+        vim.notify(string.format("Lint disabled for buffer %d", bufnr), vim.log.levels.WARN)
+        -- lint the buffer immediately when enabled
+        M.lint()
+      end
+    end, { desc = "Toggle lint for current buffer" })
+
+    local auGroup = vim.api.nvim_create_augroup("nvim-lint", { clear = true })
+
+    -- lint on save
     vim.api.nvim_create_autocmd(opts.events, {
-      group = vim.api.nvim_create_augroup("nvim-lint", { clear = true }),
-      callback = M.debounce(100, M.lint),
+      group = auGroup,
+      callback = M.debounce(100, function()
+        if not M.lint_globally_disabled and not vim.b.disable_autolint then M.lint() end
+      end),
     })
 
     require("utils").keymap("n", "<leader>cL", function() M.lint() end, { desc = "Trigger linting for current file" })
