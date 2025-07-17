@@ -58,6 +58,14 @@ function M.setup_kind()
   end
 end
 
+function M.toggle_inlay_hint()
+  vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = bufnr }, { bufnr = bufnr })
+  vim.notify(
+    "Inlay hints: " .. (vim.lsp.inlay_hint.is_enabled { bufnr = bufnr } and "enabled" or "disabled"),
+    vim.log.levels.INFO
+  )
+end
+
 function M.setup_keymaps(bufnr)
   local keymaps = {
     { "n", "gD", vim.lsp.buf.declaration, "Goto Declaration" },
@@ -190,19 +198,19 @@ return {
 
           -- lang specify: https://github.com/MysticalDevil/inlay-hints.nvim
           if client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint, bufnr) then
-            keymap("n", "<leader>ih", function()
-              vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = bufnr }, { bufnr = bufnr })
-              vim.notify(
-                "Inlay hints: " .. (vim.lsp.inlay_hint.is_enabled { bufnr = bufnr } and "enabled" or "disabled"),
-                vim.log.levels.INFO
-              )
-            end, {
+            -- Toggle inlay hints
+            vim.api.nvim_create_user_command(
+              "ToggleInlayHints",
+              function() M.toggle_inlay_hint(bufnr) end,
+              { nargs = 0 }
+            )
+
+            keymap("n", "<leader>ih", function() M.toggle_inlay_hint(bufnr) end, {
               desc = "Toggle Inlay Hint",
               noremap = true,
               silent = true,
               buffer = bufnr,
             })
-            client.server_capabilities.semanticTokensProvider = nil
           end
         end,
       })

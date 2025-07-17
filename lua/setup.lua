@@ -3,7 +3,7 @@ local utils = require "utils"
 local expected_ver = {
   major = 0,
   minor = 11,
-  patch = 2,
+  patch = 0,
 }
 
 utils.check_version(expected_ver)

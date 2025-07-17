@@ -4,8 +4,8 @@ return {
   opts = { delay = 200 },
   config = function()
     local keymap = require("utils").keymap
-    keymap("n", "<M-n>", function() require("illuminate").goto_next_reference() end, { desc = "Next reference" })
-    keymap("n", "<M-p>", function() require("illuminate").goto_prev_reference() end, { desc = "Prev reference" })
+    keymap("n", "<A-n>", function() require("illuminate").goto_next_reference() end, { desc = "Next reference" })
+    keymap("n", "<A-p>", function() require("illuminate").goto_prev_reference() end, { desc = "Prev reference" })
 
     require("illuminate").configure {
       providers = {

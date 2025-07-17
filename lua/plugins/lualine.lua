@@ -48,6 +48,14 @@ local diagnostics = {
   always_visible = false,
 }
 
+local recording = {
+  function()
+    local reg = vim.fn.reg_recording()
+    return reg ~= "" and "Recording @" .. reg or ""
+  end,
+  cond = function() return vim.fn.reg_recording() ~= "" end,
+}
+
 return {
   "nvim-lualine/lualine.nvim",
   event = "UIEnter",
@@ -63,7 +71,7 @@ return {
     sections = {
       lualine_a = { "mode" },
       lualine_b = { filetype, filename, location },
-      lualine_c = { diagnostics },
+      lualine_c = { diagnostics, recording },
       lualine_x = { encoding, fileformat },
       lualine_y = { branch, diff },
       lualine_z = { "progress" },

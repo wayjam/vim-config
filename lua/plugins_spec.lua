@@ -7,6 +7,7 @@ Spec { "gpanders/editorconfig.nvim", event = "BufReadPre" }
 Spec { "tpope/vim-surround", event = "InsertCharPre" }
 
 SpecFile "plugins.bigfile"
+SpecFile "plugins.hardtime"
 
 -- UI
 SpecFile "plugins.colorscheme"
@@ -15,6 +16,7 @@ SpecFile "plugins.lualine"
 SpecFile "plugins.tabby"
 SpecFile "plugins.noice"
 SpecFile "plugins.indentline"
+SpecFile "plugins.ufo"
 
 -- git
 SpecFile "plugins.fugitive"

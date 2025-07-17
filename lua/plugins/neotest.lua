@@ -12,26 +12,42 @@ return {
     "rouge8/neotest-rust",
     "nvim-neotest/neotest-go",
   },
-  init = function()
-    local neotest = require "neotest"
-    local keymaps = {
-      { "n", "<leader>tt", function() neotest.run.run() end, "Run Nearest Test" },
-      { "n", "<leader>tf", function() neotest.run.run(vim.fn.expand "%") end, "Run File Test" },
-      { "n", "<leader>td", function() neotest.run.run { strategy = "dap" } end, "Debug Test" },
-      { "n", "<leader>ts", function() neotest.run.stop() end, "Stop Test" },
-      { "n", "<leader>ta", function() neotest.run.attach() end, "Attach Test" },
-      { "n", "<leader>to", function() neotest.output.open { enter = true } end, "Open Test Output" },
-      { "n", "<leader>tO", function() require("neotest").output_panel.open() end, "Open Test Output Panel" },
-      { "n", "<leader>tS", function() require("neotest").summary.toggle() end, "Toggle Test Summary" },
-    }
-
-    for _, item in ipairs(keymaps) do
-      local mode, lhs, rhs, desc = unpack(item)
-      require("utils").keymap(mode, lhs, rhs, {
-        desc = desc,
-      })
-    end
-  end,
+  keys = {
+    { "<leader>tt", function() require("neotest").run.run() end, mode = { "n" }, desc = "Run Nearest Test" },
+    {
+      "<leader>tf",
+      function() require("neotest").run.run(vim.fn.expand "%") end,
+      mode = { "n" },
+      desc = "Run File Test",
+    },
+    {
+      "<leader>td",
+      function() require("neotest").run.run { strategy = "dap" } end,
+      mode = { "n" },
+      desc = "Debug Test",
+    },
+    { "<leader>ts", function() require("neotest").run.stop() end, mode = { "n" }, desc = "Stop Test" },
+    { "<leader>ta", function() require("neotest").run.attach() end, mode = { "n" }, desc = "Attach Test" },
+    {
+      "<leader>to",
+      function() require("neotest").output.open { enter = true } end,
+      mode = { "n" },
+      desc = "Open Test Output",
+    },
+    {
+      "<leader>tO",
+      function() require("neotest").output_panel.toggle() end,
+      mode = { "n" },
+      desc = "Open Test Output Panel",
+    },
+    { "<leader>tS", function() require("neotest").summary.toggle() end, mode = { "n" }, desc = "Toggle Test Summary" },
+    {
+      "<leader>tC",
+      function() require("neotest").output_panel.clear() end,
+      mode = { "n" },
+      desc = "Clear Test Output Panel",
+    },
+  },
   config = function()
     local neotest = require "neotest"
 

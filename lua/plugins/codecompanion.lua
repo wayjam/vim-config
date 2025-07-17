@@ -52,7 +52,7 @@ return {
       display = {
         chat = {
           window = {
-            layout = "float", -- float|vertical|horizontal|buffer
+            layout = "vertical", -- float|vertical|horizontal|buffer
             height = 0.8,
             width = 0.6,
           },
@@ -60,6 +60,7 @@ return {
       },
       strategies = {
         inline = { adapter = "copilot" },
+        cmd = { adapter = "copilot" },
         chat = {
           adapter = "copilot",
           roles = {
@@ -134,6 +135,8 @@ return {
       if ok then customize.config(_, opts) end
 
       require("codecompanion").setup(opts)
+
+      vim.cmd [[cab cc CodeCompanion]]
     end,
   },
 }

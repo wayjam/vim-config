@@ -233,7 +233,7 @@ vim.api.nvim_create_user_command("ColorColumn", function(opts)
   vim.opt.colorcolumn = opts.fargs[1]
   last_color_column = vim.opt.colorcolumn
 end, { nargs = 1 })
-vim.api.nvim_create_user_command("ColorColumnToggle", function()
+vim.api.nvim_create_user_command("ToggleColorColumn", function()
   if not activatedh then
     activatedh = true
     vim.opt.colorcolumn = last_color_column

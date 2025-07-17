@@ -4,7 +4,7 @@ return {
   opts = {},
   keys = {
     { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
-    { "<M-s>", mode = { "i" }, function() require("flash").jump() end, desc = "Flash(Insert Mode)" },
+    { "<A-s>", mode = { "i" }, function() require("flash").jump() end, desc = "Flash(Insert Mode)" },
     {
       "S",
       mode = { "n", "o", "x" },

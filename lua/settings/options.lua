@@ -4,26 +4,16 @@ vim.opt.backup = false -- disable backup file
 vim.opt.writebackup = false -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
 vim.opt.mouse = "nv" -- allow the mouse to be used in neovim
 vim.opt.modeline = true
-vim.opt.report = 0
-vim.opt.errorbells = true
-vim.opt.visualbell = true
-vim.opt.signcolumn = "yes" -- always show the sign column, otherwise it would shift the text each time
-vim.opt.hidden = true
-vim.opt.fileformats = { "unix", "dos", "mac" }
-vim.opt.magic = true
+vim.opt.fileformats = { "unix" }
 vim.opt.path = { ".", "**" }
 vim.opt.virtualedit = "block"
-vim.opt.synmaxcol = 1000
+vim.opt.synmaxcol = 200
 vim.opt.formatoptions:remove { "c", "r", "o" } -- This is a sequence of letters which describes how automatic formatting is to be done
 vim.opt.fileencoding = "utf-8" -- the encoding written to a file
 vim.opt.conceallevel = 0 -- so that `` is visible in markdown files
 
 -- Enables 24-bit RGB color in the TUI
 if vim.fn.has "termguicolors" == 1 then vim.opt.termguicolors = true end
-
--- italic support
-vim.g.t_ZH = "e[3m"
-vim.g.t_ZR = "e[23m"
 
 -- Enable italics, Make sure this is immediately after colorscheme
 -- https://stackoverflow.com/questions/3494435/vimrc-make-comments-italic
@@ -90,9 +80,7 @@ vim.opt.infercase = true
 vim.opt.incsearch = true
 vim.opt.wrapscan = true
 vim.opt.showmatch = true
-vim.opt.matchpairs:append "<:>"
 vim.opt.matchtime = 1
-vim.opt.cpoptions:remove "m"
 vim.opt.showfulltag = true
 
 if vim.fn.exists "+inccommand" == 1 then vim.opt.inccommand = "nosplit" end
@@ -143,8 +131,9 @@ vim.opt.iskeyword:append "-" -- treats words with `-` as single words
 
 -- Fold
 vim.opt.foldenable = true -- Enable folding.
-vim.opt.foldclose = "all"
-vim.opt.foldlevel = 10
+-- vim.opt.foldclose = "all"
+vim.opt.foldlevel = 99
+vim.o.foldlevelstart = 99
 
 -- UI Symbols
 vim.opt.list = true
