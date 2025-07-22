@@ -44,6 +44,11 @@ M.icons = {
 function M.get_capabilities()
   local capabilities = vim.tbl_deep_extend("force", vim.lsp.protocol.make_client_capabilities(), {})
 
+  capabilities.textDocument.foldingRange = {
+    dynamicRegistration = false,
+    lineFoldingOnly = true,
+  }
+
   if require("utils").has_plugin "blink.cmp" then
     capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
   end
