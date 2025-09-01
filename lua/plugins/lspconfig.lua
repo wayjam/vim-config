@@ -71,6 +71,34 @@ function M.toggle_inlay_hint()
   )
 end
 
+function M.reload_lsp()
+  local bufnr = vim.api.nvim_get_current_buf()
+  local clients = vim.lsp.get_clients { bufnr = bufnr }
+
+  if #clients == 0 then
+    -- my.lsp
+    vim.api.nvim_exec_autocmds("FileType", { group = "nvim.lsp.enable", buffer = bufnr })
+    return
+  end
+
+  for _, c in ipairs(clients) do
+    local attached_buffers = vim.tbl_keys(c.attached_buffers) ---@type integer[]
+    local config = c.config
+    vim.lsp.stop_client(c.id, true)
+    vim.defer_fn(function()
+      local id = vim.lsp.start(config)
+      if id then
+        for _, b in ipairs(attached_buffers) do
+          vim.lsp.buf_attach_client(b, id)
+        end
+        vim.notify(string.format("Lsp `%s` has been restarted.", config.name))
+      else
+        vim.notify(string.format("Error restarting `%s`.", config.name), vim.log.levels.ERROR)
+      end
+    end, 600)
+  end
+end
+
 function M.setup_keymaps(bufnr)
   local keymaps = {
     { "n", "gD", vim.lsp.buf.declaration, "Goto Declaration" },
@@ -235,6 +263,10 @@ return {
         ensure_installed = { "lua_ls", "bashls", "jsonls", "yamlls" },
         automatic_enable = true,
       }
+
+      vim.api.nvim_create_user_command("LspReload", function() M.reload_lsp() end, {
+        desc = "Reload all the LSP clients attached to the current buffer",
+      })
     end,
   },
 }
