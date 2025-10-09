@@ -79,3 +79,4 @@ customize/*
 !customize/after/.keep
 !customize/before/.keep
 lazy-lock.json
+pack

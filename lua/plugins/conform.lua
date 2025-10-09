@@ -59,7 +59,7 @@ return {
         lua = { "stylua" },
         perl = { "perlimports", "perltidy" },
         php = { "php_cs_fixer" },
-        python = { "isort", "black" },
+        python = { "ruff_format", "ruff_organize_imports" },
         ruby = { "standardrb" },
         rust = { "rustfmt" },
         scala = { "scalafmt" },
@@ -85,6 +85,9 @@ return {
       -- Custom formatters or overrides
       formatters = {
         injected = { options = { ignore_errors = true } },
+        golines = {
+          prepend_args = { "-m 120" },
+        },
         -- Example overrides (currently commented out)
         -- dprint = { ... }
         -- shfmt = { ... }
