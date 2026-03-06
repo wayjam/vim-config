@@ -129,6 +129,14 @@ vim.opt.guifont = "monospace:h16" -- the font used in graphical neovim applicati
 vim.opt.shortmess:append { W = true, I = true, c = true }
 vim.opt.iskeyword:append "-" -- treats words with `-` as single words
 
+-- Auto-reload files changed outside Neovim (e.g. by Claude Code, aider, etc.)
+vim.opt.autoread = true
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
+  callback = function()
+    if vim.fn.mode() ~= "c" then vim.cmd "checktime" end
+  end,
+})
+
 -- Fold
 vim.opt.foldenable = true -- Enable folding.
 -- vim.opt.foldclose = "all"

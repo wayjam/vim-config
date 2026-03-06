@@ -149,7 +149,7 @@ end
 ---@param fname string
 ---@return boolean|string
 function M.file_exists(fname)
-  local stat = vim.loop.fs_stat(fname)
+  local stat = vim.uv.fs_stat(fname)
   return (stat and stat.type) or false
 end
 

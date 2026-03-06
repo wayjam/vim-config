@@ -59,9 +59,9 @@ git pull --ff --ff-only
 
 ## Troubleshooting
 
-#### treesitter compile: `error trying to exec 'cc1plus': execvp: No such file or directory`
+1. treesitter compile: `error trying to exec 'cc1plus': execvp: No such file or directory`
 
-Just get g++ installed and then treesitter works.
+> Just get g++ installed and then treesitter works.
 
 ## Contributing
 

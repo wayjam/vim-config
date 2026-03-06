@@ -29,6 +29,7 @@ SpecFile "plugins.neotree"
 SpecFile "plugins.outline"
 SpecFile "plugins.toggleterm"
 SpecFile "plugins.illuminate"
+SpecFile "plugins.snacks"
 
 -- picker
 SpecFile "plugins.fzf"
@@ -50,6 +51,7 @@ SpecFile "plugins.codecompanion"
 
 -- lsp
 SpecFile "plugins.lspconfig"
+SpecFile "plugins.lazydev"
 
 -- format & lint
 SpecFile "plugins.nvim-lint"
@@ -62,12 +64,15 @@ SpecFile "plugins.comment"
 SpecFile "plugins.easy_align"
 SpecFile "plugins.flash"
 SpecFile "plugins.zenmode"
+SpecFile "plugins.mini-ai"
+SpecFile "plugins.todo-comments"
 
 -- debugger
 SpecFile "plugins.dap"
 
 -- syntax
 SpecFile "plugins.treesitter"
+SpecFile "plugins.treesitter-context"
 
 -- language specify
 SpecFile "plugins.languages"

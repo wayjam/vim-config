@@ -33,6 +33,39 @@ return {
       watch_gitdir = { interval = 1000, follow_files = true },
       attach_to_untracked = true,
       current_line_blame_formatter = "<author>, <author_time:%Y-%m-%d> - <summary>",
+      on_attach = function(bufnr)
+        local gs = package.loaded.gitsigns
+        local keymap = require("utils").keymap
+
+        -- Navigation
+        keymap("n", "]h", function()
+          if vim.wo.diff then return "]h" end
+          vim.schedule(function() gs.next_hunk() end)
+          return "<Ignore>"
+        end, { desc = "Next Hunk", buffer = bufnr, expr = true })
+
+        keymap("n", "[h", function()
+          if vim.wo.diff then return "[h" end
+          vim.schedule(function() gs.prev_hunk() end)
+          return "<Ignore>"
+        end, { desc = "Prev Hunk", buffer = bufnr, expr = true })
+
+        -- Stage / reset
+        keymap("n", "<leader>ghs", gs.stage_hunk, { desc = "Stage Hunk", buffer = bufnr })
+        keymap("n", "<leader>ghr", gs.reset_hunk, { desc = "Reset Hunk", buffer = bufnr })
+        keymap("v", "<leader>ghs", function() gs.stage_hunk { vim.fn.line ".", vim.fn.line "v" } end, { desc = "Stage Hunk", buffer = bufnr })
+        keymap("v", "<leader>ghr", function() gs.reset_hunk { vim.fn.line ".", vim.fn.line "v" } end, { desc = "Reset Hunk", buffer = bufnr })
+        keymap("n", "<leader>ghS", gs.stage_buffer, { desc = "Stage Buffer", buffer = bufnr })
+        keymap("n", "<leader>ghR", gs.reset_buffer, { desc = "Reset Buffer", buffer = bufnr })
+        keymap("n", "<leader>ghu", gs.undo_stage_hunk, { desc = "Undo Stage Hunk", buffer = bufnr })
+
+        -- Preview / diff
+        keymap("n", "<leader>ghp", gs.preview_hunk, { desc = "Preview Hunk", buffer = bufnr })
+        keymap("n", "<leader>ghd", gs.diffthis, { desc = "Diff This", buffer = bufnr })
+
+        -- Text object
+        keymap({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", { desc = "Select Hunk", buffer = bufnr })
+      end,
       update_debounce = 200,
       max_file_length = 40000,
       preview_config = {
