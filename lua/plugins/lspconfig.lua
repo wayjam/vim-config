@@ -63,7 +63,7 @@ function M.setup_kind()
   end
 end
 
-function M.toggle_inlay_hint()
+function M.toggle_inlay_hint(bufnr)
   vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = bufnr }, { bufnr = bufnr })
   vim.notify(
     "Inlay hints: " .. (vim.lsp.inlay_hint.is_enabled { bufnr = bufnr } and "enabled" or "disabled"),

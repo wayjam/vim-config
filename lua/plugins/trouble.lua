@@ -1,8 +1,8 @@
 return {
   "folke/trouble.nvim",
-  cmd = { "Trouble", "TroubleToggle", "TroubleRefresh" },
+  cmd = { "Trouble" },
   dependencies = { "neovim/nvim-lspconfig" },
-  config = function() require("trouble").setup { use_diagnostic_signs = true } end,
+  opts = {},
   keys = {
     {
       "<leader>xx",

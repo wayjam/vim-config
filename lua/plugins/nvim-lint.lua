@@ -8,7 +8,7 @@ return {
     linters_by_ft = {
       fish = { "fish" },
       c = { "clangtidy" },
-      clojure = { "clj-knodo" },
+      clojure = { "clj-kondo" },
       cmake = { "cmake-lint" },
       css = { "stylelint" },
       cpp = { "clangtidy" },
@@ -125,12 +125,12 @@ return {
 
       if vim.b.disable_autolint then
         vim.b.disable_autolint = false
-        vim.notify(string.format("Lint enabled for buffer %d", bufnr), vim.log.levels.WARN)
+        vim.notify(string.format("Lint enabled for buffer %d", bufnr), vim.log.levels.INFO)
+        -- lint the buffer immediately when enabled
+        M.lint()
       else
         vim.b.disable_autolint = true
         vim.notify(string.format("Lint disabled for buffer %d", bufnr), vim.log.levels.WARN)
-        -- lint the buffer immediately when enabled
-        M.lint()
       end
     end, { desc = "Toggle lint for current buffer" })
 

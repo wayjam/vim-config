@@ -107,4 +107,4 @@ local arctic = {
   },
 }
 
-return arctic
+return onedark
