@@ -1,5 +1,3 @@
-local lisp_fts = { "lisp", "scheme", "clojure", "fennel", "racket", "hy" }
-
 return {
   "echasnovski/mini.pairs",
   event = "VeryLazy",
@@ -31,11 +29,5 @@ return {
         ["`"] = { action = "closeopen", pair = "``", neigh_pattern = "[^\\].", register = { cr = false } },
       },
     }
-
-    -- Disable mini.pairs for lisp filetypes (parinfer handles brackets there)
-    vim.api.nvim_create_autocmd("FileType", {
-      pattern = lisp_fts,
-      callback = function() vim.b.minipairs_disable = true end,
-    })
   end,
 }

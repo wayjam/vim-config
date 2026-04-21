@@ -42,7 +42,7 @@ M.icons = {
 }
 
 function M.get_capabilities()
-  local capabilities = vim.tbl_deep_extend("force", vim.lsp.protocol.make_client_capabilities(), {})
+  local capabilities = vim.lsp.protocol.make_client_capabilities()
 
   capabilities.textDocument.foldingRange = {
     dynamicRegistration = false,
@@ -108,11 +108,8 @@ function M.setup_keymaps(bufnr)
     {
       "n",
       "K",
-      function()
-        vim.lsp.buf.hover {
-          border = "rounded",
-        }
-      end,
+      -- border inherits vim.opt.winborder (see settings/options.lua)
+      vim.lsp.buf.hover,
       "Show Hover Documentation",
     },
     {
@@ -217,7 +214,7 @@ return {
       )
 
       vim.api.nvim_create_autocmd("LspAttach", {
-        group = vim.api.nvim_create_augroup("my.lsp", {}),
+        group = vim.api.nvim_create_augroup("my.lsp", { clear = true }),
         callback = function(args)
           local bufnr = args.buf
           local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
@@ -229,10 +226,10 @@ return {
             vim.api.nvim_create_user_command(
               "ToggleInlayHints",
               function() M.toggle_inlay_hint(bufnr) end,
-              { nargs = 0 }
+              { nargs = 0, force = true }
             )
 
-            keymap("n", "<leader>ih", function() M.toggle_inlay_hint(bufnr) end, {
+            keymap("n", "<leader>th", function() M.toggle_inlay_hint(bufnr) end, {
               desc = "Toggle Inlay Hint",
               noremap = true,
               silent = true,
@@ -240,25 +237,22 @@ return {
             })
           end
 
-          -- Document highlight: hl symbol under cursor when idle
           if client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight, bufnr) then
-            local hl_group = vim.api.nvim_create_augroup("my.lsp.document_highlight." .. bufnr, { clear = true })
-            vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-              group = hl_group,
+            local g = vim.api.nvim_create_augroup("my.lsp.doc_hl." .. bufnr, { clear = true })
+            vim.api.nvim_create_autocmd(
+              { "CursorHold", "CursorHoldI" },
+              { group = g, buffer = bufnr, callback = vim.lsp.buf.document_highlight }
+            )
+            vim.api.nvim_create_autocmd(
+              { "CursorMoved", "CursorMovedI" },
+              { group = g, buffer = bufnr, callback = vim.lsp.buf.clear_references }
+            )
+            vim.api.nvim_create_autocmd("LspDetach", {
+              group = g,
               buffer = bufnr,
-              callback = vim.lsp.buf.document_highlight,
-            })
-            vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
-              group = hl_group,
-              buffer = bufnr,
-              callback = vim.lsp.buf.clear_references,
-            })
-            vim.api.nvim_create_autocmd({ "LspDetach" }, {
-              group = hl_group,
-              buffer = bufnr,
-              callback = function(detach)
+              callback = function()
                 vim.lsp.buf.clear_references()
-                vim.api.nvim_clear_autocmds { group = hl_group, buffer = detach.buf }
+                vim.api.nvim_clear_autocmds { group = g, buffer = bufnr }
               end,
             })
           end

@@ -13,11 +13,9 @@ return {
     },
   },
   opts = {
-    enabled = function()
-      return not vim.tbl_contains({ "markdown" }, vim.bo.filetype)
-        and vim.bo.buftype ~= "prompt"
-        and vim.b.completion ~= false
-    end,
+    -- Completion is useful in markdown too (paths, snippets, buffer words).
+    -- Only suppress it in prompt buffers and when caller opts out via b:completion.
+    enabled = function() return vim.bo.buftype ~= "prompt" and vim.b.completion ~= false end,
     appearance = {
       -- sets the fallback highlight groups to nvim-cmp's highlight groups
       -- useful for when your theme doesn't support blink.cmp

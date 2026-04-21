@@ -4,18 +4,16 @@ return {
   -- enable = false,
   dependencies = { "MunifTanjim/nui.nvim" },
   opts = {
-    -- max_count = 10,
+    -- Warn/restrict after N consecutive uses of the same restricted key.
+    -- Defaults to 3; 10 is a gentle nudge that still lets you survive.
+    max_count = 10,
+    -- Keep hjkl under default restriction (that's hardtime's whole point).
+    -- Add arrow keys to the restriction list so they're ALSO capped at 10.
     restricted_keys = {
-      ["h"] = {},
-      ["j"] = {},
-      ["k"] = {},
-      ["l"] = {},
-    },
-    disabled_keys = {
-      ["<Up>"] = false,
-      ["<Down>"] = false,
-      ["<Left>"] = false,
-      ["<Right>"] = false,
+      ["<Up>"] = { "n", "x" },
+      ["<Down>"] = { "n", "x" },
+      ["<Left>"] = { "n", "x" },
+      ["<Right>"] = { "n", "x" },
     },
   },
 }

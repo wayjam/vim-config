@@ -27,7 +27,7 @@ local fileformat = {
 
 local diagnostics = {
   "diagnostics",
-  sources = { "nvim_diagnostic", "nvim_lsp" },
+  sources = { "nvim_lsp" },
   sections = { "error", "warn", "info", "hint" },
   -- all colors are in format #rrggbb
   -- default auto extract from 'Diagnostic', 'LspDiagnosticsDefault', 'Diff'
@@ -64,7 +64,7 @@ return {
     options = {
       component_separators = "",
       section_separators = { left = "", right = "" },
-      disabled_filetypes = { "NvimTree", "neo-tree" },
+      disabled_filetypes = { "neo-tree" },
       color = { cterm = "none", gui = "none" },
     },
     extensions = { "toggleterm", "fugitive" },

@@ -116,7 +116,7 @@ return {
       mode = "t",
       nowait = true,
     },
-    { "<leader>?", "<cmd>FzfLua<cr>", desc = "Fzf" },
+    { "<leader>fz", "<cmd>FzfLua<cr>", desc = "Fzf" },
     { "<leader>:", "<cmd>FzfLua command_history<cr>", desc = "Command History" },
     { "<localleader>?", "<cmd>FzfLua commands<cr>", desc = "Commands" },
     -- find

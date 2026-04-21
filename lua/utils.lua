@@ -136,9 +136,6 @@ M.icons = {
   TriangleShortArrowUp = "",
 }
 
----@type table
-M.color = {}
-
 ---@param name string
 ---@return string
 function M.padded_signs(name)
@@ -158,13 +155,6 @@ end
 function M.has_plugin(name)
   local installed = vim.tbl_get(require "lazy.core.config", "plugins", name, "_", "installed") ~= nil
   return installed
-end
-
----@param name string
----@return boolean
-function M.is_loaded_package(name)
-  if not package.loaded[name] then return false end
-  return true
 end
 
 ---@param name string
@@ -293,17 +283,6 @@ function M.keymap(modes, lhs, rhs, opts)
   end
 
   vim.keymap.set(modes, lhs, rhs, opts)
-end
-
----@param tab table
----@param val any
----@return boolean
-function M.has_value(tab, val)
-  for _, value in ipairs(tab) do
-    if value == val then return true end
-  end
-
-  return false
 end
 
 ---@param n number

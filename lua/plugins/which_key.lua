@@ -29,9 +29,14 @@ return {
   },
   keys = {
     {
-      "<leader>?",
+      "<leader>sh",
       function() require("which-key").show { global = false } end,
       desc = "Buffer Keymaps (which-key)",
+    },
+    {
+      "<leader>sH",
+      function() require("which-key").show { global = true } end,
+      desc = "All Keymaps (which-key)",
     },
   },
 }

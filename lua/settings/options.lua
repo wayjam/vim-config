@@ -46,16 +46,15 @@ if vim.env.SSH_TTY then
 end
 
 -- Wildmenu
+-- noice.nvim takes over the full cmdline popup, but wildmode/wildoptions still
+-- power built-in `:find`, `:edit`, globbing, etc. fzf-lua / neo-tree / ripgrep
+-- each manage their own ignore lists, so keep this block minimal.
 if vim.fn.has "wildmenu" == 1 then
-  vim.opt.wildmenu = false
-  vim.opt.wildmode = { "list:longest", "full" }
-  vim.opt.wildoptions:append "tagfile"
+  vim.opt.wildmenu = true
+  vim.opt.wildmode = { "longest:full", "full" }
+  vim.opt.wildoptions = { "pum", "tagfile" }
   vim.opt.wildignorecase = true
-  vim.opt.wildignore:append { ".git", ".hg", ".svn", ".stversions", "*.pyc", "*.spl", "*.o", "*.out", "*~", "%*" }
-  vim.opt.wildignore:append { "*.jpg", "*.jpeg", "*.png", "*.gif", "*.zip", "**/tmp/**", "*.DS_Store" }
-  vim.opt.wildignore:append { "**/node_modules/**", "**/bower_modules/**", "*/.sass-cache/*" }
-  vim.opt.wildignore:append { "application/vendor/**", "**/vendor/ckeditor/**", "media/vendor/**" }
-  vim.opt.wildignore:append { "__pycache__", "*.egg-info", ".pytest_cache" }
+  vim.opt.wildignore:append { ".git/*", "node_modules/*", "__pycache__/*", "*.pyc", "*.o", "*.out", "*.DS_Store" }
 end
 
 -- Vim Directories
@@ -108,8 +107,20 @@ vim.opt.backspace = "indent,eol,start"
 
 -- Completion and Diff
 vim.opt.complete = ",.,w,b,k"
-vim.opt.completeopt = { "menu", "menuone", "noselect" } -- mostly just for cmp
-vim.opt.diffopt = "iwhite,indent-heuristic,algorithm:patience"
+-- `noinsert` — don't auto-insert the first completion entry.
+-- `popup`    — show docs in a popup next to the menu (Neovim 0.11+).
+vim.opt.completeopt = { "menu", "menuone", "noselect", "noinsert", "popup" }
+-- `histogram` is faster/cleaner than `patience`; `linematch:60` dramatically
+-- improves 3-way diff rendering (Neovim 0.9+).
+vim.opt.diffopt = {
+  "internal",
+  "filler",
+  "closeoff",
+  "iwhite",
+  "indent-heuristic",
+  "algorithm:histogram",
+  "linematch:60",
+}
 
 -- Editor UI
 vim.opt.showmode = false -- we don't need to see things like -- INSERT -- anymore
@@ -126,20 +137,18 @@ vim.opt.number = true -- set numbered lines
 vim.opt.numberwidth = 4 -- minimal number of columns to use for the line number {default 4}
 vim.opt.relativenumber = true
 vim.opt.hlsearch = true -- highlight all matches on previous search pattern
-vim.opt.cmdheight = 1 -- more space in the neovim command line for displaying messages
+vim.opt.cmdheight = 0 -- hide the cmdline when idle; noice.nvim restores it on demand
 vim.opt.pumheight = 10 -- pop up menu height
 vim.opt.guifont = "monospace:h16" -- the font used in graphical neovim applications
 -- vim.opt.colorcolumn = 120
 vim.opt.shortmess:append { W = true, I = true, c = true }
-vim.opt.iskeyword:append "-" -- treats words with `-` as single words
 
--- Auto-reload files changed outside Neovim (e.g. by Claude Code, aider, etc.)
-vim.opt.autoread = true
-vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
-  callback = function()
-    if vim.fn.mode() ~= "c" then vim.cmd "checktime" end
-  end,
-})
+-- Behavior improvements introduced in recent Neovim versions.
+vim.opt.splitkeep = "screen" -- Keep window text stable when opening/closing splits (0.9+)
+vim.opt.smoothscroll = true -- Scroll by screen line rather than logical line on wrapped text (0.10+)
+vim.opt.jumpoptions = "stack,view" -- Browser-like jump history + restore view with <C-o>/<C-i> (0.11+)
+vim.opt.winborder = "rounded" -- Default border for hover/signature/etc. floats (0.11+)
+vim.opt.confirm = true -- Ask to save instead of erroring on :q with unsaved changes
 
 -- Fold
 vim.opt.foldenable = true -- Enable folding.

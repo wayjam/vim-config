@@ -166,13 +166,14 @@ return {
     end,
   },
 
-  -- mason.nvim integration
+  -- mason.nvim integration. The actual setup happens inside nvim-dap's
+  -- config above (via `require("mason-nvim-dap").setup(mason_nvim_dap_opts)`),
+  -- after all adapters are registered. This entry exists only so lazy.nvim
+  -- knows about :DapInstall / :DapUninstall.
   {
     "jay-babu/mason-nvim-dap.nvim",
     dependencies = { "mason-org/mason.nvim" },
     cmd = { "DapInstall", "DapUninstall" },
-    opts = mason_nvim_dap_opts,
-    -- mason-nvim-dap is loaded when nvim-dap loads
-    config = function(_, opts) end,
+    config = function() end, -- deliberately a no-op; nvim-dap's config calls setup
   },
 }

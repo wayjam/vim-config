@@ -8,4 +8,3 @@ setlocal iskeyword+=:
 setlocal iskeyword+=#
 setlocal iskeyword+=-
 
-nnoremap <buffer> q :helpclose<CR>

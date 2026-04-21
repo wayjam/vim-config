@@ -261,15 +261,9 @@ return {
         vim.cmd("Neotree current dir=" .. dir)
         vim.api.nvim_clear_autocmds { group = "neotree_start" }
 
-        if require("utils").has_plugin "onedark" then
-          local util = require "onedark.util"
-          local msg_color = "#"
-            .. require("utils").dec_to_hex(vim.api.nvim_get_hl(0, { name = "NeoTreeMessage" }).fg, 6)
-          vim.api.nvim_set_hl(0, "NeoTreeMessage", { fg = util.lighten(msg_color, 0.9) })
-          local sep_color = "#"
-            .. require("utils").dec_to_hex(vim.api.nvim_get_hl(0, { name = "NeoTreeWinSeparator" }).fg, 6)
-          vim.api.nvim_set_hl(0, "NeoTreeWinSeparator", { fg = util.lighten(sep_color, 0.8) })
-        end
+        -- Theme-agnostic: link instead of hard-coding lightened hex values.
+        vim.api.nvim_set_hl(0, "NeoTreeMessage", { link = "Comment", default = true })
+        vim.api.nvim_set_hl(0, "NeoTreeWinSeparator", { link = "WinSeparator", default = true })
       end,
     })
   end,

@@ -81,9 +81,6 @@ keymap("c", "<A-k>", "<Down>", {})
 keymap("n", "Q", "q", { noremap = true })
 keymap("n", "q", "<Nop>", { noremap = true })
 
--- Toggle pastemode
-keymap("n", "<Leader>tp", ":setlocal paste!<CR>", { silent = true, desc = "Toggle paste mode" })
-
 -- Change current word in a repeatable manner
 keymap("n", "<leader>cn", "*``cgn", {})
 keymap("n", "<leader>cN", "*``cgN", {})
@@ -125,11 +122,11 @@ keymap("n", "<Leader>cd", ":lcd %:p:h<CR>:pwd<CR>", { desc = "Switch dir to curr
 keymap("n", "<Leader>w", ":write<CR>", { desc = "Save" })
 keymap("v", "<Leader>w", "<Esc>:write<CR>", { desc = "Save" })
 keymap("n", "<C-s>", ":<C-u>write<CR>", {})
-keymap("v", "<C-s>", ":<C-u>write<CR>", {})
-keymap("c", "<C-s>", "<C-u>write<CR>", {})
+keymap("v", "<C-s>", "<Esc>:<C-u>write<CR>", {})
 
--- Highlight
-keymap("n", "<leader>nh", ":nohl<CR>", { desc = "Disable search highlight" })
+-- Highlight: <Esc> clears search highlight (line above); legacy <leader>nh
+-- removed as redundant.
+keymap("n", "<Esc>", "<cmd>nohlsearch<CR><Esc>", { desc = "Clear search highlight" })
 
 -- Movement
 keymap("n", "<C-d>", "<C-d>zz", {})
@@ -138,7 +135,7 @@ keymap("n", "n", "nzzzv", {})
 keymap("n", "N", "Nzzzv", {})
 
 -- Toggle editor's visual effects
-keymap("n", "<Leader>ts", ":setlocal spell!<cr>", { desc = "Enable spell checking" })
+keymap("n", "<Leader>tz", ":setlocal spell!<cr>", { desc = "Toggle spell checking" })
 keymap("n", "<Leader>tn", ":setlocal nonumber!<CR>", { desc = "No number" })
 keymap("n", "<Leader>tl", ":setlocal nolist!<CR>", { desc = "No list" })
 keymap("n", "<Leader>tw", ":setlocal wrap! breakindent!<CR>", { desc = "Wrap breakindent" })
@@ -148,8 +145,6 @@ keymap("n", "g0", ":tabfirst<CR>", { silent = true })
 keymap("n", "g$", ":tablast<CR>", { silent = true })
 keymap("n", "<A-j>", ":tabnext<CR>", { silent = true })
 keymap("n", "<A-k>", ":tabprevious<CR>", { silent = true })
-keymap("n", "]t", ":tabnext<CR>", { silent = true })
-keymap("n", "[t", ":tabprevious<CR>", { silent = true })
 
 for i = 1, 9 do
   -- <Leader>[1-9] move to window [1-9]
@@ -163,14 +158,8 @@ end
 if not vim.g.lasttab then vim.g.lasttab = 1 end
 keymap("n", "<Leader>lt", ':exe "tabn " . g:lasttab<CR>', { silent = true, desc = "Last tab" })
 
--- Windows and buffers
-keymap("n", "[Window]v", ":split<CR>", { silent = true })
-keymap("n", "[Window]g", ":vsplit<CR>", { silent = true })
-keymap("n", "[Window]t", ":tabnew<CR>", { silent = true })
-keymap("n", "[Window]o", ":only<CR>", { silent = true })
-keymap("n", "[Window]b", ":b#<CR>", { silent = true })
-keymap("n", "[Window]c", ":close<CR>", { silent = true })
-keymap("n", "[Window]x", function()
+-- Buffer: replace current buffer with a fresh empty one (keeps window/tab layout)
+keymap("n", "<Leader>bx", function()
   local bufnr = vim.api.nvim_get_current_buf()
   local winnr = vim.api.nvim_get_current_win()
   local tabnr = vim.api.nvim_get_current_tabpage()
@@ -178,9 +167,9 @@ keymap("n", "[Window]x", function()
   vim.api.nvim_set_current_win(winnr)
   vim.api.nvim_set_current_tabpage(tabnr)
   vim.api.nvim_command "new"
-end, { silent = true })
+end, { silent = true, desc = "Delete buffer & open empty" })
 
--- Buffer
+-- Buffer navigation
 keymap("n", "<Leader>b0", ":bfirst<CR>", { silent = true, desc = "First buffer" })
 keymap("n", "<Leader>b$", ":blast<CR>", { silent = true, desc = "Last buffer" })
 keymap("n", "]b", ":bnext<CR>", {})
@@ -193,11 +182,9 @@ keymap("n", "<A-Left>", ":vertical resize -2<CR>", {})
 keymap("n", "<A-Right>", ":vertical resize +2<CR>", {})
 keymap("n", "<C-w>z", ":vert resize<CR>:resize<CR>:normal! ze<CR>", { silent = true })
 
--- Window
-keymap("n", "<C-J>", "<C-W>j", {})
-keymap("n", "<C-K>", "<C-W>k", {})
-keymap("n", "<C-L>", "<C-W>l", {})
-keymap("n", "<C-H>", "<C-W>h", {})
+-- Window navigation: handled by vim-tmux-navigator (<C-h/j/k/l> seamlessly
+-- crosses tmux pane <-> nvim split boundaries). Do NOT add noremap overrides
+-- here or the plugin becomes a no-op.
 
 -- Terminal Window
 keymap("t", "<C-J>", "<cmd>wincmd j<CR>", {})

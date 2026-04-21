@@ -2,8 +2,9 @@ local SpecFile = require("utils").SpecFile
 local Spec = require("utils").Spec
 
 -- basic
+-- vim-tmux-navigator provides <C-h/j/k/l> that crosses nvim <-> tmux pane
+-- boundaries. Keep its mappings (don't override in keymaps.lua).
 Spec { "christoomey/vim-tmux-navigator", event = "VeryLazy" }
-Spec { "gpanders/editorconfig.nvim", event = "BufReadPre" }
 
 SpecFile "plugins.surround"
 SpecFile "plugins.hardtime"
@@ -28,6 +29,7 @@ SpecFile "plugins.neotree"
 SpecFile "plugins.outline"
 SpecFile "plugins.toggleterm"
 SpecFile "plugins.snacks"
+SpecFile "plugins.oscyank"
 
 -- picker
 SpecFile "plugins.fzf"

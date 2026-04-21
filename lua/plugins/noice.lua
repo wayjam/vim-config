@@ -2,6 +2,10 @@ return {
   "folke/noice.nvim",
   event = "VeryLazy",
   opts = {
+    -- Without these enabled, `cmdheight = 0` hides :echo, macro-recording
+    -- indicator, :s replacement counts, etc. noice takes over the missing UI.
+    cmdline = { enabled = true },
+    messages = { enabled = true },
     lsp = {
       -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
       override = {

@@ -25,7 +25,6 @@ nnoremap <silent> ]l :<c-u>call <SID>cycle('lnext', 'lfirst')<CR>
 nnoremap <silent> [l :<c-u>call <SID>cycle('lprev', 'llast')<CR>
 nnoremap <silent> ]q :<c-u>call <SID>cycle('cnext', 'cfirst')<CR>
 nnoremap <silent> [q :<c-u>call <SID>cycle('cprev', 'clast')<CR>
-nnoremap <silent> <buffer> q :cclose<bar>:lclose<CR>
 nnoremap <buffer> <CR> <CR>
 
 let &cpoptions = s:save_cpo
