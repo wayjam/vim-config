@@ -3,9 +3,10 @@ return {
     Lua = {
       workspace = {
         checkThirdParty = false,
-        library = vim.api.nvim_get_runtime_file("", true),
-        maxPreload = 1000, -- Limit preloaded files for performance
-        preloadFileSize = 150, -- Skip large files
+        -- `library` is intentionally omitted: lazydev.nvim manages Lua library
+        -- paths on demand (see lua/plugins/lazydev.lua). Adding a static
+        -- `nvim_get_runtime_file("", true)` here defeats the whole point of
+        -- lazy loading and doubles the LSP startup cost.
       },
       hint = {
         enable = true, -- necessary

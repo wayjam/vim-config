@@ -1,14 +1,14 @@
+-- Neovim 0.10+ has built-in `gc` / `gcc` / `gb` / `gbc` comment operators.
+-- `ts-comments.nvim` tweaks `commentstring` via treesitter for languages
+-- where the builtin heuristic falls short (TSX/JSX/Vue/Svelte, embedded HTML…).
 return {
-  "numToStr/Comment.nvim",
-  event = "BufReadPost",
-  config = function()
-    local comment = require "Comment"
-    comment.setup {
-      pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
-    }
-
+  "folke/ts-comments.nvim",
+  event = "VeryLazy",
+  opts = {},
+  init = function()
     local keymap = require("utils").keymap
-    keymap("n", "<Leader>//", "<Plug>(comment_toggle_linewise_current)")
-    keymap("x", "<Leader>//", "<Plug>(comment_toggle_linewise_visual)<CR>")
+    -- Keep legacy <Leader>// toggle mapped to the builtin gc operator.
+    keymap("n", "<Leader>//", "gcc", { remap = true, desc = "Toggle comment line" })
+    keymap("x", "<Leader>//", "gc", { remap = true, desc = "Toggle comment" })
   end,
 }

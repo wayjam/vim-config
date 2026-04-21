@@ -15,9 +15,13 @@ vim.opt.conceallevel = 0 -- so that `` is visible in markdown files
 -- Enables 24-bit RGB color in the TUI
 if vim.fn.has "termguicolors" == 1 then vim.opt.termguicolors = true end
 
--- Enable italics, Make sure this is immediately after colorscheme
+-- Enable italics. Make sure this is applied after the colorscheme loads.
 -- https://stackoverflow.com/questions/3494435/vimrc-make-comments-italic
-vim.cmd "highlight Comment cterm=italic gui=italic"
+vim.api.nvim_create_autocmd("ColorScheme", {
+  group = vim.api.nvim_create_augroup("user_italic_comment", { clear = true }),
+  callback = function() vim.api.nvim_set_hl(0, "Comment", { italic = true }) end,
+})
+vim.api.nvim_set_hl(0, "Comment", { italic = true })
 
 -- What to save for views and sessions:
 vim.opt.viewoptions = { "folds", "cursor", "curdir", "slash", "unix" }

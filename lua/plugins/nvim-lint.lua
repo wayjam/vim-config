@@ -1,3 +1,29 @@
+-- 模块级缓存：避免每次 lint 触发时重复做文件系统查找 / executable 探测
+-- key -> bool
+-- :Lazy reload 会清空缓存
+local _cache = {}
+
+local function find_upward_cached(dirname, files)
+  local key = dirname .. "|" .. table.concat(files, ",")
+  if _cache[key] == nil then _cache[key] = vim.fs.find(files, { upward = true, path = dirname })[1] ~= nil end
+  return _cache[key]
+end
+
+local function executable_cached(cmd)
+  local key = "exe:" .. cmd
+  if _cache[key] == nil then _cache[key] = vim.fn.executable(cmd) == 1 end
+  return _cache[key]
+end
+
+local GOLANGCI_CONFIGS = { ".golangci.yml", ".golangci.yaml", ".golangci.toml", ".golangci.json" }
+local BIOME_CONFIGS = { "biome.json", "biome.jsonc" }
+
+local function has_golangci(ctx)
+  return executable_cached "golangci-lint" and find_upward_cached(ctx.dirname, GOLANGCI_CONFIGS)
+end
+
+local function has_biome(ctx) return executable_cached "biome" and find_upward_cached(ctx.dirname, BIOME_CONFIGS) end
+
 return {
   "mfussenegger/nvim-lint",
   event = { "BufReadPre", "BufNewFile", "FileReadPre" },
@@ -12,7 +38,7 @@ return {
       cmake = { "cmake-lint" },
       css = { "stylelint" },
       cpp = { "clangtidy" },
-      go = { "revive" },
+      go = { "golangci-lint", "revive" },
       java = { "checkstyle" },
       json = { "jsonlint" },
       kotlin = { "ktlint" },
@@ -23,11 +49,11 @@ return {
       sh = { "shellcheck" },
       vim = { "vint" },
       yaml = { "yamllint" },
-      svelte = { "edlint_d" },
-      javascript = { "edlint_d" },
-      typescript = { "edlint_d" },
-      javascriptreact = { "edlint_d" },
-      typescriptreact = { "edlint_d" },
+      svelte = { "biomejs", "eslint_d" },
+      javascript = { "biomejs", "eslint_d" },
+      typescript = { "biomejs", "eslint_d" },
+      javascriptreact = { "biomejs", "eslint_d" },
+      typescriptreact = { "biomejs", "eslint_d" },
       nix = { "nix" },
       proto = { "buf_lint" },
 
@@ -38,7 +64,24 @@ return {
       -- ["*"] = { "typos" },
     },
     -- or add custom linters.
-    linters = {},
+    linters = {
+      -- Go: 优先 golangci-lint（需同时满足：已安装 + 项目根有 .golangci.* 配置）
+      -- 否则 fallback 到 revive
+      ["golangci-lint"] = {
+        condition = function(ctx) return has_golangci(ctx) end,
+      },
+      revive = {
+        condition = function(ctx) return not has_golangci(ctx) end,
+      },
+      -- JS/TS: 优先 biome（需同时满足：已安装 + 项目根有 biome.json/biome.jsonc）
+      -- 否则 fallback 到 eslint_d
+      biomejs = {
+        condition = function(ctx) return has_biome(ctx) end,
+      },
+      eslint_d = {
+        condition = function(ctx) return not has_biome(ctx) end,
+      },
+    },
   },
   config = function(_, opts)
     local M = {

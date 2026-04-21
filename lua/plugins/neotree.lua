@@ -245,7 +245,7 @@ return {
       group = group,
       callback = function()
         local buffer_path = vim.api.nvim_buf_get_name(0)
-        local fs_info = vim.loop.fs_stat(buffer_path)
+        local fs_info = vim.uv.fs_stat(buffer_path)
         local is_directory = fs_info ~= nil and fs_info.type == "directory"
         local is_empty_buffer = buffer_path == ""
 

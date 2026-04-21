@@ -13,19 +13,6 @@ return {
   },
   dependencies = {
     {
-      "JoosepAlviste/nvim-ts-context-commentstring",
-      lazy = true,
-      config = function()
-        require("ts_context_commentstring").setup {
-          enable_autocmd = false,
-          languages = {
-            css = "// %s",
-            gomod = "// %s",
-          },
-        }
-      end,
-    },
-    {
       "windwp/nvim-ts-autotag",
       lazy = true,
       config = function()

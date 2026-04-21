@@ -190,12 +190,6 @@ return {
         update_in_insert = false,
         underline = true,
         severity_sort = true,
-        document_highlight = {
-          enabled = true,
-        },
-        codelens = {
-          enabled = false,
-        },
         float = {
           focusable = true,
           style = "minimal",
@@ -229,7 +223,7 @@ return {
           local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
           if not client then return end
 
-          -- lang specify: https://github.com/MysticalDevil/inlay-hints.nvim
+          -- Inlay hints toggle (capability-gated)
           if client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint, bufnr) then
             -- Toggle inlay hints
             vim.api.nvim_create_user_command(
@@ -245,6 +239,33 @@ return {
               buffer = bufnr,
             })
           end
+
+          -- Document highlight: hl symbol under cursor when idle
+          if client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight, bufnr) then
+            local hl_group = vim.api.nvim_create_augroup("my.lsp.document_highlight." .. bufnr, { clear = true })
+            vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+              group = hl_group,
+              buffer = bufnr,
+              callback = vim.lsp.buf.document_highlight,
+            })
+            vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+              group = hl_group,
+              buffer = bufnr,
+              callback = vim.lsp.buf.clear_references,
+            })
+            vim.api.nvim_create_autocmd({ "LspDetach" }, {
+              group = hl_group,
+              buffer = bufnr,
+              callback = function(detach)
+                vim.lsp.buf.clear_references()
+                vim.api.nvim_clear_autocmds { group = hl_group, buffer = detach.buf }
+              end,
+            })
+          end
+
+          -- Codelens is intentionally NOT auto-refreshed here (disabled by default).
+          -- If you want it later, gate on textDocument_codeLens and call
+          -- vim.lsp.codelens.refresh({ bufnr = bufnr }) on BufEnter/InsertLeave.
         end,
       })
     end,

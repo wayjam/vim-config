@@ -4,9 +4,8 @@ local Spec = require("utils").Spec
 -- basic
 Spec { "christoomey/vim-tmux-navigator", event = "VeryLazy" }
 Spec { "gpanders/editorconfig.nvim", event = "BufReadPre" }
-Spec { "tpope/vim-surround", event = "InsertCharPre" }
 
-SpecFile "plugins.bigfile"
+SpecFile "plugins.surround"
 SpecFile "plugins.hardtime"
 
 -- UI
@@ -28,7 +27,6 @@ SpecFile "plugins.trouble"
 SpecFile "plugins.neotree"
 SpecFile "plugins.outline"
 SpecFile "plugins.toggleterm"
-SpecFile "plugins.illuminate"
 SpecFile "plugins.snacks"
 
 -- picker

@@ -58,7 +58,7 @@ return {
           },
         },
       },
-      interactions = {
+      strategies = {
         inline = { adapter = "copilot" },
         cmd = { adapter = "copilot" },
         chat = {
@@ -119,7 +119,7 @@ return {
         end
       end
 
-      opts.interactions.chat.adapter = default_provider
+      opts.strategies.chat.adapter = default_provider
 
       -- ACP providers (e.g. claude_code, gemini_cli)
       -- Env: NVIM_AI_ACP_<NAME>_ENABLED, NVIM_AI_ACP_<NAME>_MODEL, NVIM_AI_ACP_<NAME>_IS_DEFAULT
@@ -140,9 +140,9 @@ return {
               return require("codecompanion.adapters").extend(name, args)
             end
             if is_default then
-              opts.interactions.chat.adapter = name
-              opts.interactions.inline.adapter = name
-              opts.interactions.cmd.adapter = name
+              opts.strategies.chat.adapter = name
+              opts.strategies.inline.adapter = name
+              opts.strategies.cmd.adapter = name
             end
           end
         end

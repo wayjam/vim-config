@@ -164,13 +164,13 @@ if not vim.g.lasttab then vim.g.lasttab = 1 end
 keymap("n", "<Leader>lt", ':exe "tabn " . g:lasttab<CR>', { silent = true, desc = "Last tab" })
 
 -- Windows and buffers
-keymap("n", "<silent> [Window]v", ":split<CR>", {})
-keymap("n", "<silent> [Window]g", ":vsplit<CR>", {})
-keymap("n", "<silent> [Window]t", ":tabnew<CR>", {})
-keymap("n", "<silent> [Window]o", ":only<CR>", {})
-keymap("n", "<silent> [Window]b", ":b#<CR>", {})
-keymap("n", "<silent> [Window]c", ":close<CR>", {})
-keymap("n", "<silent> [Window]x", function()
+keymap("n", "[Window]v", ":split<CR>", { silent = true })
+keymap("n", "[Window]g", ":vsplit<CR>", { silent = true })
+keymap("n", "[Window]t", ":tabnew<CR>", { silent = true })
+keymap("n", "[Window]o", ":only<CR>", { silent = true })
+keymap("n", "[Window]b", ":b#<CR>", { silent = true })
+keymap("n", "[Window]c", ":close<CR>", { silent = true })
+keymap("n", "[Window]x", function()
   local bufnr = vim.api.nvim_get_current_buf()
   local winnr = vim.api.nvim_get_current_win()
   local tabnr = vim.api.nvim_get_current_tabpage()
@@ -178,11 +178,11 @@ keymap("n", "<silent> [Window]x", function()
   vim.api.nvim_set_current_win(winnr)
   vim.api.nvim_set_current_tabpage(tabnr)
   vim.api.nvim_command "new"
-end)
+end, { silent = true })
 
 -- Buffer
-keymap("n", "<silent> <Leader>b0", ":bfirst<CR>", { desc = "First buffer" })
-keymap("n", "<silent> <Leader>b$", ":blast<CR>", { desc = "Last buffer" })
+keymap("n", "<Leader>b0", ":bfirst<CR>", { silent = true, desc = "First buffer" })
+keymap("n", "<Leader>b$", ":blast<CR>", { silent = true, desc = "Last buffer" })
 keymap("n", "]b", ":bnext<CR>", {})
 keymap("n", "[b", ":bprev<CR>", {})
 
@@ -191,7 +191,7 @@ keymap("n", "<A-Up>", ":resize -2<CR>", {})
 keymap("n", "<A-Down>", ":resize +2<CR>", {})
 keymap("n", "<A-Left>", ":vertical resize -2<CR>", {})
 keymap("n", "<A-Right>", ":vertical resize +2<CR>", {})
-keymap("n", "<silent><C-w>z", ":vert resize<CR>:resize<CR>:normal! ze<CR>", {})
+keymap("n", "<C-w>z", ":vert resize<CR>:resize<CR>:normal! ze<CR>", { silent = true })
 
 -- Window
 keymap("n", "<C-J>", "<C-W>j", {})
