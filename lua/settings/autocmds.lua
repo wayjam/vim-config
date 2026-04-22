@@ -19,6 +19,65 @@ vim.api.nvim_create_autocmd({ "FocusGained", "CursorHold", "CursorHoldI" }, {
   end,
 })
 
+-- Poll the disk periodically so buffers refresh even when Neovim doesn't have
+-- focus (e.g. Claude Code editing files in the adjacent tmux pane). CursorHold
+-- only fires while Neovim is focused; FocusGained requires switching panes.
+-- Only stat the buffers currently visible in some window — ignoring hidden
+-- buffers keeps the per-tick cost O(panes) instead of O(total buffers).
+-- use `:Lazy profile` or `nvim --startuptime` to measure performance
+local checktime_timer = vim.uv.new_timer()
+local checktime_interval_ms = 2000
+checktime_timer:start(
+  checktime_interval_ms,
+  checktime_interval_ms,
+  vim.schedule_wrap(function()
+    local mode = vim.fn.mode()
+    if mode ~= "n" and mode ~= "v" and mode ~= "V" then return end
+    local seen = {}
+    for _, win in ipairs(vim.api.nvim_list_wins()) do
+      local buf = vim.api.nvim_win_get_buf(win)
+      if not seen[buf] and vim.api.nvim_buf_is_loaded(buf) and vim.bo[buf].buftype == "" then
+        seen[buf] = true
+        vim.api.nvim_buf_call(buf, function() vim.cmd "silent! checktime" end)
+      end
+    end
+  end)
+)
+
+-- Decide how to resolve a disk-vs-buffer change. When the buffer has no local
+-- edits we always reload silently. When both the disk and the buffer have
+-- diverged (common under fast AI edits), fall back to Vim's built-in prompt
+-- so we never silently lose typed characters.
+vim.api.nvim_create_autocmd("FileChangedShell", {
+  group = group,
+  desc = "Resolve external file changes without clobbering local edits",
+  callback = function(args)
+    if vim.bo[args.buf].modified then
+      vim.v.fcs_choice = "ask" -- Load / Diff / Keep — user chooses
+    else
+      vim.v.fcs_choice = "reload"
+    end
+  end,
+})
+
+-- Notify when a buffer is reloaded because the file changed on disk. We write
+-- to :messages (via nvim_echo with add_to_history=true) in addition to the
+-- regular echo area because cmdheight=0 makes transient messages easy to miss
+-- when the reload happens while focus is elsewhere. Vim already splices the
+-- reload into the undo tree as a single step, so `u` right after a reload
+-- undoes the external change — no extra manipulation needed.
+vim.api.nvim_create_autocmd("FileChangedShellPost", {
+  group = group,
+  desc = "Warn when a buffer is reloaded from disk",
+  callback = function(args)
+    vim.api.nvim_echo(
+      { { "⟳ " .. vim.fn.fnamemodify(args.file, ":~:.") .. " reloaded from disk", "WarningMsg" } },
+      true,
+      {}
+    )
+  end,
+})
+
 -- Briefly highlight the yanked region on every yank.
 vim.api.nvim_create_autocmd("TextYankPost", {
   group = group,

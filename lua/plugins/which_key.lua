@@ -12,6 +12,7 @@ return {
       { "<leader>e", group = "diagnostic" },
       { "<leader>f", group = "find" },
       { "<leader>g", group = "git" },
+      { "<leader>gd", group = "diff" },
       { "<leader>gh", group = "hunk" },
       { "<leader>G", group = "Git (fugitive)" },
       { "<leader>l", group = "last" },

@@ -63,10 +63,19 @@ return {
         keymap("n", "<leader>ghp", gs.preview_hunk, { desc = "Preview Hunk", buffer = bufnr })
         keymap("n", "<leader>ghd", gs.diffthis, { desc = "Diff This", buffer = bufnr })
 
+        -- Inline diff toggle: flips line-highlight + word-diff together so the
+        -- current buffer paints AI-inserted lines in-place (no split window).
+        -- Handy for a quick "what did the agent change here" glance without
+        -- reaching for diffview.
+        keymap("n", "<leader>gdi", function()
+          gs.toggle_linehl()
+          gs.toggle_word_diff()
+        end, { desc = "Toggle inline diff", buffer = bufnr })
+
         -- Text object
         keymap({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", { desc = "Select Hunk", buffer = bufnr })
       end,
-      update_debounce = 200,
+      update_debounce = 100, -- 100ms feels snappier when reviewing AI-generated hunks
       max_file_length = 40000,
       preview_config = {
         border = "single",

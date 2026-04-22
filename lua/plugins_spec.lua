@@ -29,7 +29,6 @@ SpecFile "plugins.neotree"
 SpecFile "plugins.outline"
 SpecFile "plugins.toggleterm"
 SpecFile "plugins.snacks"
-SpecFile "plugins.oscyank"
 
 -- picker
 SpecFile "plugins.fzf"
