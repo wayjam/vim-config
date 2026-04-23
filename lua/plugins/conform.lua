@@ -52,7 +52,7 @@ return {
         dart = { "dart_format" },
         elixir = { "mix" },
         fish = { "fish_indent" },
-        go = { "gofumpt", "goimports-reviser", "golines" },
+        go = { "gofumpt", "goimports-reviser", "golines", stop_after_first = false },
         java = { "google-java-format" },
         json = { "prettierd" },
         kotlin = { "ktlint" },
@@ -86,7 +86,7 @@ return {
       formatters = {
         injected = { options = { ignore_errors = true } },
         golines = {
-          prepend_args = { "-m 120" },
+          prepend_args = { "-m", "120" },
         },
         -- Example overrides (currently commented out)
         -- dprint = { ... }

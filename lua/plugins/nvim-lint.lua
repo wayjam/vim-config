@@ -38,7 +38,7 @@ return {
       cmake = { "cmake-lint" },
       css = { "stylelint" },
       cpp = { "clangtidy" },
-      go = { "golangci-lint", "revive" },
+      go = { "golangcilint", "revive" },
       java = { "checkstyle" },
       json = { "jsonlint" },
       kotlin = { "ktlint" },
@@ -67,7 +67,7 @@ return {
     linters = {
       -- Go: 优先 golangci-lint（需同时满足：已安装 + 项目根有 .golangci.* 配置）
       -- 否则 fallback 到 revive
-      ["golangci-lint"] = {
+      golangcilint = {
         condition = function(ctx) return has_golangci(ctx) end,
       },
       revive = {
