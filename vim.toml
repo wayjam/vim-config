@@ -1,0 +1,7 @@
+# Selene standard library definition for Neovim's `vim` global.
+# Declaring it as `any = true` tells selene the object exists but opts out of
+# deep field/method type-checking — necessary because the full Neovim API is
+# too large to enumerate here and changes between releases.
+
+[vim]
+any = true

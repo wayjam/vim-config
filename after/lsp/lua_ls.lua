@@ -9,22 +9,25 @@ return {
         -- lazy loading and doubles the LSP startup cost.
       },
       hint = {
-        enable = true, -- necessary
+        enable = true,
       },
       telemetry = {
-        enable = false, -- Disable telemetry
+        enable = false,
       },
       diagnostics = {
-        enable = true,
-        globals = {
-          "vim",
-          "use",
-          "describe",
-          "it",
-          "assert",
-          "before_each",
-          "after_each",
+        -- Neovim-specific globals. `vim` type info comes from lazydev.nvim at
+        -- runtime; listing it here just suppresses undefined-global on files
+        -- that lazydev hasn't attached to yet.
+        globals = { "vim" },
+        -- Ignore busted test globals project-wide. If you only use busted in
+        -- specific dirs, consider a per-project .luarc.json there instead.
+        -- globals = { "vim", "describe", "it", "assert", "before_each", "after_each" },
+        libraryFiles = "Open",
+        groupSeverity = {
+          strong = "Warning",
+          strict = "Warning",
         },
+        unusedLocalExclude = { "_*" },
       },
     },
   },

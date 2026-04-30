@@ -3,14 +3,17 @@
 # --- Basic Settings ---
 
 # Specifies the Lua standard the project adheres to. Neovim uses LuaJIT, which is highly compatible with Lua 5.1.
-std = "lua51"
+# vim.toml provides `any = true` for the `vim` global so selene does not try to
+# infer types on Neovim API calls (which would produce "cannot infer type: vim").
+std = "lua51+vim"
 
 # --- Globals ---
 # Define global variables provided by the Neovim environment here to avoid "undefined_variable" warnings.
 # This is the most important part because Neovim injects the `vim` global variable.
 # You may also need to add other global variables set by plugins or your configuration.
 [global]
-vim = "ReadOnly"    # Neovim's main API entry point
+# `vim` is defined via std = "lua51+vim" above (vim.toml, any = true).
+# That suppresses "cannot infer type: vim" on every vim.* call.
 require = "ReadOnly" # Lua's require function
 # If you use a testing framework (like plenary.busted), you may need to add describe, it, etc.
 # describe = "ReadOnly"
