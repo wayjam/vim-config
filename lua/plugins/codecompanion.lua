@@ -20,6 +20,7 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
+      "franco-ruggeri/codecompanion-spinner.nvim",
     },
     keys = {
       {
@@ -49,6 +50,9 @@ return {
     },
     opts = {
       adapters = { acp = {}, http = {} },
+      extensions = {
+        spinner = {},
+      },
       display = {
         chat = {
           window = {
@@ -149,7 +153,11 @@ return {
       end
 
       local ok, customize = pcall(require, "customize.codecompanion")
-      if ok then customize.config(_, opts) end
+      if ok then
+        customize.config(_, opts)
+      else
+        vim.notify("[codecompanion] customize load failed:\n" .. tostring(customize), vim.log.levels.ERROR)
+      end
 
       require("codecompanion").setup(opts)
 

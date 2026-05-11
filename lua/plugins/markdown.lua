@@ -1,5 +1,5 @@
 return {
-  { "ellisonleao/glow.nvim", config = true, cmd = "Glow", ft = { "markdown", "norg", "rmd", "org" } },
+  { "ellisonleao/glow.nvim", config = true, cmd = "Glow", ft = { "markdown", "norg", "rmd", "org", "codecompanion" } },
   {
     "MeanderingProgrammer/render-markdown.nvim",
     opts = {

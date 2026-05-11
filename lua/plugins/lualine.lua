@@ -15,7 +15,7 @@ local diff = {
   cond = conditions.hide_in_width,
   padding = 1,
 }
-local branch = { "branch", icon = "", cond = conditions.check_git_workspace }
+local branch = { "branch", icon = "", cond = conditions.check_git_workspace }
 local encoding = { "o:encoding", fmt = string.upper, color = {}, cond = conditions.hide_in_width }
 local filetype = { "filetype", cond = conditions.hide_in_width, icon_only = false, padding = { left = 1, right = 0 } }
 local filename = { "filename", padding = 1, file_status = true, path = 1, shorting_target = 64 }
@@ -29,14 +29,6 @@ local diagnostics = {
   "diagnostics",
   sources = { "nvim_lsp" },
   sections = { "error", "warn", "info", "hint" },
-  -- all colors are in format #rrggbb
-  -- default auto extract from 'Diagnostic', 'LspDiagnosticsDefault', 'Diff'
-  -- diagnostics_color = {
-  --     error = nil,
-  --     warn = nil,
-  --     info = nil,
-  --     hint = nil
-  -- },
   symbols = {
     error = utils.padded_signs "Error",
     warn = utils.padded_signs "Warn",
@@ -44,7 +36,7 @@ local diagnostics = {
     hint = utils.padded_signs "Hint",
   },
   colored = true,
-  update_in_insert = false, -- Update diagnostics in insert mode
+  update_in_insert = false,
   always_visible = false,
 }
 
@@ -56,6 +48,7 @@ local recording = {
   cond = function() return vim.fn.reg_recording() ~= "" end,
 }
 
+
 return {
   "nvim-lualine/lualine.nvim",
   event = "UIEnter",
@@ -63,7 +56,7 @@ return {
   opts = {
     options = {
       component_separators = "",
-      section_separators = { left = "", right = "" },
+      section_separators = { left = "", right = "" },
       disabled_filetypes = { "neo-tree" },
       color = { cterm = "none", gui = "none" },
     },
@@ -87,7 +80,6 @@ return {
   },
   config = function(_, opts)
     vim.g.qf_disable_statusline = true
-
     require("lualine").setup(opts)
   end,
 }
