@@ -11,8 +11,6 @@ return {
     toggle = { enabled = true },
     -- Faster file opening
     quickfile = { enabled = true },
-    -- Smooth scrolling (replaces neoscroll.nvim)
-    scroll = { enabled = true },
     -- Highlight word references under cursor (replaces vim-illuminate)
     words = { enabled = true },
     -- Disable features for large files (replaces lunarvim/bigfile.nvim)

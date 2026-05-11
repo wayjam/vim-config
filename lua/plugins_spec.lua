@@ -17,6 +17,7 @@ SpecFile "plugins.tabby"
 SpecFile "plugins.noice"
 SpecFile "plugins.indentline"
 SpecFile "plugins.ufo"
+-- SpecFile "plugins.neoscroll"
 
 -- git
 SpecFile "plugins.fugitive"
