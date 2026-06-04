@@ -106,7 +106,7 @@ vim.opt.switchbuf = "useopen,usetab,vsplit"
 vim.opt.backspace = "indent,eol,start"
 
 -- Completion and Diff
-vim.opt.complete = ",.,w,b,k"
+vim.opt.complete = { ".", "w", "b", "k" }
 -- `noinsert` — don't auto-insert the first completion entry.
 -- `popup`    — show docs in a popup next to the menu (Neovim 0.11+).
 vim.opt.completeopt = { "menu", "menuone", "noselect", "noinsert", "popup" }
