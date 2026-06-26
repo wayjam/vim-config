@@ -217,6 +217,12 @@ return {
         group = vim.api.nvim_create_augroup("my.lsp", { clear = true }),
         callback = function(args)
           local bufnr = args.buf
+
+          -- diffview.nvim creates virtual buffers with "diffview://" URIs.
+          -- These should never receive LSP features (document highlight,
+          -- inlay hints, keymaps). Skip setup entirely for these buffers.
+          if vim.api.nvim_buf_get_name(bufnr):match "^diffview://" then return end
+
           local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
           if not client then return end
 

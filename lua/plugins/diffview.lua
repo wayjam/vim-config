@@ -1,5 +1,6 @@
 return {
-  "sindrets/diffview.nvim",
+  "dlyongemallo/diffview-plus.nvim",
+  version = "*",
   dependencies = { "nvim-lua/plenary.nvim" },
   cmd = {
     "DiffviewOpen",
@@ -47,22 +48,5 @@ return {
       -- see configuration in
       -- https://github.com/sindrets/diffview.nvim#configuration
     }
-
-    -- diffview creates virtual buffers with "diffview://" URIs.
-    -- Language servers (gopls, etc.) only accept "file://" URIs, so
-    -- detach all LSP clients from these buffers to prevent errors.
-    local augroup = vim.api.nvim_create_augroup("diffview_lsp_block", { clear = true })
-    vim.api.nvim_create_autocmd({ "BufReadPost", "BufEnter" }, {
-      group = augroup,
-      desc = "Prevent LSP from attaching to diffview virtual buffers",
-      callback = function(args)
-        local name = vim.api.nvim_buf_get_name(args.buf)
-        if name:match("^diffview://") then
-          for _, client in ipairs(vim.lsp.get_clients({ bufnr = args.buf })) do
-            vim.lsp.buf_detach_client(args.buf, client.id)
-          end
-        end
-      end,
-    })
   end,
 }

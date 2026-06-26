@@ -22,7 +22,7 @@ SpecFile "plugins.ufo"
 -- git
 SpecFile "plugins.fugitive"
 SpecFile "plugins.gitsigns"
-SpecFile "plugins.diffview"
+SpecFile "plugins.codediff"
 
 -- tool
 SpecFile "plugins.trouble"
