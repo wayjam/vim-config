@@ -15,5 +15,27 @@ return {
       ["<Left>"] = { "n", "x" },
       ["<Right>"] = { "n", "x" },
     },
+    -- Navigational UIs where hjkl restriction is counterproductive.
+    -- Each entry is merged with hardtime's built-in defaults; patterns
+    -- using Lua pattern matching (% . - etc.) are supported.
+    disabled_filetypes = {
+      -- CodeDiff: Explorer and History windows
+      ["codediff%-.*"] = true,
+      -- Toggleterm: terminal buffers
+      ["toggleterm"] = true,
+      -- Snacks: picker (list/input/preview), terminal, notification history
+      ["snacks_picker.*"] = true,
+      ["snacks_terminal"] = true,
+      ["snacks_notif.*"] = true,
+      -- fzf-lua: file/content picker
+      ["fzf.*"] = true,
+      -- Outline: sidebar symbol navigator
+      ["Outline"] = true,
+      -- neotest: all panels (summary, output, output-panel, attach)
+      -- (defaults only cover neotest-summary)
+      ["neotest%-.*"] = true,
+      -- CodeCompanion: AI chat buffers
+      ["codecompanion.*"] = true,
+    },
   },
 }
