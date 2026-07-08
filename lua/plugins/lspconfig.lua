@@ -204,6 +204,20 @@ return {
       -- Setup CompletionItemKind symbols
       M.setup_kind()
 
+      -- Global per-buffer diagnostic toggle. markdown ftplugin hides
+      -- diagnostics by default; this keymap brings them back (or hides them
+      -- on any other buffer).
+      utils.keymap("n", "<leader>tD", function()
+        local bufnr = vim.api.nvim_get_current_buf()
+        local hidden = vim.b[bufnr].diagnostics_hidden
+        vim.b[bufnr].diagnostics_hidden = not hidden
+        vim.diagnostic.enable(hidden, { bufnr = bufnr })
+        vim.notify(
+          "Diagnostics " .. (hidden and "shown" or "hidden") .. " for this buffer",
+          vim.log.levels.INFO
+        )
+      end, { desc = "Toggle diagnostics (current buffer)" })
+
       vim.lsp.config(
         "*",
         ---@type vim.lsp.Config
