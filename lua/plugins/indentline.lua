@@ -22,6 +22,8 @@ return {
           "dashboard",
           "log",
           "fugitive",
+          "NeogitStatus",
+          "NeogitPopup",
           "gitcommit",
           "markdown",
           "json",

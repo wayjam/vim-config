@@ -20,7 +20,7 @@ SpecFile "plugins.ufo"
 -- SpecFile "plugins.neoscroll"
 
 -- git
-SpecFile "plugins.fugitive"
+SpecFile "plugins.neogit"
 SpecFile "plugins.gitsigns"
 SpecFile "plugins.codediff"
 

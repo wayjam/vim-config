@@ -14,7 +14,7 @@ return {
       { "<leader>g", group = "git" },
       { "<leader>gd", group = "diff" },
       { "<leader>gh", group = "hunk" },
-      { "<leader>G", group = "Git (fugitive)" },
+      { "<leader>G", group = "Git" },
       { "<leader>l", group = "last" },
       { "<leader>n", group = "no/next" },
       { "<leader>r", group = "rename" },

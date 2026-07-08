@@ -60,7 +60,7 @@ return {
       disabled_filetypes = { "neo-tree" },
       color = { cterm = "none", gui = "none" },
     },
-    extensions = { "toggleterm", "fugitive" },
+    extensions = { "toggleterm" },
     sections = {
       lualine_a = { "mode" },
       lualine_b = { filetype, filename, location },
