@@ -1,15 +1,14 @@
 return {
   "nvim-treesitter/nvim-treesitter",
-  event = "VeryLazy",
+  branch = "main",
+  lazy = false,
   build = ":TSUpdate",
   cmd = {
     "TSInstall",
     "TSUninstall",
     "TSUpdate",
-    "TSUpdateSync",
-    "TSInstallInfo",
-    "TSInstallSync",
     "TSInstallFromGrammar",
+    "TSLog",
   },
   dependencies = {
     {
@@ -41,57 +40,96 @@ return {
     },
     {
       "nvim-treesitter/nvim-treesitter-textobjects",
+      branch = "main",
       lazy = true,
-      specs = {
-        {
-          "nvim-treesitter/nvim-treesitter",
-          opts = {
-            textobjects = {
-              select = {
-                enable = true,
-                -- Automatically jump forward to textobj, similar to targets.vim
-                lookahead = true,
-                keymaps = {
-                  -- You can use the capture groups defined in textobjects.scm
-                  ["af"] = "@function.outer",
-                  ["if"] = "@function.inner",
-                  ["ac"] = "@class.outer",
-                  ["ic"] = "@class.inner",
-                },
-              },
-              move = {
-                enable = true,
-                goto_next_start = { ["]f"] = "@function.outer", ["]c"] = "@class.outer", ["]a"] = "@parameter.inner" },
-                goto_next_end = { ["]F"] = "@function.outer", ["]C"] = "@class.outer", ["]A"] = "@parameter.inner" },
-                goto_previous_start = {
-                  ["[f"] = "@function.outer",
-                  ["[c"] = "@class.outer",
-                  ["[a"] = "@parameter.inner",
-                },
-                goto_previous_end = { ["[F"] = "@function.outer", ["[C"] = "@class.outer", ["[A"] = "@parameter.inner" },
-              },
-              swap = { enable = false },
-            },
+      config = function()
+        require("nvim-treesitter-textobjects").setup {
+          select = {
+            enable = true,
+            -- Automatically jump forward to textobj, similar to targets.vim
+            lookahead = true,
           },
-        },
-      },
-    },
-  },
-  opts = {
-    ensure_installed = { "comment", "markdown_inline", "markdown", "regex", "lua", "bash", "vim", "query", "json" }, -- all or a list of names
-    ignore_install = { "phpdoc" }, -- List of parsers to ignore installing
-    highlight = {
-      enable = true,
-      additional_vim_regex_highlighting = false,
-      disable = function(lang, bufnr) -- Disable in large buffers
-        return lang == "vim" or vim.api.nvim_buf_line_count(bufnr) > 5000
+          move = {
+            enable = true,
+          },
+        }
+
+        -- Text objects: select
+        vim.keymap.set({ "x", "o" }, "af", function()
+          require("nvim-treesitter-textobjects.select").select_textobject("@function.outer", "textobjects")
+        end, { desc = "Select around function" })
+        vim.keymap.set({ "x", "o" }, "if", function()
+          require("nvim-treesitter-textobjects.select").select_textobject("@function.inner", "textobjects")
+        end, { desc = "Select inside function" })
+        vim.keymap.set({ "x", "o" }, "ac", function()
+          require("nvim-treesitter-textobjects.select").select_textobject("@class.outer", "textobjects")
+        end, { desc = "Select around class" })
+        vim.keymap.set({ "x", "o" }, "ic", function()
+          require("nvim-treesitter-textobjects.select").select_textobject("@class.inner", "textobjects")
+        end, { desc = "Select inside class" })
+
+        -- Text objects: move
+        vim.keymap.set("n", "]f", function()
+          require("nvim-treesitter-textobjects.move").goto_next_start("@function.outer", "textobjects")
+        end, { desc = "Next function start" })
+        vim.keymap.set("n", "[f", function()
+          require("nvim-treesitter-textobjects.move").goto_previous_start("@function.outer", "textobjects")
+        end, { desc = "Previous function start" })
+        vim.keymap.set("n", "]c", function()
+          require("nvim-treesitter-textobjects.move").goto_next_start("@class.outer", "textobjects")
+        end, { desc = "Next class start" })
+        vim.keymap.set("n", "[c", function()
+          require("nvim-treesitter-textobjects.move").goto_previous_start("@class.outer", "textobjects")
+        end, { desc = "Previous class start" })
+        vim.keymap.set("n", "]a", function()
+          require("nvim-treesitter-textobjects.move").goto_next_start("@parameter.inner", "textobjects")
+        end, { desc = "Next parameter" })
+        vim.keymap.set("n", "[a", function()
+          require("nvim-treesitter-textobjects.move").goto_previous_start("@parameter.inner", "textobjects")
+        end, { desc = "Previous parameter" })
       end,
     },
-    indent = { enable = true, disable = { "yaml", "python" } },
   },
-  config = function(_, opts)
-    require("nvim-treesitter.configs").setup(opts)
-    vim.o.foldmethod = "expr"
-    vim.o.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+  config = function()
+    require("nvim-treesitter").setup {
+      install_dir = vim.fn.stdpath("data") .. "/site",
+    }
+
+    -- Install parsers (no-op if already installed). Waits for completion so
+    -- highlighting/textobjects are available immediately on first run.
+    require("nvim-treesitter").install {
+      "comment",
+      "markdown_inline",
+      "markdown",
+      "regex",
+      "lua",
+      "bash",
+      "vim",
+      "query",
+      "json",
+      "latex",
+    }:wait(300000)
+
+    -- Highlighting is now provided by Neovim (see :h treesitter-highlight).
+    -- Enable it on every filetype that has a parser.
+    vim.api.nvim_create_autocmd("FileType", {
+      callback = function()
+        pcall(vim.treesitter.start)
+      end,
+    })
+
+    -- Folding via treesitter.
+    vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+    vim.wo.foldmethod = "expr"
+
+    -- Indentation via treesitter (experimental). Disable for yaml/python like before.
+    vim.api.nvim_create_autocmd("FileType", {
+      callback = function(args)
+        local exclude = { yaml = true, python = true }
+        if not exclude[args.match] then
+          vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        end
+      end,
+    })
   end,
 }
