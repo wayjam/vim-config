@@ -9,6 +9,11 @@ return {
       { "mfussenegger/nvim-dap", optional = true },
       { "mfussenegger/nvim-dap-python", optional = true },
     },
+    cond = function()
+      return vim.fn.executable("fd") == 1
+        or vim.fn.executable("fdfind") == 1
+        or vim.fn.executable("fd_find") == 1
+    end,
     ft = "python",
     keys = {
       { "<leader>vs", "<cmd>VenvSelect<cr>", desc = "Select VirtualEnv" },

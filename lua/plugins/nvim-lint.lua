@@ -30,7 +30,7 @@ return {
   dependencies = { "mason.nvim", "rshkarin/mason-nvim-lint" },
   opts = {
     -- Event to trigger linters
-    events = { "BufWritePost", "BufReadPost", "InsertLeave" },
+    events = { "BufWritePost", "BufReadPost" },
     linters_by_ft = {
       fish = { "fish" },
       c = { "clangtidy" },
@@ -49,6 +49,7 @@ return {
       sh = { "shellcheck" },
       vim = { "vint" },
       yaml = { "yamllint" },
+      gitcommit = { "typos" },
       svelte = { "biomejs", "eslint_d" },
       javascript = { "biomejs", "eslint_d" },
       typescript = { "biomejs", "eslint_d" },
@@ -57,11 +58,6 @@ return {
       nix = { "nix" },
       proto = { "buf_lint" },
 
-      -- Use the "*" filetype to run linters on all filetypes.
-      ["*"] = { "typos" },
-      -- Use the "_" filetype to run linters on filetypes that don't have other linters configured.
-      -- ['_'] = { 'fallback linter' },
-      -- ["*"] = { "typos" },
     },
     -- or add custom linters.
     linters = {
@@ -179,12 +175,18 @@ return {
 
     local auGroup = vim.api.nvim_create_augroup("nvim-lint", { clear = true })
 
-    -- lint on save
+    local lint_debounced = M.debounce(100, function()
+      if not M.lint_globally_disabled and not vim.b.disable_autolint then M.lint() end
+    end)
+
     vim.api.nvim_create_autocmd(opts.events, {
       group = auGroup,
-      callback = M.debounce(100, function()
-        if not M.lint_globally_disabled and not vim.b.disable_autolint then M.lint() end
-      end),
+      callback = lint_debounced,
+    })
+    vim.api.nvim_create_autocmd("InsertLeave", {
+      group = auGroup,
+      pattern = "gitcommit",
+      callback = lint_debounced,
     })
 
     require("utils").keymap("n", "<leader>cL", function() M.lint() end, { desc = "Trigger linting for current file" })

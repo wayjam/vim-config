@@ -95,9 +95,8 @@ return {
       install_dir = vim.fn.stdpath("data") .. "/site",
     }
 
-    -- Install parsers (no-op if already installed). Waits for completion so
-    -- highlighting/textobjects are available immediately on first run.
-    require("nvim-treesitter").install {
+    -- Install parsers in the background so startup never waits for downloads or builds.
+    local parser_install = require("nvim-treesitter").install {
       "comment",
       "markdown_inline",
       "markdown",
@@ -108,7 +107,17 @@ return {
       "query",
       "json",
       "latex",
-    }:wait(300000)
+    }
+    parser_install:await(function(err)
+      if err then return end
+      vim.schedule(function()
+        for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+          if vim.api.nvim_buf_is_loaded(bufnr) and vim.bo[bufnr].buftype == "" then
+            pcall(vim.treesitter.start, bufnr)
+          end
+        end
+      end)
+    end)
 
     -- Highlighting is now provided by Neovim (see :h treesitter-highlight).
     -- Enable it on every filetype that has a parser.
