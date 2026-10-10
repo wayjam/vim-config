@@ -11,7 +11,7 @@ local group = vim.api.nvim_create_augroup("user_autocmds", { clear = true })
 -- NOTE: BufEnter was deliberately dropped — in large monorepos it fires often
 -- enough that the per-buffer stat adds noticeable latency.
 vim.opt.autoread = true
-vim.api.nvim_create_autocmd({ "FocusGained", "CursorHold", "CursorHoldI" }, {
+vim.api.nvim_create_autocmd({ "FocusGained", "CursorHold" }, {
   group = group,
   desc = "Reload buffers when files change on disk",
   callback = function()
@@ -26,7 +26,7 @@ vim.api.nvim_create_autocmd({ "FocusGained", "CursorHold", "CursorHoldI" }, {
 -- buffers keeps the per-tick cost O(panes) instead of O(total buffers).
 -- use `:Lazy profile` or `nvim --startuptime` to measure performance
 local checktime_timer = vim.uv.new_timer()
-local checktime_interval_ms = 2000
+local checktime_interval_ms = 5000
 checktime_timer:start(
   checktime_interval_ms,
   checktime_interval_ms,
@@ -75,6 +75,9 @@ vim.api.nvim_create_autocmd("FileChangedShellPost", {
       true,
       {}
     )
+
+    local status = package.loaded["neogit.buffers.status"]
+    if status and status.is_open() then status.instance():dispatch_refresh() end
   end,
 })
 
@@ -108,7 +111,6 @@ vim.api.nvim_create_autocmd("FileType", {
     "checkhealth",
     "dbout",
     "gitsigns-blame",
-    "grug-far",
     "help",
     "lspinfo",
     "man",

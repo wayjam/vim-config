@@ -59,7 +59,7 @@ return {
         lua = { "stylua" },
         perl = { "perlimports", "perltidy" },
         php = { "php_cs_fixer" },
-        python = { "ruff_format", "ruff_organize_imports" },
+        python = { "ruff_organize_imports", "ruff_format", stop_after_first = false },
         ruby = { "standardrb" },
         rust = { "rustfmt" },
         scala = { "scalafmt" },
@@ -103,6 +103,7 @@ return {
 
       -- Format on save configuration
       format_on_save = function(bufnr)
+        if vim.bo[bufnr].filetype == "bigfile" then return end
         -- Disable with a global or buffer-local variable
         if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then return end
         -- Use the options defined at the top for consistency

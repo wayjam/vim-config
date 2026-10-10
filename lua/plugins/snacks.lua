@@ -11,12 +11,14 @@ return {
     toggle = { enabled = true },
     -- Faster file opening
     quickfile = { enabled = true },
+    -- Startup screen with recent files / pickers
+    dashboard = { enabled = true },
     -- Highlight word references under cursor (replaces vim-illuminate)
     words = { enabled = true },
     -- Disable features for large files (replaces lunarvim/bigfile.nvim)
     bigfile = { enabled = true },
-    -- Inline image preview (requires external deps; see :help snacks-image)
-    image = { enabled = true },
+    -- Keep standalone image previews without document inline rendering.
+    image = { enabled = true, doc = { enabled = false } },
   },
   keys = {
     { "<leader>bd", function() require("snacks").bufdelete() end, desc = "Delete Buffer" },

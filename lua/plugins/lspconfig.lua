@@ -133,7 +133,7 @@ function M.setup_keymaps(bufnr)
     },
     { "n", "<leader>rn", vim.lsp.buf.rename, "Rename Symbol" },
     { "n", "<leader>ca", vim.lsp.buf.code_action, "Code Action" },
-    { "n", "<leader>e", vim.diagnostic.open_float, "Open Diagnostic Float" },
+    { "n", "<leader>ed", vim.diagnostic.open_float, "Open Diagnostic Float" },
     { "n", "[d", function() vim.diagnostic.jump { count = -1, float = true } end, "Prev Diagnostic" },
     { "n", "]d", function() vim.diagnostic.jump { count = 1, float = true } end, "Next Diagnostic" },
     { "n", "<leader>el", vim.diagnostic.setloclist, "Set LocList" },
@@ -204,16 +204,14 @@ return {
       -- Setup CompletionItemKind symbols
       M.setup_kind()
 
-      -- Global per-buffer diagnostic toggle. markdown ftplugin hides
-      -- diagnostics by default; this keymap brings them back (or hides them
-      -- on any other buffer).
+      -- Toggle all diagnostics for the current buffer. Markdown starts disabled
+      -- in its ftplugin and uses this same source of truth to re-enable them.
       utils.keymap("n", "<leader>tD", function()
         local bufnr = vim.api.nvim_get_current_buf()
-        local hidden = vim.b[bufnr].diagnostics_hidden
-        vim.b[bufnr].diagnostics_hidden = not hidden
-        vim.diagnostic.enable(hidden, { bufnr = bufnr })
+        local enabled = vim.diagnostic.is_enabled { bufnr = bufnr }
+        vim.diagnostic.enable(not enabled, { bufnr = bufnr })
         vim.notify(
-          "Diagnostics " .. (hidden and "shown" or "hidden") .. " for this buffer",
+          "Diagnostics " .. (enabled and "hidden" or "shown") .. " for this buffer",
           vim.log.levels.INFO
         )
       end, { desc = "Toggle diagnostics (current buffer)" })

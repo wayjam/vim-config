@@ -58,6 +58,8 @@ return {
           },
         },
         grep = {
+          -- Allow per-query glob filtering, e.g. `pattern -- -g '*.go'`
+          rg_glob = true,
           actions = {
             ["alt-i"] = { actions.toggle_ignore },
             ["alt-h"] = { actions.toggle_hidden },
@@ -128,10 +130,12 @@ return {
       desc = "Find Files (cwd)",
     },
     { "<leader>fg", "<cmd>FzfLua git_files<cr>", desc = "Find Files (git-files)" },
+    { "<leader>fh", "<cmd>FzfLua helptags<cr>", desc = "Help Tags" },
     { "<leader>fr", "<cmd>FzfLua oldfiles<cr>", desc = "Recent" },
     -- git
+    { "<leader>Gh", "<cmd>FzfLua git_bcommits<CR>", desc = "Git Buffer History" },
     { "<leader>Gc", "<cmd>FzfLua git_commits<CR>", desc = "Git Commits" },
-    { "<leader>Gs", "<cmd>FzfLua git_status<CR>", desc = "Git Status" },
+    { "<leader>Gf", "<cmd>FzfLua git_status<CR>", desc = "Git Status" },
     { "<leader>GB", "<cmd>FzfLua git_branches<CR>", desc = "Git Branches" },
     -- search
     { "<leader>rs", "<cmd>FzfLua resume<cr>", desc = "Resume" },
@@ -150,6 +154,8 @@ return {
     { "<leader>sl", "<cmd>FzfLua loclist<cr>", desc = "Location List" },
     { "<leader>sm", "<cmd>FzfLua marks<cr>", desc = "Jump to Mark" },
     { "<leader>sq", "<cmd>FzfLua quickfix<cr>", desc = "Quickfix List" },
+    { "<leader>su", "<cmd>FzfLua undo<cr>", desc = "Undo History" },
+    { "<leader>s\"", "<cmd>FzfLua registers<cr>", desc = "Registers" },
     { "<leader>sw", "<cmd>FzfLua grep_cword<cr>", desc = "Word (Root Dir)" },
     { "<leader>sW", function() require("fzf-lua").grep_cword { root = false } end, desc = "Word (cwd)" },
     {

@@ -11,6 +11,7 @@ return {
       whitespace = {
         remove_blankline_trail = true,
       },
+      scope = { enabled = false },
       exclude = {
         buftypes = { "terminal", "nofile" },
         filetypes = {

@@ -72,7 +72,6 @@ SpecFile "plugins.dap"
 
 -- syntax
 SpecFile "plugins.treesitter"
-SpecFile "plugins.treesitter-context"
 
 -- language specify
 SpecFile "plugins.languages"

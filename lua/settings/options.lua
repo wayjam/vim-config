@@ -25,7 +25,8 @@ vim.api.nvim_set_hl(0, "Comment", { italic = true })
 
 -- What to save for views and sessions:
 vim.opt.viewoptions = { "folds", "cursor", "curdir", "slash", "unix" }
-vim.opt.sessionoptions = { "curdir", "help", "tabpages", "winsize" }
+vim.opt.sessionoptions =
+  { "buffers", "curdir", "folds", "help", "localoptions", "tabpages", "winsize" }
 
 -- clipboard
 -- only set clipboard if not in ssh, to make sure the OSC 52
@@ -54,7 +55,8 @@ if vim.fn.has "wildmenu" == 1 then
   vim.opt.wildmode = { "longest:full", "full" }
   vim.opt.wildoptions = { "pum", "tagfile" }
   vim.opt.wildignorecase = true
-  vim.opt.wildignore:append { ".git/*", "node_modules/*", "__pycache__/*", "*.pyc", "*.o", "*.out", "*.DS_Store" }
+  -- Patterns must start with `*/` to match nested directories too.
+  vim.opt.wildignore:append { "*/.git/*", "*/node_modules/*", "*/__pycache__/*", "*.pyc", "*.o", "*.out", "*.DS_Store" }
 end
 
 -- Vim Directories

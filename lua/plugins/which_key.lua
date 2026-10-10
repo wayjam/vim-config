@@ -12,14 +12,21 @@ return {
       { "<leader>e", group = "diagnostic" },
       { "<leader>f", group = "find" },
       { "<leader>g", group = "git" },
-      { "<leader>gd", group = "diff" },
       { "<leader>gh", group = "hunk" },
       { "<leader>G", group = "Git" },
       { "<leader>l", group = "last" },
-      { "<leader>n", group = "no/next" },
-      { "<leader>r", group = "rename" },
+      { "<leader>r", group = "rename/resume" },
       { "<leader>t", group = "toggle/test" },
-      { "<leader>v", group = "venv" },
+      -- venv group only shows when venv-selector is usable (fd exists)
+      {
+        "<leader>v",
+        group = "venv",
+        cond = function()
+          return vim.fn.executable("fd") == 1
+            or vim.fn.executable("fdfind") == 1
+            or vim.fn.executable("fd_find") == 1
+        end,
+      },
       { "<leader>w", group = "workspace/save" },
       { "<leader>x", group = "trouble" },
       { "[", group = "prev" },

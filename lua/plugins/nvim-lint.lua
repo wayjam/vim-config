@@ -1,6 +1,5 @@
--- 模块级缓存：避免每次 lint 触发时重复做文件系统查找 / executable 探测
--- key -> bool
--- :Lazy reload 会清空缓存
+-- Module-level cache: avoids repeated filesystem lookups / executable probes
+-- on every lint trigger. key -> bool. Cleared by :Lazy reload.
 local _cache = {}
 
 local function find_upward_cached(dirname, files)
@@ -30,7 +29,7 @@ return {
   dependencies = { "mason.nvim", "rshkarin/mason-nvim-lint" },
   opts = {
     -- Event to trigger linters
-    events = { "BufWritePost", "BufReadPost" },
+    events = { "BufWritePost", "BufReadPost", "FileChangedShellPost" },
     linters_by_ft = {
       fish = { "fish" },
       c = { "clangtidy" },
@@ -61,21 +60,32 @@ return {
     },
     -- or add custom linters.
     linters = {
-      -- Go: 优先 golangci-lint（需同时满足：已安装 + 项目根有 .golangci.* 配置）
-      -- 否则 fallback 到 revive
+      -- Go: prefer golangci-lint (requires: installed + a .golangci.* config at
+      -- the project root); otherwise fall back to revive
       golangcilint = {
         condition = function(ctx) return has_golangci(ctx) end,
       },
       revive = {
         condition = function(ctx) return not has_golangci(ctx) end,
       },
-      -- JS/TS: 优先 biome（需同时满足：已安装 + 项目根有 biome.json/biome.jsonc）
-      -- 否则 fallback 到 eslint_d
+      -- JS/TS: prefer biome (requires: installed + a biome.json/biome.jsonc at
+      -- the project root); otherwise fall back to eslint_d
       biomejs = {
         condition = function(ctx) return has_biome(ctx) end,
       },
       eslint_d = {
         condition = function(ctx) return not has_biome(ctx) end,
+      },
+      -- Python: skip with a one-time notice when ruff is missing, instead of
+      -- erroring on every lint event
+      ruff = {
+        condition = function()
+          local available = executable_cached "ruff"
+          if not available then
+            vim.notify_once("Ruff unavailable; skipped Python linting", vim.log.levels.WARN)
+          end
+          return available
+        end,
       },
     },
   },
@@ -98,49 +108,67 @@ return {
     end
     lint.linters_by_ft = opts.linters_by_ft
 
-    function M.debounce(ms, fn)
-      local timer = vim.uv.new_timer()
-      return function(...)
-        local argv = { ... }
-        timer:start(ms, 0, function()
-          timer:stop()
-          vim.schedule_wrap(fn)(unpack(argv))
-        end)
+    local previous_state = rawget(_G, "__nvim_lint_debounce_state")
+    if previous_state and previous_state.close_all then previous_state.close_all() end
+
+    local state = { closed = false, timers = {} }
+    _G.__nvim_lint_debounce_state = state
+
+    local function close_timer(timer)
+      if timer and not timer:is_closing() then
+        timer:stop()
+        timer:close()
       end
+    end
+
+    function state.close_all()
+      state.closed = true
+      for _, timer in pairs(state.timers) do
+        close_timer(timer)
+      end
+      state.timers = {}
+    end
+
+    local function get_linter_names(bufnr)
+      return vim.api.nvim_buf_call(bufnr, function()
+        -- Use nvim-lint's logic first:
+        -- * checks if linters exist for the full filetype first
+        -- * otherwise will split filetype by "." and add all those linters
+        -- * this differs from conform.nvim which only uses the first filetype that has a formatter
+        local names = vim.list_extend({}, lint._resolve_linter_by_ft(vim.bo.filetype))
+
+        -- Add fallback and global linters.
+        if #names == 0 then vim.list_extend(names, lint.linters_by_ft["_"] or {}) end
+        vim.list_extend(names, lint.linters_by_ft["*"] or {})
+
+        -- Filter out linters that don't exist or don't match the condition.
+        local ctx = { filename = vim.api.nvim_buf_get_name(0) }
+        ctx.dirname = vim.fn.fnamemodify(ctx.filename, ":h")
+        return vim.tbl_filter(function(name)
+          local linter = lint.linters[name]
+          if not linter then vim.notify("Linter not found: " .. name, nil, { title = "nvim-lint" }) end
+          return linter and not (type(linter) == "table" and linter.condition and not linter.condition(ctx))
+        end, names)
+      end)
     end
 
     function M.clear_diagnostics(bufnr)
       bufnr = bufnr or vim.api.nvim_get_current_buf()
-      vim.diagnostic.reset(bufnr, nil)
+      if not vim.api.nvim_buf_is_valid(bufnr) or not vim.api.nvim_buf_is_loaded(bufnr) then return end
+
+      for _, name in ipairs(get_linter_names(bufnr)) do
+        local linter = lint.linters[name]
+        if type(linter) == "function" then linter = linter() end
+        vim.diagnostic.reset(lint.get_namespace(type(linter) == "table" and (linter.name or name) or name), bufnr)
+      end
     end
 
-    function M.lint()
-      -- Use nvim-lint's logic first:
-      -- * checks if linters exist for the full filetype first
-      -- * otherwise will split filetype by "." and add all those linters
-      -- * this differs from conform.nvim which only uses the first filetype that has a formatter
-      local names = lint._resolve_linter_by_ft(vim.bo.filetype)
+    function M.lint(bufnr)
+      bufnr = bufnr or vim.api.nvim_get_current_buf()
+      if not vim.api.nvim_buf_is_valid(bufnr) or not vim.api.nvim_buf_is_loaded(bufnr) then return end
 
-      -- Create a copy of the names table to avoid modifying the original.
-      names = vim.list_extend({}, names)
-
-      -- Add fallback linters.
-      if #names == 0 then vim.list_extend(names, lint.linters_by_ft["_"] or {}) end
-
-      -- Add global linters.
-      vim.list_extend(names, lint.linters_by_ft["*"] or {})
-
-      -- Filter out linters that don't exist or don't match the condition.
-      local ctx = { filename = vim.api.nvim_buf_get_name(0) }
-      ctx.dirname = vim.fn.fnamemodify(ctx.filename, ":h")
-      names = vim.tbl_filter(function(name)
-        local linter = lint.linters[name]
-        if not linter then vim.notify("Linter not found: " .. name, nil, { title = "nvim-lint" }) end
-        return linter and not (type(linter) == "table" and linter.condition and not linter.condition(ctx))
-      end, names)
-
-      -- Run linters.
-      if #names > 0 then lint.try_lint(names) end
+      local names = get_linter_names(bufnr)
+      if #names > 0 then vim.api.nvim_buf_call(bufnr, function() lint.try_lint(names) end) end
     end
 
     vim.api.nvim_create_user_command("ToggleLintGlobal", function()
@@ -169,24 +197,51 @@ return {
         M.lint()
       else
         vim.b.disable_autolint = true
+        M.clear_diagnostics(bufnr)
         vim.notify(string.format("Lint disabled for buffer %d", bufnr), vim.log.levels.WARN)
       end
     end, { desc = "Toggle lint for current buffer" })
 
     local auGroup = vim.api.nvim_create_augroup("nvim-lint", { clear = true })
 
-    local lint_debounced = M.debounce(100, function()
-      if not M.lint_globally_disabled and not vim.b.disable_autolint then M.lint() end
-    end)
+    local function queue_lint(bufnr)
+      if state.closed or not vim.api.nvim_buf_is_valid(bufnr) then return end
+
+      close_timer(state.timers[bufnr])
+      local timer = vim.uv.new_timer()
+      state.timers[bufnr] = timer
+      timer:start(100, 0, function()
+        timer:stop()
+        vim.schedule(function()
+          if state.closed or state.timers[bufnr] ~= timer then return end
+          state.timers[bufnr] = nil
+          close_timer(timer)
+          if not vim.api.nvim_buf_is_valid(bufnr) or not vim.api.nvim_buf_is_loaded(bufnr) then return end
+          if not M.lint_globally_disabled and not vim.b[bufnr].disable_autolint then M.lint(bufnr) end
+        end)
+      end)
+    end
 
     vim.api.nvim_create_autocmd(opts.events, {
       group = auGroup,
-      callback = lint_debounced,
+      callback = function(args) queue_lint(args.buf) end,
     })
     vim.api.nvim_create_autocmd("InsertLeave", {
       group = auGroup,
-      pattern = "gitcommit",
-      callback = lint_debounced,
+      callback = function(args)
+        if vim.bo[args.buf].filetype == "gitcommit" then queue_lint(args.buf) end
+      end,
+    })
+    vim.api.nvim_create_autocmd("BufWipeout", {
+      group = auGroup,
+      callback = function(args)
+        close_timer(state.timers[args.buf])
+        state.timers[args.buf] = nil
+      end,
+    })
+    vim.api.nvim_create_autocmd("VimLeavePre", {
+      group = auGroup,
+      callback = state.close_all,
     })
 
     require("utils").keymap("n", "<leader>cL", function() M.lint() end, { desc = "Trigger linting for current file" })

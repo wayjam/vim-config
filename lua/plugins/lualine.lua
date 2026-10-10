@@ -27,7 +27,7 @@ local fileformat = {
 
 local diagnostics = {
   "diagnostics",
-  sources = { "nvim_lsp" },
+  sources = { "nvim_diagnostic" },
   sections = { "error", "warn", "info", "hint" },
   symbols = {
     error = utils.padded_signs "Error",
@@ -48,6 +48,17 @@ local recording = {
   cond = function() return vim.fn.reg_recording() ~= "" end,
 }
 
+local venv = {
+  function()
+    if vim.bo.filetype ~= "python" then return "" end
+    local ok, component = pcall(require, "venv-selector.statusline.lualine")
+    if not ok then return "" end
+    return component.render()
+  end,
+  cond = conditions.hide_in_width,
+  padding = { left = 0, right = 1 },
+}
+
 
 return {
   "nvim-lualine/lualine.nvim",
@@ -59,13 +70,14 @@ return {
       section_separators = { left = "", right = "" },
       disabled_filetypes = { "neo-tree" },
       color = { cterm = "none", gui = "none" },
+      refresh = { refresh_time = 100 },
     },
     extensions = { "toggleterm" },
     sections = {
       lualine_a = { "mode" },
       lualine_b = { filetype, filename, location },
       lualine_c = { diagnostics, recording },
-      lualine_x = { encoding, fileformat },
+      lualine_x = { venv, encoding, fileformat },
       lualine_y = { branch, diff },
       lualine_z = { "progress" },
     },

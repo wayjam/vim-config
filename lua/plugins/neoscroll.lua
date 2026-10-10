@@ -5,7 +5,7 @@ return {
     mappings = {},
     hide_cursor = true,
     stop_eof = true,
-    respect_scrolloff = false,
+    respect_scrolloff = true,
     cursor_scrolls_alone = true,
     -- "linear" easing handles direction changes better than quadratic
     -- (no acceleration curve to "fight against" when reversing)

@@ -315,4 +315,19 @@ function M.getenv_with_default(env_name, default_value)
   return env_value or default_value
 end
 
+local treesitter_max_file_size = 512 * 1024
+
+---@param bufnr? integer
+---@return boolean
+function M.is_treesitter_large_file(bufnr)
+  bufnr = bufnr or 0
+  if not vim.api.nvim_buf_is_valid(bufnr) then return false end
+
+  local path = vim.api.nvim_buf_get_name(bufnr)
+  if path == "" then return false end
+
+  local stat = vim.uv.fs_stat(path)
+  return stat ~= nil and stat.type == "file" and stat.size > treesitter_max_file_size
+end
+
 return M

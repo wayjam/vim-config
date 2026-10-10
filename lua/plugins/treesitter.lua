@@ -11,6 +11,25 @@ return {
     "TSLog",
   },
   dependencies = {
+    -- Sticky context header at the top of the window. Large files are skipped
+    -- via on_attach (same gate as highlighting/indent below).
+    {
+      "nvim-treesitter/nvim-treesitter-context",
+      event = { "BufReadPost", "BufNewFile" },
+      opts = {
+        max_lines = 3,
+        min_window_height = 20,
+        trim_scope = "outer",
+        on_attach = function(bufnr) return not require("utils").is_treesitter_large_file(bufnr) end,
+      },
+      keys = {
+        {
+          "[C",
+          function() require("treesitter-context").go_to_context(vim.v.count1) end,
+          desc = "Jump to context (upward)",
+        },
+      },
+    },
     {
       "windwp/nvim-ts-autotag",
       lazy = true,
@@ -91,6 +110,8 @@ return {
     },
   },
   config = function()
+    local utils = require "utils"
+
     require("nvim-treesitter").setup {
       install_dir = vim.fn.stdpath("data") .. "/site",
     }
@@ -112,7 +133,11 @@ return {
       if err then return end
       vim.schedule(function()
         for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
-          if vim.api.nvim_buf_is_loaded(bufnr) and vim.bo[bufnr].buftype == "" then
+          if
+            vim.api.nvim_buf_is_loaded(bufnr)
+            and vim.bo[bufnr].buftype == ""
+            and not utils.is_treesitter_large_file(bufnr)
+          then
             pcall(vim.treesitter.start, bufnr)
           end
         end
@@ -122,8 +147,15 @@ return {
     -- Highlighting is now provided by Neovim (see :h treesitter-highlight).
     -- Enable it on every filetype that has a parser.
     vim.api.nvim_create_autocmd("FileType", {
-      callback = function()
-        pcall(vim.treesitter.start)
+      callback = function(args)
+        if utils.is_treesitter_large_file(args.buf) then
+          vim.notify_once(
+            "File larger than 512 KiB; skipped Tree-sitter highlighting/indent/context",
+            vim.log.levels.INFO
+          )
+          return
+        end
+        pcall(vim.treesitter.start, args.buf)
       end,
     })
 
@@ -135,8 +167,8 @@ return {
     vim.api.nvim_create_autocmd("FileType", {
       callback = function(args)
         local exclude = { yaml = true, python = true }
-        if not exclude[args.match] then
-          vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        if not exclude[args.match] and not utils.is_treesitter_large_file(args.buf) then
+          vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
         end
       end,
     })

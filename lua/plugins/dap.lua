@@ -176,4 +176,19 @@ return {
     cmd = { "DapInstall", "DapUninstall" },
     config = function() end, -- deliberately a no-op; nvim-dap's config calls setup
   },
+
+  -- Python debugging. Requires the `debugpy` Mason package (run
+  -- `:MasonInstall debugpy` once); until then this only warns once.
+  {
+    "mfussenegger/nvim-dap-python",
+    ft = "python",
+    dependencies = { "mfussenegger/nvim-dap" },
+    config = function()
+      if vim.fn.executable "debugpy-adapter" == 0 then
+        vim.notify_once("debugpy unavailable; run :MasonInstall debugpy for Python debugging", vim.log.levels.WARN)
+        return
+      end
+      require("dap-python").setup "debugpy-adapter"
+    end,
+  },
 }

@@ -12,7 +12,19 @@ return {
       tail = "TabLine",
     }
 
-    local tab_name = function(tab)
+    local tab_name
+    local tab_basename_counts
+    local function tab_display_name(current_buf_name, current_bufinfo)
+      -- Disambiguate same-named files by prefixing the parent directory.
+      if (tab_basename_counts[current_buf_name] or 0) > 1 then
+        local parent = vim.fn.fnamemodify(current_bufinfo.name, ":h:t")
+        if parent ~= "" and parent ~= "." then return parent .. "/" .. current_buf_name end
+        return current_bufinfo.name
+      end
+      return current_buf_name
+    end
+
+    tab_name = function(tab)
       local api = require "tabby.module.api"
       local cur_win = api.get_tab_current_win(tab.id)
       if api.is_float_win(cur_win) then return "[Floating]" end
@@ -24,7 +36,23 @@ return {
       if current_buf_name == "NeogitStatus" then return "[Neogit]" end
       if current_buf_name == "" then return "[Empty]" end
 
-      return current_buf_name
+      return tab_display_name(current_buf_name, current_bufinfo)
+    end
+
+    local count_tab_basenames = function()
+      tab_basename_counts = {}
+      for _, tab in ipairs(vim.api.nvim_list_tabpages()) do
+        local api = require "tabby.module.api"
+        for _, win in ipairs(api.get_tab_wins(tab)) do
+          if not api.is_float_win(win) then
+            local bufnr = vim.fn.getwininfo(win)[1].bufnr
+            local name = vim.fn.fnamemodify(vim.fn.getbufinfo(bufnr)[1].name, ":t")
+            if name ~= "" and not name:find "neo-tree" and name ~= "NeogitStatus" then
+              tab_basename_counts[name] = (tab_basename_counts[name] or 0) + 1
+            end
+          end
+        end
+      end
     end
 
     local tab_count = function()
@@ -38,6 +66,7 @@ return {
 
     require("tabby").setup {
       line = function(line)
+        count_tab_basenames()
         return {
           {
             { " 󰓩  ", hl = theme.head },
