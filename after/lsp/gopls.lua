@@ -1,4 +1,9 @@
 return {
+  -- Custom key consumed by LspAttach (lua/plugins/lspconfig.lua): strip
+  -- gopls semantic tokens. Treesitter already highlights Go, and gopls
+  -- re-sends full-file tokens on every keystroke (no delta support),
+  -- causing periodic re-highlight stalls.
+  semantic_tokens = false,
   settings = {
     telemetry = {
       enable = false,

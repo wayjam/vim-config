@@ -201,6 +201,24 @@ return {
         },
       }
 
+      -- Workaround for nvim core bug: after a checktime reload of a file that
+      -- got shorter, stale diagnostics point past the end of the buffer and
+      -- the underline handler crashes with "Index out of bounds" on
+      -- BufReadPost (e.g. when neo-tree opens the file). Filter stale ones.
+      do
+        local underline_show = vim.diagnostic.handlers.underline.show
+        vim.diagnostic.handlers.underline.show = function(namespace, bufnr, diagnostics, opts)
+          local ok, line_count = pcall(vim.api.nvim_buf_line_count, bufnr)
+          if ok then
+            diagnostics = vim
+              .iter(diagnostics)
+              :filter(function(d) return d.lnum < line_count end)
+              :totable()
+          end
+          return underline_show(namespace, bufnr, diagnostics, opts)
+        end
+      end
+
       -- Setup CompletionItemKind symbols
       M.setup_kind()
 
@@ -237,6 +255,18 @@ return {
 
           local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
           if not client then return end
+
+          -- Per-server opt-out of LSP semantic tokens: any server whose
+          -- after/lsp/<name>.lua sets `semantic_tokens = false` gets them
+          -- stripped here. Rationale (gopls): treesitter already provides Go
+          -- syntax highlighting, and gopls re-sends the ENTIRE file's tokens
+          -- (semanticTokens/full, no delta) on every keystroke — measured
+          -- 206 full-file token transfers in one minute of typing, with
+          -- visible re-highlight stalls when the responses land.
+          local srv_cfg = vim.lsp.config[client.name]
+          if srv_cfg and srv_cfg.semantic_tokens == false then
+            client.server_capabilities.semanticTokensProvider = nil
+          end
 
           -- Inlay hints toggle (capability-gated)
           if client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint, bufnr) then

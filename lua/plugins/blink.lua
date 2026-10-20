@@ -40,12 +40,15 @@ return {
       },
       menu = {
         draw = {
-          treesitter = { "lsp" },
+          -- Menu items get re-rendered on every keystroke while typing;
+          -- treesitter+LSP highlighting of items is a big chunk of that
+          -- cost. Plain highlight groups are visually near-identical.
+          treesitter = false,
         },
       },
       documentation = {
-        auto_show = true,
-        auto_show_delay_ms = 200,
+        auto_show = false, -- doc window auto-popping is the main popup churn; open manually with <C-space> or accept
+        -- auto_show_delay_ms = 200,
       },
       ghost_text = {
         enabled = true,
