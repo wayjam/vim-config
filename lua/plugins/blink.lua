@@ -43,7 +43,8 @@ return {
           -- Menu items get re-rendered on every keystroke while typing;
           -- treesitter+LSP highlighting of items is a big chunk of that
           -- cost. Plain highlight groups are visually near-identical.
-          treesitter = false,
+          -- (empty table = disabled; a boolean is rejected by validation)
+          treesitter = {},
         },
       },
       documentation = {

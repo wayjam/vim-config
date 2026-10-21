@@ -3,8 +3,6 @@ return {
   cmd = { "Neotest" },
   dependencies = {
     "nvim-treesitter/nvim-treesitter",
-    -- general tests
-    "nvim-neotest/neotest-vim-test",
     -- language specific tests
     "marilari88/neotest-vitest",
     "nvim-neotest/neotest-python",
@@ -59,9 +57,6 @@ return {
         require "neotest-go",
         require "neotest-vitest",
         require "neotest-rust",
-        require "neotest-vim-test" {
-          ignore_file_types = { "python", "vim", "lua", "javascript", "typescript" },
-        },
       },
     }
   end,
